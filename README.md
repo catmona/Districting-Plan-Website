@@ -8,9 +8,9 @@ _our states are **Washington**, **Nevada**, and **Arkanasas**_
 *add your role in the project!*
 
 * **Catherine** - GUI
-* **Sylvia** - 
-* **Albin** - 
-* **Kosta** - 
+* **Sylvia** - Database
+* **Albin** - Server
+* **Kosta** - Algorithms
 
 
 ## useful links
