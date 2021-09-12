@@ -1,6 +1,6 @@
 # The Best Dang 416 Project Ever!
 
-*our states are* **Washington**, **Nevada**, *and* **Arkanasas**
+_our states are **Washington**, **Nevada**, and **Arkanasas**_
 
 
 ## member roles
@@ -17,4 +17,3 @@
 
 * [class website](https://www3.cs.stonybrook.edu/~cse416/Section01/)
 * [discord invite link](https://discord.gg/Y6EK8Ku6u9)
-* 
