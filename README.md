@@ -1,2 +1,8 @@
-# super-cool-416-project
-:D
+# the best dang 416 project ever
+
+## member roles
+**Catherine** - GUI
+**Sylvia** - 
+**Albin** - 
+**Kosta** - 
+
