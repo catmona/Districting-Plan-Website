@@ -1,0 +1,33 @@
+{
+  "name": "super-cool-416-project",
+  "version": "1.0.0",
+  "description": "_our team name is **Mavericks**_",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/goldyflakes/super-cool-416-project.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/goldyflakes/super-cool-416-project/issues"
+  },
+  "homepage": "https://github.com/goldyflakes/super-cool-416-project#readme",
+  "dependencies": {
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.15.5",
+    "@babel/preset-env": "^7.15.6",
+    "@babel/preset-react": "^7.14.5"
+  },
+  "presets": [
+    "@babel/preset-env",
+    "@babel/preset-react"
+  ]
+
+}
