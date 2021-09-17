@@ -20,6 +20,7 @@
   "homepage": "https://github.com/goldyflakes/super-cool-416-project#readme",
   "dependencies": {
     "bootstrap": "^5.1.0",
+    "mapbox-gl": "^2.4.1",
     "react": "^17.0.2",
     "react-bootstrap": "^2.0.0-beta.6",
     "react-dom": "^17.0.2"

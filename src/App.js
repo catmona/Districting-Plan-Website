@@ -1,9 +1,13 @@
-import React, { useState } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
+import Map from './Map'
+import 'mapbox-gl/dist/mapbox-gl.css';
+import './index.css'
 
-const App = () => (
-    <h1>
-        hello!
-    </h1>
-);
+function App() {
+
+    return(
+        <Map />
+    );
+}
 
 export default App;
