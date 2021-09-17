@@ -16,8 +16,10 @@ function Map() {
             container: mapContainer.current,
             style: 'mapbox://styles/mapbox/streets-v11',
             center: [lng, lat],
-            zoom: zoom
+            zoom: zoom,
+            interactive: false
             });
+        
         });
 
     return (
