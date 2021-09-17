@@ -14,16 +14,22 @@ function Map() {
         if (map.current) return; // initialize map only once
         map.current = new mapboxgl.Map({
             container: mapContainer.current,
-            style: 'mapbox://styles/mapbox/streets-v11',
+            style: 'mapbox://styles/goldyflakes/cktox1jbl1omg17nt35gafjid',
             center: [lng, lat],
             zoom: zoom,
             interactive: false
             });
-        
         });
-
+    
+    if(map.current) { //doesnt work, workin on it
+        map.current.on('render', function() {
+            map.resize();
+        });    
+    }
+  
     return (
-        <div>
+        <div className = "map-wrapper">
+            <div className = "map-fade" />
             <div ref={mapContainer} className = "map-container" />
         </div>
     );

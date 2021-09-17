@@ -3,8 +3,6 @@ import { Container } from 'react-bootstrap';
 import { Col } from 'react-bootstrap';
 import { Row } from 'react-bootstrap';
 import Map from './Map'
-import 'mapbox-gl/dist/mapbox-gl.css';
-import './index.css'
 
 function App() {
 
