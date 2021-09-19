@@ -3,18 +3,20 @@ import { Container } from 'react-bootstrap';
 import { Col } from 'react-bootstrap';
 import { Row } from 'react-bootstrap';
 import Map from './Map'
+import Topbar from './Topbar'
 
 function App() {
+    const [stateName, setStateName] = useState("");
 
     return(
         <Container fluid>
             <Row>
                 <Col>
-                    <h1>left side</h1>
+                    <Topbar stateName={stateName} setStateName={setStateName} />
                 </Col>
 
                 <Col>
-                    <Map />
+                    <Map stateName={stateName} />
                 </Col>
             </Row>
         </Container>

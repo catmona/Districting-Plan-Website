@@ -20,3 +20,32 @@ body {
     height: 100%;
     width: 49%;
 }
+#state-dropdown {
+    position: relative;
+    top: 50%;
+    margin-top: 4%;
+    margin-bottom: 4%
+}
+#topbar {
+    position: relative;
+    z-index: 6;
+    background-color: #161616;
+    width: 105%;
+    height: 100%;
+    top: 15%;
+}
+.topbar-text {
+    color: whitesmoke;
+    position: relative;
+    top: 20%
+
+}
+#state-name {
+    background-image: linear-gradient(to left, violet, indigo, blue, green, yellow, orange, red);   
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    text-align: left;
+    font-style: bold;
+}
+
