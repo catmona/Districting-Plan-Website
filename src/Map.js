@@ -14,9 +14,9 @@ const white = '#FFFFFF'; // white
 function Map(props) {
     const mapContainer = useRef(null);
     const map = useRef(null);
-    const [lng, setLng] = useState(-70.9);
-    const [lat, setLat] = useState(42.35);
-    const [zoom, setZoom] = useState(5);
+    const [lng, setLng] = useState(-95.9);
+    const [lat, setLat] = useState(40.35);
+    const [zoom, setZoom] = useState(3);
     let stateName = props.stateName;
 
     useEffect(() => {
@@ -102,6 +102,7 @@ function addDistrictGeoJSON(map, sourceId, source) {
 }
 
 /**
+ * YOU PROBABLY MEAN TO CALL addDistrictGeoJSON().
  * Adds a district style layer to the given map source.
  * The districts should have a property called "District_Name"
  * denoting which # district it is in the state. This colors the
@@ -111,6 +112,12 @@ function addDistrictGeoJSON(map, sourceId, source) {
  * @returns id of the layer added. Layers are named: [State abbv]-district-source-layer
  */
 function addDistrictStyleLayer(map, sourceId) {
+    // this is really just to stop anyone from mistakenly using this method. I meant for it to be used w/ addDistrictGeoJSON.
+    if (!map.getSource(sourceId)) {
+        console.log("Must add source before applying style layer.");
+        return;
+    }
+
     let layerName = sourceId + "-layer";
     map.addLayer({
         "id": layerName,
