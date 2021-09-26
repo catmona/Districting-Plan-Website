@@ -1,6 +1,9 @@
 body {
     background-color: #1f1f1f;
 }
+p {
+    color: whitesmoke;
+}
 .map-container {
     position:relative;
     height: 100%;
@@ -31,7 +34,7 @@ body {
     z-index: 6;
     background-color: #161616;
     width: 105%;
-    height: 100%;
+    height: 100 px;
     margin-top: 3%;
 }
 .topbar-text {
@@ -48,11 +51,10 @@ body {
     text-align: left;
     font-style: bold;
 }
-p {
-    color: whitesmoke;
-}
+
+/* StateTabs styling */
 #state-tabs {
-    width: 120%;
+    width: 100%;
     padding-left: 0;
 }
 .nav-tabs {
@@ -60,4 +62,28 @@ p {
 }
 .nav-link, .nav-link:focus, .nav-link:hover {
     color: whitesmoke;       
+}
+
+/* Scrollbar styling */
+/* add scrollbar and scrollbar-primary to className if you wish to make container scrollable */
+.scrollbar {
+    height: 75vh;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+.scrollbar::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+/* custom scrollbar colors  */
+.scrollbar-primary::-webkit-scrollbar {
+    background-color: #F5F5F5;
+}
+.scrollbar-primary {
+    scrollbar-color: #4285f4 #f5f5f5;
+}
+.scrollbar-primary::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
+    background-color: #4285F4;
 }
