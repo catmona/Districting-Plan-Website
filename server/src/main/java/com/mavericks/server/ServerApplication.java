@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -31,7 +32,7 @@ public class ServerApplication {
 	/**
 	 *
 	 * Get request endpoint: http://localhost:8080/api/districts
-	 *Queries sent in the form of:
+	 * Queries sent in the form of:
 	 *
 	 * {
 	 *     "state":"NAME_OF_STATE",
@@ -56,8 +57,7 @@ public class ServerApplication {
 			path+=(WA);
 		}
 		else{
-			//replace with http error code later
-			return "";
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"invalid query params");
 		}
 		path+="/"+file+".geojson";
 
@@ -68,8 +68,7 @@ public class ServerApplication {
 			in.close();
 			return data;
 		}catch (IOException e){
-			//replace with http error code later
-			return "";
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"error reading file",e);
 		}
 	}
 
