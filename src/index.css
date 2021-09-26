@@ -37,8 +37,8 @@ body {
 .topbar-text {
     color: whitesmoke;
     position: relative;
-    top: 20%
-
+    top: 20%;
+    /* font-size: 2vw; */
 }
 #state-name {
     background-image: linear-gradient(to left, violet, indigo, blue, green, yellow, orange, red);   

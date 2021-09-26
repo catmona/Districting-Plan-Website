@@ -25,7 +25,7 @@ function Topbar(props) {
                         <Dropdown.Item onClick={() => setStateName("Arkansas")}>Arkansas</Dropdown.Item>
                     </DropdownButton>
                 </Col>
-                <Col>
+                <Col md={6}>
                     <h3 className="topbar-text">I want to de-racist-ify...</h3>
                 </Col>
                 <Col>
