@@ -1,5 +1,6 @@
 const path = require('path');
 const HtmlWebPackPlugin = require('html-webpack-plugin');
+const randomColor = require('randomcolor');
 
 module.exports = {
   output: {
@@ -19,6 +20,13 @@ module.exports = {
         exclude: /node_modules/,
         use: {
           loader: 'babel-loader',
+        },
+      },
+      {
+        test: /\.geojson$/,
+        exclude: /node_modules/,
+        use: {
+          loader: 'json-loader',
         },
       },
       {
