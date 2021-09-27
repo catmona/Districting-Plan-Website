@@ -1,14 +1,16 @@
 import React, { useRef, useEffect, useState } from 'react';
-import { Container } from 'react-bootstrap';
+import { Container, Tab, Tabs } from 'react-bootstrap';
 import { Col } from 'react-bootstrap';
-import { Row, Tab, Nav, Sonnet } from 'react-bootstrap';
-import Map from './Map'
-import Topbar from './Topbar'
-import kosta from './kosta.css'
-import Statistics from './Statistics'
+import { Row, Nav, Sonnet } from 'react-bootstrap';
+import Map from './Map';
+import Topbar from './Topbar';
+import kosta from './kosta.css';
+import Statistics from './Statistics';
+import StateTabs from './StateTabs';
 
 function App() {
     const [stateName, setStateName] = useState("");
+    const [rPlan, setRPlan] = useState(""); //redistricting plan
 
     return (
         <Container fluid>
@@ -16,19 +18,15 @@ function App() {
                 <Col>
                 <Row>
                     <Topbar stateName={stateName} setStateName={setStateName} />
-                    HELL
-                </Row>
-                <Row>
-                    <Statistics/>
+
+                    <StateTabs stateName={stateName} rPlan={rPlan} setRPlan={setRPlan}></StateTabs>
                 </Row>
                 </Col>
-
                 <Col>
                     <Map stateName={stateName} />
                 </Col>
             </Row>
         </Container>
-
     );
 }
 

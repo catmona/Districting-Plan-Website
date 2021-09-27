@@ -60,7 +60,7 @@ function Map(props) {
         else {
             map.current = new mapboxgl.Map({
                 container: mapContainer.current,
-                style: 'mapbox://styles/goldyflakes/cktox1jbl1omg17nt35gafjid',
+                style: 'mapbox://styles/goldyflakes/cktdkm1j51fmq18qj54fippsz',
                 center: [lng, lat],
                 zoom: zoom,
                 interactive: false
