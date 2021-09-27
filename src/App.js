@@ -8,13 +8,14 @@ import StateTabs from './StateTabs'
 
 function App() {
     const [stateName, setStateName] = useState("");
+    const [rPlan, setRPlan] = useState(""); //redistricting plan
 
     return(
         <Container fluid>
             <Row>
                 <Col>
                     <Topbar stateName={stateName} setStateName={setStateName} />
-                    <StateTabs stateName={stateName}></StateTabs>
+                    <StateTabs stateName={stateName} rPlan={rPlan} setRPlan={setRPlan}></StateTabs>
                 </Col>
                 <Col>
                     <Map stateName={stateName} />
