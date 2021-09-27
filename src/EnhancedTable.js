@@ -70,15 +70,15 @@ const columns = [
 
 const rows = [
   { id: 1, lastName: 81750, firstName: 81750, age: 81750, africanamerican:81750, white:81750,asianamerican:81750 },
-  { id: 2, lastName: 83750, firstName: '81750', age: 81750 , africanamerican:81750, white:81750,asianamerican:81750 },
-  { id: 3, lastName: 87750, firstName: '81750', age: 81750 , africanamerican:81750, white:81750,asianamerican:81750 },
-  { id: 4, lastName: 80750, firstName: '81750', age: 81750 , africanamerican:81750, white:81750,asianamerican:81750 },
-  { id: 5, lastName: 82750, firstName: '81750', age: 81750 , africanamerican:81750, white:81750,asianamerican:81750 },
+  { id: 2, lastName: 83750, firstName: 81750, age: 81750 , africanamerican:81750, white:81750,asianamerican:81750 },
+  { id: 3, lastName: 87750, firstName: 81750, age: 81750 , africanamerican:81750, white:81750,asianamerican:81750 },
+  { id: 4, lastName: 80750, firstName: 81750, age: 81750 , africanamerican:81750, white:81750,asianamerican:81750 },
+  { id: 5, lastName: 82750, firstName: 81750, age: 81750 , africanamerican:81750, white:81750,asianamerican:81750 },
   { id: 6, lastName: 85750, firstName: 81750, age: 81750, africanamerican:81750, white:81750,asianamerican:81750  },
-  { id: 7, lastName: 84750, firstName: '81750', age: 81750, africanamerican:81750, white:81750,asianamerican:81750  },
-  { id: 8, lastName: 81750, firstName: '81750', age: 81750, africanamerican:81750, white:81750,asianamerican:81750  },
-  { id: 9, lastName: 83750, firstName: '81750', age: 81750, africanamerican:81750, white:81750,asianamerican:81750  },
-  { id: 10, lastName: 83750, firstName: '81750', age: 81750, africanamerican:81750, white:81750,asianamerican:81750  },
+  { id: 7, lastName: 84750, firstName: 81750, age: 81750, africanamerican:81750, white:81750,asianamerican:81750  },
+  { id: 8, lastName: 81750, firstName: 81750, age: 81750, africanamerican:81750, white:81750,asianamerican:81750  },
+  { id: 9, lastName: 83750, firstName: 81750, age: 81750, africanamerican:81750, white:81750,asianamerican:81750  },
+  { id: 10, lastName: 83750, firstName: 81750, age: 81750, africanamerican:81750, white:81750,asianamerican:81750  },
 ];
 
 export default function EnhancedTable() {
