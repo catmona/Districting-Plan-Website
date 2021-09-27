@@ -1,0 +1,27 @@
+.kosta-test{
+    border-radius: 0;
+    width:150px;
+}
+
+.datagrid{
+    background-color: white;
+}
+.hover-area{
+    display:flex;
+    flex-direction: column;
+}
+
+.white-icon{
+    color:white;
+}
+
+.button-submit{
+    background-color: white !important;
+    display:flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.submit{
+    width:150px;
+}

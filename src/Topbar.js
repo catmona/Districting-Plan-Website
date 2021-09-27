@@ -32,6 +32,7 @@ function Topbar(props) {
                     <h3 className="topbar-text" id="state-name"></h3>
                 </Col>
             </Row>
+          
         </Container>
     )
 }
