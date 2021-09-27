@@ -151,22 +151,7 @@ export default function VerticalTabs() {
                             title: 'Ethnicity Distribution',
                             subtitle: 'Percentage Distribution for African American, Asian American, and White Citizens per District',
                         },
-                        hAxis: {
-                            textStyle: {
-                                color: 'white'
-                            },
-                            titleTextStyle: {
-                                color: 'white'
-                            }
-                        },
-                        vAxis: {
-                            textStyle: {
-                                color: 'white'
-                            },
-                            titleTextStyle: {
-                                color: 'white'
-                            }
-                        },
+                        
                         backgroundColor: bgcolor,
                     }}
                     // For tests
