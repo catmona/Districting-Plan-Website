@@ -5,7 +5,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.util.StreamUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -47,17 +46,18 @@ public class ServerApplication {
 							   @RequestParam(value = "year",defaultValue = "2012")Integer year){
 		//construct the filepath
 		String path="data/";
-		if(state.equals("Arkansas")){
-			path+=(AR);
-		}
-		else if(state.equals("Nevada")){
-			path+=(NV)+"/"+year;
-		}
-		else if(state.equals("Washington")){
-			path+=(WA);
-		}
-		else{
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"invalid query params");
+		switch (state) {
+			case "Arkansas":
+				path += (AR);
+				break;
+			case "Nevada":
+				path += (NV) + "/" + year;
+				break;
+			case "Washington":
+				path += (WA);
+				break;
+			default:
+				throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "invalid query params");
 		}
 		path+="/"+file+".geojson";
 
