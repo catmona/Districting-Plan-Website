@@ -9,19 +9,19 @@ import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 import SaveAltIcon from '@mui/icons-material/SaveAlt';
 import 'kosta.css'
 const columns = [
-  { field: 'id', headerName: 'District', width: 150 },
+  { field: 'id', headerName: 'District', width: 5 },
   {
     field: 'firstName',
     headerName: 'Total Population',
-    width: 200,
-    editable: true,
+    width: 150,
+    editable: false,
     type: 'number',
   },
   {
     field: 'lastName',
     headerName: 'Democratic Party',
     width: 200,
-    editable: true,
+    editable: false,
     type: 'number',
   },
   {
@@ -29,28 +29,28 @@ const columns = [
     headerName: 'Republican Party',
     type: 'number',
     width: 200,
-    editable: true,
+    editable: false,
   },
   {
     field: 'africanamerican',
     headerName: 'African American',
     type: 'number',
     width: 200,
-    editable: true,
+    editable: false,
   },
   {
     field: 'white',
     headerName: 'White',
     type: 'number',
     width: 200,
-    editable: true,
+    editable: false,
   },
   {
     field: 'asianamerican',
     headerName: 'Asian American',
     type: 'number',
     width: 200,
-    editable: true,
+    editable: false,
   },
 ];
 
@@ -83,7 +83,7 @@ const rows = [
 
 export default function EnhancedTable() {
   return (
-    <div style={{ height: 400, width: '100%'}} className={'kosta-test'}>
+    <div style={{ height: 300, width: '100%'}} className={'kosta-test'}>
       <DataGrid
         rows={rows}
         columns={columns}
@@ -91,6 +91,8 @@ export default function EnhancedTable() {
         rowsPerPageOptions={[5]}
         checkboxSelection
         disableSelectionOnClick
+        disableColumnMenu
+        getRowClassName = {'custom-column'}
         className={'datagrid'}
       />
      

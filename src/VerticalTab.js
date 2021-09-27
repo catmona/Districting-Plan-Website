@@ -47,9 +47,12 @@ export default function VerticalTabs() {
         setValue(newValue);
     };
 
+    const bgcolor = "#1f1f1f";
+    const bgcolor2 = "#161616";
+
     return (
         <Box
-            sx={{ flexGrow: 1, bgcolor: 'background.paper', display: 'flex', height: 350 }}
+            sx={{ flexGrow: 1, bgcolor: bgcolor2, display: 'flex', height: 325 }}
         >
             <Tabs
                 orientation="vertical"
@@ -57,7 +60,7 @@ export default function VerticalTabs() {
                 value={value}
                 onChange={handleChange}
                 aria-label="Vertical tabs example"
-                sx={{ borderRight: 1, borderColor: 'divider' }}
+                sx={{ borderRight: 1, borderColor: 'divider', color: 'white'}}
                 className="kosta-test"
             >
                 <Tab label="Population" {...a11yProps(0)} width='200px' />
@@ -90,30 +93,30 @@ export default function VerticalTabs() {
                         title: "District Populations",
 
                         titleTextStyle: {
-                            // color: 'white',
+                            color: 'white',
                             fontSize: 20
                         },
-                        // hAxis: {
-                        //     textStyle: {
-                        //         color: 'white'
-                        //     },
-                        //     titleTextStyle: {
-                        //         color: 'white'
-                        //     }
-                        // },
-                        // vAxis: {
-                        //     textStyle: {
-                        //         color: 'white'
-                        //     },
-                        //     titleTextStyle: {
-                        //         color: 'white'
-                        //     }
-                        // },
+                        hAxis: {
+                            textStyle: {
+                                color: 'white'
+                            },
+                            titleTextStyle: {
+                                color: 'white'
+                            }
+                        },
+                        vAxis: {
+                            textStyle: {
+                                color: 'white'
+                            },
+                            titleTextStyle: {
+                                color: 'white'
+                            }
+                        },
                         isStacked: 'true',
-                        // backgroundColor: 'black',
+                        backgroundColor: bgcolor,
                         legend: {
                             position: 'bottom',
-                            // textStyle: { color: 'white' } 
+                            textStyle: { color: 'white' } 
                         },
                         opacity: 0,
                         
@@ -148,6 +151,23 @@ export default function VerticalTabs() {
                             title: 'Ethnicity Distribution',
                             subtitle: 'Percentage Distribution for African American, Asian American, and White Citizens per District',
                         },
+                        hAxis: {
+                            textStyle: {
+                                color: 'white'
+                            },
+                            titleTextStyle: {
+                                color: 'white'
+                            }
+                        },
+                        vAxis: {
+                            textStyle: {
+                                color: 'white'
+                            },
+                            titleTextStyle: {
+                                color: 'white'
+                            }
+                        },
+                        backgroundColor: bgcolor,
                     }}
                     // For tests
                     rootProps={{ 'data-testid': '2' }}
@@ -177,8 +197,25 @@ export default function VerticalTabs() {
                         title: "Box and Whiskers Plot Placeholder",
 
                         titleTextStyle: {
-                            // color: 'white',
+                            color: 'white',
                             fontSize: 20
+                        },
+                        backgroundColor: bgcolor,
+                        hAxis: {
+                            textStyle: {
+                                color: 'white'
+                            },
+                            titleTextStyle: {
+                                color: 'white'
+                            }
+                        },
+                        vAxis: {
+                            textStyle: {
+                                color: 'white'
+                            },
+                            titleTextStyle: {
+                                color: 'white'
+                            }
                         },
                     }}
                     rootProps={{ 'data-testid': '2' }}
