@@ -69,16 +69,16 @@ const columns = [
 // ]}
 
 const rows = [
-  { id: 1, lastName: 426862, firstName: 249944, age: 176407, africanamerican:81750, white:81750,asianamerican:81750 },
-  { id: 2, lastName: 404598, firstName: 255252, age: 148384 , africanamerican:81750, white:81750,asianamerican:81750 },
-  { id: 3, lastName: 417903, firstName: 181347, age: 235579 , africanamerican:81750, white:81750,asianamerican:81750 },
-  { id: 4, lastName: 305263, firstName: 102667, age: 202108 , africanamerican:81750, white:81750,asianamerican:81750 },
-  { id: 5, lastName: 404360, firstName: 155737, age: 247815 , africanamerican:81750, white:81750,asianamerican:81750 },
-  { id: 6, lastName: 417216, firstName: 247429, age: 168783, africanamerican:81750, white:81750,asianamerican:81750  },
-  { id: 7, lastName: 466462, firstName: 387109, age: 78240, africanamerican:81750, white:81750,asianamerican:81750  },
-  { id: 8, lastName: 412112, firstName: 213123, age: 198423, africanamerican:81750, white:81750,asianamerican:81750  },
-  { id: 9, lastName: 349050, firstName: 258771, age: 89697, africanamerican:81750, white:81750,asianamerican:81750  },
-  { id: 10, lastName: 340407, firstName: 288977, age: 51430, africanamerican:81750, white:81750,asianamerican:81750  },
+  { id: 1, lastName: 426862, firstName: 249944, age: 176407, africanamerican:12178, white:594230,asianamerican:102923 },
+  { id: 2, lastName: 404598, firstName: 255252, age: 148384 , africanamerican:25095, white:578055,asianamerican:72330 },
+  { id: 3, lastName: 417903, firstName: 181347, age: 235579 , africanamerican:12360, white:650254,asianamerican:24586 },
+  { id: 4, lastName: 305263, firstName: 102667, age: 202108 , africanamerican:10104, white:553564,asianamerican:10032 },
+  { id: 5, lastName: 404360, firstName: 155737, age: 247815 , africanamerican:12783, white:641200,asianamerican:18104 },
+  { id: 6, lastName: 417216, firstName: 247429, age: 168783, africanamerican:29054, white:587323,asianamerican:27394  },
+  { id: 7, lastName: 466462, firstName: 387109, age: 78240, africanamerican:41038, white:569986,asianamerican:119852  },
+  { id: 8, lastName: 412112, firstName: 213123, age: 198423, africanamerican:41038, white:557905,asianamerican:73610  },
+  { id: 9, lastName: 349050, firstName: 258771, age: 89697, africanamerican:41038, white:369451,asianamerican:179828  },
+  { id: 10, lastName: 340407, firstName: 288977, age: 51430, africanamerican:49594, white:549123,asianamerican:56308  },
 ];
 
 export default function EnhancedTable() {
