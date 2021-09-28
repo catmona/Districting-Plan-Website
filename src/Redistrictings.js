@@ -17,6 +17,7 @@ function RPlanPopover(props) {
                     <div className='districting-labels'><b>Deviation From Enacted: </b> 0.1 <br /></div>
                     <div className='districting-labels'><b>Deviation From Average: </b> 0.2<br /></div>
                     <div className='districting-labels'><b>Political Fairness: </b> 0.9<br/> </div>
+
                 </Popover.Body>
         </Popover>
     );
