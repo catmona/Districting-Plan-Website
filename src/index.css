@@ -15,7 +15,7 @@ p {
     bottom: 0;
     width: 100%;
     height: 100%;
-    box-shadow: inset 1.5em 0em 0.5em #1f1f1f;
+    box-shadow: inset 5em 0em 5em #1f1f1f;
     z-index: 5;
 }
 .map-wrapper {
@@ -25,25 +25,30 @@ p {
 }
 #state-dropdown {
     position: relative;
-    top: 50%;
-    margin-top: 4%;
-    margin-bottom: 4%
+    top: 0%;
+    left: 50%;
+    width:200px;
+    align-self: left;
+}
+.state-dropdown-option{
+    width:200px;
 }
 #topbar {
-    position: relative;
     z-index: 6;
-    background-color: #161616;
-    width: 105%;
+    background-color: #191919;
     height: 100 px;
-    margin-top: 3%;
+    padding:20px;
+    display:flex;
+    flex-direction: column;
+    border-radius: 10px;
 }
 .topbar-text {
     color: whitesmoke;
     position: relative;
-    top: 20%
-
+    top: 0%;
+    display: inline;
 }
-#state-name {
+.rainbow-text {
     background-image: linear-gradient(to left, violet, indigo, blue, green, yellow, orange, red);   
     -webkit-background-clip: text;
     background-clip: text;
@@ -80,10 +85,32 @@ p {
     background-color: #F5F5F5;
 }
 .scrollbar-primary {
-    scrollbar-color: #4285f4 #f5f5f5;
+    scrollbar-color: #4285F4 #161616;
 }
 .scrollbar-primary::-webkit-scrollbar-thumb {
     border-radius: 10px;
     -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
+    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
     background-color: #4285F4;
+}
+.thumbnail:hover {
+    background-color: #4285F4;
+    opacity: 0.65;
+}
+.redistricting-img {
+    margin-top: 8%;
+    margin-bottom: 8%;
+}
+#redistrictings {
+    background-color: #161616;
+    bottom: 0;
+}
+.custom-popover {
+    z-index: 10;
+}
+#district-tablebody {
+    min-height: 1 !important;
+}
+.MuiDataGrid-sortIcon {
+    color: #4285F4;
 }
