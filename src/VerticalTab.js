@@ -4,7 +4,7 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-
+import Demo from 'DemographicsChart.js'
 import Chart from 'react-google-charts'
 
 function TabPanel(props) {
@@ -128,38 +128,61 @@ export default function VerticalTabs() {
                 />
             </TabPanel>
             <TabPanel value={value} index={1} width={'100%'} className="dark-tabpanel">
-                <Chart
+           <Chart
                     className="dark-chart"
-                    width={'650px'}
-                    height={'350px'}
-                    chartType="Bar"
+                    width={'600px'}
+                    height={'300px'}
+                    chartType="ColumnChart"
                     loader={<div>Loading Chart</div>}
                     data={[
-                        ['District', 'White', 'African American', 'Asian American'],
-                        ['1', 0.1000, 0.400, 0.200],
-                        ['2', 0.1170, 0.460, 0.250],
-                        ['3', 0.660, 0.1120, 0.300],
-                        ['4', 0.1030, 0.540, 0.350],
-                        ['5', 0.1000, 0.400, 0.200],
-                        ['6', 0.1170, 0.460, 0.250],
-                        ['7', 0.660, 0.1120, 0.300],
-                        ['8', 0.1030, 0.540, 0.350],
-                        ['9', 0.1000, 0.400, 0.200],
-                        ['10', 0.1170, 0.460, 0.250],
+                        ['District', 'Hispanic or Latino', 'African American','Asian'],
+                        ['1', 76815, 12178, 102923],
+                        ['2', 84560, 25095, 72330],
+                        ['3', 77109, 12360, 24586],
+                        ['4', 291924, 10104, 10032],
+                        ['5', 50208, 12783, 18104],
+                        ['6', 58095, 29054, 27394],
+                        ['7', 66032, 78240, 119852],
+                        ['8', 92771, 41038, 73610],
+                        ['9', 97137, 41038, 179828],
+                        ['10', 97072, 49594, 56308],
                     ]}
+
                     options={{
                         // Material design options
-                        chart: {
-                            
-                            title: 'Ethnicity Distribution',
-                            subtitle: 'Percentage Distribution for African American, Asian American, and White Citizens per District',
-                            color:'black',
+                        title: "Ethnical Demographics per District",
+
+                        titleTextStyle: {
+                            color: 'white',
+                            fontSize: 20
                         },
-                        
+                        hAxis: {
+                            textStyle: {
+                                color: 'white'
+                            },
+                            titleTextStyle: {
+                                color: 'white'
+                            }
+                        },
+                        vAxis: {
+                            textStyle: {
+                                color: 'white'
+                            },
+                            titleTextStyle: {
+                                color: 'white'
+                            }
+                        },
                         backgroundColor: bgcolor,
+                        legend: {
+                            position: 'bottom',
+                            textStyle: { color: 'white' } 
+                        },
+                        opacity: 0,
+                        
                     }}
                     // For tests
                     rootProps={{ 'data-testid': '2' }}
+                    legendToggle
                 />
             </TabPanel>
             <TabPanel value={value} index={2} width={'100%'} className="dark-tabpanel">

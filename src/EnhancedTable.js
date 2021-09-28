@@ -12,8 +12,8 @@ import 'kosta.css'
 const columns = [
   { field: 'id', headerName: 'District', width: 5 },
   {
-    field: 'lastMName',
-    headerName: 'Active Voters',
+    field: 'lastName',
+    headerName: 'Population',
     width: 150,
     editable: false,
     type: 'number',
@@ -52,6 +52,12 @@ const columns = [
     type: 'number',
     width: 100,
     editable: false,
+  },  {
+    field: 'hispanic',
+    headerName: 'Hispanic or Latino',
+    type: 'number',
+    width: 100,
+    editable: false,
   },
 ];
 
@@ -70,16 +76,16 @@ const columns = [
 // ]}
 
 const rows = [
-  { id: 1, lastName: 426862, firstName: 249944, age: 176407, africanamerican:12178, white:594230,asianamerican:102923 },
-  { id: 2, lastName: 404598, firstName: 255252, age: 148384 , africanamerican:25095, white:578055,asianamerican:72330 },
-  { id: 3, lastName: 417903, firstName: 181347, age: 235579 , africanamerican:12360, white:650254,asianamerican:24586 },
-  { id: 4, lastName: 305263, firstName: 102667, age: 202108 , africanamerican:10104, white:553564,asianamerican:10032 },
-  { id: 5, lastName: 404360, firstName: 155737, age: 247815 , africanamerican:12783, white:641200,asianamerican:18104 },
-  { id: 6, lastName: 417216, firstName: 247429, age: 168783, africanamerican:29054, white:587323,asianamerican:27394  },
-  { id: 7, lastName: 466462, firstName: 387109, age: 78240, africanamerican:41038, white:569986,asianamerican:119852  },
-  { id: 8, lastName: 412112, firstName: 213123, age: 198423, africanamerican:41038, white:557905,asianamerican:73610  },
-  { id: 9, lastName: 349050, firstName: 258771, age: 89697, africanamerican:41038, white:369451,asianamerican:179828  },
-  { id: 10, lastName: 340407, firstName: 288977, age: 51430, africanamerican:49594, white:549123,asianamerican:56308  },
+  { id: 1, lastName: 791545, firstName: 249944, age: 176407, africanamerican:12178, white:594230,asianamerican:102923,hispanic:76815 },
+  { id: 2, lastName: 760064, firstName: 255252, age: 148384 , africanamerican:25095, white:578055,asianamerican:72330,hispanic:84560 },
+  { id: 3, lastName: 756675, firstName: 181347, age: 235579 , africanamerican:12360, white:650254,asianamerican:24586,hispanic:77109 },
+  { id: 4, lastName: 735797, firstName: 102667, age: 202108 , africanamerican:10104, white:553564,asianamerican:10032,hispanic:291924 },
+  { id: 5, lastName: 734322, firstName: 155737, age: 247815 , africanamerican:12783, white:641200,asianamerican:18104,hispanic:50208 },
+  { id: 6, lastName: 726540, firstName: 247429, age: 168783, africanamerican:29054, white:587323,asianamerican:27394 ,hispanic:58095 },
+  { id: 7, lastName: 817787, firstName: 387109, age: 78240, africanamerican:41038, white:569986,asianamerican:119852,hispanic:66032  },
+  { id: 8, lastName: 770177, firstName: 213123, age: 198423, africanamerican:41038, white:557905,asianamerican:73610,hispanic:92771  },
+  { id: 9, lastName: 751595, firstName: 258771, age: 89697, africanamerican:41038, white:369451,asianamerican:179828,hispanic:97137  },
+  { id: 10, lastName: 770391, firstName: 288977, age: 51430, africanamerican:49594, white:549123,asianamerican:56308 ,hispanic:97072},
 ];
 
 export default function EnhancedTable() {
