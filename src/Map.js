@@ -168,7 +168,24 @@ function addDistrictStyleLayer(map, sourceId) {
           'line-color': white,
           'line-width': 1
         }
-      });  
+      });
+
+    // Add a symbol layer
+    map.addLayer({
+        'id': layerName + '-label',
+        'type': 'symbol',
+        'source': sourceId,
+        'layout': {
+        // get the title name from the source's "title" property
+        'text-field': ['get', 'District_Name'],
+        'text-font': [
+        'Open Sans Semibold',
+        'Arial Unicode MS Bold'
+        ],
+        'text-offset': [0, 1.25],
+        'text-anchor': 'center'
+        }
+        });
 
     return layerName;
 }

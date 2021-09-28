@@ -31,7 +31,7 @@
     color:white !important;
 }
 
-.MuiDataGrid-row:nth-child(1){
+/* .MuiDataGrid-row:nth-child(1){
     background-color: rgba(58, 78, 168, 0.5);
 }
 .MuiDataGrid-row:nth-child(1):hover{
@@ -90,7 +90,7 @@
 }
 .MuiDataGrid-row:nth-child(10):hover{
     background-color: rgba(229, 173, 6, 0.8) !important;
-}
+} */
 
 .MuiSvgIcon-root{
     color:white !important;
