@@ -15,7 +15,7 @@ p {
     bottom: 0;
     width: 100%;
     height: 100%;
-    box-shadow: inset 1.5em 0em 0.5em #1f1f1f;
+    box-shadow: inset 5em 0em 5em #1f1f1f;
     z-index: 5;
 }
 .map-wrapper {
