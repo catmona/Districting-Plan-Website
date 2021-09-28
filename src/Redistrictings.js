@@ -12,8 +12,8 @@ function RPlanPopover(props) {
                 <Popover.Body>
                     <em style={{fontSize: 13}}>This redistricting was chosen for it's high political fairness.</em><br /><br />
                     <b>Total Votes: </b> 120,000<br />
-                    <b>Democratic districts: </b> 45%<br />
-                    <b>Republican districts: </b> 55%<br />
+                    <b>Democratic districts: </b> 4<br />
+                    <b>Republican districts: </b> 6<br />
                 </Popover.Body>
         </Popover>
     );
