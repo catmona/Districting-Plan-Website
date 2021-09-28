@@ -4,6 +4,7 @@ import { Row } from 'react-bootstrap';
 import { Col } from 'react-bootstrap';
 import { Popover } from 'react-bootstrap';
 import { OverlayTrigger } from 'react-bootstrap';
+import 'kosta.css'
 
 function RPlanPopover(props) {
     const pop = (
@@ -11,9 +12,11 @@ function RPlanPopover(props) {
             <Popover.Header as="h3">Redisticting Plan {props.num}</Popover.Header>
                 <Popover.Body>
                     <em style={{fontSize: 13}}>This redistricting was chosen for it's high political fairness.</em><br /><br />
-                    <b>Total Votes: </b> 120,000<br />
-                    <b>Democratic Percentage: </b> 45%<br />
-                    <b>Republican percentage: </b> 55%<br />
+                    <div className='districting-labels'><b>Population Equality: </b> 0.2<br /></div>
+                    <div className='districting-labels'><b>Compactness: </b>0.8<br /></div>
+                    <div className='districting-labels'><b>Deviation From Enacted: </b> 0.1 <br /></div>
+                    <div className='districting-labels'><b>Deviation From Average: </b> 0.2<br /></div>
+                    <div className='districting-labels'><b>Political Fairness: </b> 0.9<br/> </div>
                 </Popover.Body>
         </Popover>
     );

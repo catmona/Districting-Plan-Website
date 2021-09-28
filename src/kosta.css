@@ -41,3 +41,9 @@
 .dark-chart {
     margin-top: -3%;
 }
+
+.districting-labels{
+    display:flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
