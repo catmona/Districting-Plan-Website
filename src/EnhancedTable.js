@@ -104,7 +104,7 @@ export default function EnhancedTable() {
       <Box sx={{ '& > :not(style)': { m: 1 } }} className='button-submit'>
       <Fab variant="extended" size="medium" color="primary" aria-label="add" className='submit'>
         <NavigationIcon sx={{ mr: 1 }} />
-        <span className='submit'>Redistrict</span>
+        <span className='submit'>Equalize Population</span>
       </Fab>
       <Fab variant="extended" size="medium" color="primary" aria-label="add" className='submit'>
         <KeyboardBackspaceIcon sx={{ mr: 1 }} />
