@@ -64,8 +64,8 @@ export default function VerticalTabs() {
                 className="kosta-test"
             >
                 <Tab label="Population" {...a11yProps(0)} width='200px' />
-                <Tab label="Ethnicity" {...a11yProps(1)} />
-                <Tab label="Comparison vs Enacted" {...a11yProps(2)} />
+                <Tab label="Demographics" {...a11yProps(1)} />
+                <Tab label="Comparison with Enacted " {...a11yProps(2)} />
             </Tabs>
             <TabPanel value={value} index={0} width={'100%'} className="dark-tabpanel">
 
@@ -150,7 +150,7 @@ export default function VerticalTabs() {
 
                     options={{
                         // Material design options
-                        title: "Ethnical Demographics per District",
+                        title: "Racial Demographics per District",
 
                         titleTextStyle: {
                             color: 'white',

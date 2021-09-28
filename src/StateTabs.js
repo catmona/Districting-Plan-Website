@@ -23,7 +23,7 @@ function StateTabs(props) {
                         <Tab disabled={!stateSelected} eventKey="data-table" title="District Data">
                             <Statistics />
                         </Tab>
-                        <Tab disabled={!stateSelected} eventKey="random-districts" title="Redistrictings">
+                        <Tab disabled={!stateSelected} eventKey="random-districts" title="Districtings">
                                 <Redistrictings stateName={props.stateName} rPlan={props.rPlan} setRPlan={props.setRPlan} />
                         </Tab>
                     </Tabs>

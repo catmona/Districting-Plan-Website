@@ -30,6 +30,9 @@
 .MuiDataGrid-iconButtonContainer {
     color:white !important;
 }
+.MuiSvgIcon-root{
+    color:white !important;
+}
 
 .dark-tabpanel {
     background-color: #1f1f1f;

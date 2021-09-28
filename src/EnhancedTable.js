@@ -1,7 +1,5 @@
 import React from 'react';
 import { DataGrid } from '@mui/x-data-grid';
-import { withTheme } from '@material-ui/core';
-import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import Fab from '@mui/material/Fab';
 import NavigationIcon from '@mui/icons-material/Navigation';
@@ -10,18 +8,18 @@ import SaveAltIcon from '@mui/icons-material/SaveAlt';
 import 'kosta.css'
 
 const columns = [
-  { field: 'id', headerName: 'District', width: 5 },
+  { field: 'id', headerName: 'District', width: 150 },
   {
     field: 'lastName',
     headerName: 'Population',
-    width: 150,
+    width: 200,
     editable: false,
     type: 'number',
   },
   {
     field: 'firstName',
     headerName: 'Democratic Party',
-    width: 150,
+    width: 200,
     editable: false,
     type: 'number',
   },
@@ -29,34 +27,34 @@ const columns = [
     field: 'age',
     headerName: 'Republican Party',
     type: 'number',
-    width: 150,
+    width: 200,
     editable: false,
   },
   {
     field: 'africanamerican',
     headerName: 'African American',
     type: 'number',
-    width: 150,
+    width: 200,
     editable: false,
   },
   {
     field: 'white',
     headerName: 'White',
     type: 'number',
-    width: 100,
+    width: 200,
     editable: false,
   },
   {
     field: 'asianamerican',
     headerName: 'Asian American',
     type: 'number',
-    width: 100,
+    width: 200,
     editable: false,
   },  {
     field: 'hispanic',
     headerName: 'Hispanic or Latino',
     type: 'number',
-    width: 100,
+    width: 200,
     editable: false,
   },
 ];
@@ -88,28 +86,31 @@ const rows = [
   { id: 10, lastName: 770391, firstName: 288977, age: 51430, africanamerican:49594, white:549123,asianamerican:56308 ,hispanic:97072},
 ];
 
+
+
 export default function EnhancedTable() {
   return (
-    <div style={{ height: 300, width: '100%'}} className={'datagrid'}>
+    <div style={{ height: 400, width: '100%'}} className={'datagrid'}>
       <DataGrid
         //https://mui.com/api/data-grid/data-grid/
         rows={rows}
         columns={columns}
         pageSize={10}
-        rowsPerPageOptions={[5]}
+        rowsPerPageOptions={[10]}
         rowHeight={32}
         //autoHeight={true}
         checkboxSelection
         disableSelectionOnClick={true}
-        disableColumnMenu
+        // disableColumnMenu
         hideFooter
         className={'datagrid'}
+        
       />
      
       <Box sx={{ '& > :not(style)': { m: 1 } }} className='button-submit'>
       <Fab variant="extended" size="medium" color="primary" aria-label="add" className='submit'>
         <NavigationIcon sx={{ mr: 1 }} />
-        <span className='submit'>Redistrict</span>
+        <span className='submit'>Equalize Population</span>
       </Fab>
       <Fab variant="extended" size="medium" color="primary" aria-label="add" className='submit'>
         <KeyboardBackspaceIcon sx={{ mr: 1 }} />
