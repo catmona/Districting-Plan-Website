@@ -67,9 +67,10 @@ export default function VerticalTabs() {
                 <Tab label="Ethnicity" {...a11yProps(1)} />
                 <Tab label="Comparison vs Enacted" {...a11yProps(2)} />
             </Tabs>
-            <TabPanel value={value} index={0} width={'100%'}>
+            <TabPanel value={value} index={0} width={'100%'} className="dark-tabpanel">
 
                 <Chart
+                    className="dark-chart"
                     width={'600px'}
                     height={'300px'}
                     chartType="ColumnChart"
@@ -126,8 +127,9 @@ export default function VerticalTabs() {
                     legendToggle
                 />
             </TabPanel>
-            <TabPanel value={value} index={1} width={'100%'}>
+            <TabPanel value={value} index={1} width={'100%'} className="dark-tabpanel">
                 <Chart
+                    className="dark-chart"
                     width={'650px'}
                     height={'350px'}
                     chartType="Bar"
@@ -158,8 +160,9 @@ export default function VerticalTabs() {
                     rootProps={{ 'data-testid': '2' }}
                 />
             </TabPanel>
-            <TabPanel value={value} index={2} width={'100%'}>
+            <TabPanel value={value} index={2} width={'100%'} className="dark-tabpanel">
                 <Chart
+                    className="dark-chart"
                     width={600}
                     height={350}
                     chartType="CandlestickChart"

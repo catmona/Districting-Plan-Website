@@ -19,7 +19,7 @@ function Topbar(props) {
         <Container fluid id="topbar">
             <Row>
             <Col>
-                    <h3 className="topbar-text" id="state-name"></h3>
+                    <h3 className="topbar-text rainbow-text" id="state-name"></h3>
                 </Col>
                 <Col md={6}>
                     <h3 className="topbar-text">I want to de-racist-ify...</h3>

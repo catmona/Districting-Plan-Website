@@ -4,7 +4,8 @@
 }
 
 .datagrid{
-    background-color: white;
+    background-color: #1f1f1f;
+    color: white !important;
 }
 .hover-area{
     display:flex;
@@ -16,7 +17,7 @@
 }
 
 .button-submit{
-    background-color: white !important;
+    background-color: #161616 !important;
     display:flex;
     flex-direction: row;
     justify-content: center;
@@ -26,6 +27,14 @@
     width:150px;
 }
 
-.custom-column {
-    height: 20px;
+.MuiDataGrid-iconButtonContainer {
+    color:white !important;
+}
+
+.dark-tabpanel {
+    background-color: #1f1f1f;
+}
+
+.dark-chart {
+    margin-top: -3%;
 }

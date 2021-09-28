@@ -17,19 +17,18 @@ function StateTabs(props) {
         }
     }, [props.stateName]);
 
-    return(
-
+    return (
         <Container fluid id="state-tabs">
             <Tabs activeKey={tab} onSelect={(k) => setTab(k)}>
                         <Tab disabled={!stateSelected} eventKey="data-table" title="District Data">
-                            <Statistics/>
+                            <Statistics />
                         </Tab>
                         <Tab disabled={!stateSelected} eventKey="random-districts" title="Redistrictings">
                                 <Redistrictings stateName={props.stateName} rPlan={props.rPlan} setRPlan={props.setRPlan} />
                         </Tab>
                     </Tabs>
         </Container>
-    )
+    );
 }
 
 export default StateTabs;
