@@ -145,8 +145,10 @@ export default function VerticalTabs() {
                     options={{
                         // Material design options
                         chart: {
+                            
                             title: 'Ethnicity Distribution',
                             subtitle: 'Percentage Distribution for African American, Asian American, and White Citizens per District',
+                            color:'black',
                         },
                     }}
                     // For tests
