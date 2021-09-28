@@ -1,7 +1,5 @@
 import React from 'react';
 import { DataGrid } from '@mui/x-data-grid';
-import { withTheme } from '@material-ui/core';
-import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import Fab from '@mui/material/Fab';
 import NavigationIcon from '@mui/icons-material/Navigation';
@@ -14,14 +12,14 @@ const columns = [
   {
     field: 'lastMName',
     headerName: 'Active Voters',
-    width: 150,
+    width: 200,
     editable: false,
     type: 'number',
   },
   {
     field: 'firstName',
     headerName: 'Democratic Party',
-    width: 150,
+    width: 200,
     editable: false,
     type: 'number',
   },
@@ -29,28 +27,28 @@ const columns = [
     field: 'age',
     headerName: 'Republican Party',
     type: 'number',
-    width: 150,
+    width: 200,
     editable: false,
   },
   {
     field: 'africanamerican',
     headerName: 'African American',
     type: 'number',
-    width: 150,
+    width: 200,
     editable: false,
   },
   {
     field: 'white',
     headerName: 'White',
     type: 'number',
-    width: 100,
+    width: 200,
     editable: false,
   },
   {
     field: 'asianamerican',
     headerName: 'Asian American',
     type: 'number',
-    width: 100,
+    width: 200,
     editable: false,
   },
 ];
@@ -82,6 +80,8 @@ const rows = [
   { id: 10, lastName: 340407, firstName: 288977, age: 51430, africanamerican:49594, white:549123,asianamerican:56308  },
 ];
 
+
+
 export default function EnhancedTable() {
   return (
     <div style={{ height: 300, width: '100%'}} className={'datagrid'}>
@@ -98,6 +98,7 @@ export default function EnhancedTable() {
         disableColumnMenu
         hideFooter
         className={'datagrid'}
+        
       />
      
       <Box sx={{ '& > :not(style)': { m: 1 } }} className='button-submit'>

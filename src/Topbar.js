@@ -11,18 +11,14 @@ function Topbar(props) {
     let setStateName = props.setStateName;
 
     useEffect(() =>{
-        document.getElementById("state-name").textContent = stateName;
+        //document.getElementById("state-name").textContent = stateName;
     });
 
-    return(
-
+    return (
         <Container fluid id="topbar">
             <Row>
-            <Col>
-                    <h3 className="topbar-text rainbow-text" id="state-name"></h3>
-                </Col>
                 <Col md={6}>
-                    <h3 className="topbar-text">I want to de-racist-ify...</h3>
+                    <h2 className="topbar-text">I want to </h2> <h1 className="topbar-text rainbow-text"><em>redistrict</em></h1> <h2 className="topbar-text">...</h2>
                 </Col>
 
                 <Col md={5} lg={3}>
@@ -37,5 +33,11 @@ function Topbar(props) {
         </Container>
     )
 }
+
+/*
+<Col>
+    <h3 className="topbar-text rainbow-text" id="state-name"></h3>
+</Col>
+*/
 
 export default Topbar;
