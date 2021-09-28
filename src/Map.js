@@ -9,6 +9,7 @@ mapboxgl.accessToken = 'pk.eyJ1IjoiZ29sZHlmbGFrZXMiLCJhIjoiY2t0ZGtrNHhiMDB5MjJxc
 
 // constants for styling districts on map
 const districtColors = randomColor({count: 10, luminosity: 'bright', seed: 'mavericks'});
+console.log(districtColors);
 const white = '#FFFFFF'; // white
 
 function Map(props) {
@@ -127,26 +128,26 @@ function addDistrictStyleLayer(map, sourceId) {
         "paint": {
             "fill-color": [
                 'match',
-                ['get', 'District_Name'],
-                '1',
+                ['get', 'District'],
+                1,
                 districtColors[0],
-                '2',
+                2,
                 districtColors[1],
-                '3',
+                3,
                 districtColors[2],
-                '4',
+                4,
                 districtColors[3],
-                '5',
+                5,
                 districtColors[4],
-                '6',
+                6,
                 districtColors[5],
-                '7',
+                7,
                 districtColors[6],
-                '8',
+                8,
                 districtColors[7],
-                '9',
+                9,
                 districtColors[8],
-                '10',
+                10,
                 districtColors[9],
                 /* other */ white
             ],
@@ -167,7 +168,24 @@ function addDistrictStyleLayer(map, sourceId) {
           'line-color': white,
           'line-width': 1
         }
-      });  
+      });
+
+    // Add a symbol layer
+    map.addLayer({
+        'id': layerName + '-label',
+        'type': 'symbol',
+        'source': sourceId,
+        'layout': {
+        // get the title name from the source's "title" property
+        'text-field': ['get', 'District_Name'],
+        'text-font': [
+        'Open Sans Semibold',
+        'Arial Unicode MS Bold'
+        ],
+        'text-offset': [0, 1.25],
+        'text-anchor': 'center'
+        }
+        });
 
     return layerName;
 }

@@ -30,6 +30,68 @@
 .MuiDataGrid-iconButtonContainer {
     color:white !important;
 }
+
+/* .MuiDataGrid-row:nth-child(1){
+    background-color: rgba(58, 78, 168, 0.5);
+}
+.MuiDataGrid-row:nth-child(1):hover{
+    background-color: rgba(58, 78, 168, 0.8) !important;
+}
+.MuiDataGrid-row:nth-child(2){
+    background-color: rgba(176, 9, 242, 0.5);
+}
+.MuiDataGrid-row:nth-child(2):hover{
+    background-color: rgba(176, 9, 242, 0.8) !important;
+}
+.MuiDataGrid-row:nth-child(3){
+    background-color: rgba(219, 79, 63, 0.5);
+}
+.MuiDataGrid-row:nth-child(3):hover{
+    background-color: rgba(219, 79, 63, 0.8) !important; 
+}
+.MuiDataGrid-row:nth-child(4){
+    background-color: rgba(51, 249, 7, 0.5);
+}
+.MuiDataGrid-row:nth-child(4):hover{
+    background-color: rgba(51, 249, 7, 0.8) !important;
+}
+.MuiDataGrid-row:nth-child(5){
+    background-color: rgba(120, 209, 60, 0.5);
+}
+.MuiDataGrid-row:nth-child(5):hover{
+    background-color: rgba(120, 209, 60, 0.8) !important;
+}
+.MuiDataGrid-row:nth-child(6){
+    background-color: rgba(184, 221, 17, 0.5);
+}
+.MuiDataGrid-row:nth-child(6):hover{
+    background-color: rgba(184, 221, 17, 0.8) !important;
+}
+.MuiDataGrid-row:nth-child(7){
+    background-color: rgba(3, 188, 86, 0.5);
+}
+.MuiDataGrid-row:nth-child(7):hover{
+    background-color: rgba(3, 188, 86, 0.8) !important;
+}
+.MuiDataGrid-row:nth-child(8){
+    background-color: rgba(62, 194, 209, 0.5);
+}
+.MuiDataGrid-row:nth-child(8):hover{
+    background-color: rgba(62, 194, 209, 0.8) !important;
+}
+.MuiDataGrid-row:nth-child(9){
+    background-color: rgba(172, 27, 209, 0.5);
+}
+.MuiDataGrid-row:nth-child(9):hover{
+    background-color: rgba(172, 27, 209, 0.8) !important;
+}
+.MuiDataGrid-row:nth-child(10){
+    background-color: rgba(229, 173, 6, 0.5);
+}
+.MuiDataGrid-row:nth-child(10):hover{
+    background-color: rgba(229, 173, 6, 0.8) !important;
+} */
+
 .MuiSvgIcon-root{
     color:white !important;
 }
