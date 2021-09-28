@@ -182,7 +182,6 @@ function addDistrictStyleLayer(map, sourceId) {
         'Open Sans Semibold',
         'Arial Unicode MS Bold'
         ],
-        'text-offset': [0, 1.25],
         'text-anchor': 'center'
         }
         });
