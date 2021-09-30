@@ -4,8 +4,6 @@ import { Col } from 'react-bootstrap';
 import { Row, Nav, Sonnet } from 'react-bootstrap';
 import Map from './Map';
 import Topbar from './Topbar';
-import kosta from './kosta.css';
-import Statistics from './Statistics';
 import StateTabs from './StateTabs';
 
 function App() {
