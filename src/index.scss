@@ -1,14 +1,28 @@
+/* #region variables */
 $bgColor: #1f1f1f;
 $fgColor: #161616;
 $accentColor: #4285F4;
 $textColor: whitesmoke;
+/* #endregion */
 
+/* #region general-stuff */
 body {
     background-color: $bgColor;
 }
 p {
     color: $textColor;
 }
+.rainbow-text {
+    background-image: linear-gradient(to left, violet, indigo, blue, green, yellow, orange, red);   
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    text-align: left;
+    font-style: bold;
+}
+/* #endregion */
+
+/* #region map */
 .map-container {
     position:relative;
     height: 100%;
@@ -28,6 +42,9 @@ p {
     height: 100%;
     width: 49%;
 }
+/* #endregion */
+
+/* #region topbar */
 #state-dropdown {
     position: relative;
     top: 0%;
@@ -53,16 +70,9 @@ p {
     top: 0%;
     display: inline;
 }
-.rainbow-text {
-    background-image: linear-gradient(to left, violet, indigo, blue, green, yellow, orange, red);   
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    text-align: left;
-    font-style: bold;
-}
+/* #endregion */
 
-/* StateTabs styling */
+/* #region statetabs */
 #state-tabs {
     width: 105%;
     padding-left: 0;
@@ -73,8 +83,9 @@ p {
 .nav-link, .nav-link:focus, .nav-link:hover {
     color: whitesmoke;       
 }
+/* #endregion */
 
-/* Scrollbar styling */
+/* #region scrollbar */
 /* add scrollbar and scrollbar-primary to className if you wish to make container scrollable */
 .scrollbar {
     height: 75vh;
@@ -98,6 +109,9 @@ p {
     box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
     background-color: $accentColor;
 }
+/* #endregion */
+
+/* #region redistrictings */
 .thumbnail:hover {
     background-color: $accentColor;
     opacity: 0.65;
@@ -113,35 +127,43 @@ p {
 .custom-popover {
     z-index: 10;
 }
+.districting-labels {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+/* #endregion */
+
+/* #region table */
 #district-tablebody {
     min-height: 1 !important;
 }
 .MuiDataGrid-sortIcon {
     color: $accentColor !important;
 }
-.kosta-test{
+.kosta-test {
     border-radius: 0;
     width:150px;
 }
-.datagrid{
-    background-color: #1f1f1f;
+.datagrid {
+    background-color: $bgColor;
     color: white !important;
 }
 .hover-area{
-    display:flex;
+    display: flex;
     flex-direction: column;
 }
 .white-icon{
     color:white;
 }
 .button-submit{
-    background-color: #161616 !important;
-    display:flex;
+    background-color: $fgColor !important;
+    display: flex;
     flex-direction: row;
     justify-content: center;
 }
 .submit{
-    width:150px;
+    width: 150px;
 }
 .MuiDataGrid-iconButtonContainer {
     color:white !important;
@@ -149,14 +171,13 @@ p {
 .MuiSvgIcon-root{
     color:white !important;
 }
+/* #endregion */
+
+/* #region vertical-tabs */
 .dark-tabpanel {
-    background-color: #1f1f1f;
+    background-color: $bgColor;
 }
 .dark-chart {
     margin-top: -3%;
 }
-.districting-labels{
-    display:flex;
-    flex-direction: row;
-    justify-content: space-between;
-}
+/* #endregion */

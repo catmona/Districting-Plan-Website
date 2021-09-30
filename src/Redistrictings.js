@@ -4,7 +4,6 @@ import { Row } from 'react-bootstrap';
 import { Col } from 'react-bootstrap';
 import { Popover } from 'react-bootstrap';
 import { OverlayTrigger } from 'react-bootstrap';
-import 'kosta.css'
 
 function RPlanPopover(props) {
     const pop = (
