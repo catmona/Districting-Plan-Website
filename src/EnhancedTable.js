@@ -5,7 +5,6 @@ import Fab from '@mui/material/Fab';
 import NavigationIcon from '@mui/icons-material/Navigation';
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 import SaveAltIcon from '@mui/icons-material/SaveAlt';
-import 'kosta.css'
 
 const columns = [
   { field: 'id', headerName: 'District', width: 150 },

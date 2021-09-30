@@ -130,3 +130,6 @@ dmypy.json
 
 # node
 node_modules/
+
+# history extension
+.history/

@@ -1,8 +1,13 @@
+$bgColor: #1f1f1f;
+$fgColor: #161616;
+$accentColor: #4285F4;
+$textColor: whitesmoke;
+
 body {
-    background-color: #1f1f1f;
+    background-color: $bgColor;
 }
 p {
-    color: whitesmoke;
+    color: $textColor;
 }
 .map-container {
     position:relative;
@@ -15,7 +20,7 @@ p {
     bottom: 0;
     width: 100%;
     height: 100%;
-    box-shadow: inset 5em 0em 5em #1f1f1f;
+    box-shadow: inset 5em 0em 5em $bgColor;
     z-index: 5;
 }
 .map-wrapper {
@@ -63,7 +68,7 @@ p {
     padding-left: 0;
 }
 .nav-tabs {
-    background-color: #1f1f1f;
+    background-color: $bgColor;
 }
 .nav-link, .nav-link:focus, .nav-link:hover {
     color: whitesmoke;       
@@ -85,16 +90,16 @@ p {
     background-color: #F5F5F5;
 }
 .scrollbar-primary {
-    scrollbar-color: #4285F4 #161616;
+    scrollbar-color: $accentColor $fgColor;
 }
 .scrollbar-primary::-webkit-scrollbar-thumb {
     border-radius: 10px;
     -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
     box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
-    background-color: #4285F4;
+    background-color: $accentColor;
 }
 .thumbnail:hover {
-    background-color: #4285F4;
+    background-color: $accentColor;
     opacity: 0.65;
 }
 .redistricting-img {
@@ -102,7 +107,7 @@ p {
     margin-bottom: 8%;
 }
 #redistrictings {
-    background-color: #161616;
+    background-color: $fgColor;
     bottom: 0;
 }
 .custom-popover {
@@ -112,5 +117,46 @@ p {
     min-height: 1 !important;
 }
 .MuiDataGrid-sortIcon {
-    color: #4285F4;
+    color: $accentColor !important;
+}
+.kosta-test{
+    border-radius: 0;
+    width:150px;
+}
+.datagrid{
+    background-color: #1f1f1f;
+    color: white !important;
+}
+.hover-area{
+    display:flex;
+    flex-direction: column;
+}
+.white-icon{
+    color:white;
+}
+.button-submit{
+    background-color: #161616 !important;
+    display:flex;
+    flex-direction: row;
+    justify-content: center;
+}
+.submit{
+    width:150px;
+}
+.MuiDataGrid-iconButtonContainer {
+    color:white !important;
+}
+.MuiSvgIcon-root{
+    color:white !important;
+}
+.dark-tabpanel {
+    background-color: #1f1f1f;
+}
+.dark-chart {
+    margin-top: -3%;
+}
+.districting-labels{
+    display:flex;
+    flex-direction: row;
+    justify-content: space-between;
 }

@@ -1,17 +1,8 @@
 
 // Importing combination
 import React, { Component } from 'react';
-import { Container } from 'react-bootstrap';
-import { Col } from 'react-bootstrap';
-import { Row, Nav } from 'react-bootstrap';
-import Map from './Map'
-import Topbar from './Topbar'
-import kosta from './kosta.css'
-import Chart from 'react-google-charts'
-import { withThemeCreator } from '@material-ui/styles';
 // If you are using ES6, then
 import EnhancedTable from 'EnhancedTable.js';
-import PropTypes from 'prop-types';
 import VerticalTabs from './VerticalTab';
 import CustomizedTables from './StateTable';
 class Statistics extends Component {
@@ -22,18 +13,12 @@ class Statistics extends Component {
         };
     }
 
-
-
-
     render() {
         return <div >
-
             <CustomizedTables/>
             <VerticalTabs/>
             
-            <EnhancedTable/>
-
-            
+            <EnhancedTable/>      
         </div>
     }
 }
