@@ -73,6 +73,27 @@ public class ServerApplication {
 	}
 
 
+	/**
+	 *
+	 * Sample query to send via postman: http://localhost:8080/api/stateinfo
+	 *
+	 * Just returns washington state data
+	 * @return
+	 */
+	@GetMapping(value = "stateinfo",produces = MediaType.APPLICATION_JSON_VALUE)
+	public String stateData(){
+		try{
+			//read file and return
+			InputStream in = new ClassPathResource("district_data.json").getInputStream();
+			String data = StreamUtils.copyToString(in, Charset.defaultCharset());
+			in.close();
+			return data;
+		}catch (IOException e){
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"error reading file",e);
+		}
+	}
+
+
 
 }
 
