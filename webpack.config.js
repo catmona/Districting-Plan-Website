@@ -1,5 +1,6 @@
 const path = require('path');
 const HtmlWebPackPlugin = require('html-webpack-plugin');
+const webpack = require('webpack');
 const randomColor = require('randomcolor');
 
 module.exports = {
@@ -30,6 +31,17 @@ module.exports = {
         },
       },
       {
+        test: /\.(jpe?g|gif|png|svg)$/i,
+        use: [
+          {
+            loader: 'url-loader',
+            options: {
+              limit: 10000
+            }
+          }
+        ]
+      },
+      {
         test: /\.css$/,
         use: [
           {
@@ -40,11 +52,15 @@ module.exports = {
           },
         ],
       },
+      
     ],
   },
   plugins: [
     new HtmlWebPackPlugin({
       template: './public/index.html',
+    }),
+    new webpack.ProvidePlugin({
+      process: 'process/browser',
     }),
   ],
 };
