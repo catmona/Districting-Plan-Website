@@ -9,6 +9,7 @@ mapboxgl.accessToken = 'pk.eyJ1IjoiZ29sZHlmbGFrZXMiLCJhIjoiY2t0ZGtrNHhiMDB5MjJxc
 
 // constants for styling districts on map
 const districtColors = randomColor({count: 10, luminosity: 'bright', seed: 'mavericks'});
+//const districtColors = ['#d3a6e0', '#ffffff', '#ffffff', '#ffffff', '#ffffff', '#ffffff', '#ffffff', '#ffffff', '#ffffff', '#ffffff' ];
 console.log(districtColors);
 const white = '#FFFFFF'; // white
 
@@ -22,34 +23,35 @@ function Map(props) {
 
     useEffect(() => {
         if (map.current) {
-            if (stateName) { // user selected a state
-                let stateGeoJSON = sessionStorage.getItem(stateName + "-State-2012"); // hardcoded because all we have are 2012 geojsons
-                if (!stateGeoJSON) {
-                    // user did not load the requested state map before
-                    let url = "http://localhost:8080/api" + "/districts?state=" + stateName + "&file=State&year=2012";
-                    fetch(url)
-                        .then(res => res.json())
-                        .then(
-                            (result) => {
-                                let mapGeoJson = JSON.stringify(result);
-                                sessionStorage.setItem(stateName + "-State-2012", mapGeoJson);
-                                addDistrictGeoJSON(map.current, stateName, result);
-                            },
-                            (error) => {
-                                console.log(error); // failed to fetch geojson
-                            }
-                        )
-                } else {
-                    // state map is saved in session storage
-                    let layer = map.current.getSource(stateName + "-district-source");
-                    console.log("[Mapbox] Looking for %s", stateName + "-district-source");
-                    if (!layer) {
-                        console.log("[Mapbox] %s source layer is not on the map", stateName);
-                        addDistrictGeoJSON(map.current, stateName, JSON.parse(stateGeoJSON));
-                    }
-                }
-                // if user already loaded the requested state map, the map layer should already be on the map so no need to do anything else.
-            }
+            /* To minimize network calls in the future */
+            // if (stateName) { // user selected a state
+            //     let stateGeoJSON = sessionStorage.getItem(stateName + "-State-2012"); // hardcoded because all we have are 2012 geojsons
+            //     if (!stateGeoJSON) {
+            //         // user did not load the requested state map before
+            //         let url = "http://localhost:8080/api" + "/districts?state=" + stateName + "&file=State&year=2012";
+            //         fetch(url)
+            //             .then(res => res.json())
+            //             .then(
+            //                 (result) => {
+            //                     let mapGeoJson = JSON.stringify(result);
+            //                     sessionStorage.setItem(stateName + "-State-2012", mapGeoJson);
+            //                     addDistrictGeoJSON(map.current, stateName, result);
+            //                 },
+            //                 (error) => {
+            //                     console.log(error); // failed to fetch geojson
+            //                 }
+            //             )
+            //     } else {
+            //         // state map is saved in session storage
+            //         let layer = map.current.getSource(stateName + "-district-source");
+            //         console.log("[Mapbox] Looking for %s", stateName + "-district-source");
+            //         if (!layer) {
+            //             console.log("[Mapbox] %s source layer is not on the map", stateName);
+            //             addDistrictGeoJSON(map.current, stateName, JSON.parse(stateGeoJSON));
+            //         }
+            //     }
+            //     // if user already loaded the requested state map, the map layer should already be on the map so no need to do anything else.
+            // }
 
             switch(stateName) {
                 case "Washington": 
@@ -100,6 +102,23 @@ function Map(props) {
                 // await style loading before loading district layers
                 // removed for now since individual state enacted districts are now loaded asynchronously.
                 // We should load the geojson for the state outlines here in the future, so the starting map is not blank. 
+                // user did not load the requested state map before
+                var states = ["Washington", "Nevada", "Arkansas"];
+                states.forEach(s => {
+                    let url = "http://localhost:8080/api" + "/districts?state=" + s + "&file=State&year=2012";
+                    fetch(url)
+                    .then(res => res.json())
+                    .then(
+                        (result) => {
+                            let mapGeoJson = JSON.stringify(result);
+                            sessionStorage.setItem(s + "-State-2012", mapGeoJson);
+                            addDistrictGeoJSON(map.current, s, result);
+                        },
+                        (error) => {
+                            console.log(error); // failed to fetch geojson
+                        }
+                    );
+                });
                 // addDistrictGeoJSON(map.current, "NV", nvDistricts);
                 // addDistrictGeoJSON(map.current, "AR", arDistricts);
                 // addDistrictGeoJSON(map.current, "WA", waDistricts);
