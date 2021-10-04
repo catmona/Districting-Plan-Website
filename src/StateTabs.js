@@ -17,11 +17,15 @@ function StateTabs(props) {
         }
     }, [props.stateName]);
 
+    //TODO change selected state tab text color to black instead of current grey
+
     return (
         <Container fluid id="state-tabs">
             <Tabs activeKey={tab} onSelect={(k) => setTab(k)}>
                         <Tab disabled={!stateSelected} eventKey="data-table" title="District Data">
-                            {(props.stateName ==='Washington')?<Statistics/>:""}
+                            {(props.stateName ==='Washington')?<Statistics stateName = {props.stateName}/>:""}
+                            {(props.stateName === 'Nevada')?<Statistics stateName = {props.stateName}/>:""}
+                            {(props.stateName==='Arkansas')?<Statistics stateName = {props.stateName}/>:""}
                             </Tab>
                         <Tab disabled={!stateSelected} eventKey="random-districts" title="Districtings">
                                 <Redistrictings stateName={props.stateName} rPlan={props.rPlan} setRPlan={props.setRPlan} />

@@ -11,7 +11,10 @@ class Statistics extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            isLoaded: false,
+            stateName: props.stateName.toLowerCase(),
             stateData: null
+
         };
     }
     componentDidMount() {
@@ -20,10 +23,15 @@ class Statistics extends Component {
             .then(
                 (result) => {
                     this.setState({
-                        stateData: result.stateData
+                        isLoaded:true,
+                        stateData: result[this.state.stateName]
                     });
                 },
                 (error) => {
+                    this.setState({
+                        isLoaded:true,
+                        stateData:null
+                    })
                     console.log(error)
                 }
             )
@@ -31,8 +39,13 @@ class Statistics extends Component {
 
     render() {
         return <div >
+            <button onClick = {() => {console.log(this.state.stateName)}}> </button>
             <CustomizedTables />
-            {this.state.stateData ? <div><VerticalTabs stateData={this.state.stateData} /><EnhancedTable stateData={this.state.stateData} /></div> : <Box><CircularProgress /></Box>}
+            
+            {this.state.isLoaded? ( this.state.stateData?<div>
+                <VerticalTabs stateData={this.state.stateData} />
+                <EnhancedTable stateData={this.state.stateData} />
+             </div>: "") : <Box><CircularProgress /></Box>}
         </div>
     }
 }

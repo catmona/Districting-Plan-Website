@@ -8,7 +8,7 @@ import Demo from 'DemographicsChart.js'
 import Chart from 'react-google-charts'
 
 function TabPanel(props) {
-    const { children, value, index,stateData,  ...other } = props;
+    const { children, value, index, stateData, ...other } = props;
 
     return (
         <div
@@ -21,7 +21,7 @@ function TabPanel(props) {
             {value === index && (
                 <Box sx={{ p: 3 }}>
                     <Typography>{children}</Typography>
-                </Box>
+                </Box> 
             )}
         </div>
     );
@@ -51,9 +51,9 @@ export default function VerticalTabs(props) {
     const bgcolor2 = "#161616";
     //let partyData =  props.stateData.map((x) => {return [x['id'], x['democrat'], x['republican']]});;
     let partyData = [['District', 'Democratic Party', 'Republican Party']]
-    partyData.push(...props.stateData.map((x) => {return [x['id'], x['democrat'], x['republican']]}));
-    let demographicData = [['District', 'Hispanic or Latino', 'African American','Asian']];
-    demographicData.push(...props.stateData.map((x) => {return [x['id'], x['hispanic'], x['africanamerican'], x['asianamerican']]}));
+    partyData.push(...props.stateData.map((x) => { return [x['id'] + "", x['democrat'], x['republican']] }));
+    let demographicData = [['District', 'Hispanic or Latino', 'African American', 'Asian']];
+    demographicData.push(...props.stateData.map((x) => { return "" + [x['id'], x['hispanic'], x['africanamerican'], x['asianamerican']] }));
     return (
         <Box
             sx={{ flexGrow: 1, bgcolor: bgcolor2, display: 'flex', height: 325 }}
@@ -65,7 +65,7 @@ export default function VerticalTabs(props) {
                 value={value}
                 onChange={handleChange}
                 aria-label="Vertical tabs example"
-                sx={{ borderRight: 1, borderColor: 'divider', color: 'white'}}
+                sx={{ borderRight: 1, borderColor: 'divider', color: 'white' }}
                 className="kosta-test"
             >
                 <Tab label="Population" {...a11yProps(0)} width='200px' />
@@ -110,10 +110,10 @@ export default function VerticalTabs(props) {
                         backgroundColor: bgcolor,
                         legend: {
                             position: 'bottom',
-                            textStyle: { color: 'white' } 
+                            textStyle: { color: 'white' }
                         },
                         opacity: 0,
-                        
+
                     }}
                     // For tests
                     rootProps={{ 'data-testid': '2' }}
@@ -121,14 +121,14 @@ export default function VerticalTabs(props) {
                 />
             </TabPanel>
             <TabPanel value={value} index={1} width={'100%'} className="dark-tabpanel">
-           <Chart
+                <Chart
                     className="dark-chart"
                     width={'600px'}
                     height={'300px'}
                     chartType="ColumnChart"
                     loader={<div>Loading Chart</div>}
                     data={[
-                        ['District', 'Hispanic or Latino', 'African American','Asian'],
+                        ['District', 'Hispanic or Latino', 'African American', 'Asian'],
                         ['1', 76815, 12178, 102923],
                         ['2', 84560, 25095, 72330],
                         ['3', 77109, 12360, 24586],
@@ -168,10 +168,10 @@ export default function VerticalTabs(props) {
                         backgroundColor: bgcolor,
                         legend: {
                             position: 'bottom',
-                            textStyle: { color: 'white' } 
+                            textStyle: { color: 'white' }
                         },
                         opacity: 0,
-                        
+
                     }}
                     // For tests
                     rootProps={{ 'data-testid': '2' }}
