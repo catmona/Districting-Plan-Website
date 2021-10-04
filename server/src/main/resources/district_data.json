@@ -142,5 +142,47 @@
       "asianam/*erican": 47066,
       "hispanic": 238360
     }
+  ],
+  "arkansas": [
+    {
+      "id": 1,
+      "population": 719048,
+      "democrat": 106325,
+      "republican": 237596,
+      "africanamerican": 126465,
+      "white": 556680,
+      "asianamerican": 3775,
+      "hispanic": 24421
+    },
+    {
+      "id": 2,
+      "population": 767662,
+      "democrat": 148410,
+      "republican": 184093,
+      "africanamerican": 178792,
+      "white": 543432,
+      "asianamerican": 11921,
+      "hispanic": 41445
+    },
+    {
+      "id": 3,
+      "population": 829149,
+      "democrat": 106325,
+      "republican": 214960,
+      "africanamerican": 25683,
+      "white": 695183,
+      "asianamerican": 25356,
+      "hispanic": 123805
+    },
+    {
+      "id": 4,
+      "population": 701945,
+      "democrat": 75750,
+      "republican": 191617,
+      "africanamerican": 136528,
+      "white": 519725,
+      "asianamerican": 5026,
+      "hispanic": 42280
+    }
   ]
 }
