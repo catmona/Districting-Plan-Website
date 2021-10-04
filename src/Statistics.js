@@ -46,6 +46,8 @@ class Statistics extends Component {
                 <VerticalTabs stateData={this.state.stateData} />
                 <EnhancedTable stateData={this.state.stateData} />
             </div> : "") : <Box className = 'loading-container'><CircularProgress className = 'loading-icon'/></Box>}
+
+
         </div>
     }
 }
