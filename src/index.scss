@@ -24,9 +24,11 @@ p {
 .loading-icon {
     color: $accentColor;
     margin: 0;
+    height: 100px !important;
+    width: 100px !important;
 }
 .loading-container {
-    height: 30em;
+    height: 40em;
     display: flex;
     align-items: center;
     justify-content: center;
