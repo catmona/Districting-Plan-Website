@@ -11,40 +11,41 @@ class Statistics extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            washington: null
+            isLoaded: false,
+            stateName: props.stateName.toLowerCase(),
+            stateData: null
+
         };
     }
     componentDidMount() {
         fetch("http://localhost:8080/api/stateinfo")
-          .then(res => res.json())
-          .then(
-            (result) => {
-                console.log(result.washington[0])
-              this.setState({
-                isLoaded: true,
-                washington: result.washington
-              });
-            },
-            // Note: it's important to handle errors here
-            // instead of a catch() block so that we don't swallow
-            // exceptions from actual bugs in components.
-            (error) => {
-                console.log(error)
-            //   this.setState({
-            //     isLoaded: true,
-            //     error
-            //   });
-            }
-          )
-      }
+            .then(res => res.json())
+            .then(
+                (result) => {
+                    this.setState({
+                        isLoaded:true,
+                        stateData: result[this.state.stateName]
+                    });
+                },
+                (error) => {
+                    this.setState({
+                        isLoaded:true,
+                        stateData:null
+                    })
+                    console.log(error)
+                }
+            )
+    }
 
     render() {
         return <div >
-            <CustomizedTables/>
-            <VerticalTabs/>
-          
-            {this.state.washington?<EnhancedTable stateData = {this.state.washington} />: <Box><CircularProgress/></Box> }
-            {/* <button onClick = {() => {console.log(this.state.washington)}}>press me</button> */}
+            <button onClick = {() => {console.log(this.state.stateName)}}> </button>
+            <CustomizedTables />
+            
+            {this.state.isLoaded? ( this.state.stateData?<div>
+                <VerticalTabs stateData={this.state.stateData} />
+                <EnhancedTable stateData={this.state.stateData} />
+             </div>: "") : <Box><CircularProgress /></Box>}
         </div>
     }
 }

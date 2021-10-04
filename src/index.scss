@@ -16,6 +16,7 @@ p {
     background-image: linear-gradient(to left, violet, indigo, blue, green, yellow, orange, red);   
     -webkit-background-clip: text;
     background-clip: text;
+    -moz-background-clip: text;
     color: transparent;
     text-align: left;
     font-style: bold;
