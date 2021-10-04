@@ -43,7 +43,7 @@ class Statistics extends Component {
             <CustomizedTables/>
             <VerticalTabs/>
           
-            {this.state.washington?<EnhancedTable stateData = {this.state.washington} />: <Box><CircularProgress/></Box> }
+            {this.state.washington?<EnhancedTable stateData = {this.state.washington} />: <Box className="loading-container"><CircularProgress className="loading-icon"/></Box> }
             {/* <button onClick = {() => {console.log(this.state.washington)}}>press me</button> */}
         </div>
     }
