@@ -8,7 +8,7 @@ import Demo from 'DemographicsChart.js'
 import Chart from 'react-google-charts'
 
 function TabPanel(props) {
-    const { children, value, index, ...other } = props;
+    const { children, value, index,stateData,  ...other } = props;
 
     return (
         <div
@@ -40,7 +40,7 @@ function a11yProps(index) {
     };
 }
 
-export default function VerticalTabs() {
+export default function VerticalTabs(props) {
     const [value, setValue] = React.useState(0);
 
     const handleChange = (event, newValue) => {
@@ -49,11 +49,16 @@ export default function VerticalTabs() {
 
     const bgcolor = "#1f1f1f";
     const bgcolor2 = "#161616";
-
+    //let partyData =  props.stateData.map((x) => {return [x['id'], x['democrat'], x['republican']]});;
+    let partyData = [['District', 'Democratic Party', 'Republican Party']]
+    partyData.push(...props.stateData.map((x) => {return [x['id'], x['democrat'], x['republican']]}));
+    let demographicData = [['District', 'Hispanic or Latino', 'African American','Asian']];
+    demographicData.push(...props.stateData.map((x) => {return [x['id'], x['hispanic'], x['africanamerican'], x['asianamerican']]}));
     return (
         <Box
             sx={{ flexGrow: 1, bgcolor: bgcolor2, display: 'flex', height: 325 }}
         >
+            {/* <button onClick = {() => {console.log(partyData)}}>Press me</button> */}
             <Tabs
                 orientation="vertical"
                 variant="scrollable"
@@ -75,19 +80,7 @@ export default function VerticalTabs() {
                     height={'300px'}
                     chartType="ColumnChart"
                     loader={<div>Loading Chart</div>}
-                    data={[
-                        ['District', 'Democratic Party', 'Republican Party'],
-                        ['1', 249944, 176407],
-                        ['2', 255252, 148384],
-                        ['3', 181347, 235579],
-                        ['4', 102667, 202108],
-                        ['5', 155737, 247815],
-                        ['6', 247429, 168783],
-                        ['7', 387109, 78240],
-                        ['8', 213123, 198423],
-                        ['9', 258771, 89697],
-                        ['10', 288977, 51430],
-                    ]}
+                    data={partyData}
 
                     options={{
                         // Material design options
