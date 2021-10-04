@@ -39,7 +39,6 @@ class Statistics extends Component {
 
     render() {
         return <div >
-            <button onClick = {() => {console.log(this.state.stateName)}}> </button>
             <CustomizedTables />
             
             {this.state.isLoaded? ( this.state.stateData?<div>
