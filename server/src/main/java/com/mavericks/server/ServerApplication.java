@@ -6,10 +6,7 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.util.StreamUtils;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.io.IOException;
@@ -80,6 +77,7 @@ public class ServerApplication {
 	 * Just returns washington state data
 	 * @return
 	 */
+	@CrossOrigin(origins = "http://localhost:8081")
 	@GetMapping(value = "stateinfo",produces = MediaType.APPLICATION_JSON_VALUE)
 	public String stateData(){
 		try{

@@ -181,3 +181,10 @@ p {
     margin-top: -3%;
 }
 /* #endregion */
+
+.loading-table{
+    width:100%;
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+}
