@@ -17,9 +17,9 @@ import java.nio.charset.Charset;
 @RestController
 @RequestMapping(path = "api/")
 public class ServerApplication {
-	private static final String AR="AR.2012";
+	private static final String AR="AR";
 	private static final String NV="NV";
-	private static final String WA="WA.2012";
+	private static final String WA="WA";
 
 	public static void main(String[] args) {
 		SpringApplication.run(ServerApplication.class, args);
@@ -38,6 +38,7 @@ public class ServerApplication {
 	 *
 	 * Sample query to send via postman: http://localhost:8080/api/districts?state=Nevada&file=State&year=2013
 	 */
+	@CrossOrigin(origins = "http://localhost:8081")
 	@GetMapping(value="districts",produces = MediaType.APPLICATION_JSON_VALUE)
 	public String getDistricts(@RequestParam("state")String state,@RequestParam("file")String file,
 							   @RequestParam(value = "year",defaultValue = "2012")Integer year){
@@ -45,13 +46,13 @@ public class ServerApplication {
 		String path="data/";
 		switch (state) {
 			case "Arkansas":
-				path += (AR);
+				path += (AR) + "/" + year;
 				break;
 			case "Nevada":
 				path += (NV) + "/" + year;
 				break;
 			case "Washington":
-				path += (WA);
+				path += (WA) + "/" + year;
 				break;
 			default:
 				throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "invalid query params");
