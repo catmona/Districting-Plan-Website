@@ -12,6 +12,15 @@ body {
 p {
     color: $textColor;
 }
+h1 {
+    color: $textColor;
+}
+h2 {
+    color: $textColor;
+}
+h3 {
+    color: $textColor;
+}
 .rainbow-text {
     background-image: linear-gradient(to left, violet, indigo, blue, green, yellow, orange, red);   
     -webkit-background-clip: text;
@@ -95,6 +104,18 @@ p {
 }
 .nav-link, .nav-link:focus, .nav-link:hover {
     color: whitesmoke;       
+}
+.instructions-container {
+    height: 50em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.website-icon {
+    max-width: 45%;
+    height: auto;
+    padding-bottom: 20px;
 }
 /* #endregion */
 
