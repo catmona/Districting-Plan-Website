@@ -40,6 +40,14 @@ function Map(props) {
                                 console.log(error); // failed to fetch geojson
                             }
                         )
+                } else {
+                    // state map is saved in session storage
+                    let layer = map.current.getSource(stateName + "-district-source");
+                    console.log("[Mapbox] Looking for %s", stateName + "-district-source");
+                    if (!layer) {
+                        console.log("[Mapbox] %s source layer is not on the map", stateName);
+                        addDistrictGeoJSON(map.current, stateName, JSON.parse(stateGeoJSON));
+                    }
                 }
                 // if user already loaded the requested state map, the map layer should already be on the map so no need to do anything else.
             }
@@ -121,7 +129,8 @@ function addDistrictGeoJSON(map, sourceId, source) {
         "type": "geojson",
         "data": source
     });
-
+    console.log("[Mapbox] Added %s", sourceName);
+    
     addDistrictStyleLayer(map, sourceName);
     return sourceName;
 }
