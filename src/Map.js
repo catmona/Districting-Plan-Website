@@ -1,9 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react';
 import mapboxgl from '!mapbox-gl'; // eslint-disable-line import/no-webpack-loader-syntax
 import randomColor from 'randomcolor';
-import nvDistricts from './data/NV/2012/nv-0-2012.geojson';
-import arDistricts from './data/AR/2012/ar-0-2012.geojson';
-import waDistricts from './data/WA/2012/wa-0-2012.geojson';
 import USADistricts from './data/us_state_outlines.geojson';
 
 mapboxgl.accessToken = 'pk.eyJ1IjoiZ29sZHlmbGFrZXMiLCJhIjoiY2t0ZGtrNHhiMDB5MjJxcWN6bWZ5ZGx3byJ9.IMzQecUSVBFlT4rUycdG3Q';
@@ -25,35 +22,23 @@ function Map(props) {
 
     useEffect(() => {
         if (map.current) {
-            /* To minimize network calls in the future */
-            // if (stateName) { // user selected a state
-            //     let stateGeoJSON = sessionStorage.getItem(stateName + "-State-2012"); // hardcoded because all we have are 2012 geojsons
-            //     if (!stateGeoJSON) {
-            //         // user did not load the requested state map before
-            //         let url = "http://localhost:8080/api" + "/districts?state=" + stateName + "&file=State&year=2012";
-            //         fetch(url)
-            //             .then(res => res.json())
-            //             .then(
-            //                 (result) => {
-            //                     let mapGeoJson = JSON.stringify(result);
-            //                     sessionStorage.setItem(stateName + "-State-2012", mapGeoJson);
-            //                     addDistrictGeoJSON(map.current, stateName, result);
-            //                 },
-            //                 (error) => {
-            //                     console.log(error); // failed to fetch geojson
-            //                 }
-            //             )
-            //     } else {
-            //         // state map is saved in session storage
-            //         let layer = map.current.getSource(stateName + "-district-source");
-            //         console.log("[Mapbox] Looking for %s", stateName + "-district-source");
-            //         if (!layer) {
-            //             console.log("[Mapbox] %s source layer is not on the map", stateName);
-            //             addDistrictGeoJSON(map.current, stateName, JSON.parse(stateGeoJSON));
-            //         }
-            //     }
-            //     // if user already loaded the requested state map, the map layer should already be on the map so no need to do anything else.
-            // }
+            /* Get geoJson on demand */
+            if (stateName) { // user selected a state
+                let layer = map.current.getSource(stateName + "-district-source");
+                if (!layer) { // map does not have the district boundaries
+                    let url = "http://localhost:8080/api" + "/districts?state=" + stateName + "&file=State&year=2012";
+                    fetch(url)
+                        .then(res => res.json())
+                        .then(
+                            (result) => {
+                                addDistrictGeoJSON(map.current, stateName, result);
+                            },
+                            (error) => {
+                                console.log(error); // failed to fetch geojson
+                            }
+                        );
+                }
+            }
 
             switch(stateName) {
                 case "Washington": 
@@ -104,7 +89,7 @@ function Map(props) {
                 // await style loading before loading district layers
                 // removed for now since individual state enacted districts are now loaded asynchronously.
                 
-                // load the geojson for the state outlines here so the starting map is not blank while the async calls for individual geojsons are pending
+                // load the geojson for the state outlines
                 map.current.addSource("USA-source", {
                     "type": "geojson",
                     "data": USADistricts
@@ -117,33 +102,9 @@ function Map(props) {
                     "layout": {},
                     "paint": {
                         "fill-color": districtColors[1],
-                        "fill-opacity": [
-                            "case",
-                            ["boolean", ["feature-state", "hover"], false],
-                            0.8, 0.5
-                        ],
+                        "fill-opacity": 0.5,
                     }
                 });
-
-                var states = ["Washington", "Nevada", "Arkansas"];
-                states.forEach(s => {
-                    let url = "http://localhost:8080/api" + "/districts?state=" + s + "&file=State&year=2012";
-                    fetch(url)
-                    .then(res => res.json())
-                    .then(
-                        (result) => {
-                            let mapGeoJson = JSON.stringify(result);
-                            sessionStorage.setItem(s + "-State-2012", mapGeoJson);
-                            addDistrictGeoJSON(map.current, s, result);
-                        },
-                        (error) => {
-                            console.log(error); // failed to fetch geojson
-                        }
-                    );
-                });
-                // addDistrictGeoJSON(map.current, "NV", nvDistricts);
-                // addDistrictGeoJSON(map.current, "AR", arDistricts);
-                // addDistrictGeoJSON(map.current, "WA", waDistricts);
             });
         }
     });
@@ -225,11 +186,7 @@ function addDistrictStyleLayer(map, sourceId) {
                 districtColors[9],
                 /* other */ white
             ],
-            "fill-opacity": [
-                "case",
-                ["boolean", ["feature-state", "hover"], false],
-                0.8, 0.5
-            ],
+            "fill-opacity": 0.5,
         }
     });
 
