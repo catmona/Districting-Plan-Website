@@ -22,6 +22,27 @@ function Map(props) {
 
     useEffect(() => {
         if (map.current) {
+            if (stateName) { // user selected a state
+                let stateGeoJSON = sessionStorage.getItem(stateName + "-State-2012"); // hardcoded because all we have are 2012 geojsons
+                if (!stateGeoJSON) {
+                    // user did not load the requested state map before
+                    let url = "http://localhost:8080/api" + "/districts?state=" + stateName + "&file=State&year=2012";
+                    fetch(url)
+                        .then(res => res.json())
+                        .then(
+                            (result) => {
+                                let mapGeoJson = JSON.stringify(result);
+                                sessionStorage.setItem(stateName + "-State-2012", mapGeoJson);
+                                addDistrictGeoJSON(map.current, stateName, result);
+                            },
+                            (error) => {
+                                console.log(error); // failed to fetch geojson
+                            }
+                        )
+                }
+                // if user already loaded the requested state map, the map layer should already be on the map so no need to do anything else.
+            }
+
             switch(stateName) {
                 case "Washington": 
                     console.log("w")
@@ -69,9 +90,11 @@ function Map(props) {
 
             map.current.on("load", function() {
                 // await style loading before loading district layers
-                addDistrictGeoJSON(map.current, "NV", nvDistricts);
-                addDistrictGeoJSON(map.current, "AR", arDistricts);
-                addDistrictGeoJSON(map.current, "WA", waDistricts);
+                // removed for now since individual state enacted districts are now loaded asynchronously.
+                // We should load the geojson for the state outlines here in the future, so the starting map is not blank. 
+                // addDistrictGeoJSON(map.current, "NV", nvDistricts);
+                // addDistrictGeoJSON(map.current, "AR", arDistricts);
+                // addDistrictGeoJSON(map.current, "WA", waDistricts);
             });
         }
     });
