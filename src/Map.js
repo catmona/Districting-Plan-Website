@@ -4,6 +4,7 @@ import randomColor from 'randomcolor';
 import nvDistricts from './data/NV/2012/nv-0-2012.geojson';
 import arDistricts from './data/AR/2012/ar-0-2012.geojson';
 import waDistricts from './data/WA/2012/wa-0-2012.geojson';
+import USADistricts from './data/us_state_outlines.geojson';
 
 mapboxgl.accessToken = 'pk.eyJ1IjoiZ29sZHlmbGFrZXMiLCJhIjoiY2t0ZGtrNHhiMDB5MjJxcWN6bWZ5ZGx3byJ9.IMzQecUSVBFlT4rUycdG3Q';
 
@@ -12,6 +13,7 @@ const districtColors = randomColor({count: 10, luminosity: 'bright', seed: 'mave
 //const districtColors = ['#d3a6e0', '#ffffff', '#ffffff', '#ffffff', '#ffffff', '#ffffff', '#ffffff', '#ffffff', '#ffffff', '#ffffff' ];
 console.log(districtColors);
 const white = '#FFFFFF'; // white
+const zoomThreshold = 4;
 
 function Map(props) {
     const mapContainer = useRef(null);
@@ -102,6 +104,27 @@ function Map(props) {
                 // await style loading before loading district layers
                 // removed for now since individual state enacted districts are now loaded asynchronously.
                 // We should load the geojson for the state outlines here in the future, so the starting map is not blank. 
+
+                map.current.addSource("USA-source", {
+                    "type": "geojson",
+                    "data": USADistricts
+                });
+                map.current.addLayer({
+                    "id": "USA-layer",
+                    "type": "fill",
+                    "source": "USA-source",
+                    "maxzoom": zoomThreshold,
+                    "layout": {},
+                    "paint": {
+                        "fill-color": districtColors[1],
+                        "fill-opacity": [
+                            "case",
+                            ["boolean", ["feature-state", "hover"], false],
+                            0.8, 0.5
+                        ],
+                    }
+                });
+
                 // user did not load the requested state map before
                 var states = ["Washington", "Nevada", "Arkansas"];
                 states.forEach(s => {
@@ -175,6 +198,7 @@ function addDistrictStyleLayer(map, sourceId) {
         "id": layerName,
         "type": "fill",
         "source": sourceId,
+        "minzoom": zoomThreshold,
         "layout": {},
         "paint": {
             "fill-color": [
@@ -214,6 +238,7 @@ function addDistrictStyleLayer(map, sourceId) {
     map.addLayer({
         'id': layerName + '-outline',
         'type': 'line',
+        "minzoom": zoomThreshold,
         'source': sourceId,
         'paint': {
           'line-color': white,
@@ -225,6 +250,7 @@ function addDistrictStyleLayer(map, sourceId) {
     map.addLayer({
         'id': layerName + '-label',
         'type': 'symbol',
+        "minzoom": zoomThreshold,
         'source': sourceId,
         'layout': {
         // get the title name from the source's "title" property
