@@ -21,6 +21,16 @@ p {
     text-align: left;
     font-style: bold;
 }
+.loading-icon {
+    color: $accentColor;
+    margin: 0;
+}
+.loading-container {
+    height: 30em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 /* #endregion */
 
 /* #region map */
@@ -182,10 +192,3 @@ p {
     margin-top: -3%;
 }
 /* #endregion */
-
-.loading-table{
-    width:100%;
-    display:flex;
-    flex-direction: column;
-    justify-content: center;
-}
