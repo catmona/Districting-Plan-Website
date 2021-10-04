@@ -17,6 +17,8 @@ function StateTabs(props) {
         }
     }, [props.stateName]);
 
+    //TODO change selected state tab text color to black instead of current grey
+
     return (
         <Container fluid id="state-tabs">
             <Tabs activeKey={tab} onSelect={(k) => setTab(k)}>
