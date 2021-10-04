@@ -103,8 +103,8 @@ function Map(props) {
             map.current.on("load", function() {
                 // await style loading before loading district layers
                 // removed for now since individual state enacted districts are now loaded asynchronously.
-                // We should load the geojson for the state outlines here in the future, so the starting map is not blank. 
-
+                
+                // load the geojson for the state outlines here so the starting map is not blank while the async calls for individual geojsons are pending
                 map.current.addSource("USA-source", {
                     "type": "geojson",
                     "data": USADistricts
@@ -125,7 +125,6 @@ function Map(props) {
                     }
                 });
 
-                // user did not load the requested state map before
                 var states = ["Washington", "Nevada", "Arkansas"];
                 states.forEach(s => {
                     let url = "http://localhost:8080/api" + "/districts?state=" + s + "&file=State&year=2012";
