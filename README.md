@@ -28,3 +28,11 @@ _our states are **Washington**, **Nevada**, and **Arkanasas**_
 2. 'npm install' to grab dependencies
 3. 'npm start' to start a local server
 4. 'npm run build' to build a bundled .js file
+
+## how do I run the java servlet
+
+1. Download JDK 11
+2. Find the pom.xml file in the server folder
+3. Right click pom.xml and select 'Add as Maven Project' (something along those lines)
+4. You should see a server project directory appear. 
+5. Run src > main > java > ServerApplication
