@@ -23,8 +23,8 @@ function StateTabs(props) {
         <Container fluid id="state-tabs">
             <Tabs activeKey={tab} onSelect={(k) => setTab(k)}>
                         <Tab disabled={!stateSelected} eventKey="data-table" title="District Data">
-                            <Statistics />
-                        </Tab>
+                            {(props.stateName ==='Washington')?<Statistics/>:""}
+                            </Tab>
                         <Tab disabled={!stateSelected} eventKey="random-districts" title="Districtings">
                                 <Redistrictings stateName={props.stateName} rPlan={props.rPlan} setRPlan={props.setRPlan} />
                         </Tab>
