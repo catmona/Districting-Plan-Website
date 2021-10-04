@@ -23,14 +23,14 @@ class Statistics extends Component {
             .then(
                 (result) => {
                     this.setState({
-                        isLoaded:true,
+                        isLoaded: true,
                         stateData: result[this.state.stateName]
                     });
                 },
                 (error) => {
                     this.setState({
-                        isLoaded:true,
-                        stateData:null
+                        isLoaded: true,
+                        stateData: null
                     })
                     console.log(error)
                 }
@@ -38,14 +38,14 @@ class Statistics extends Component {
     }
 
     render() {
-        return <div >
-            <button onClick = {() => {console.log(this.state.stateName)}}> </button>
-            <CustomizedTables />
-            
-            {this.state.isLoaded? ( this.state.stateData?<div>
+        return <div>
+            {/* <button onClick = {() => {console.log(this.state.stateName)}}> </button> */}
+
+            {this.state.isLoaded ? (this.state.stateData ? <div>
+                <CustomizedTables /> 
                 <VerticalTabs stateData={this.state.stateData} />
                 <EnhancedTable stateData={this.state.stateData} />
-             </div>: "") : <Box><CircularProgress /></Box>}
+            </div> : "") : <Box className = 'loading-container'><CircularProgress className = 'loading-icon'/></Box>}
         </div>
     }
 }
