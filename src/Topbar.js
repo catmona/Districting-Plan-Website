@@ -18,7 +18,7 @@ function Topbar(props) {
         <Container fluid id="topbar">
             <Row>
                 <Col md={6}>
-                    <h2 className="topbar-text">I want to </h2> <h1 className="topbar-text rainbow-text"><em>redistrict</em></h1> <h2 className="topbar-text">...</h2>
+                    <h2 className="topbar-text">I want to </h2> <h1 className="topbar-text"><em className="rainbow-text">redistrict</em></h1> <h2 className="topbar-text">...</h2>
                 </Col>
 
                 <Col md={5} lg={3}>
