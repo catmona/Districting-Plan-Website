@@ -102,8 +102,11 @@ h3 {
 .nav-tabs {
     background-color: $bgColor;
 }
-.nav-link, .nav-link:focus, .nav-link:hover {
-    color: whitesmoke;       
+.nav-link, .nav-link:focus, .nav-link:hover, .nav-link:active {
+    color: $textColor;       
+}
+.nav-link.active {
+    color: black !important;
 }
 .instructions-container {
     height: 50em;
