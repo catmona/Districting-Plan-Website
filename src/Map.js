@@ -20,100 +20,92 @@ function Map(props) {
     const [zoom, setZoom] = useState(3);
     let stateName = props.stateName;
 
-    function loadStateData() {
-        /* Get geoJson on demand */
-        if (stateName) { // user selected a state
-            let layer = map.current.getSource(stateName + "-district-source");
-            if (!layer) { // map does not have the district boundaries
-                let url = "http://localhost:8080/api" + "/districts?state=" + stateName + "&file=State&year=2012";
-                fetch(url)
-                    .then(res => res.json())
-                    .then(
-                        (result) => {
-                            addDistrictGeoJSON(map.current, stateName, result);
-                        },
-                        (error) => {
-                            console.log(error); // failed to fetch geojson
-                        }
-                    );
-            }
-        }
-    }
-
-    function moveMap(stateName, map) {
-        switch(stateName) {
-            case "Washington": 
-                setLat(47.75);
-                setLng(-120.74);
-                setZoom(6);
-                map.current.flyTo({
-                    center: [lng, lat],
-                    zoom: zoom
-                });
-                break;
-
-            case "Nevada": 
-                setLat(38.80);
-                setLng(-116.42);
-                setZoom(6);
-                map.current.flyTo({
-                    center: [lng, lat],
-                    zoom: zoom
-                });
-                break;
-
-            case "Arkansas": 
-                setLat(35.20);
-                setLng(-91.83);
-                setZoom(6);
-                map.current.flyTo({
-                    center: [lng, lat],
-                    zoom: zoom
-                });
-                break;
-        }
-    }
-
-    function initMap() {
-        map.current = new mapboxgl.Map({
-            container: mapContainer.current,
-            style: 'mapbox://styles/goldyflakes/cktdkm1j51fmq18qj54fippsz',
-            center: [lng, lat],
-            zoom: zoom,
-            interactive: false
-            });
-
-        map.current.on("load", function() {
-            // await style loading before loading district layers
-            // removed for now since individual state enacted districts are now loaded asynchronously.
-            
-            // load the geojson for the state outlines
-            map.current.addSource("USA-source", {
-                "type": "geojson",
-                "data": USADistricts
-            });
-            map.current.addLayer({
-                "id": "USA-layer",
-                "type": "fill",
-                "source": "USA-source",
-                "maxzoom": zoomThreshold,
-                "layout": {},
-                "paint": {
-                    "fill-color": districtColors[1],
-                    "fill-opacity": 0.5,
-                }
-            });
-        });
-    }
-
     useEffect(() => {
         if (map.current) {
-            loadStateData();
+            /* Get geoJson on demand */
+            if (stateName) { // user selected a state
+                let layer = map.current.getSource(stateName + "-district-source");
+                if (!layer) { // map does not have the district boundaries
+                    let url = "http://localhost:8080/api" + "/districts?state=" + stateName + "&file=State&year=2012";
+                    fetch(url)
+                        .then(res => res.json())
+                        .then(
+                            (result) => {
+                                addDistrictGeoJSON(map.current, stateName, result);
+                            },
+                            (error) => {
+                                console.log(error); // failed to fetch geojson
+                            }
+                        );
+                }
+            }
 
-            moveMap();
+            switch(stateName) {
+                case "Washington": 
+                    console.log("w")
+                    setLat(47.75);
+                    setLng(-120.74);
+                    setZoom(6);
+                    map.current.flyTo({
+                        center: [lng, lat],
+                        zoom: zoom
+                    });
+                    break;
+
+                case "Nevada": 
+                    console.log("n")
+                    setLat(38.80);
+                    setLng(-116.42);
+                    setZoom(6);
+                    map.current.flyTo({
+                        center: [lng, lat],
+                        zoom: zoom
+                    });
+                    break;
+
+                case "Arkansas": 
+                    console.log("a")
+                    setLat(35.20);
+                    setLng(-91.83);
+                    setZoom(6);
+                    map.current.flyTo({
+                        center: [lng, lat],
+                        zoom: zoom
+                    });
+                    break;
+            }
+            console.log("flying to " + stateName)
         } // initialize map only once
         else {
-            initMap();
+            map.current = new mapboxgl.Map({
+                container: mapContainer.current,
+                style: 'mapbox://styles/goldyflakes/cktdkm1j51fmq18qj54fippsz',
+                center: [lng, lat],
+                zoom: zoom,
+                interactive: false
+                });
+
+            map.current.on("load", function() {
+                // await style loading before loading district layers
+                // removed for now since individual state enacted districts are now loaded asynchronously.
+                
+                // load the geojson for the state outlines
+                map.current.addSource("USA-source", {
+                    "type": "geojson",
+                    "data": USADistricts
+                });
+                map.current.addLayer({
+                    "id": "USA-layer",
+                    "type": "fill",
+                    "source": "USA-source",
+                    "maxzoom": zoomThreshold,
+                    "layout": {},
+                    "paint": {
+                        "fill-color": districtColors[1],
+                        "fill-opacity": 0.5,
+                    }
+                });
+            });
         }
     });
   
