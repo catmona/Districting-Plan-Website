@@ -1,5 +1,7 @@
 package com.mavericks.server;
 
+import com.mavericks.server.service.DistrictingService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.core.io.ClassPathResource;
@@ -8,6 +10,7 @@ import org.springframework.http.MediaType;
 import org.springframework.util.StreamUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -20,6 +23,9 @@ public class ServerApplication {
 	private static final String AR="AR";
 	private static final String NV="NV";
 	private static final String WA="WA";
+
+	@Autowired
+	private DistrictingService districtingService;
 
 	public static void main(String[] args) {
 		SpringApplication.run(ServerApplication.class, args);
@@ -91,8 +97,6 @@ public class ServerApplication {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"error reading file",e);
 		}
 	}
-
-
 
 }
 
