@@ -24,8 +24,8 @@ public class ServerApplication {
 	private static final String NV="NV";
 	private static final String WA="WA";
 
-	@Autowired
-	private DistrictingService districtingService;
+	//@Autowired
+	//private DistrictingService districtingService;
 
 	public static void main(String[] args) {
 		SpringApplication.run(ServerApplication.class, args);
