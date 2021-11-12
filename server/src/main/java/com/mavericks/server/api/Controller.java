@@ -21,60 +21,72 @@ public class Controller {
     }
 
     @GetMapping(value = "getStateSummary")
-    public Map<String,Object> handleStateSummary(long stateId, HttpSession session){
+    public Map<String,Object> handleStateSummary(@RequestParam("stateId")long stateId, HttpSession session){
 
-        return new Hashtable<>();
+        session.setAttribute("state",Math.round(Math.random()*18));
+        return handler.getStateSummary(stateId);
     }
 
     @PostMapping(value = "setPopulationType")
-    public ResponseEntity handlePopulationType(String populationType, HttpSession session){
+    public ResponseEntity handlePopulationType(@RequestParam("populationType")String populationType, HttpSession session){
         return ResponseEntity.ok().build();
     }
 
     @GetMapping(value = "districtings")
-    public Map<String,Object> handleDistrictings(long stateId){
-        return new Hashtable<>();
+    public Map<String,Object> handleDistrictings(@RequestParam("stateId") long stateId,HttpSession session){
+        System.out.println(session.getAttribute("state"));
+        Map<String,Object> m= new Hashtable<>();
+        m.put("state",session.getAttribute("state"));
+        return m;
     }
 
     @GetMapping(value = "districtingSummary")
-    public Map<String,Object> handleDistrictingSummary(long districtingId){
+    public Map<String,Object> handleDistrictingSummary(@RequestParam("districtingId")long districtingId,
+                                                       HttpSession session){
         return new Hashtable<>();
     }
 
     @GetMapping(value = "boxwhiskers")
-    public Map<String,Object> handleBoxWhisker(long stateId,long districtingId, long demographicId,boolean enacted,
-                                               boolean current){
+    public Map<String,Object> handleBoxWhisker(@RequestParam("stateId")long stateId,
+                                               @RequestParam("districtingId")long districtingId,
+                                               @RequestParam("demographicId") long demographicId,
+                                               @RequestParam("enacted")boolean enacted,
+                                               @RequestParam("current")boolean current,HttpSession session){
         return new Hashtable<>();
     }
 
     @PostMapping("mapfilter")
-    public ResponseEntity handleSetFilter(boolean stateFlag, boolean districtFlag, boolean precinctFlag,
-                                          boolean censusBlockFlag, boolean countyFlag){
+    public ResponseEntity handleSetFilter(@RequestParam("stateFlag")boolean stateFlag,
+                                          @RequestParam("districtFlag") boolean districtFlag,
+                                          @RequestParam("precinctFlag") boolean precinctFlag,
+                                          @RequestParam("censusBlockFlag")boolean censusBlockFlag,
+                                          @RequestParam("countyFlag") boolean countyFlag,HttpSession session){
         return ResponseEntity.ok().build();
     }
 
     @PostMapping("algorithmlimits")
-    public long handleLimits(double minPopulationEquality, double minCompactness){
+    public long handleLimits(@RequestParam("minPopulationEquality") double minPopulationEquality,
+                             @RequestParam("minCompactness") double minCompactness){
         return 0;
     }
 
     @GetMapping(value = "algorithm")
-    public Map<String,Object> handleStartAlgorithm(long threadId){
+    public Map<String,Object> handleStartAlgorithm(@RequestParam("threadId")long threadId){
         return new Hashtable<>();
     }
 
     @GetMapping(value="algorithmProgress")
-    public Map<String,Object> handleGetProgress(long threadId){
+    public Map<String,Object> handleGetProgress(@RequestParam("threadId") long threadId){
         return new Hashtable<>();
     }
 
     @GetMapping(value = "algorithmResults")
-    public Map<String,Object> handleGetResults(long threadId){
+    public Map<String,Object> handleGetResults(@RequestParam("threadId") long threadId){
         return new Hashtable<>();
     }
 
     @GetMapping(value = "stopAlgorithm")
-    public Map<String,Object> handleStopAlgorithm(long threadId){
+    public Map<String,Object> handleStopAlgorithm(@RequestParam("threadId") long threadId){
         return new Hashtable<>();
     }
 

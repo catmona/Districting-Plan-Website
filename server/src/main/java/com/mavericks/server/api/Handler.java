@@ -20,9 +20,11 @@ public class Handler {
         this.jobs = jobs;
     }
 
-    public Map<String,Object> getStateSummary(long stateId, HttpSession session){
+    public Map<String,Object> getStateSummary(long stateId){
 
-        return new Hashtable<>();
+        Map<String,Object> m= new Hashtable<>();
+        m.put("hi","mom");
+        return m;
     }
 
 
