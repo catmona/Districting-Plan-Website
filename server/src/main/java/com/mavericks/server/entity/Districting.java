@@ -44,4 +44,8 @@ public class Districting {
                 ", test='" + test + '\'' +
                 '}';
     }
+
+    public District getRandDistrict(){
+        return districts.get((int)(Math.random()*districts.size()));
+    }
 }

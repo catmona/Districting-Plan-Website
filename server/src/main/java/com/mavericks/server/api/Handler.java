@@ -1,7 +1,9 @@
 package com.mavericks.server.api;
 
 import com.mavericks.server.Algorithm;
+import com.mavericks.server.dto.StateDTO;
 import com.mavericks.server.entity.PopulationMeasure;
+import com.mavericks.server.entity.State;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
@@ -22,11 +24,12 @@ public class Handler {
         this.jobs = jobs;
     }
 
-    public Map<String,Object> getStateSummary(long stateId){
+    public StateDTO getStateSummary(String stateName, HttpSession session){
 
-        Map<String,Object> m= new Hashtable<>();
-        m.put("hi","mom");
-        return m;
+        ///make query here
+        //dummy object below
+        State state = new State();
+        return state.makeDTO();
     }
 
 

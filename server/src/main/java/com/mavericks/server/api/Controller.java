@@ -1,5 +1,6 @@
 package com.mavericks.server.api;
 
+import com.mavericks.server.dto.StateDTO;
 import com.mavericks.server.entity.PopulationMeasure;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -22,10 +23,9 @@ public class Controller {
     }
 
     @GetMapping(value = "getStateSummary")
-    public Map<String,Object> handleStateSummary(@RequestParam("stateId")long stateId, HttpSession session){
+    public StateDTO handleStateSummary(@RequestParam("state")String state, HttpSession session){
 
-        session.setAttribute("state",Math.round(Math.random()*18));
-        return handler.getStateSummary(stateId);
+        return handler.getStateSummary(state,session);
     }
 
     @PostMapping(value = "setPopulationType")

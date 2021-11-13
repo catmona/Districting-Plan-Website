@@ -1,4 +1,6 @@
 package com.mavericks.server.entity;
+import com.mavericks.server.dto.StateDTO;
+
 import java.util.List;
 import java.util.Objects;
 import javax.persistence.*;
@@ -59,6 +61,11 @@ public class State {
 
     public void setDistrictings(List<Districting> districtings) {
         this.districtings = districtings;
+    }
+
+    public StateDTO makeDTO(){
+        //dummy value; replace later
+        return new StateDTO();
     }
 
     @Override
