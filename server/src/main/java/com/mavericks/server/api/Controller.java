@@ -1,5 +1,6 @@
 package com.mavericks.server.api;
 
+import com.mavericks.server.entity.PopulationMeasure;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -29,6 +30,7 @@ public class Controller {
 
     @PostMapping(value = "setPopulationType")
     public ResponseEntity handlePopulationType(@RequestParam("populationType")String populationType, HttpSession session){
+        session.setAttribute("PopType",mapStringToEnum(populationType));
         return ResponseEntity.ok().build();
     }
 
@@ -90,7 +92,16 @@ public class Controller {
         return new Hashtable<>();
     }
 
-
+    private PopulationMeasure mapStringToEnum(String s){
+        switch (s){
+            case "TOTAL":
+                return PopulationMeasure.TOTAL;
+            case "CVAP":
+                return PopulationMeasure.CVAP;
+            default:
+                return PopulationMeasure.VAP;
+        }
+    }
 
 
 

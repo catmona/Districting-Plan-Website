@@ -1,5 +1,6 @@
 package com.mavericks.server.api;
 
+import com.mavericks.server.entity.PopulationMeasure;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
@@ -62,5 +63,7 @@ public class Handler {
     public Map<String,Object> stopAlgorithm(long threadId){
         return new Hashtable<>();
     }
+
+
 
 }

@@ -13,6 +13,8 @@ public class State {
     private String name;
 
     private String center;
+   // private int[] center;
+    //private BoxWhisker boxWhisker;
 
     @OneToOne
     @JoinColumn(name = "enacted_id")
@@ -22,10 +24,10 @@ public class State {
     private List<Districting> districtings;
 
     public State() {}
-    public State(int id, String name, String center) {
+    public State(int id, String name, int[] center) {
         this.id = id;
         this.name = name;
-        this.center = center;
+        //this.center = center;
     }
 
     public int getId() {
