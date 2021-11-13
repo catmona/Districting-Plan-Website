@@ -1,7 +1,5 @@
 
-// Importing combination
 import React, { Component } from 'react';
-// If you are using ES6, then
 import EnhancedTable from 'EnhancedTable.js';
 import VerticalTabs from './VerticalTab';
 import CustomizedTables from './StateTable';
@@ -14,7 +12,6 @@ class Statistics extends Component {
             isLoaded: false,
             stateName: props.stateName.toLowerCase(),
             stateData: null
-
         };
     }
     componentDidMount() {
@@ -39,15 +36,11 @@ class Statistics extends Component {
 
     render() {
         return <div>
-            {/* <button onClick = {() => {console.log(this.state.stateName)}}> </button> */}
-
             {this.state.isLoaded ? (this.state.stateData ? <div>
                 <CustomizedTables /> 
                 <VerticalTabs stateData={this.state.stateData} />
                 <EnhancedTable stateData={this.state.stateData} />
             </div> : "") : <Box className = 'loading-container'><CircularProgress className = 'loading-icon'/></Box>}
-
-
         </div>
     }
 }
