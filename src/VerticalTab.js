@@ -49,11 +49,10 @@ export default function VerticalTabs(props) {
 
     const bgcolor = "#1f1f1f";
     const bgcolor2 = "#161616";
-    //let partyData =  props.stateData.map((x) => {return [x['id'], x['democrat'], x['republican']]});;
     let partyData = [['District', 'Democratic Party', 'Republican Party']]
     partyData.push(...props.stateData.map((x) => { return [x['id'] + "", x['democrat'], x['republican']] }));
     let demographicData = [['District', 'Hispanic or Latino', 'African American', 'Asian']];
-    demographicData.push(...props.stateData.map((x) => { return "" + [x['id'], x['hispanic'], x['africanamerican'], x['asianamerican']] }));
+    demographicData.push(...props.stateData.map((x) => { return [x['id'] + "", x['hispanic'], x['africanamerican'], x['asianamerican']] }));
     return (
         <Box
             sx={{ flexGrow: 1, bgcolor: bgcolor2, display: 'flex', height: 325 }}
@@ -127,19 +126,7 @@ export default function VerticalTabs(props) {
                     height={'300px'}
                     chartType="ColumnChart"
                     loader={<div>Loading Chart</div>}
-                    data={[
-                        ['District', 'Hispanic or Latino', 'African American', 'Asian'],
-                        ['1', 76815, 12178, 102923],
-                        ['2', 84560, 25095, 72330],
-                        ['3', 77109, 12360, 24586],
-                        ['4', 291924, 10104, 10032],
-                        ['5', 50208, 12783, 18104],
-                        ['6', 58095, 29054, 27394],
-                        ['7', 66032, 78240, 119852],
-                        ['8', 92771, 41038, 73610],
-                        ['9', 97137, 41038, 179828],
-                        ['10', 97072, 49594, 56308],
-                    ]}
+                    data={demographicData}
 
                     options={{
                         // Material design options
