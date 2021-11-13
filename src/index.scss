@@ -102,8 +102,11 @@ h3 {
 .nav-tabs {
     background-color: $bgColor;
 }
-.nav-link, .nav-link:focus, .nav-link:hover {
-    color: whitesmoke;       
+.nav-link, .nav-link:focus, .nav-link:hover, .nav-link:active {
+    color: $textColor;       
+}
+.nav-link.active {
+    color: black !important;
 }
 .instructions-container {
     height: 50em;
@@ -160,6 +163,10 @@ h3 {
 }
 .custom-popover {
     z-index: 10;
+    
+    .popover-header {
+        color: black !important;
+    }
 }
 .districting-labels {
     display: flex;
@@ -188,7 +195,7 @@ h3 {
     flex-direction: column;
 }
 .white-icon{
-    color:white;
+    color: white;
 }
 .button-submit{
     background-color: $fgColor !important;
@@ -200,10 +207,13 @@ h3 {
     width: 150px;
 }
 .MuiDataGrid-iconButtonContainer {
-    color:white !important;
+    color: white !important;
+}
+.MuiSvgIcon-fontSizeSmall {
+    color: white;
 }
 .MuiSvgIcon-root{
-    color:white !important;
+    color: white;
 }
 /* #endregion */
 

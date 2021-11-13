@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, {useEffect, useState } from 'react';
 import { styled } from '@mui/material/styles';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -31,15 +31,17 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
     },
 }));
 
-function createData(name, calories, fat, carbs, protein) {
-    return { name, calories, fat, carbs, protein };
-}
-
-const rows = [
-    createData('150,000', 159, 6.0, 24, 4.0),
-];
-
+//TODO get data from server
 export default function CustomizedTables() {
+    useEffect(() => {
+        document.getElementById("cellPopEquality").textContent = 0.05;
+        document.getElementById("cellDevAverage").textContent = 0.5;
+        document.getElementById("cellDevEnacted").textContent = 0.5;
+        document.getElementById("cellCompactness").textContent = 0.5;
+        document.getElementById("cellFairness").textContent = 0.5;
+    });
+
+    //TODO insert formulas 
     return (
         <TableContainer component={Paper} className="kosta-test">
             <Table aria-label="customized table">
@@ -78,18 +80,16 @@ export default function CustomizedTables() {
                     </TableRow>
                 </TableHead>
                 <TableBody id="district-tablebody">
-                    {rows.map((row) => (
-                        <StyledTableRow key={row.name}>
-                            <StyledTableCell align='center' component="th" scope="row">
+                        <StyledTableRow>
+                            <StyledTableCell id="cellPopEquality" align='center' component="th" scope="row">
                                 {0.2}
                             </StyledTableCell>
-                            <StyledTableCell align="center">{0.05}</StyledTableCell>
-                            <StyledTableCell align="center">{0.1}</StyledTableCell>
-                            <StyledTableCell align="center">{0.8}</StyledTableCell>
-                            <StyledTableCell align="center">{0.5}</StyledTableCell>
+                            <StyledTableCell id="cellDevAverage" align="center">{0.05}</StyledTableCell>
+                            <StyledTableCell id="cellDevEnacted" align="center">{0.1}</StyledTableCell>
+                            <StyledTableCell id="cellCompactness" align="center">{0.8}</StyledTableCell>
+                            <StyledTableCell id="cellFairness" align="center">{0.5}</StyledTableCell>
                         </StyledTableRow>
-                    ))}
-                </TableBody>
+                    </TableBody>
             </Table>
         </TableContainer>
     );
