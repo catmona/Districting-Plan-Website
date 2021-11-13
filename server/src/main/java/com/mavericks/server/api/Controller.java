@@ -69,7 +69,7 @@ public class Controller {
     @PostMapping("algorithmlimits")
     public long handleLimits(@RequestParam("minPopulationEquality") double minPopulationEquality,
                              @RequestParam("minCompactness") double minCompactness){
-        return 0;
+        return handler.setLimits(minPopulationEquality,minCompactness);
     }
 
     @GetMapping(value = "algorithm")

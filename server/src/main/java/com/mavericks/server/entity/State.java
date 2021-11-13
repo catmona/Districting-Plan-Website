@@ -12,7 +12,8 @@ public class State {
 
     private String name;
 
-    private String center;
+    @Transient
+    private Point center;
    // private int[] center;
     //private BoxWhisker boxWhisker;
 
@@ -24,10 +25,10 @@ public class State {
     private List<Districting> districtings;
 
     public State() {}
-    public State(int id, String name, int[] center) {
+    public State(int id, String name, Point center) {
         this.id = id;
         this.name = name;
-        //this.center = center;
+        this.center = center;
     }
 
     public int getId() {

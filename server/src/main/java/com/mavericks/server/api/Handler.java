@@ -1,5 +1,6 @@
 package com.mavericks.server.api;
 
+import com.mavericks.server.Algorithm;
 import com.mavericks.server.entity.PopulationMeasure;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -42,9 +43,18 @@ public class Handler {
         return new Hashtable<>();
     }
 
-
+    /**
+     * Sets the algorithm constraints
+     * @param minPopulationEquality deviation from ideal population
+     * @param minCompactness the geometric compactness computed by polsby popper
+     * @return the thread id
+     */
     public long setLimits(double minPopulationEquality, double minCompactness){
-        return 0;
+        Algorithm alg = new Algorithm(minPopulationEquality,minCompactness,100000);
+        Thread t = new Thread(alg);
+        Object[] pair={t,alg};
+        jobs.put(t.getId(),pair);
+        return t.getId();
     }
 
     public Map<String,Object> startAlgorithm(long threadId){

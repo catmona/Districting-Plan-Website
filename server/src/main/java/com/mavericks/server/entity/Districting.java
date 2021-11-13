@@ -1,6 +1,7 @@
 package com.mavericks.server.entity;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "Districtings")
@@ -10,6 +11,9 @@ public class Districting {
     private int id;
 
     private String test;
+
+    @Transient
+    private List<District> districts;
 
     public Districting() {}
     public Districting(int id, String testValue) {
