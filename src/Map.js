@@ -138,19 +138,20 @@ function Map(props) {
             "maxzoom": zoomThreshold,
             "layout": {},
             "paint": {
-                "fill-color": districtColors[1],
+                "fill-color": '#4285F4',
                 "fill-opacity": 0.5,
             }
         });
 
         //set state by clicking on its outline
         map.current.on('click', 'State-Outline-Layer', (e) => {
-            props.setStateName(e.features[0].properties.NAME)
+            props.setStateName(e.features[0].properties.NAME);
         });
 
         //change cursor to pointer when hovering a state outline
         map.current.on('mouseenter', 'State-Outline-Layer', () => {
             map.current.getCanvas().style.cursor = 'pointer';
+            
         });
          //change cursor back when not hovering a state outline
          map.current.on('mouseleave', 'State-Outline-Layer', () => {

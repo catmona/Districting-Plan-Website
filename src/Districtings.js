@@ -5,10 +5,10 @@ import { Col } from 'react-bootstrap';
 import { Popover } from 'react-bootstrap';
 import { OverlayTrigger } from 'react-bootstrap';
 
-function districtingPopover(props) {
+function DistrictingPopover(props) {
     const pop = (
         <Popover id="popover-basic" className="custom-popover">
-            <Popover.Header as="h3">Redisticting Plan {props.num}</Popover.Header>
+            <Popover.Header as="h3">Districting Plan {props.num}</Popover.Header>
                 <Popover.Body>
                     <em style={{fontSize: 13}}>This districting was chosen for it's high political fairness.</em><br /><br />
                     <div className='districting-labels'><b>Population Equality: </b> 0.2<br /></div>
@@ -52,34 +52,34 @@ function districtings(props) {
     return(
         <Container id="districtings" className="scrollbar scrollbar-primary fluid">
             <Row>
-                <Col xs={3} id="districting-img-1"><districtingPopover num={1}/></Col>
-                <Col xs={3} id="districting-img-2"><districtingPopover num={2}/></Col>
-                <Col xs={3} id="districting-img-3"><districtingPopover num={3}/></Col>
-                <Col xs={3} id="districting-img-4"><districtingPopover num={4}/></Col>
+                <Col xs={3} id="districting-img-1"><DistrictingPopover num={1}/></Col>
+                <Col xs={3} id="districting-img-2"><DistrictingPopover num={2}/></Col>
+                <Col xs={3} id="districting-img-3"><DistrictingPopover num={3}/></Col>
+                <Col xs={3} id="districting-img-4"><DistrictingPopover num={4}/></Col>
             </Row>
             <Row>
-                <Col xs={3} id="districting-img-5"><districtingPopover num={5}/></Col>
-                <Col xs={3} id="districting-img-6"><districtingPopover num={6}/></Col>
-                <Col xs={3} id="districting-img-7"><districtingPopover num={7}/></Col>
-                <Col xs={3} id="districting-img-8"><districtingPopover num={8}/></Col>
+                <Col xs={3} id="districting-img-5"><DistrictingPopover num={5}/></Col>
+                <Col xs={3} id="districting-img-6"><DistrictingPopover num={6}/></Col>
+                <Col xs={3} id="districting-img-7"><DistrictingPopover num={7}/></Col>
+                <Col xs={3} id="districting-img-8"><DistrictingPopover num={8}/></Col>
             </Row>
             <Row>
-                <Col xs={3} id="districting-img-9"><districtingPopover num={9}/></Col>
-                <Col xs={3} id="districting-img-10"><districtingPopover num={10}/></Col>
-                <Col xs={3} id="districting-img-11"><districtingPopover num={11}/></Col>
-                <Col xs={3} id="districting-img-12"><districtingPopover num={12}/></Col>
+                <Col xs={3} id="districting-img-9"><DistrictingPopover num={9}/></Col>
+                <Col xs={3} id="districting-img-10"><DistrictingPopover num={10}/></Col>
+                <Col xs={3} id="districting-img-11"><DistrictingPopover num={11}/></Col>
+                <Col xs={3} id="districting-img-12"><DistrictingPopover num={12}/></Col>
             </Row>
             <Row>
-                <Col xs={3} id="districting-img-13"><districtingPopover num={13}/></Col>
-                <Col xs={3} id="districting-img-14"><districtingPopover num={14}/></Col>
-                <Col xs={3} id="districting-img-15"><districtingPopover num={15}/></Col>
-                <Col xs={3} id="districting-img-16"><districtingPopover num={16}/></Col>
+                <Col xs={3} id="districting-img-13"><DistrictingPopover num={13}/></Col>
+                <Col xs={3} id="districting-img-14"><DistrictingPopover num={14}/></Col>
+                <Col xs={3} id="districting-img-15"><DistrictingPopover num={15}/></Col>
+                <Col xs={3} id="districting-img-16"><DistrictingPopover num={16}/></Col>
             </Row>
             <Row>
-                <Col xs={3} id="districting-img-17"><districtingPopover num={17}/></Col>
-                <Col xs={3} id="districting-img-18"><districtingPopover num={18}/></Col>
-                <Col xs={3} id="districting-img-19"><districtingPopover num={19}/></Col>
-                <Col xs={3} id="districting-img-20"><districtingPopover num={20}/></Col>
+                <Col xs={3} id="districting-img-17"><DistrictingPopover num={17}/></Col>
+                <Col xs={3} id="districting-img-18"><DistrictingPopover num={18}/></Col>
+                <Col xs={3} id="districting-img-19"><DistrictingPopover num={19}/></Col>
+                <Col xs={3} id="districting-img-20"><DistrictingPopover num={20}/></Col>
             </Row>
         </Container>
     )
