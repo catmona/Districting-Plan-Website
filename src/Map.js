@@ -7,8 +7,6 @@ mapboxgl.accessToken = 'pk.eyJ1IjoiZ29sZHlmbGFrZXMiLCJhIjoiY2t0ZGtrNHhiMDB5MjJxc
 
 // constants for styling districts on map
 const districtColors = randomColor({count: 10, luminosity: 'bright', seed: 'mavericks'});
-//const districtColors = ['#d3a6e0', '#ffffff', '#ffffff', '#ffffff', '#ffffff', '#ffffff', '#ffffff', '#ffffff', '#ffffff', '#ffffff' ];
-//console.log(districtColors);
 const white = '#FFFFFF'; // white
 const zoomThreshold = 4;
 

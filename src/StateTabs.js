@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Container, Tab, Tabs } from 'react-bootstrap';
-import Redistrictings from './Redistrictings';
+import Districtings from './Districtings';
 import Statistics from 'Statistics.js';
 
 function StateTabs(props) {
@@ -26,7 +26,7 @@ function StateTabs(props) {
                     {(props.stateName==='Arkansas')?<Statistics stateName = {props.stateName}/>:""}
                 </Tab>
                 <Tab disabled={!stateSelected} eventKey="random-districts" title="Districtings">
-                        <Redistrictings stateName={props.stateName} districtingPlan={props.districtingPlan} setDistrictingPlan={props.setDistrictingPlan} />
+                        <Districtings stateName={props.stateName} districtingPlan={props.districtingPlan} setDistrictingPlan={props.setDistrictingPlan} />
                 </Tab>
             </Tabs>
             <div hidden={stateSelected} className="instructions-container">
