@@ -1,14 +1,9 @@
 package com.mavericks.server.api;
 
-import com.mavericks.server.Algorithm;
 import com.mavericks.server.dto.StateDTO;
-import com.mavericks.server.entity.PopulationMeasure;
 import com.mavericks.server.entity.State;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.servlet.http.HttpSession;
 import java.util.Hashtable;
@@ -53,11 +48,12 @@ public class Handler {
      * @return the thread id
      */
     public long setLimits(double minPopulationEquality, double minCompactness){
-        Algorithm alg = new Algorithm(minPopulationEquality,minCompactness,100000);
-        Thread t = new Thread(alg);
-        Object[] pair={t,alg};
-        jobs.put(t.getId(),pair);
-        return t.getId();
+//        Algorithm alg = new Algorithm(minPopulationEquality,minCompactness,100000);
+//        Thread t = new Thread(alg);
+//        Object[] pair={t,alg};
+//        jobs.put(t.getId(),pair);
+//        return t.getId();
+        return 0;
     }
 
     public Map<String,Object> startAlgorithm(long threadId){

@@ -73,7 +73,14 @@
 			<scope>provided</scope>
 		</dependency>
 
-<!--		start websocket dependencies-->
+		<dependency>
+			<groupId>org.locationtech.jts.io</groupId>
+			<artifactId>jts-io-common</artifactId>
+			<version>1.18.2</version>
+		</dependency>
+
+
+		<!--		start websocket dependencies-->
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-websocket</artifactId>
