@@ -30,8 +30,8 @@ function RPlanPopover(props) {
 
 function Redistrictings(props) {
     let stateName = props.stateName;
-    let rPlan = props.rPlan;
-    let setRPlan = props.setRPlan;
+    let districtingPlan = props.districtingPlan;
+    let setDistrictingPlan = props.setDistrictingPlan;
     const NUM_REDISTRICTINGS = 20; //changeable to an array later, or fetched from a json or ini file
 
     useEffect(() => {
@@ -42,7 +42,7 @@ function Redistrictings(props) {
                 var col = document.getElementById("redistricting-img-" + (i+1));
                 var img = col.firstChild;
                 if(img) {
-                    img.onclick = setRPlan(stateName + "-" + (i+1));
+                    img.onclick = setDistrictingPlan(stateName + "-" + (i+1));
                     img.src = require("/public/assets/thumbnails/" + stateName + "/redistricting-img-" + (i+1) + ".png").default; //webpack bs that I hate
                 }
             }

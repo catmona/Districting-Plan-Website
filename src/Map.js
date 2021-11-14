@@ -8,73 +8,27 @@ mapboxgl.accessToken = 'pk.eyJ1IjoiZ29sZHlmbGFrZXMiLCJhIjoiY2t0ZGtrNHhiMDB5MjJxc
 // constants for styling districts on map
 const districtColors = randomColor({count: 10, luminosity: 'bright', seed: 'mavericks'});
 //const districtColors = ['#d3a6e0', '#ffffff', '#ffffff', '#ffffff', '#ffffff', '#ffffff', '#ffffff', '#ffffff', '#ffffff', '#ffffff' ];
-console.log(districtColors);
+//console.log(districtColors);
 const white = '#FFFFFF'; // white
 const zoomThreshold = 4;
 
 function Map(props) {
     const mapContainer = useRef(null);
     const map = useRef(null);
-    const [lng, setLng] = useState(-95.9);
+    const [lng, setLng] = useState(-98.9);
     const [lat, setLat] = useState(40.35);
-    const [zoom, setZoom] = useState(3);
+    const [zoom, setZoom] = useState(3.6);
+    const [bounds, setBounds] = useState([[-138.42, 12.22], [-56.80, 57.27]])
     let stateName = props.stateName;
 
     useEffect(() => {
         if (map.current) {
             /* Get geoJson on demand */
-            if (stateName) { // user selected a state
-                let layer = map.current.getSource(stateName + "-district-source");
-                if (!layer) { // map does not have the district boundaries
-                    let url = "http://localhost:8080/api" + "/districts?state=" + stateName + "&file=State&year=2012";
-                    fetch(url)
-                        .then(res => res.json())
-                        .then(
-                            (result) => {
-                                addDistrictGeoJSON(map.current, stateName, result);
-                            },
-                            (error) => {
-                                console.log(error); // failed to fetch geojson
-                            }
-                        );
-                }
-            }
+            getGeojson(stateName);
 
-            switch(stateName) {
-                case "Washington": 
-                    console.log("w")
-                    setLat(47.75);
-                    setLng(-120.74);
-                    setZoom(6);
-                    map.current.flyTo({
-                        center: [lng, lat],
-                        zoom: zoom
-                    });
-                    break;
+            //focus map on selected state
+            flyToState(stateName);
 
-                case "Nevada": 
-                    console.log("n")
-                    setLat(38.80);
-                    setLng(-116.42);
-                    setZoom(6);
-                    map.current.flyTo({
-                        center: [lng, lat],
-                        zoom: zoom
-                    });
-                    break;
-
-                case "Arkansas": 
-                    console.log("a")
-                    setLat(35.20);
-                    setLng(-91.83);
-                    setZoom(6);
-                    map.current.flyTo({
-                        center: [lng, lat],
-                        zoom: zoom
-                    });
-                    break;
-            }
-            console.log("flying to " + stateName)
         } // initialize map only once
         else {
             map.current = new mapboxgl.Map({
@@ -82,10 +36,12 @@ function Map(props) {
                 style: 'mapbox://styles/goldyflakes/cktdkm1j51fmq18qj54fippsz',
                 center: [lng, lat],
                 zoom: zoom,
-                interactive: false
+                maxBounds: bounds,
                 });
 
             map.current.on("load", function() {
+                setLng(map.current.getCenter().lng.toFixed(4));
+                setLat(map.current.getCenter().lat.toFixed(4));
                 // await style loading before loading district layers
                 // removed for now since individual state enacted districts are now loaded asynchronously.
                 
@@ -108,10 +64,91 @@ function Map(props) {
             });
         }
     });
-  
+
+    /** this breaks everything. https://docs.mapbox.com/help/tutorials/use-mapbox-gl-js-with-react/ claims
+    *   that it is necessary in order to store location data after the map has been interacted with. If
+    *   this doesn't work then we can't have dynamic bounds, however it conflicts with flyToState() by 
+    *   constantly setting the lat and lng in both flyToState() and in this function, crashing the app.
+    */
+    // useEffect(() => {
+    //     if(!map.current) return; //wait for map to initialize
+
+    //     map.current.on('move', ({ originalEvent }) => {
+    //         if (originalEvent) {
+    //           map.current.fire('usermove');
+    //         } else {
+    //           map.current.fire('flymove');
+    //         }
+    //       });
+
+    //     map.current.on('usermove', () => {
+    //         console.log(map.current.getCenter().lng.toFixed(4));
+    //         console.log(map.current.getCenter().lat.toFixed(4));
+    //         console.log(map.current.getZoom().toFixed(2));
+    //     })
+    //     map.current.on('flymove', () => console.log("flying"))
+    // });
+
+    function getGeojson(stateName) {
+        if (stateName) { // user selected a state
+            let layer = map.current.getSource(stateName + "-district-source");
+            if (!layer) { // map does not have the district boundaries
+                let url = "http://localhost:8080/api" + "/districts?state=" + stateName + "&file=State&year=2012";
+                fetch(url)
+                    .then(res => res.json())
+                    .then(
+                        (result) => {
+                            addDistrictGeoJSON(map.current, stateName, result);
+                        },
+                        (error) => {
+                            console.log(error); // failed to fetch geojson
+                        }
+                    );
+            }
+        }
+    }
+
+    function flyToState(stateName) {
+        switch(stateName) {
+            case "Washington": 
+                setLat(47.75);
+                setLng(-120.74);
+                setZoom(6);
+                map.current.flyTo({
+                    center: [lng, lat],
+                    zoom: zoom
+                });
+                break;
+    
+            case "Nevada": 
+                setLat(38.80);
+                setLng(-116.42);
+                setZoom(6);
+                map.current.flyTo({
+                    center: [lng, lat],
+                    zoom: zoom
+                });
+                break;
+    
+            case "Arkansas": 
+                setLat(35.20);
+                setLng(-91.83);
+                //setBounds([-96.83, 30.20], [-86.83, 40.20])
+                setZoom(6);
+                map.current.flyTo({
+                    center: [lng, lat],
+                    zoom: zoom,
+                });
+                //console.log(map.current.getMaxBounds())
+                break;
+        }
+    
+    }
+
     return (
         <div className = "map-wrapper">
             <div className = "map-fade" />
+            
             <div ref={mapContainer} className = "map-container" />
         </div>
     );

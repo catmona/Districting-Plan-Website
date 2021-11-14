@@ -52,6 +52,7 @@ h3 {
 }
 .map-fade {
     position: absolute;
+    pointer-events: none;
     top: 0;
     bottom: 0;
     width: 100%;

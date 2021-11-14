@@ -26,7 +26,7 @@ function StateTabs(props) {
                     {(props.stateName==='Arkansas')?<Statistics stateName = {props.stateName}/>:""}
                 </Tab>
                 <Tab disabled={!stateSelected} eventKey="random-districts" title="Districtings">
-                        <Redistrictings stateName={props.stateName} rPlan={props.rPlan} setRPlan={props.setRPlan} />
+                        <Redistrictings stateName={props.stateName} districtingPlan={props.districtingPlan} setDistrictingPlan={props.setDistrictingPlan} />
                 </Tab>
             </Tabs>
             <div hidden={stateSelected} className="instructions-container">
