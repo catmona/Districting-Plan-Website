@@ -3,19 +3,48 @@ package com.mavericks.server.entity;
 import com.mavericks.server.entity.Demographic;
 import com.mavericks.server.entity.PopulationMeasure;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Population {
 
-    // Demographics[PopulationMeasure[]]
+    // PopulationMeasure[Demographics[]]
     private List<List<Integer>> populations;
 
-    public Integer getPopulations(PopulationMeasure popMeasure, Demographic demg) {
-        return populations.get(popMeasure.ordinal()).get(demg.ordinal());
+    public Population() {
+        // instantiate empty populations var
+        for (int i = 0; i < PopulationMeasure.values().length; i++) {
+            List<Integer> popMeasure = new ArrayList<Integer>();
+            for (int j = 0; j < Demographic.values().length; j++) {
+                popMeasure.add(j, 0);
+            }
+            populations.set(i, popMeasure);
+        }
+
     }
 
-    public List<Integer> getDemographic(PopulationMeasure popMeasure){
-        return populations.get(popMeasure.ordinal());
+    public Integer getPopulation(PopulationMeasure popMeasure, Demographic demo) {
+        return populations.get(popMeasure.ordinal()).get(demo.ordinal());
+    }
+
+    public void setPopulation(PopulationMeasure popMeasure, Demographic demo, int value) {
+        populations.get(popMeasure.ordinal()).set(demo.ordinal(), value);
+    }
+
+    public static Population combinePopulations(Population p1, Population p2) {
+        Population sumPop = new Population();
+        PopulationMeasure popMeasureEnum;
+        Demographic demoEnum;
+        for (int i = 0; i < PopulationMeasure.values().length; i++) {
+            for (int j = 0; j < Demographic.values().length; j++) {
+                popMeasureEnum = PopulationMeasure.values()[j];
+                demoEnum = Demographic.values()[i];
+                sumPop.setPopulation(popMeasureEnum, demoEnum,
+                        p1.getPopulation(popMeasureEnum, demoEnum) + p2.getPopulation(popMeasureEnum, demoEnum));
+            }
+        }
+
+        return sumPop;
     }
 
 }
