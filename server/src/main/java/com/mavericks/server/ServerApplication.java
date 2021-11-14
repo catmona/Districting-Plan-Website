@@ -58,7 +58,7 @@ public class ServerApplication {
 	 */
 	@CrossOrigin(origins = "http://localhost:8081")
 	@GetMapping(value="districts", produces = MediaType.APPLICATION_JSON_VALUE)
-	public GeoJSON getDistricts(@RequestParam("state")String state,@RequestParam("file")String file,
+	public String getDistricts(@RequestParam("state")String state,@RequestParam("file")String file,
 							   @RequestParam(value = "year",defaultValue = "2012")Integer year){
 		//construct the filepath
 		String path="data/";
@@ -82,12 +82,13 @@ public class ServerApplication {
 			InputStream in = new ClassPathResource(path).getInputStream();
 			String data = StreamUtils.copyToString(in, Charset.defaultCharset());
 			in.close();
+			/**
 			FeatureCollection featureCollection = (FeatureCollection) GeoJSONFactory.create(data);
 			GeoJSONReader reader = new GeoJSONReader();
 			Feature[]fs=featureCollection.getFeatures();
 			List<Feature> collect=Arrays.asList(fs);
-			GeoJSON json= new GeoJSONWriter().write(collect);
-			return json;
+			GeoJSON json= new GeoJSONWriter().write(collect);**/
+			return data;
 		}catch (IOException e){
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"error reading file",e);
 		}
