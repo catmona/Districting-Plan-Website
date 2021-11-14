@@ -7,4 +7,5 @@ public class CensusBlock {
     private List<CensusBlock> neighbors;
 
 
+
 }
