@@ -72,7 +72,7 @@ public class State {
         this.districtings = districtings;
     }
 
-    public StateDTO toDTO(){
+    public StateDTO makeDTO(){
         //dummy value; replace later
         return new StateDTO();
     }
