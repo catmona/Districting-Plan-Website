@@ -1,5 +1,7 @@
 package com.mavericks.server.dto;
 
+import com.mavericks.server.entity.Point;
+import com.mavericks.server.entity.Population;
 import org.locationtech.jts.geom.Geometry;
 
 public class StateDTO {

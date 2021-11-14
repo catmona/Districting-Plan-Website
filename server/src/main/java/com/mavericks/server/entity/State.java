@@ -1,5 +1,4 @@
 package com.mavericks.server.entity;
-import com.mavericks.server.dto.Population;
 import com.mavericks.server.dto.StateDTO;
 
 import java.util.List;

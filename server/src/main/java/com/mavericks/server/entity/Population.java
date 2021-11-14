@@ -1,4 +1,4 @@
-package com.mavericks.server.dto;
+package com.mavericks.server.entity;
 
 import com.mavericks.server.entity.Demographic;
 import com.mavericks.server.entity.PopulationMeasure;

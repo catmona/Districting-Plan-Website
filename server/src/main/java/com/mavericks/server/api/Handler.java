@@ -1,10 +1,7 @@
 package com.mavericks.server.api;
 
-import com.mavericks.server.dto.Point;
 import com.mavericks.server.dto.StateDTO;
-import com.mavericks.server.entity.Districting;
 import com.mavericks.server.entity.State;
-import com.mavericks.server.service.DistrictingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

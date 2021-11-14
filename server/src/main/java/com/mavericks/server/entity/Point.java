@@ -1,4 +1,4 @@
-package com.mavericks.server.dto;
+package com.mavericks.server.entity;
 
 public class Point {
 
