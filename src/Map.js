@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useState } from 'react';
 import mapboxgl from '!mapbox-gl'; // eslint-disable-line import/no-webpack-loader-syntax
 import randomColor from 'randomcolor';
-import USADistricts from './data/us_state_outlines.geojson';
+import StateOutlineSource from './data/us_state_outlines.geojson';
 
 mapboxgl.accessToken = 'pk.eyJ1IjoiZ29sZHlmbGFrZXMiLCJhIjoiY2t0ZGtrNHhiMDB5MjJxcWN6bWZ5ZGx3byJ9.IMzQecUSVBFlT4rUycdG3Q';
 
@@ -40,27 +40,10 @@ function Map(props) {
                 });
 
             map.current.on("load", function() {
-                setLng(map.current.getCenter().lng.toFixed(4));
-                setLat(map.current.getCenter().lat.toFixed(4));
-                // await style loading before loading district layers
-                // removed for now since individual state enacted districts are now loaded asynchronously.
-                
+
                 // load the geojson for the state outlines
-                map.current.addSource("USA-source", {
-                    "type": "geojson",
-                    "data": USADistricts
-                });
-                map.current.addLayer({
-                    "id": "USA-layer",
-                    "type": "fill",
-                    "source": "USA-source",
-                    "maxzoom": zoomThreshold,
-                    "layout": {},
-                    "paint": {
-                        "fill-color": districtColors[1],
-                        "fill-opacity": 0.5,
-                    }
-                });
+                getStateOutlines()
+                
             });
         }
     });
@@ -145,6 +128,38 @@ function Map(props) {
     
     }
 
+    function getStateOutlines() {
+        map.current.addSource("State-Outline-Source", {
+            "type": "geojson",
+            "data": StateOutlineSource
+        });
+        map.current.addLayer({
+            "id": "State-Outline-Layer",
+            "type": "fill",
+            "source": "State-Outline-Source",
+            "maxzoom": zoomThreshold,
+            "layout": {},
+            "paint": {
+                "fill-color": districtColors[1],
+                "fill-opacity": 0.5,
+            }
+        });
+
+        //set state by clicking on its outline
+        map.current.on('click', 'State-Outline-Layer', (e) => {
+            props.setStateName(e.features[0].properties.NAME)
+        });
+
+        //change cursor to pointer when hovering a state outline
+        map.current.on('mouseenter', 'State-Outline-Layer', () => {
+            map.current.getCanvas().style.cursor = 'pointer';
+        });
+         //change cursor back when not hovering a state outline
+         map.current.on('mouseleave', 'State-Outline-Layer', () => {
+            map.current.getCanvas().style.cursor = '';
+        });
+    }
+
     return (
         <div className = "map-wrapper">
             <div className = "map-fade" />
@@ -177,7 +192,7 @@ function addDistrictGeoJSON(map, sourceId, source) {
  * YOU PROBABLY MEAN TO CALL addDistrictGeoJSON().
  * Adds a district style layer to the given map source.
  * The districts should have a property called "District_Name"
- * denoting which # district it is in the state. This colors the
+ * denoting which # district it is in the state. This colors the--
  * district the designated color.
  * @param {*} map mapboxgl.Map object
  * @param {*} sourceId id of the source

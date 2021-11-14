@@ -21,7 +21,7 @@ function App() {
                 </Row>
                 </Col>
                 <Col>
-                    <Map stateName={stateName} />
+                    <Map stateName={stateName} setStateName={setStateName} />
                 </Col>
             </Row>
         </Container>
