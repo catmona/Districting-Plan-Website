@@ -1,6 +1,7 @@
 package com.mavericks.server.entity;
 
 import org.locationtech.jts.geom.Geometry;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.*;
 import java.util.List;
@@ -16,6 +17,12 @@ public class CensusBlock {
     private Precinct precinct;
     private Geometry geometry;
     private boolean isBorderBlock;
+
+    @OneToMany(mappedBy = "censusBlock", fetch = FetchType.LAZY)
+    private List<CensusBlockPopulation> censusBlockPopulations;
+
+    @Transient
+    private Population population;
 
     public CensusBlock() {}
 
@@ -56,6 +63,12 @@ public class CensusBlock {
 
     public void setBorderBlock(boolean borderBlock) {
         isBorderBlock = borderBlock;
+    }
+
+    public Population getPopulation() {
+        // get population by aggregating the populations
+        Population res = new Population();
+        return res;
     }
 
     @Override

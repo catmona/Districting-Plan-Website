@@ -21,6 +21,9 @@ public class State {
     @OneToMany(mappedBy = "state", fetch = FetchType.LAZY)
     private List<Districting> districtings;
 
+    @Transient
+    private Population population;
+
     public State() {}
 
     public State(String id, String name, int numberOfDistricts) {
@@ -69,6 +72,10 @@ public class State {
     }
     public void setDistrictings(List<Districting> districtings) {
         this.districtings = districtings;
+    }
+
+    public Population getPopulation() {
+        return getEnacted().getPopulation();
     }
 
     public StateDTO makeDTO(){

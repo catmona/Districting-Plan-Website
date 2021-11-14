@@ -1,6 +1,7 @@
 package com.mavericks.server.entity;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "Precincts")
@@ -11,6 +12,11 @@ public class Precinct {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "districtId")
     private District district;
+    @OneToMany(mappedBy = "precinct", fetch = FetchType.LAZY)
+    private List<CensusBlock> censusBlocks;
+
+    @Transient
+    private Population population;
 
     public Precinct() {}
 
@@ -33,5 +39,14 @@ public class Precinct {
 
     public void setDistrict(District district) {
         this.district = district;
+    }
+
+    public Population getPopulation() {
+        // get population by aggregating the plan's District populations
+        Population res = new Population();
+        for (CensusBlock cb: censusBlocks) {
+            res.combinePopulations(cb.getPopulation());
+        }
+        return res;
     }
 }

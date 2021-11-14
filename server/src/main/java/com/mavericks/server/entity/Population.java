@@ -31,14 +31,28 @@ public class Population {
         populations.get(popMeasure.ordinal()).set(demo.ordinal(), value);
     }
 
+    public void combinePopulations(Population p1) {
+        PopulationMeasure popMeasureEnum;
+        Demographic demoEnum;
+        for (int i = 0; i < PopulationMeasure.values().length; i++) {
+            for (int j = 0; j < Demographic.values().length; j++) {
+                popMeasureEnum = PopulationMeasure.values()[i];
+                demoEnum = Demographic.values()[j];
+                this.setPopulation(popMeasureEnum, demoEnum,
+                        this.getPopulation(popMeasureEnum, demoEnum) + p1.getPopulation(popMeasureEnum, demoEnum));
+            }
+        }
+    }
+
+    // made this in case
     public static Population combinePopulations(Population p1, Population p2) {
         Population sumPop = new Population();
         PopulationMeasure popMeasureEnum;
         Demographic demoEnum;
         for (int i = 0; i < PopulationMeasure.values().length; i++) {
             for (int j = 0; j < Demographic.values().length; j++) {
-                popMeasureEnum = PopulationMeasure.values()[j];
-                demoEnum = Demographic.values()[i];
+                popMeasureEnum = PopulationMeasure.values()[i];
+                demoEnum = Demographic.values()[j];
                 sumPop.setPopulation(popMeasureEnum, demoEnum,
                         p1.getPopulation(popMeasureEnum, demoEnum) + p2.getPopulation(popMeasureEnum, demoEnum));
             }

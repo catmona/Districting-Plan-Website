@@ -23,6 +23,9 @@ public class Districting {
     @OneToMany(mappedBy = "districtingPlan", fetch = FetchType.LAZY)
     private List<District> districts;
 
+    @Transient
+    private Population population;
+
     public Districting() {}
 
     public Districting(State state, Geometry geometry) {
@@ -88,6 +91,15 @@ public class Districting {
 
     public District getRandDistrict(){
         return districts.get((int)(Math.random()*districts.size()));
+    }
+
+    public Population getPopulation() {
+        // get population by aggregating the plan's District populations
+        Population res = new Population();
+        for (District d: districts) {
+            res.combinePopulations(d.getPopulation());
+        }
+        return res;
     }
 
     @Override

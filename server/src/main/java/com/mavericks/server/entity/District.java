@@ -20,6 +20,8 @@ public class District {
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "DistrictNeighbors", joinColumns = {@JoinColumn(name = "districtId")}, inverseJoinColumns = {@JoinColumn(name = "neighborId")})
     private List<District> neighbors; // should be a Set or Hashset type to reduce overhead
+    @OneToMany(mappedBy = "district", fetch = FetchType.LAZY)
+    private List<Precinct> precincts;
 
     @Transient
     private List<CensusBlock> borderBlocks;
@@ -27,6 +29,9 @@ public class District {
     private List<CensusBlock> innerBlocks;
     @Transient
     private Measures measures;
+
+    @Transient
+    private Population population;
 
     public District() {}
 
@@ -70,6 +75,15 @@ public class District {
 
     public CensusBlock getRandCensusBlock(){
         return borderBlocks.get((int)(Math.random()*borderBlocks.size()));
+    }
+
+    public Population getPopulation() {
+        // get population by aggregating the plan's District populations
+        Population res = new Population();
+        for (Precinct p: precincts) {
+            res.combinePopulations(p.getPopulation());
+        }
+        return res;
     }
 
     public void removeCensusBlock(CensusBlock cb){

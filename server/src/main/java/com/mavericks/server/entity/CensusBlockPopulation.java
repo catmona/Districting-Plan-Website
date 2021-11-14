@@ -8,6 +8,8 @@ public class CensusBlockPopulation {
     @EmbeddedId
     private CBPopKey key;
 
+    private int value;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "censusBlockId", insertable = false, updatable = false)
     private CensusBlock censusBlock;
@@ -19,11 +21,19 @@ public class CensusBlockPopulation {
     private Demographic demographic;
 
     public CensusBlockPopulation() {}
-    public CensusBlockPopulation(CBPopKey key, CensusBlock censusBlock, PopulationMeasure populationMeasure, Demographic demographic) {
+
+    public CensusBlockPopulation(CBPopKey key, int value, CensusBlock censusBlock) {
         this.key = key;
+        this.value = value;
         this.censusBlock = censusBlock;
-        this.populationMeasure = populationMeasure;
-        this.demographic = demographic;
+    }
+
+    public int getValue() {
+        return value;
+    }
+
+    public void setValue(int value) {
+        this.value = value;
     }
 
     public CBPopKey getKey() {
