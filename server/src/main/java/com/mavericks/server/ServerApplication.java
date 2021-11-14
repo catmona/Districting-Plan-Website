@@ -1,5 +1,9 @@
 package com.mavericks.server;
 
+import com.mavericks.server.entity.Districting;
+import com.mavericks.server.entity.State;
+import com.mavericks.server.repository.DistrictingRepository;
+import com.mavericks.server.repository.StateRepository;
 import com.mavericks.server.service.DistrictingService;
 import org.locationtech.jts.geom.Geometry;
 import org.locationtech.jts.geom.GeometryCollection;
@@ -25,6 +29,7 @@ import org.wololo.jts2geojson.GeoJSONWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.Charset;
+import java.util.List;
 import java.util.Arrays;
 import java.util.List;
 
@@ -64,13 +69,13 @@ public class ServerApplication {
 		String path="data/";
 		switch (state) {
 			case "Arkansas":
-				path += (AR)+ "/" + year;
+				path += (AR) + "/" + year;
 				break;
 			case "Nevada":
 				path += (NV) + "/" + year;
 				break;
 			case "Washington":
-				path += (WA)+ "/" + year;
+				path += (WA) + "/" + year;
 				break;
 			default:
 				throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "invalid query params");

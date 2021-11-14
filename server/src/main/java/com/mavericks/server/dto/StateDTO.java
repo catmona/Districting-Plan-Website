@@ -1,7 +1,5 @@
 package com.mavericks.server.dto;
 
-import com.mavericks.server.entity.Point;
-import com.mavericks.server.entity.Population;
 import org.locationtech.jts.geom.Geometry;
 
 public class StateDTO {
@@ -22,4 +20,35 @@ public class StateDTO {
 
     }
 
+    public Integer getPopulation() {
+        return population;
+    }
+
+    public void setPopulation(Integer population) {
+        this.population = population;
+    }
+
+    public Geometry getGeometry() {
+        return geometry;
+    }
+
+    public void setGeometry(Geometry geometry) {
+        this.geometry = geometry;
+    }
+
+    public Point getCenter() {
+        return center;
+    }
+
+    public void setCenter(Point center) {
+        this.center = center;
+    }
+
+    public Population getDemographics() {
+        return demographics;
+    }
+
+    public void setDemographics(Population demographics) {
+        this.demographics = demographics;
+    }
 }

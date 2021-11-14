@@ -1,5 +1,7 @@
 package com.mavericks.server.entity;
 
+import org.locationtech.jts.geom.Geometry;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -8,44 +10,96 @@ import java.util.List;
 public class Districting {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private long id;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "stateId")
+    private State state;
+    private Geometry geometry;
+    private double populationEquality;
+    private double polsbyPopper;
+    private int numberOfOpportunity;
+    private String imageUrl; // used by SeaWulf districtings, is the preview image filepath
 
-    private String test;
-
-    @Transient
+    @OneToMany(mappedBy = "districtingPlan", fetch = FetchType.LAZY)
     private List<District> districts;
 
     public Districting() {}
-    public Districting(int id, String testValue) {
-        this.id = id;
-        this.test = testValue;
+
+    public Districting(State state, Geometry geometry) {
+        this.state = state;
+        this.geometry = geometry;
     }
 
     public long getId() {
         return id;
     }
-
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
-    public String getTest() {
-        return test;
+    public State getState() {
+        return state;
+    }
+    public void setState(State state) {
+        this.state = state;
     }
 
-    public void setTest(String test) {
-        this.test = test;
+    public Geometry getGeometry() {
+        return geometry;
+    }
+    public void setGeometry(Geometry geometry) {
+        this.geometry = geometry;
+    }
+
+    public double getPopulationEquality() {
+        return populationEquality;
+    }
+    public void setPopulationEquality(double populationEquality) {
+        this.populationEquality = populationEquality;
+    }
+
+    public double getPolsbyPopper() {
+        return polsbyPopper;
+    }
+    public void setPolsbyPopper(double polsbyPopper) {
+        this.polsbyPopper = polsbyPopper;
+    }
+
+    public int getNumberOfOpportunity() {
+        return numberOfOpportunity;
+    }
+    public void setNumberOfOpportunity(int numberOfOpportunity) {
+        this.numberOfOpportunity = numberOfOpportunity;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    public List<District> getDistricts() {
+        return districts;
+    }
+    public void setDistricts(List<District> districts) {
+        this.districts = districts;
+    }
+
+    public District getRandDistrict(){
+        return districts.get((int)(Math.random()*districts.size()));
     }
 
     @Override
     public String toString() {
         return "Districting{" +
                 "id=" + id +
-                ", test='" + test + '\'' +
+                ", state=" + state.getId() +
+                ", geometry=" + geometry.toString() +
+                ", populationEquality=" + populationEquality +
+                ", polsbyPopper=" + polsbyPopper +
+                ", numberOfOpportunity=" + numberOfOpportunity +
+                ", imageUrl='" + imageUrl + '\'' +
                 '}';
-    }
-
-    public District getRandDistrict(){
-        return districts.get((int)(Math.random()*districts.size()));
     }
 }
