@@ -5,7 +5,6 @@ import { Row, Nav, Sonnet } from 'react-bootstrap';
 import Map from './Map';
 import Topbar from './Topbar';
 import StateTabs from './StateTabs';
-import { propTypes } from 'react-bootstrap/esm/Image';
 
 function App() {
     const [stateName, setStateName] = useState("");
