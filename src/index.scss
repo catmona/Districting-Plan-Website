@@ -42,6 +42,14 @@ h3 {
     align-items: center;
     justify-content: center;
 }
+#left-app {
+    min-width: 50%;
+    max-width: 50%;
+}
+#right-app {
+    min-width: 50%;
+    max-width: 50%;
+}
 /* #endregion */
 
 /* #region map */
@@ -270,7 +278,8 @@ h3 {
     margin-top: -3%;
 }
 .vertical-tab-bar {
-    width: 200px;
+    min-width: 165px;
+    max-width: 165px;
 }
 #box-whisker-wrapper {
     display: flex;

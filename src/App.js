@@ -28,14 +28,14 @@ function App() {
     return (
         <Container fluid>
             <Row>
-                <Col>
-                <Row>
-                    <Topbar stateName={stateName} setStateName={setStateName} onSelect={stateSummaryCallback}/>
+                <Col id="left-app">
+                    <Row>
+                        <Topbar stateName={stateName} setStateName={setStateName} onSelect={stateSummaryCallback}/>
 
-                    <StateTabs stateName={stateName} districtingPlan={districtingPlan} districtingData={districtingData} setDistrictingPlan={setDistrictingPlan}></StateTabs>
-                </Row>
+                        <StateTabs stateName={stateName} districtingPlan={districtingPlan} districtingData={districtingData} setDistrictingPlan={setDistrictingPlan}></StateTabs>
+                    </Row>
                 </Col>
-                <Col>
+                <Col id="right-app">
                     <Map stateName={stateName} setStateName={setStateName} districtingData={districtingData} onSelect={stateSummaryCallback}/>
                 </Col>
             </Row>

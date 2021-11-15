@@ -28,6 +28,7 @@ function TabPanel(props) {
     );
 }
 import { Form } from 'react-bootstrap';
+import { ContactPageSharp } from '@mui/icons-material';
 
 TabPanel.propTypes = {
     children: PropTypes.node,
@@ -44,9 +45,21 @@ function a11yProps(index) {
 
 export default function VerticalTabs(props) {
     const [value, setValue] = React.useState(0);
+    const [boxWhiskerBasis, setBoxWhiskerBasis] = React.useState(null)
+    const [boxWhiskerEnacted, setBoxWhiskerEnacted] = React.useState(false)
+    const [boxWhiskerCurrent, setBoxWhiskerCurrent] = React.useState(false)
+    const [boxWhiskerEqualized, setBoxWhiskerEqualized] = React.useState(false)
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
+    };
+
+    const handleSubmit = (event) => {
+        event.preventDefault()
+        
+        fetch("http://localhost:8080/api2/getBoxWhisker?" )
+
+        //TODO somehow get the districting id
     };
 
     const bgcolor = "#1f1f1f";
@@ -215,19 +228,21 @@ export default function VerticalTabs(props) {
                         rootProps={{ 'data-testid': '2' }}
                     />
                     
-                    <Form id="box-whisker-right"> 
+                    <Form id="box-whisker-right" onSubmit={handleSubmit}> 
                         <div id="box-whisker-scrollable" className="scrollbar-primary">
                             <Form.Group>
                                 <Form.Check 
                                     type="checkbox" 
                                     classname="dark-checkbox" 
                                     id="boxwhisker-enacted" 
+                                    onChange={ (e) => setBoxWhiskerEnacted(e.target.checked) }
                                     label="Show enacted plan?" 
                                 />
                                 <Form.Check 
                                     type="checkbox" 
                                     classname="dark-checkbox" 
                                     id="boxwhisker-districting" 
+                                    onChange={ (e) => setBoxWhiskerCurrent(e.target.checked) }
                                     label="Show current districting plan?" 
                                     disabled //Enabled when a plan other than the enacted plan is selected
                                 />
@@ -235,6 +250,7 @@ export default function VerticalTabs(props) {
                                     type="checkbox" 
                                     classname="dark-checkbox" 
                                     id="boxwhisker-equalized" 
+                                    onChange={ (e) => setBoxWhiskerEqualized(e.target.checked) }
                                     label="Show equalized plan?" 
                                     disabled //Enabled when the user has run the equalize algorithm on current districting plan
                                 />
@@ -246,6 +262,7 @@ export default function VerticalTabs(props) {
                                     classname="dark-checkbox" 
                                     id="boxwhisker-basis-african" 
                                     name="boxwhisker-basis"
+                                    onChange={ () => setBoxWhiskerBasis("africanamerican") }
                                     label="Compare African American Population" 
                                 />
                                 <Form.Check 
@@ -253,6 +270,7 @@ export default function VerticalTabs(props) {
                                     classname="dark-checkbox" 
                                     id="boxwhisker-basis-hispanic" 
                                     name="boxwhisker-basis"
+                                    onChange={ () => setBoxWhiskerBasis("hispanic") }
                                     label="Compare Hispanic Population" 
                                 />
                                 <Form.Check 
@@ -260,6 +278,7 @@ export default function VerticalTabs(props) {
                                     classname="dark-checkbox" 
                                     id="boxwhisker-basis-white" 
                                     name="boxwhisker-basis"
+                                    onChange={ () => setBoxWhiskerBasis("asian") }
                                     label="Compare Asian Population" 
                                 />
                                 <Form.Check 
@@ -267,6 +286,7 @@ export default function VerticalTabs(props) {
                                     classname="dark-checkbox" 
                                     id="boxwhisker-basis-white" 
                                     name="boxwhisker-basis"
+                                    onChange={ () => setBoxWhiskerBasis("white") }
                                     label="Compare White Population" 
                                 />
                                 <Form.Check 
@@ -274,6 +294,7 @@ export default function VerticalTabs(props) {
                                     classname="dark-checkbox" 
                                     id="boxwhisker-basis-republican" 
                                     name="boxwhisker-basis"
+                                    onChange={ () => setBoxWhiskerBasis("republican") }
                                     label="Compare Republican Population" 
                                 />
                                 <Form.Check 
@@ -281,13 +302,14 @@ export default function VerticalTabs(props) {
                                     classname="dark-checkbox" 
                                     id="boxwhisker-basis-democratic" 
                                     name="boxwhisker-basis"
+                                    onChange={ () => setBoxWhiskerBasis("democrat") }
                                     label="Compare Democratic Population" 
                                 />
                             </Form.Group>
                         </div>
                         <Button id="box-whisker-submit" variant="primary" type="submit">
-                                Submit
-                            </Button>
+                            Submit
+                        </Button>
                     </Form>
                 </div>
             </TabPanel>
