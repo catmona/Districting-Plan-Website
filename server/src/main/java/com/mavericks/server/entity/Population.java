@@ -13,14 +13,20 @@ public class Population {
 
     public Population() {
         // instantiate empty populations var
+        populations = new ArrayList<>();
+
         for (int i = 0; i < PopulationMeasure.values().length; i++) {
             List<Integer> popMeasure = new ArrayList<Integer>();
             for (int j = 0; j < Demographic.values().length; j++) {
                 popMeasure.add(j, 0);
             }
-            populations.set(i, popMeasure);
+            populations.add(i, popMeasure);
         }
 
+    }
+
+    public List<Integer> getDemographics(PopulationMeasure popMeasure){
+        return populations.get(popMeasure.ordinal());
     }
 
     public Integer getPopulation(PopulationMeasure popMeasure, Demographic demo) {
@@ -61,4 +67,11 @@ public class Population {
         return sumPop;
     }
 
+    public List<List<Integer>> getPopulations() {
+        return populations;
+    }
+
+    public void setPopulations(List<List<Integer>> populations) {
+        this.populations = populations;
+    }
 }

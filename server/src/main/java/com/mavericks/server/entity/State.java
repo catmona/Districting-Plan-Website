@@ -1,8 +1,10 @@
 package com.mavericks.server.entity;
 import com.mavericks.server.dto.StateDTO;
 
+import java.util.ArrayList;
 import java.util.List;
-import org.locationtech.jts.geom.Point;
+import org.wololo.geojson.FeatureCollection;
+
 import javax.persistence.*;
 
 @Entity
@@ -11,6 +13,7 @@ public class State {
     @Id
     private String id;
     private String name;
+    @Transient
     private Point center;
     //private BoxWhisker boxWhisker;
     private int numberOfDistricts;
@@ -80,7 +83,14 @@ public class State {
 
     public StateDTO makeDTO(){
         //dummy value; replace later
-        return new StateDTO();
+        Districting districting= this.getEnacted();
+        FeatureCollection collection = districting.getGeometry();
+        List<Population> distPopulations= new ArrayList<>();
+        List<District>districts=districting.getDistricts();
+        for(District d:districts){
+            distPopulations.add(d.getPopulation());
+        }
+        return new StateDTO(3129748,this.center,collection,distPopulations);
     }
 
     @Override

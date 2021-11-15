@@ -1,6 +1,7 @@
 package com.mavericks.server.entity;
 
 import org.locationtech.jts.geom.Geometry;
+import org.wololo.geojson.Feature;
 
 import javax.persistence.*;
 import java.util.List;
@@ -16,7 +17,8 @@ public class District {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "districtingId")
     private Districting districtingPlan;
-    private Geometry geometry;
+    @Transient
+    private Feature geometry;
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "DistrictNeighbors", joinColumns = {@JoinColumn(name = "districtId")}, inverseJoinColumns = {@JoinColumn(name = "neighborId")})
     private List<District> neighbors; // should be a Set or Hashset type to reduce overhead
@@ -35,7 +37,7 @@ public class District {
 
     public District() {}
 
-    public District(long id, Districting districtingPlan, Geometry geometry) {
+    public District(long id, Districting districtingPlan, Feature geometry) {
         this.id = id;
         this.districtingPlan = districtingPlan;
         this.geometry = geometry;
@@ -62,10 +64,10 @@ public class District {
         this.districtingPlan = districtingPlan;
     }
 
-    public Geometry getGeometry() {
+    public Feature getGeometry() {
         return geometry;
     }
-    public void setGeometry(Geometry geometry) {
+    public void setGeometry(Feature geometry) {
         this.geometry = geometry;
     }
 
@@ -77,7 +79,7 @@ public class District {
         return borderBlocks.get((int)(Math.random()*borderBlocks.size()));
     }
 
-    public Population getPopulation() {
+    public Population computePopulation() {
         // get population by aggregating the plan's District populations
         Population res = new Population();
         for (Precinct p: precincts) {
@@ -85,6 +87,12 @@ public class District {
         }
         return res;
     }
+
+    public Population getPopulation(){
+        return this.population;
+    }
+
+
 
     public void removeCensusBlock(CensusBlock cb){
 
@@ -94,9 +102,7 @@ public class District {
 
     }
 
-
-
-
-
-
+    public void setPopulation(Population population) {
+        this.population = population;
+    }
 }

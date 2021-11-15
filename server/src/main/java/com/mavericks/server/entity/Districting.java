@@ -1,6 +1,8 @@
 package com.mavericks.server.entity;
 
 import org.locationtech.jts.geom.Geometry;
+import org.wololo.geojson.Feature;
+import org.wololo.geojson.FeatureCollection;
 
 import javax.persistence.*;
 import java.util.List;
@@ -14,7 +16,8 @@ public class Districting {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "stateId")
     private State state;
-    private Geometry geometry;
+    @Transient
+    private FeatureCollection geometries;
     private double populationEquality;
     private double polsbyPopper;
     private int numberOfOpportunity;
@@ -28,9 +31,9 @@ public class Districting {
 
     public Districting() {}
 
-    public Districting(State state, Geometry geometry) {
+    public Districting(State state, FeatureCollection geometries) {
         this.state = state;
-        this.geometry = geometry;
+        this.geometries=geometries;
     }
 
     public long getId() {
@@ -47,11 +50,11 @@ public class Districting {
         this.state = state;
     }
 
-    public Geometry getGeometry() {
-        return geometry;
+    public FeatureCollection getGeometry() {
+        return geometries;
     }
-    public void setGeometry(Geometry geometry) {
-        this.geometry = geometry;
+    public void setGeometry(FeatureCollection geometries) {
+        this.geometries = geometries;
     }
 
     public double getPopulationEquality() {
@@ -93,7 +96,9 @@ public class Districting {
         return districts.get((int)(Math.random()*districts.size()));
     }
 
-    public Population getPopulation() {
+
+    //replace stuff in other areas.
+    public Population computePopulation() {
         // get population by aggregating the plan's District populations
         Population res = new Population();
         for (District d: districts) {
@@ -102,12 +107,16 @@ public class Districting {
         return res;
     }
 
+    public Population getPopulation(){
+        return this.population;
+    }
+
     @Override
     public String toString() {
         return "Districting{" +
                 "id=" + id +
                 ", state=" + state.getId() +
-                ", geometry=" + geometry.toString() +
+                ", geometry=" + geometries.toString() +
                 ", populationEquality=" + populationEquality +
                 ", polsbyPopper=" + polsbyPopper +
                 ", numberOfOpportunity=" + numberOfOpportunity +

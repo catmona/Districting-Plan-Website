@@ -1,41 +1,46 @@
 package com.mavericks.server.dto;
 
+import com.mavericks.server.entity.Demographic;
+import com.mavericks.server.entity.District;
 import com.mavericks.server.entity.Point;
 import com.mavericks.server.entity.Population;
 import org.locationtech.jts.geom.Geometry;
+import org.wololo.geojson.FeatureCollection;
+
+import java.util.List;
 
 public class StateDTO {
 
     private Integer population;
-    private Geometry geometry;
     private Point center;
-    private Population demographics;
+    private List<Population> districtPopulations;
+    private FeatureCollection featureCollection;
 
-    public StateDTO(Integer population, Geometry geometry, Point center, Population demographics) {
+    public StateDTO(Integer population, Point center, FeatureCollection collection, List<Population> districtPopulations) {
         this.population = population;
-        this.geometry = geometry;
         this.center = center;
-        this.demographics = demographics;
+        this.featureCollection= collection;
+        this.districtPopulations=districtPopulations;
     }
 
     public StateDTO(){
 
     }
 
-    public Integer getPopulation() {
-        return population;
+    public List<Population> getDistrictPopulations() {
+        return districtPopulations;
     }
 
-    public void setPopulation(Integer population) {
-        this.population = population;
+    public void setDistrictPopulations(List<Population> districtPopulations) {
+        this.districtPopulations = districtPopulations;
     }
 
-    public Geometry getGeometry() {
-        return geometry;
+    public FeatureCollection getFeatureCollection() {
+        return featureCollection;
     }
 
-    public void setGeometry(Geometry geometry) {
-        this.geometry = geometry;
+    public void setFeatureCollection(FeatureCollection featureCollection) {
+        this.featureCollection = featureCollection;
     }
 
     public Point getCenter() {
@@ -46,11 +51,11 @@ public class StateDTO {
         this.center = center;
     }
 
-    public Population getDemographics() {
-        return demographics;
+    public Integer getPopulation() {
+        return population;
     }
 
-    public void setDemographics(Population demographics) {
-        this.demographics = demographics;
+    public void setPopulation(Integer population) {
+        this.population = population;
     }
 }
