@@ -183,27 +183,27 @@ function Map(props) {
                 <Form>
                     <Form.Check //districts
                         type="checkbox" 
-                        classname="dark-checkbox" 
+                        className="dark-checkbox" 
                         id="map-filter-districts" 
                         label="districts"
                     />
                     <Form.Check //counties
                         type="checkbox" 
-                        classname="dark-checkbox" 
+                        className="dark-checkbox" 
                         id="map-filter-counties" 
                         label="counties" 
                         disabled
                     />
                     <Form.Check //precints
                         type="checkbox" 
-                        classname="dark-checkbox" 
+                        className="dark-checkbox" 
                         id="map-filter-precincts" 
                         label="precincts"
                         disabled 
                     />
                     <Form.Check //census blocks
                         type="checkbox" 
-                        classname="dark-checkbox" 
+                        className="dark-checkbox" 
                         id="map-filter-census-blocks" 
                         label="census blocks" 
                         disabled
