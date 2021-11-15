@@ -1,6 +1,7 @@
 package com.mavericks.server.api;
 
 import com.mavericks.server.dto.DistricitingDTO;
+import com.mavericks.server.dto.PlanDTO;
 import com.mavericks.server.dto.StateDTO;
 import com.mavericks.server.entity.PopulationMeasure;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,9 +43,9 @@ public class Controller {
     }
 
     @GetMapping(value = "districtingSummary")
-    public Map<String,Object> handleDistrictingSummary(@RequestParam("districtingId")long districtingId,
-                                                       HttpSession session){
-        return new Hashtable<>();
+    public PlanDTO handleDistrictingSummary(@RequestParam("districtingId")long districtingId,
+                                            HttpSession session){
+        return handler.getDistrictingSummary(districtingId,session);
     }
 
     @GetMapping(value = "boxwhiskers")

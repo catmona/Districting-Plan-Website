@@ -1,11 +1,13 @@
 package com.mavericks.server.entity;
 
 import com.mavericks.server.dto.DistricitingDTO;
+import com.mavericks.server.dto.PlanDTO;
 import org.locationtech.jts.geom.Geometry;
 import org.wololo.geojson.Feature;
 import org.wololo.geojson.FeatureCollection;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -128,6 +130,14 @@ public class Districting {
 
     public DistricitingDTO makeDistrictDTO(){
         return new DistricitingDTO(this.polsbyPopper,this.populationEquality,this.election);
+    }
+
+    public PlanDTO makePlanDTO(){
+        List<Population>distPopulations = new ArrayList<>();
+        for(District d:districts){
+            distPopulations.add(d.getPopulation());
+        }
+        return new PlanDTO(districts.size(),this.polsbyPopper,this.populationEquality,this.election,distPopulations);
     }
 
     @Override
