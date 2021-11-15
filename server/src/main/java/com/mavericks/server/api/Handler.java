@@ -135,10 +135,10 @@ public class Handler {
         List<Box>boxes=new ArrayList<>();
 
         double []upperExtreme={5,5,5,5};
-        double []upperQuartile={5,5,5,5};
-        double []median={5,5,5,5};
-        double []lowerQuartile={5,5,5,5};
-        double []lowerExtreme={5,5,5,5};
+        double []upperQuartile={15,15,15,35};
+        double []median={25,25,25,25};
+        double []lowerQuartile={35,35,35,35};
+        double []lowerExtreme={45,45,35,45};
         Box box = new Box(upperExtreme,upperQuartile,median,lowerQuartile,lowerExtreme);
 
         return box;
