@@ -22,7 +22,7 @@ function App() {
                         setDistrictingData(null)
                         console.log(error)
                     }
-                )
+                );
     }
 
     return (

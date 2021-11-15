@@ -20,6 +20,29 @@ const Demographic = {
     ALL: 4
 }
 
+function formatResponseToStatisticData(response) {
+    console.log("DATA FROM SERVER: %o", response);
+    var formattedDataList = [];
+    for(let i = 0; i < response.districtPopulations.length; i++) {
+        let total = response.districtPopulations[i].populations[PopMeasure.TOTAL];
+        let election = response.elections.districtElections[i];
+        var formattedData = {
+            'id': i+1,
+            'popMeasure':PopMeasure.TOTAL,
+            'africanamerican':total[Demographic.AFRICAN_AMERICAN],
+            'white':total[Demographic.WHITE],
+            'asianamerican':total[Demographic.ASIAN],
+            'hispanic':total[Demographic.HISPANIC],
+            'republican':election.republicanVotes,
+            'democrat':election.democraticVotes,
+            'population':total[Demographic.ALL]
+        };
+        formattedDataList.push(formattedData);
+        // console.log("Formatted data: %o", formattedDataList);
+    }
+    return formattedDataList;
+}
+
 function Statistics(props) {
     const [state, setState] = useState({
         isLoaded: false,
@@ -31,31 +54,12 @@ function Statistics(props) {
         console.log("use effect")
         if (props.districtingData) {
 
-            console.log(props.districtingData);
-            var formattedDataList = [];
-            for(let i = 0; i < props.districtingData.districtPopulations.length; i++) {
-                let total = props.districtingData.districtPopulations[i].populations[PopMeasure.TOTAL];
-                console.log("Total: %o", total);
-                var formattedData = {
-                    'id': i+1,
-                    'popMeasure':PopMeasure.TOTAL,
-                    'africanamerican':total[Demographic.AFRICAN_AMERICAN],
-                    'white':total[Demographic.WHITE],
-                    'asianamerican':total[Demographic.ASIAN],
-                    'hispanic':total[Demographic.HISPANIC],
-                    'republican':0,
-                    'democrat':0,
-                    'population':total[Demographic.ALL]
-                };
-                formattedDataList.push(formattedData);
-                console.log("Formatted data: %o", formattedDataList);
-            }
-            console.log("DONE Formatted data: %o", formattedDataList);
+            var formattedData = formatResponseToStatisticData(props.districtingData);
 
             setState({
                 isLoaded: true,
                 stateName: props.stateName ? props.stateName.toLowerCase() : "",
-                stateData: formattedDataList
+                stateData: formattedData
             });
         }
     }, [props.districtingData]);
@@ -70,36 +74,5 @@ function Statistics(props) {
         </div>
     );
 }
-
-// class Statistics extends Component {
-
-//     constructor(props) {
-//         super(props);
-//         this.state = {
-//             isLoaded: false,
-//             stateName: props.stateName.toLowerCase(),
-//             stateData: null
-//         };
-//     }
-    
-//     componentDidMount() {
-//         if (!this.props.districtingData) return;
-
-//         this.setState({
-//             isLoaded: true,
-//             stateData: this.props.districtingData
-//         });
-//     }
-
-//     render() {
-//         return <div>
-//             {this.state.isLoaded ? (this.state.stateData ? <div>
-//                 <CustomizedTables /> 
-//                 <StatGraphs stateData={this.state.stateData} />
-//                 <EnhancedTable stateData={this.state.stateData} />
-//             </div> : "") : <Box className = 'loading-container'><CircularProgress className = 'loading-icon'/></Box>}
-//         </div>
-//     }
-// }
 
 export default Statistics;
