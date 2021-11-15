@@ -59,6 +59,7 @@ public class Handler {
             Districting dist = new Districting(state,featureCollection);
             List<District> districts = new ArrayList<>();
             Feature[]fs=featureCollection.getFeatures();
+            List<Population> distPopulations= new ArrayList<>();
             for(int j=0;j<fs.length;j++){
                 Population population= new Population();
                 population.setPopulation(PopulationMeasure.TOTAL,Demographic.ALL,all[j]);
@@ -81,20 +82,21 @@ public class Handler {
 
         state.setDistrictings(districtings);
         session.setAttribute("state",state);
-        return state.makeDTO();
+        StateDTO dto =state.makeDTO();
+        return dto;
     }
 
 
-    public Map<String,Object> getDistrictings(long stateId){
+    public Map<String,Object> getDistrictings(long stateId, HttpSession session){
         return new Hashtable<>();
     }
 
-    public Map<String,Object> getDistrictingSummary(long districtingId){
+    public Map<String,Object> getDistrictingSummary(long districtingId, HttpSession session){
         return new Hashtable<>();
     }
 
     public Map<String,Object> getBoxWhisker(long stateId,long districtingId, long demographicId,boolean enacted,
-                                               boolean current){
+                                               boolean current, HttpSession session){
         return new Hashtable<>();
     }
 

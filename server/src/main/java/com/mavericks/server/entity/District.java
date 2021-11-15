@@ -79,13 +79,17 @@ public class District {
         return borderBlocks.get((int)(Math.random()*borderBlocks.size()));
     }
 
-    public Population getPopulation() {
+    public Population computePopulation() {
         // get population by aggregating the plan's District populations
         Population res = new Population();
         for (Precinct p: precincts) {
             res.combinePopulations(p.getPopulation());
         }
         return res;
+    }
+
+    public Population getPopulation(){
+        return this.population;
     }
 
 
