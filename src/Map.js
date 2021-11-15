@@ -183,7 +183,7 @@ function Map(props) {
                 <Form>
                     <Form.Check //districts
                         type="checkbox" 
-                        classname="dark-checkbox" 
+                        className="dark-checkbox" 
                         id="map-filter-districts" 
                         label="districts"
                     />
