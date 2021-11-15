@@ -15,10 +15,10 @@ public class DistrictElection {
 
     private long totalVotes;
 
-    public DistrictElection(int republicanVotes, int democraticVotes, int totalVotes) {
+    public DistrictElection(int republicanVotes, int democraticVotes) {
         this.republicanVotes = republicanVotes;
         this.democraticVotes = democraticVotes;
-        this.totalVotes = totalVotes;
+        this.totalVotes = republicanVotes+democraticVotes;
     }
 
     public DistrictElectionKey getKey() {

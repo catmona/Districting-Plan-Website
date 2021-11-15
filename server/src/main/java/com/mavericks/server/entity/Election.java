@@ -24,11 +24,10 @@ public class Election {
     @Transient
     private int totalVotes;
 
-    public Election(int totalDemocratVotes, int totalRepublicanVotes, int totalVotes, List<DistrictElection> districtVotes) {
+    public Election(int totalDemocratVotes, int totalRepublicanVotes) {
         this.totalDemocratVotes = totalDemocratVotes;
         this.totalRepublicanVotes = totalRepublicanVotes;
-        this.totalVotes = totalVotes;
-        this.districtElections = districtVotes;
+        this.totalVotes = totalDemocratVotes+totalRepublicanVotes;
     }
 
     public DistrictElection getVoteByDistrict(int distNum){

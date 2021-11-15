@@ -1,9 +1,6 @@
 package com.mavericks.server.dto;
 
-import com.mavericks.server.entity.Demographic;
-import com.mavericks.server.entity.District;
-import com.mavericks.server.entity.Point;
-import com.mavericks.server.entity.Population;
+import com.mavericks.server.entity.*;
 import org.locationtech.jts.geom.Geometry;
 import org.wololo.geojson.FeatureCollection;
 
@@ -16,7 +13,8 @@ public class StateDTO {
     private List<Population> districtPopulations;
     private FeatureCollection featureCollection;
 
-    public StateDTO(Integer population, Point center, FeatureCollection collection, List<Population> districtPopulations) {
+    public StateDTO(Integer population, Point center, FeatureCollection collection,
+                    List<Population> districtPopulations) {
         this.population = population;
         this.center = center;
         this.featureCollection= collection;

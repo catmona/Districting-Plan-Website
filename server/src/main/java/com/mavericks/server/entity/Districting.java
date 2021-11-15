@@ -1,5 +1,6 @@
 package com.mavericks.server.entity;
 
+import com.mavericks.server.dto.DistricitingDTO;
 import org.locationtech.jts.geom.Geometry;
 import org.wololo.geojson.Feature;
 import org.wololo.geojson.FeatureCollection;
@@ -22,6 +23,8 @@ public class Districting {
     private double polsbyPopper;
     private int numberOfOpportunity;
     private String imageUrl; // used by SeaWulf districtings, is the preview image filepath
+    @Transient
+    private Election election;
 
     @OneToMany(mappedBy = "districtingPlan", fetch = FetchType.LAZY)
     private List<District> districts;
@@ -109,6 +112,22 @@ public class Districting {
 
     public Population getPopulation(){
         return this.population;
+    }
+
+    public Election getElection() {
+        return election;
+    }
+
+    public void setElection(Election election) {
+        this.election = election;
+    }
+
+    public void setPopulation(Population population) {
+        this.population = population;
+    }
+
+    public DistricitingDTO makeDistrictDTO(){
+        return new DistricitingDTO(this.polsbyPopper,this.populationEquality,this.election);
     }
 
     @Override

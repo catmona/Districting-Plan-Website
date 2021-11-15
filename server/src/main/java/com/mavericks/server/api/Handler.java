@@ -1,5 +1,6 @@
 package com.mavericks.server.api;
 
+import com.mavericks.server.dto.DistricitingDTO;
 import com.mavericks.server.dto.StateDTO;
 import com.mavericks.server.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,12 +55,16 @@ public class Handler {
         int[] asian = new int[]{60582, 32304, 126960, 47066};
         int[] hispanic = new int[]{343864, 183123, 166285, 238360};
         int[] all = new int[]{723705, 766064, 853240, 786739};
+        int[] democratic = new int[]{137868, 155780, 203421, 168457};
+        int[] republican = new int[]{74490, 216078, 190975, 152284};
 
         for(int i=0;i<30;i++){
             Districting dist = new Districting(state,featureCollection);
             List<District> districts = new ArrayList<>();
             Feature[]fs=featureCollection.getFeatures();
             List<Population> distPopulations= new ArrayList<>();
+            List<DistrictElection>voteData=new ArrayList<>();
+            Election election = new Election(665526,633827);
             for(int j=0;j<fs.length;j++){
                 Population population= new Population();
                 population.setPopulation(PopulationMeasure.TOTAL,Demographic.ALL,all[j]);
@@ -67,13 +72,16 @@ public class Handler {
                 population.setPopulation(PopulationMeasure.TOTAL,Demographic.ASIAN,asian[j]);
                 population.setPopulation(PopulationMeasure.TOTAL,Demographic.HISPANIC,hispanic[j]);
                 population.setPopulation(PopulationMeasure.TOTAL,Demographic.WHITE,white[j]);
+                DistrictElection districtVoteData= new DistrictElection(republican[j],democratic[j]);
                 District district= new District(i,dist,fs[0]);
                 districts.add(district);
                 district.setPopulation(population);
+                voteData.add(districtVoteData);
             }
 
             dist.setDistricts(districts);
-
+            election.setDistrictElections(voteData);
+            dist.setElection(election);
             districtings.add(dist);
         }
 
@@ -81,14 +89,23 @@ public class Handler {
 
 
         state.setDistrictings(districtings);
-        session.setAttribute("state",state);
+        session.setAttribute(stateName,state);
         StateDTO dto =state.makeDTO();
         return dto;
     }
 
 
-    public Map<String,Object> getDistrictings(long stateId, HttpSession session){
-        return new Hashtable<>();
+    public List<DistricitingDTO> getDistrictings(String stateName, HttpSession session){
+        State state = (State) session.getAttribute(stateName);
+        List<DistricitingDTO> plansPreview= new ArrayList<>();
+        Districting enacted = state.getEnacted();
+        enacted.setPolsbyPopper(0.07725808180925772);
+        enacted.setPopulationEquality(0.08214300435);
+        for(int i=0;i<30;i++){
+            plansPreview.add(enacted.makeDistrictDTO());
+        }
+
+        return plansPreview;
     }
 
     public Map<String,Object> getDistrictingSummary(long districtingId, HttpSession session){

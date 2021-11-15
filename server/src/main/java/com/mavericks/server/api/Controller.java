@@ -1,5 +1,6 @@
 package com.mavericks.server.api;
 
+import com.mavericks.server.dto.DistricitingDTO;
 import com.mavericks.server.dto.StateDTO;
 import com.mavericks.server.entity.PopulationMeasure;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.util.Hashtable;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -35,11 +37,8 @@ public class Controller {
     }
 
     @GetMapping(value = "districtings")
-    public Map<String,Object> handleDistrictings(@RequestParam("stateId") long stateId,HttpSession session){
-        System.out.println(session.getAttribute("state"));
-        Map<String,Object> m= new Hashtable<>();
-        m.put("state",session.getAttribute("state"));
-        return m;
+    public List<DistricitingDTO> handleDistrictings(@RequestParam("state") String state, HttpSession session){
+        return handler.getDistrictings(state,session);
     }
 
     @GetMapping(value = "districtingSummary")
