@@ -82,9 +82,8 @@ public class State {
 
     public StateDTO makeDTO(){
         //dummy value; replace later
-        Population enactedPop= this.getEnacted().getPopulation();
         FeatureCollection collection = this.getEnacted().getGeometry();
-        return new StateDTO(enactedPop.getPopulation(PopulationMeasure.TOTAL,Demographic.ALL),this.center,collection);
+        return new StateDTO(3129748,this.center,collection);
     }
 
     @Override

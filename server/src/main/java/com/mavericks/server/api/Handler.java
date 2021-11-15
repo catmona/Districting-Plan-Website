@@ -68,11 +68,15 @@ public class Handler {
                 population.setPopulation(PopulationMeasure.TOTAL,Demographic.WHITE,white[j]);
                 District district= new District(i,dist,fs[0]);
                 districts.add(district);
+                district.setPopulation(population);
             }
 
             dist.setDistricts(districts);
+
             districtings.add(dist);
         }
+
+        state.setEnacted(districtings.get(0));
 
 
         state.setDistrictings(districtings);
