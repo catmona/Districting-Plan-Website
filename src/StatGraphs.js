@@ -216,7 +216,7 @@ export default function VerticalTabs(props) {
                         rootProps={{ 'data-testid': '2' }}
                     />
                     
-                    <Form id="box-whisker-right"> 
+                    <Form id="box-whisker-right" className="scrollbar-primary"> 
                         <Form.Group>
                             <Form.Check 
                                 type="checkbox" 
