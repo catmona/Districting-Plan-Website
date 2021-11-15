@@ -4,6 +4,7 @@ import java.util.List;
 
 public class BoxWhisker {
 
+    //each box is a demographic
     private List<Box> boxes;
 
     public BoxWhisker(List<Box> boxes) {
