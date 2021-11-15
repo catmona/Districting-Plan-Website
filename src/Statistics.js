@@ -58,7 +58,7 @@ function Statistics(props) {
                 stateData: formattedDataList
             });
         }
-    }, []);
+    }, [props.districtingData]);
     
     return (
         <div>
