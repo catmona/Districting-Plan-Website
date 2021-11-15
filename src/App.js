@@ -28,7 +28,7 @@ function App() {
     }
 
     function getSeaWulfSummaries() {
-        fetch("http://localhost:8080/api2/districtingSummaries", { credentials: 'include' })
+        fetch("http://localhost:8080/api2/districtings", { credentials: 'include' })
                     .then(res => res.json())
                     .then(
                         (result) => {

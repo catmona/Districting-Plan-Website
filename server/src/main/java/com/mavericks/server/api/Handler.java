@@ -98,7 +98,7 @@ public class Handler {
     }
 
 
-    public List<DistrictingDTO> getDistrictings(String stateName, HttpSession session){
+    public List<DistrictingDTO> getDistrictings(HttpSession session){
         State state = (State) session.getAttribute("state");
         List<DistrictingDTO> plansPreview= new ArrayList<>();
         Districting enacted = state.getEnacted();

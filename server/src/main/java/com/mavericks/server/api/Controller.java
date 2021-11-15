@@ -38,8 +38,8 @@ public class Controller {
     }
 
     @GetMapping(value = "districtings")
-    public List<DistrictingDTO> handleDistrictings(@RequestParam("state") String state, HttpSession session){
-        return handler.getDistrictings(state,session);
+    public List<DistrictingDTO> handleDistrictings(HttpSession session){
+        return handler.getDistrictings(session);
     }
 
     @GetMapping(value = "districtingSummary")
