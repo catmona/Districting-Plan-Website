@@ -67,94 +67,6 @@ function Map(props) {
         }
     }
 
-    function addDistrictGeoJSON(map, sourceId, source) {
-        let sourceName = sourceId + "-district-source";
-        map.addSource(sourceName, {
-            "type": "geojson",
-            "data": source
-        });
-        console.log("[Mapbox] Added %s", sourceName);
-        
-        addDistrictStyleLayer(map, sourceName);
-        return sourceName;
-    }
-
-    function addDistrictStyleLayer(map, sourceId) {
-        // this is really just to stop anyone from mistakenly using this method. I meant for it to be used w/ addDistrictGeoJSON.
-        if (!map.getSource(sourceId)) {
-            console.log("Must add source before applying style layer.");
-            return;
-        }
-
-        let layerName = sourceId + "-layer";
-        map.addLayer({
-            "id": layerName,
-            "type": "fill",
-            "source": sourceId,
-            "minzoom": zoomThreshold,
-            "layout": {},
-            "paint": {
-                "fill-color": [
-                    'match',
-                    ['get', 'District'],
-                    1,
-                    districtColors[0],
-                    2,
-                    districtColors[1],
-                    3,
-                    districtColors[2],
-                    4,
-                    districtColors[3],
-                    5,
-                    districtColors[4],
-                    6,
-                    districtColors[5],
-                    7,
-                    districtColors[6],
-                    8,
-                    districtColors[7],
-                    9,
-                    districtColors[8],
-                    10,
-                    districtColors[9],
-                    /* other */ white
-                ],
-                "fill-opacity": 0.5,
-            }
-        });
-
-        // adds polygon outlines with adjustable width
-        map.addLayer({
-            'id': layerName + '-outline',
-            'type': 'line',
-            "minzoom": zoomThreshold,
-            'source': sourceId,
-            'paint': {
-            'line-color': white,
-            'line-width': 2
-            }
-        });
-
-        // Add a symbol layer
-        map.addLayer({
-            'id': layerName + '-label',
-            'type': 'symbol',
-            "minzoom": zoomThreshold,
-            'source': sourceId,
-            'layout': {
-            // get the title name from the source's "title" property
-            'text-field': ['get', 'District_Name'],
-            'text-font': [
-            'Open Sans Semibold',
-            'Arial Unicode MS Bold'
-            ],
-            'text-anchor': 'center'
-            }
-        });
-
-        return layerName;
-    }
-
     function flyToState(stateName) {
         switch(stateName) {
             case "Washington": 
@@ -269,8 +181,8 @@ function Map(props) {
                         type="checkbox" 
                         className="dark-checkbox" 
                         id="map-filter-counties" 
-                        label="counties" 
-                        disabled
+                        checked = {true}
+                        label="counties"
                     />
                     <Form.Check //precints
                         type="checkbox" 
@@ -291,6 +203,94 @@ function Map(props) {
             <div ref={mapContainer} className = "map-container" />
         </div>
     );
+}
+
+function addDistrictGeoJSON(map, sourceId, source) {
+    let sourceName = sourceId + "-district-source";
+    map.addSource(sourceName, {
+        "type": "geojson",
+        "data": source
+    });
+    console.log("[Mapbox] Added %s", sourceName);
+    
+    addDistrictStyleLayer(map, sourceName);
+    return sourceName;
+}
+
+function addDistrictStyleLayer(map, sourceId) {
+    // this is really just to stop anyone from mistakenly using this method. I meant for it to be used w/ addDistrictGeoJSON.
+    if (!map.getSource(sourceId)) {
+        console.log("Must add source before applying style layer.");
+        return;
+    }
+
+    let layerName = sourceId + "-layer";
+    map.addLayer({
+        "id": layerName,
+        "type": "fill",
+        "source": sourceId,
+        "minzoom": zoomThreshold,
+        "layout": {},
+        "paint": {
+            "fill-color": [
+                'match',
+                ['get', 'District'],
+                1,
+                districtColors[0],
+                2,
+                districtColors[1],
+                3,
+                districtColors[2],
+                4,
+                districtColors[3],
+                5,
+                districtColors[4],
+                6,
+                districtColors[5],
+                7,
+                districtColors[6],
+                8,
+                districtColors[7],
+                9,
+                districtColors[8],
+                10,
+                districtColors[9],
+                /* other */ white
+            ],
+            "fill-opacity": 0.5,
+        }
+    });
+
+    // adds polygon outlines with adjustable width
+    map.addLayer({
+        'id': layerName + '-outline',
+        'type': 'line',
+        "minzoom": zoomThreshold,
+        'source': sourceId,
+        'paint': {
+        'line-color': white,
+        'line-width': 2.25
+        }
+    });
+
+    // Add a symbol layer
+    map.addLayer({
+        'id': layerName + '-label',
+        'type': 'symbol',
+        "minzoom": zoomThreshold,
+        'source': sourceId,
+        'layout': {
+        // get the title name from the source's "title" property
+        'text-field': ['get', 'District_Name'],
+        'text-font': [
+        'Open Sans Semibold',
+        'Arial Unicode MS Bold'
+        ],
+        'text-anchor': 'center'
+        }
+    });
+
+    return layerName;
 }
 
 export default Map;

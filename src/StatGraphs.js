@@ -6,6 +6,7 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Chart from 'react-google-charts'
 import { Form, Button } from 'react-bootstrap';
+import { Dropdown, DropdownButton } from 'react-bootstrap';
 
 function TabPanel(props) {
     const { children, value, index, stateData, ...other } = props;
@@ -61,26 +62,37 @@ export default function VerticalTabs(props) {
 
     const bgcolor = "#1f1f1f";
     const bgcolor2 = "#161616";
+
     let partyData = [['District', 'Democratic Party', 'Republican Party']]
     partyData.push(...props.stateData.map((x) => { return [x['id'] + "", x['democrat'], x['republican']] }));
+
     let demographicData = [['District', 'Hispanic or Latino', 'African American', 'Asian']];
     demographicData.push(...props.stateData.map((x) => { return [x['id'] + "", x['hispanic'], x['africanamerican'], x['asianamerican']] }));
+    
     return (
         <Box sx={{ flexGrow: 1, bgcolor: bgcolor2, display: 'flex', height: 325 }} >
             {/* <button onClick = {() => {console.log(partyData)}}>Press me</button> */}
-            <Tabs
-                className="vertical-tab-bar"
-                orientation="vertical"
-                variant="scrollable"
-                value={value}
-                onChange={handleChange}
-                aria-label="Vertical tabs example"
-                sx={{ borderRight: 1, borderColor: 'divider', color: 'white' }}
-            >
-                <Tab label="Population" {...a11yProps(0)} width='200px' />
-                <Tab label="Demographics" {...a11yProps(1)} />
-                <Tab label="Compare to other districtings" {...a11yProps(2)} />
-            </Tabs>
+            <div id="tab-section">
+                <Tabs
+                    className="vertical-tab-bar"
+                    orientation="vertical"
+                    variant="scrollable"
+                    value={value}
+                    onChange={handleChange}
+                    aria-label="Vertical tabs example"
+                    sx={{ borderRight: 1, borderColor: 'divider', color: 'white' }}
+                >
+                    <Tab label="Population" {...a11yProps(0)} width='200px' />
+                    <Tab label="Demographics" {...a11yProps(1)} />
+                    <Tab label="Compare to other districtings" {...a11yProps(2)} />
+                </Tabs>
+                <hr />
+                <DropdownButton menuVariant="dark" size="md" title={"Population Type: " + props.popType} id="poptype-dropdown">
+                    <Dropdown.Item onClick={() => {props.onSelectPopType("TOTAL")}} className='poptype-dropdown-option'>Total</Dropdown.Item>
+                    <Dropdown.Item onClick={() => {props.onSelectPopType("CVAP")}} className='poptype-dropdown-option'>CVAP</Dropdown.Item>
+                    <Dropdown.Item onClick={() => {props.onSelectPopType("VAP")}} className='poptype-dropdown-option'>VAP</Dropdown.Item>
+                </DropdownButton>
+            </div>
             <TabPanel value={value} index={0} width={'100%'} className="dark-tabpanel">
                 <Chart
                     className="dark-chart"
