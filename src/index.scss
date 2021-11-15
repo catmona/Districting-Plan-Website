@@ -218,11 +218,30 @@ h3 {
 }
 /* #endregion */
 
-/* #region vertical-tabs */
+/* #region StatGraphs */
 .dark-tabpanel {
-    background-color: $bgColor;
+    background-color: $fgColor;
 }
 .dark-chart {
     margin-top: -3%;
+}
+.vertical-tab-bar {
+    width: 200px;
+}
+#box-whisker-wrapper {
+    display: flex;
+    background-color: $fgColor;
+}
+#box-whisker-left {
+    flex: 0 0 65%;
+}
+#box-whisker-right {
+    flex: 1;
+    background-color: $fgColor;
+    margin-left: 10px;
+    margin-bottom: 5px;
+    margin-top: -1.5%;
+    max-height: 300px !important;
+    overflow-y: scroll;
 }
 /* #endregion */

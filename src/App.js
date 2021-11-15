@@ -9,19 +9,34 @@ import StateTabs from './StateTabs';
 function App() {
     const [stateName, setStateName] = useState("");
     const [districtingPlan, setDistrictingPlan] = useState(""); //districting plan
+    const [districtingData, setDistrictingData] = useState(""); //statisctics table data, population per district of the plan
+
+    function stateSummaryCallback(stateAbbr) {
+        fetch("http://localhost:8080/api2/getStateSummary?state=" + stateAbbr)
+                .then(res => res.json())
+                .then(
+                    (result) => {
+                        setDistrictingData(result);
+                    },
+                    (error) => {
+                        setDistrictingData(null)
+                        console.log(error)
+                    }
+                )
+    }
 
     return (
         <Container fluid>
             <Row>
                 <Col>
                 <Row>
-                    <Topbar stateName={stateName} setStateName={setStateName} />
+                    <Topbar stateName={stateName} setStateName={setStateName} onSelect={stateSummaryCallback}/>
 
-                    <StateTabs stateName={stateName} districtingPlan={districtingPlan} setDistrictingPlan={setDistrictingPlan}></StateTabs>
+                    <StateTabs stateName={stateName} districtingPlan={districtingPlan} districtingData={districtingData} setDistrictingPlan={setDistrictingPlan}></StateTabs>
                 </Row>
                 </Col>
                 <Col>
-                    <Map stateName={stateName} setStateName={setStateName} />
+                    <Map stateName={stateName} setStateName={setStateName} districtingData={districtingData} onSelect={stateSummaryCallback}/>
                 </Col>
             </Row>
         </Container>

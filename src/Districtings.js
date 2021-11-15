@@ -43,7 +43,7 @@ function districtings(props) {
                 var img = col.firstChild;
                 if(img) {
                     img.onclick = setDistrictingPlan(stateName + "-" + (i+1));
-                    img.src = require("/public/assets/thumbnails/" + stateName + "/districting-img-" + (i+1) + ".png").default; //webpack bs that I hate
+                    img.src = require("/public/assets/thumbnails/" + stateName + "/districting-img-" + (i+1) + ".png").default;
                 }
             }
         }

@@ -9,6 +9,7 @@ function Topbar(props) {
     //const [stateName, setStateName] = useState("");
     let stateName = props.stateName!==''?props.stateName:'Select State';
     let setStateName = props.setStateName;
+    let onSelect = props.onSelect;
 
     useEffect(() =>{
         //document.getElementById("state-name").textContent = stateName;
@@ -23,9 +24,9 @@ function Topbar(props) {
 
                 <Col md={5} lg={3}>
                     <DropdownButton menuVariant="dark" title={stateName} id="state-dropdown">
-                        <Dropdown.Item onClick={() => setStateName("Washington")} className='state-dropdown-option'>Washington</Dropdown.Item>
-                        <Dropdown.Item onClick={() => setStateName("Nevada")} className='state-dropdown-option'>Nevada</Dropdown.Item>
-                        <Dropdown.Item onClick={() => setStateName("Arkansas")} className='state-dropdown-option'>Arkansas</Dropdown.Item>
+                        <Dropdown.Item onClick={() => {setStateName("Washington"); onSelect("WA");}} className='state-dropdown-option'>Washington</Dropdown.Item>
+                        <Dropdown.Item onClick={() => {setStateName("Nevada"); onSelect("NV");}} className='state-dropdown-option'>Nevada</Dropdown.Item>
+                        <Dropdown.Item onClick={() => {setStateName("Arkansas"); onSelect("AR");}} className='state-dropdown-option'>Arkansas</Dropdown.Item>
                     </DropdownButton>
                 </Col>
             </Row>
