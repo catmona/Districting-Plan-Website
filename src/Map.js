@@ -76,12 +76,12 @@ function Map(props) {
         if (stateName) { // user selected a state
             let layer = map.current.getSource(stateName + "-district-source");
             if (!layer) { // map does not have the district boundaries
-                let url = "http://localhost:8080/api" + "/districts?state=" + stateName + "&file=State&year=2012";
+                let url = "http://localhost:8080/api2/getStateSummary?state=" + stateName;
                 fetch(url)
                     .then(res => res.json())
                     .then(
                         (result) => {
-                            addDistrictGeoJSON(map.current, stateName, result);
+                            addDistrictGeoJSON(map.current, stateName, result.featureCollection);
                         },
                         (error) => {
                             console.log(error); // failed to fetch geojson
