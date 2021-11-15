@@ -65,6 +65,50 @@ h3 {
     height: 100%;
     width: 49%;
 }
+#map-filter {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 1;
+    border-radius: 3px;
+    width: 150px;
+    height: 45px;
+    transition: height 0.5s;
+    display: block;
+    cursor: pointer;
+    padding: 10px;
+    border-bottom: 1px solid $accentColor;
+    border-top: 1px solid $accentColor;
+    background-color: $fgColor;
+    color:$textColor;
+    overflow: hidden;
+    .form-check {
+        display: none;
+        padding: 5px;
+        margin-left: 25%;
+    }
+    #map-filter-label {
+        text-align: center;
+    }
+}
+#map-filter:hover {
+    height: 225px !important;
+    .form-check {
+        display: block;
+    }
+}
+#map-filter-districts:checked {
+    background-color: grey;
+}
+#map-filter-counties:checked {
+    background-color: purple;
+}
+#map-filter-precincts:checked {
+    background-color: green;
+}
+#map-filter-census-blocks:checked {
+    background-color: yellow;
+}
 /* #endregion */
 
 /* #region topbar */
