@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:8081")
+@CrossOrigin(origins = "http://localhost:8081", allowCredentials = "true")
 @RequestMapping(path = "api2/")
 public class Controller {
     private final Handler handler;
