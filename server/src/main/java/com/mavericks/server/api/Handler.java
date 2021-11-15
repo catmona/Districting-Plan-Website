@@ -1,6 +1,7 @@
 package com.mavericks.server.api;
 
 import com.mavericks.server.dto.DistricitingDTO;
+import com.mavericks.server.dto.PlanDTO;
 import com.mavericks.server.dto.StateDTO;
 import com.mavericks.server.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -86,21 +87,20 @@ public class Handler {
         }
 
         state.setEnacted(districtings.get(0));
-
+        districtings.get(0).setPolsbyPopper(0.07725808180925772);
+        districtings.get(0).setPopulationEquality(0.0413883162478257);
 
         state.setDistrictings(districtings);
-        session.setAttribute(stateName,state);
+        session.setAttribute("state",state);
         StateDTO dto =state.makeDTO();
         return dto;
     }
 
 
     public List<DistricitingDTO> getDistrictings(String stateName, HttpSession session){
-        State state = (State) session.getAttribute(stateName);
+        State state = (State) session.getAttribute("state");
         List<DistricitingDTO> plansPreview= new ArrayList<>();
         Districting enacted = state.getEnacted();
-        enacted.setPolsbyPopper(0.07725808180925772);
-        enacted.setPopulationEquality(0.08214300435);
         for(int i=0;i<30;i++){
             plansPreview.add(enacted.makeDistrictDTO());
         }
@@ -108,13 +108,31 @@ public class Handler {
         return plansPreview;
     }
 
-    public Map<String,Object> getDistrictingSummary(long districtingId, HttpSession session){
-        return new Hashtable<>();
+    public PlanDTO getDistrictingSummary(long districtingId, HttpSession session){
+        State state = (State) session.getAttribute("state");
+        Districting districting = state.getDistrictings().get((int)districtingId);
+        PlanDTO planDTO= districting.makePlanDTO();
+        return planDTO;
     }
 
-    public Map<String,Object> getBoxWhisker(long stateId,long districtingId, long demographicId,boolean enacted,
+    public BoxWhisker getBoxWhisker(long stateId,long districtingId, long demographicId,boolean enacted,
                                                boolean current, HttpSession session){
-        return new Hashtable<>();
+
+        State state = (State) session.getAttribute("state");
+        Districting districting= state.getEnacted();
+        List<Box>boxes=new ArrayList<>();
+        for(int i=0;i<districting.getDistricts().size();i++){
+            double []upperExtreme={5,5,5,5,5,5};
+            double []upperQuartile={5,5,5,5,5,5};
+            double []median={5,5,5,5,5,5};
+            double []lowerQuartile={5,5,5,5,5,5};
+            double []lowerExtreme={5,5,5,5,5,5};
+            Box box = new Box(upperExtreme,upperQuartile,median,lowerQuartile,lowerExtreme);
+            boxes.add(box);
+        }
+        BoxWhisker boxWhisker= new BoxWhisker(boxes);
+
+        return boxWhisker;
     }
 
     /**

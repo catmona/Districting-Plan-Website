@@ -14,4 +14,15 @@ public class BoxWhisker {
         return boxes.get(districtNum);
     }
 
+    public void addBox(Box box){
+        boxes.add(box);
+    }
+
+    public List<Box> getBoxes() {
+        return boxes;
+    }
+
+    public void setBoxes(List<Box> boxes) {
+        this.boxes = boxes;
+    }
 }
