@@ -6,17 +6,16 @@ import { Popover } from 'react-bootstrap';
 import { OverlayTrigger } from 'react-bootstrap';
 
 function DistrictingPopover(props) {
+    let polsby = props.summary.polsbyPopper;
+    let popEquality = props.summary.populationEquality;
+
     const pop = (
         <Popover id="popover-basic" className="custom-popover">
             <Popover.Header as="h3">Districting Plan {props.num}</Popover.Header>
                 <Popover.Body>
                     <em style={{fontSize: 13}}>This districting was chosen for it's high political fairness.</em><br /><br />
-                    <div className='districting-labels'><b>Population Equality: </b> 0.2<br /></div>
-                    <div className='districting-labels'><b>Compactness: </b>0.8<br /></div>
-                    <div className='districting-labels'><b>Deviation From Enacted: </b> 0.1 <br /></div>
-                    <div className='districting-labels'><b>Deviation From Average: </b> 0.2<br /></div>
-                    <div className='districting-labels'><b>Political Fairness: </b> 0.9<br/> </div>
-
+                    <div className='districting-labels'><b>Population Equality: </b>{popEquality}<br /></div>
+                    <div className='districting-labels'><b>Compactness: </b>{polsby}<br /></div>
                 </Popover.Body>
         </Popover>
     );
@@ -32,8 +31,9 @@ function districtings(props) {
     let stateName = props.stateName;
     let districtingPlan = props.districtingPlan;
     let setDistrictingPlan = props.setDistrictingPlan;
-    let tooltipSummaries = props.seaWulfSummaries;
+    let summaries = props.seaWulfSummaries;
     const NUM_DISTRICTINGS = 20; //changeable to an array later, or fetched from a json or ini file
+    let loading = {'polsbyPopper':0,"popEquality":0};
 
     useEffect(() => {
         //right now this doesnt account for a different number of districtings per state
@@ -50,37 +50,39 @@ function districtings(props) {
         }
     });
 
+    // summaries.map((s) => (<Col xs={3} id="districting-img-"+""><DistrictingPopover num={1} data={props.}/></Col>))
+    // TODO figure this out later
     return(
         <Container id="districtings" className="scrollbar scrollbar-primary fluid">
             <Row>
-                <Col xs={3} id="districting-img-1"><DistrictingPopover num={1}/></Col>
-                <Col xs={3} id="districting-img-2"><DistrictingPopover num={2}/></Col>
-                <Col xs={3} id="districting-img-3"><DistrictingPopover num={3}/></Col>
-                <Col xs={3} id="districting-img-4"><DistrictingPopover num={4}/></Col>
+                <Col xs={3} id="districting-img-1"><DistrictingPopover num={1} summary={summaries ? summaries[0] : loading}/></Col>
+                <Col xs={3} id="districting-img-2"><DistrictingPopover num={2} summary={summaries ? summaries[1] : loading}/></Col>
+                <Col xs={3} id="districting-img-3"><DistrictingPopover num={3} summary={summaries ? summaries[2] : loading}/></Col>
+                <Col xs={3} id="districting-img-4"><DistrictingPopover num={4} summary={summaries ? summaries[3] : loading}/></Col>
             </Row>
             <Row>
-                <Col xs={3} id="districting-img-5"><DistrictingPopover num={5}/></Col>
-                <Col xs={3} id="districting-img-6"><DistrictingPopover num={6}/></Col>
-                <Col xs={3} id="districting-img-7"><DistrictingPopover num={7}/></Col>
-                <Col xs={3} id="districting-img-8"><DistrictingPopover num={8}/></Col>
+                <Col xs={3} id="districting-img-5"><DistrictingPopover num={5} summary={summaries ? summaries[4] : loading}/></Col>
+                <Col xs={3} id="districting-img-6"><DistrictingPopover num={6} summary={summaries ? summaries[5] : loading}/></Col>
+                <Col xs={3} id="districting-img-7"><DistrictingPopover num={7} summary={summaries ? summaries[6] : loading}/></Col>
+                <Col xs={3} id="districting-img-8"><DistrictingPopover num={8} summary={summaries ? summaries[7] : loading}/></Col>
             </Row>
             <Row>
-                <Col xs={3} id="districting-img-9"><DistrictingPopover num={9}/></Col>
-                <Col xs={3} id="districting-img-10"><DistrictingPopover num={10}/></Col>
-                <Col xs={3} id="districting-img-11"><DistrictingPopover num={11}/></Col>
-                <Col xs={3} id="districting-img-12"><DistrictingPopover num={12}/></Col>
+                <Col xs={3} id="districting-img-9"><DistrictingPopover num={9} summary={summaries ? summaries[8] : loading}/></Col>
+                <Col xs={3} id="districting-img-10"><DistrictingPopover num={10} summary={summaries ? summaries[9] : loading}/></Col>
+                <Col xs={3} id="districting-img-11"><DistrictingPopover num={11} summary={summaries ? summaries[10] : loading}/></Col>
+                <Col xs={3} id="districting-img-12"><DistrictingPopover num={12} summary={summaries ? summaries[11] : loading}/></Col>
             </Row>
             <Row>
-                <Col xs={3} id="districting-img-13"><DistrictingPopover num={13}/></Col>
-                <Col xs={3} id="districting-img-14"><DistrictingPopover num={14}/></Col>
-                <Col xs={3} id="districting-img-15"><DistrictingPopover num={15}/></Col>
-                <Col xs={3} id="districting-img-16"><DistrictingPopover num={16}/></Col>
+                <Col xs={3} id="districting-img-13"><DistrictingPopover num={13} summary={summaries ? summaries[12] : loading}/></Col>
+                <Col xs={3} id="districting-img-14"><DistrictingPopover num={14} summary={summaries ? summaries[13] : loading}/></Col>
+                <Col xs={3} id="districting-img-15"><DistrictingPopover num={15} summary={summaries ? summaries[14] : loading}/></Col>
+                <Col xs={3} id="districting-img-16"><DistrictingPopover num={16} summary={summaries ? summaries[15] : loading}/></Col>
             </Row>
             <Row>
-                <Col xs={3} id="districting-img-17"><DistrictingPopover num={17}/></Col>
-                <Col xs={3} id="districting-img-18"><DistrictingPopover num={18}/></Col>
-                <Col xs={3} id="districting-img-19"><DistrictingPopover num={19}/></Col>
-                <Col xs={3} id="districting-img-20"><DistrictingPopover num={20}/></Col>
+                <Col xs={3} id="districting-img-17"><DistrictingPopover num={17} summary={summaries ? summaries[16] : loading}/></Col>
+                <Col xs={3} id="districting-img-18"><DistrictingPopover num={18} summary={summaries ? summaries[17] : loading}/></Col>
+                <Col xs={3} id="districting-img-19"><DistrictingPopover num={19} summary={summaries ? summaries[18] : loading}/></Col>
+                <Col xs={3} id="districting-img-20"><DistrictingPopover num={20} summary={summaries ? summaries[19] : loading}/></Col>
             </Row>
         </Container>
     )

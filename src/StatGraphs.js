@@ -41,21 +41,50 @@ function a11yProps(index) {
     };
 }
 
+function formatResponseToBoxWhisker(result) {
+    var boxList = [];
+    var header = ['district'];
+    for (let i = 0; i < result.lowerExtreme.length; i++) {
+        header.push(i.toString());
+    }
+    boxList.push(header);
+    for (let i = 0; i < result.lowerExtreme.length; i++) {
+        var temp = [i.toString(), result.lowerExtreme[i], result.lowerQuartile[i], result.upperQuartile[i], result.upperExtreme[i]];
+        boxList.push(temp);
+    }
+    return boxList;
+}
+
 export default function VerticalTabs(props) {
     const [value, setValue] = React.useState(0);
     const [boxWhiskerBasis, setBoxWhiskerBasis] = React.useState(null)
     const [boxWhiskerEnacted, setBoxWhiskerEnacted] = React.useState(false)
     const [boxWhiskerCurrent, setBoxWhiskerCurrent] = React.useState(false)
     const [boxWhiskerEqualized, setBoxWhiskerEqualized] = React.useState(false)
+    const [boxes, setBoxes] = React.useState(null)
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
 
     const handleSubmit = (event) => {
-        event.preventDefault()
-        
-        fetch("http://localhost:8080/api2/getBoxWhisker?" )
+        event.preventDefault();
+        fetch("http://localhost:8080/api2/boxwhiskers?districtingId=0"
+        + "&basis=" + boxWhiskerBasis 
+        + "&enacted=" + boxWhiskerEnacted 
+        + "&current=" + boxWhiskerCurrent 
+        + "&postAlg=" + boxWhiskerEqualized,
+        { credentials: 'include' })
+        .then(res => res.json())
+                    .then(
+                        (result) => {
+                            var formattedData = formatResponseToBoxWhisker(result);
+                            setBoxes(formattedData);
+                        },
+                        (error) => {
+                            console.log(error)
+                        }
+                    );
 
         //TODO somehow get the districting id
     };
@@ -195,19 +224,7 @@ export default function VerticalTabs(props) {
                         height={'350px'}
                         chartType="CandlestickChart"
                         loader={<div>Loading Chart</div>}
-                        data={[
-                            ['day', 'a', 'b', 'c', 'd'],
-                            ['1', 20, 28, 38, 45],
-                            ['2', 31, 38, 55, 66],
-                            ['3', 50, 55, 77, 80],
-                            ['4', 77, 77, 66, 50],
-                            ['5', 68, 66, 22, 15],
-                            ['6', 20, 28, 38, 45],
-                            ['7', 31, 38, 55, 66],
-                            ['8', 50, 55, 77, 80],
-                            ['9', 77, 77, 66, 50],
-                            ['10', 68, 66, 22, 15],
-                        ]}
+                        data={boxes}
                         options={{
                             legend: 'none',
                             title: "Compare against average & other districtings",
@@ -271,7 +288,7 @@ export default function VerticalTabs(props) {
                                     classname="dark-checkbox" 
                                     id="boxwhisker-basis-african" 
                                     name="boxwhisker-basis"
-                                    onChange={ () => setBoxWhiskerBasis("africanamerican") }
+                                    onChange={ () => setBoxWhiskerBasis("african_american") }
                                     label="Compare African American Population" 
                                 />
                                 <Form.Check 

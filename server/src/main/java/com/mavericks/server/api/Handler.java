@@ -127,24 +127,21 @@ public class Handler {
         return planDTOs;
     }
 
-    public BoxWhisker getBoxWhisker(long districtingId, Basis basis,boolean enacted,
+    public Box getBoxWhisker(long districtingId, Basis basis,boolean enacted,
                                                boolean current, boolean postAlg, HttpSession session){
 
         State state = (State) session.getAttribute("state");
         Districting districting= state.getEnacted();
         List<Box>boxes=new ArrayList<>();
-        for(int i=0;i<districting.getDistricts().size();i++){
-            double []upperExtreme={5,5,5,5,5,5};
-            double []upperQuartile={5,5,5,5,5,5};
-            double []median={5,5,5,5,5,5};
-            double []lowerQuartile={5,5,5,5,5,5};
-            double []lowerExtreme={5,5,5,5,5,5};
-            Box box = new Box(upperExtreme,upperQuartile,median,lowerQuartile,lowerExtreme);
-            boxes.add(box);
-        }
-        BoxWhisker boxWhisker= new BoxWhisker(boxes);
 
-        return boxWhisker;
+        double []upperExtreme={5,5,5,5};
+        double []upperQuartile={5,5,5,5};
+        double []median={5,5,5,5};
+        double []lowerQuartile={5,5,5,5};
+        double []lowerExtreme={5,5,5,5};
+        Box box = new Box(upperExtreme,upperQuartile,median,lowerQuartile,lowerExtreme);
+
+        return box;
     }
 
     /**
