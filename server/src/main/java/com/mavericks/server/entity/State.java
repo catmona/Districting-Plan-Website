@@ -90,7 +90,7 @@ public class State {
         for(District d:districts){
             distPopulations.add(d.getPopulation());
         }
-        return new StateDTO(3129748,this.center,collection,distPopulations);
+        return new StateDTO(3129748,this.center,collection,distPopulations, districting.getElection());
     }
 
     @Override

@@ -32,6 +32,7 @@ function districtings(props) {
     let stateName = props.stateName;
     let districtingPlan = props.districtingPlan;
     let setDistrictingPlan = props.setDistrictingPlan;
+    let tooltipSummaries = props.seaWulfSummaries;
     const NUM_districtingS = 20; //changeable to an array later, or fetched from a json or ini file
 
     useEffect(() => {

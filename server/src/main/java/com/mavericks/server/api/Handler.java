@@ -116,6 +116,17 @@ public class Handler {
         return planDTO;
     }
 
+    public List<PlanDTO> getDistrictingSummaries(HttpSession session){
+        State state = (State) session.getAttribute("state");
+        List<Districting> districtings = state.getDistrictings();
+        List<PlanDTO> planDTOs = new ArrayList<PlanDTO>();
+        for (int i = 0; i < districtings.size(); i++) {
+            planDTOs.add(i, districtings.get(i).makePlanDTO());
+        }
+
+        return planDTOs;
+    }
+
     public BoxWhisker getBoxWhisker(long stateId,long districtingId, long demographicId,boolean enacted,
                                                boolean current, HttpSession session){
 

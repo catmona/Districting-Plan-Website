@@ -5,13 +5,15 @@ import { Row, Nav, Sonnet } from 'react-bootstrap';
 import Map from './Map';
 import Topbar from './Topbar';
 import StateTabs from './StateTabs';
+import { propTypes } from 'react-bootstrap/esm/Image';
 
 function App() {
     const [stateName, setStateName] = useState("");
     const [districtingPlan, setDistrictingPlan] = useState(""); //districting plan
     const [districtingData, setDistrictingData] = useState(""); //statisctics table data, population per district of the plan
+    const [seaWulfSummaries, setSeaWulfSummaries] = useState(""); //tooltip summaries for SeaWulf districtings 
 
-    function stateSummaryCallback(stateAbbr) {
+    function getStateSummary(stateAbbr) {
         fetch("http://localhost:8080/api2/getStateSummary?state=" + stateAbbr)
                 .then(res => res.json())
                 .then(
@@ -25,18 +27,33 @@ function App() {
                 );
     }
 
+    function getSeaWulfSummaries() {
+        fetch("http://localhost:8080/api2/districtingSummaries")
+                    .then(res => res.json())
+                    .then(
+                        (result) => {
+                            console.log("Summaries: %o", result);
+                            setSeaWulfSummaries(result);
+                        },
+                        (error) => {
+                            console.log("Summaries: %o", result);
+                            console.log(error)
+                        }
+                    );
+    }
+
     return (
         <Container fluid>
             <Row>
                 <Col id="left-app">
                     <Row>
-                        <Topbar stateName={stateName} setStateName={setStateName} onSelect={stateSummaryCallback}/>
+                        <Topbar stateName={stateName} setStateName={setStateName} onSelect={getStateSummary}/>
 
-                        <StateTabs stateName={stateName} districtingPlan={districtingPlan} districtingData={districtingData} setDistrictingPlan={setDistrictingPlan}></StateTabs>
+                        <StateTabs stateName={stateName} districtingPlan={districtingPlan} districtingData={districtingData} setDistrictingPlan={setDistrictingPlan} onSelectTab={getSeaWulfSummaries} seaWulfSummaries={seaWulfSummaries}></StateTabs>
                     </Row>
                 </Col>
                 <Col id="right-app">
-                    <Map stateName={stateName} setStateName={setStateName} districtingData={districtingData} onSelect={stateSummaryCallback}/>
+                    <Map stateName={stateName} setStateName={setStateName} districtingData={districtingData} onSelect={getStateSummary} />
                 </Col>
             </Row>
         </Container>

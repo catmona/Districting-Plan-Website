@@ -6,6 +6,14 @@ import Statistics from 'Statistics.js';
 function StateTabs(props) {
     const [stateSelected, setStateSelected] = useState(false);
     const [tab, setTab] = useState("none");
+    let onSelectTab = props.onSelectTab
+
+    function selectTab(key) {
+        if (key === "random-districts") {
+            onSelectTab();
+        }
+        setTab(key)
+    }
 
     useEffect(() => {
         if (!props.stateName || props.stateName === "") {
@@ -19,12 +27,12 @@ function StateTabs(props) {
 
     return (
         <Container fluid id="state-tabs">
-            <Tabs activeKey={tab} onSelect={(k) => setTab(k)}>
+            <Tabs activeKey={tab} onSelect={(k) => selectTab(k)}>
                 <Tab disabled={!stateSelected} eventKey="data-table" title="District Data">
                     {(props.stateName)?<Statistics stateName={props.stateName} districtingData={props.districtingData}/>:""}
                 </Tab>
                 <Tab disabled={!stateSelected} eventKey="random-districts" title="Districtings">
-                        <Districtings stateName={props.stateName} districtingPlan={props.districtingPlan} setDistrictingPlan={props.setDistrictingPlan} />
+                        <Districtings stateName={props.stateName} districtingPlan={props.districtingPlan} setDistrictingPlan={props.setDistrictingPlan} seaWulfSummaries={props.seaWulfSummaries}/>
                 </Tab>
             </Tabs>
             <div hidden={stateSelected} className="instructions-container">

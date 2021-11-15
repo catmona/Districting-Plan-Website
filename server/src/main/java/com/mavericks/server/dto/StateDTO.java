@@ -11,14 +11,16 @@ public class StateDTO {
     private Integer population;
     private Point center;
     private List<Population> districtPopulations;
+    private Election elections;
     private FeatureCollection featureCollection;
 
     public StateDTO(Integer population, Point center, FeatureCollection collection,
-                    List<Population> districtPopulations) {
+                    List<Population> districtPopulations, Election elections) {
         this.population = population;
         this.center = center;
         this.featureCollection= collection;
         this.districtPopulations=districtPopulations;
+        this.elections = elections;
     }
 
     public StateDTO(){
@@ -55,5 +57,13 @@ public class StateDTO {
 
     public void setPopulation(Integer population) {
         this.population = population;
+    }
+
+    public Election getElections() {
+        return elections;
+    }
+
+    public void setElections(Election elections) {
+        this.elections = elections;
     }
 }
