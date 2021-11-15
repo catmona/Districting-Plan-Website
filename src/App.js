@@ -46,7 +46,7 @@ function App() {
             <Row>
                 <Col id="left-app">
                     <Row>
-                        <Topbar stateName={stateName} setStateName={setStateName} onSelect={getStateSummary}/>
+                        <Topbar stateName={stateName} setStateName={setStateName} onSelect={getStateSummary} />
 
                         <StateTabs stateName={stateName} districtingPlan={districtingPlan} districtingData={districtingData} setDistrictingPlan={setDistrictingPlan} onSelectTab={getSeaWulfSummaries} seaWulfSummaries={seaWulfSummaries}></StateTabs>
                     </Row>

@@ -1,4 +1,3 @@
-
 import React, { Component, useEffect, useState } from 'react';
 import EnhancedTable from 'EnhancedTable.js';
 import StatGraphs from './StatGraphs';
@@ -49,6 +48,12 @@ function Statistics(props) {
         stateName: props.stateName ? props.stateName.toLowerCase() : "",
         stateData: null
     });
+    const [popType, setPopType] = useState("TOTAL");
+
+    function getPopType(p) {
+        setPopType(p)
+        //TODO use this
+    }
 
     useEffect(() => {
         console.log("use effect")
@@ -64,11 +69,12 @@ function Statistics(props) {
         }
     }, [props.districtingData]);
     
+    //TODO popType shouldnt need to be passed, accessible in stateData
     return (
         <div>
             {state.isLoaded ? (state.stateData ? <div>
                 <CustomizedTables /> 
-                <StatGraphs stateData={state.stateData} />
+                <StatGraphs stateData={state.stateData} onSelectPopType={getPopType} popType={popType}/> 
                 <EnhancedTable stateData={state.stateData} />
             </div> : "") : <Box className = 'loading-container'><CircularProgress className = 'loading-icon'/></Box>}
         </div>
