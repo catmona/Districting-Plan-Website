@@ -21,6 +21,7 @@ function Map(props) {
     const [lat, setLat] = useState(40.35);
     const [zoom, setZoom] = useState(3.6);
     const [bounds, setBounds] = useState([[-138.42, 12.22], [-56.80, 57.27]])
+    const [districtBoundaries, setDistrictBoundaries] = useState(true)
     let stateName = props.stateName;
     let districtingData = props.districtingData;
     let onSelect = props.onSelect;
@@ -32,6 +33,11 @@ function Map(props) {
 
             //focus map on selected state
             flyToState(stateName);
+
+            let v = "";
+            districtBoundaries ? v = "visible" : v = "none";
+            //togle boundaries based on filter
+            map.current.setLayoutProperty(stateName + "-district-source-layer-outline", 'visibility', v)
 
         } // initialize map only once
         else {
@@ -47,7 +53,6 @@ function Map(props) {
 
                 // load the geojson for the state outlines
                 getStateOutlines()
-                
             });
         }
     });
@@ -55,31 +60,100 @@ function Map(props) {
     function setMap() {
         if (districtingData && districtingData.featureCollection) { // user selected a state
             let layer = map.current.getSource(stateName + "-district-source");
+
             if (!layer) { // map does not have the district boundaries
                 addDistrictGeoJSON(map.current, stateName, districtingData.featureCollection);
             }
         }
     }
 
-    //deprecated
-    // function getGeojson(stateName) {
-    //     if (stateName) { // user selected a state
-    //         let layer = map.current.getSource(stateName + "-district-source");
-    //         if (!layer) { // map does not have the district boundaries
-    //             let url = "http://localhost:8080/api2/getStateSummary?state=" + stateName;
-    //             fetch(url)
-    //                 .then(res => res.json())
-    //                 .then(
-    //                     (result) => {
-    //                         addDistrictGeoJSON(map.current, stateName, result.featureCollection);
-    //                     },
-    //                     (error) => {
-    //                         console.log(error); // failed to fetch geojson
-    //                     }
-    //                 );
-    //         }
-    //     }
-    // }
+    function addDistrictGeoJSON(map, sourceId, source) {
+        let sourceName = sourceId + "-district-source";
+        map.addSource(sourceName, {
+            "type": "geojson",
+            "data": source
+        });
+        console.log("[Mapbox] Added %s", sourceName);
+        
+        addDistrictStyleLayer(map, sourceName);
+        return sourceName;
+    }
+
+    function addDistrictStyleLayer(map, sourceId) {
+        // this is really just to stop anyone from mistakenly using this method. I meant for it to be used w/ addDistrictGeoJSON.
+        if (!map.getSource(sourceId)) {
+            console.log("Must add source before applying style layer.");
+            return;
+        }
+
+        let layerName = sourceId + "-layer";
+        map.addLayer({
+            "id": layerName,
+            "type": "fill",
+            "source": sourceId,
+            "minzoom": zoomThreshold,
+            "layout": {},
+            "paint": {
+                "fill-color": [
+                    'match',
+                    ['get', 'District'],
+                    1,
+                    districtColors[0],
+                    2,
+                    districtColors[1],
+                    3,
+                    districtColors[2],
+                    4,
+                    districtColors[3],
+                    5,
+                    districtColors[4],
+                    6,
+                    districtColors[5],
+                    7,
+                    districtColors[6],
+                    8,
+                    districtColors[7],
+                    9,
+                    districtColors[8],
+                    10,
+                    districtColors[9],
+                    /* other */ white
+                ],
+                "fill-opacity": 0.5,
+            }
+        });
+
+        // adds polygon outlines with adjustable width
+        map.addLayer({
+            'id': layerName + '-outline',
+            'type': 'line',
+            "minzoom": zoomThreshold,
+            'source': sourceId,
+            'paint': {
+            'line-color': white,
+            'line-width': 2
+            }
+        });
+
+        // Add a symbol layer
+        map.addLayer({
+            'id': layerName + '-label',
+            'type': 'symbol',
+            "minzoom": zoomThreshold,
+            'source': sourceId,
+            'layout': {
+            // get the title name from the source's "title" property
+            'text-field': ['get', 'District_Name'],
+            'text-font': [
+            'Open Sans Semibold',
+            'Arial Unicode MS Bold'
+            ],
+            'text-anchor': 'center'
+            }
+        });
+
+        return layerName;
+    }
 
     function flyToState(stateName) {
         switch(stateName) {
@@ -187,7 +261,8 @@ function Map(props) {
                         type="checkbox" 
                         className="dark-checkbox" 
                         id="map-filter-districts" 
-                        checked="true"
+                        onChange={ (e) => setDistrictBoundaries(e.target.checked) }
+                        checked= {districtBoundaries}
                         label="districts"
                     />
                     <Form.Check //counties
@@ -218,111 +293,6 @@ function Map(props) {
     );
 }
 
-/**
- * Adds a district's GeoJSON to the map and styles it. 
- * @param {*} map mapboxgl.Map object
- * @param {*} sourceId id of the source (pass in the abbr. e.g.: NV, AR, WA)
- * @param {*} source the GeoJSON file
- * @returns id of the source added. Sources are named: [State abbv]-district-source
- */
-function addDistrictGeoJSON(map, sourceId, source) {
-    let sourceName = sourceId + "-district-source";
-    map.addSource(sourceName, {
-        "type": "geojson",
-        "data": source
-    });
-    console.log("[Mapbox] Added %s", sourceName);
-    
-    addDistrictStyleLayer(map, sourceName);
-    return sourceName;
-}
-
-/**
- * YOU PROBABLY MEAN TO CALL addDistrictGeoJSON().
- * Adds a district style layer to the given map source.
- * The districts should have a property called "District_Name"
- * denoting which # district it is in the state. This colors the--
- * district the designated color.
- * @param {*} map mapboxgl.Map object
- * @param {*} sourceId id of the source
- * @returns id of the layer added. Layers are named: [State abbv]-district-source-layer
- */
-function addDistrictStyleLayer(map, sourceId) {
-    // this is really just to stop anyone from mistakenly using this method. I meant for it to be used w/ addDistrictGeoJSON.
-    if (!map.getSource(sourceId)) {
-        console.log("Must add source before applying style layer.");
-        return;
-    }
-
-    let layerName = sourceId + "-layer";
-    map.addLayer({
-        "id": layerName,
-        "type": "fill",
-        "source": sourceId,
-        "minzoom": zoomThreshold,
-        "layout": {},
-        "paint": {
-            "fill-color": [
-                'match',
-                ['get', 'District'],
-                1,
-                districtColors[0],
-                2,
-                districtColors[1],
-                3,
-                districtColors[2],
-                4,
-                districtColors[3],
-                5,
-                districtColors[4],
-                6,
-                districtColors[5],
-                7,
-                districtColors[6],
-                8,
-                districtColors[7],
-                9,
-                districtColors[8],
-                10,
-                districtColors[9],
-                /* other */ white
-            ],
-            "fill-opacity": 0.5,
-        }
-    });
-
-    // adds polygon outlines with adjustable width
-    map.addLayer({
-        'id': layerName + '-outline',
-        'type': 'line',
-        "minzoom": zoomThreshold,
-        'source': sourceId,
-        'paint': {
-          'line-color': white,
-          'line-width': 1
-        }
-      });
-
-    // Add a symbol layer
-    map.addLayer({
-        'id': layerName + '-label',
-        'type': 'symbol',
-        "minzoom": zoomThreshold,
-        'source': sourceId,
-        'layout': {
-        // get the title name from the source's "title" property
-        'text-field': ['get', 'District_Name'],
-        'text-font': [
-        'Open Sans Semibold',
-        'Arial Unicode MS Bold'
-        ],
-        'text-anchor': 'center'
-        }
-        });
-
-    return layerName;
-}
-
 export default Map;
 
 /** this breaks everything. https://docs.mapbox.com/help/tutorials/use-mapbox-gl-js-with-react/ claims
@@ -348,3 +318,43 @@ export default Map;
     //     })
     //     map.current.on('flymove', () => console.log("flying"))
     // });
+
+
+        /**
+     * YOU PROBABLY MEAN TO CALL addDistrictGeoJSON().
+     * Adds a district style layer to the given map source.
+     * The districts should have a property called "District_Name"
+     * denoting which # district it is in the state. This colors the--
+     * district the designated color.
+     * @param {*} map mapboxgl.Map object
+     * @param {*} sourceId id of the source
+     * @returns id of the layer added. Layers are named: [State abbv]-district-source-layer
+     */
+
+            //deprecated
+    // function getGeojson(stateName) {
+    //     if (stateName) { // user selected a state
+    //         let layer = map.current.getSource(stateName + "-district-source");
+    //         if (!layer) { // map does not have the district boundaries
+    //             let url = "http://localhost:8080/api2/getStateSummary?state=" + stateName;
+    //             fetch(url)
+    //                 .then(res => res.json())
+    //                 .then(
+    //                     (result) => {
+    //                         addDistrictGeoJSON(map.current, stateName, result.featureCollection);
+    //                     },
+    //                     (error) => {
+    //                         console.log(error); // failed to fetch geojson
+    //                     }
+    //                 );
+    //         }
+    //     }
+    // }
+
+        /**
+ * Adds a district's GeoJSON to the map and styles it. 
+ * @param {*} map mapboxgl.Map object
+ * @param {*} sourceId id of the source (pass in the abbr. e.g.: NV, AR, WA)
+ * @param {*} source the GeoJSON file
+ * @returns id of the source added. Sources are named: [State abbv]-district-source
+ */
