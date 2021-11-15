@@ -1,21 +1,21 @@
 package com.mavericks.server.dto;
 
+import com.mavericks.server.entity.Demographic;
 import com.mavericks.server.entity.Point;
 import com.mavericks.server.entity.Population;
 import org.locationtech.jts.geom.Geometry;
+import org.wololo.geojson.FeatureCollection;
 
 public class StateDTO {
 
     private Integer population;
-    private Geometry geometry;
     private Point center;
-    private Population demographics;
+    private FeatureCollection featureCollection;
 
-    public StateDTO(Integer population, Geometry geometry, Point center, Population demographics) {
+    public StateDTO(Integer population, Point center, FeatureCollection collection) {
         this.population = population;
-        this.geometry = geometry;
         this.center = center;
-        this.demographics = demographics;
+        this.featureCollection= collection;
     }
 
     public StateDTO(){
@@ -30,12 +30,12 @@ public class StateDTO {
         this.population = population;
     }
 
-    public Geometry getGeometry() {
-        return geometry;
+    public FeatureCollection getFeatureCollection() {
+        return featureCollection;
     }
 
-    public void setGeometry(Geometry geometry) {
-        this.geometry = geometry;
+    public void setFeatureCollection(FeatureCollection featureCollection) {
+        this.featureCollection = featureCollection;
     }
 
     public Point getCenter() {
@@ -46,11 +46,4 @@ public class StateDTO {
         this.center = center;
     }
 
-    public Population getDemographics() {
-        return demographics;
-    }
-
-    public void setDemographics(Population demographics) {
-        this.demographics = demographics;
-    }
 }

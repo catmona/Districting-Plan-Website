@@ -1,12 +1,24 @@
 package com.mavericks.server.api;
 
 import com.mavericks.server.dto.StateDTO;
-import com.mavericks.server.entity.State;
+import com.mavericks.server.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StreamUtils;
+import org.springframework.web.server.ResponseStatusException;
+import org.wololo.geojson.Feature;
+import org.wololo.geojson.FeatureCollection;
+import org.wololo.geojson.GeoJSONFactory;
 
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.Charset;
+import java.util.ArrayList;
 import java.util.Hashtable;
+import java.util.List;
 import java.util.Map;
 
 @Component
@@ -19,11 +31,52 @@ public class Handler {
         this.jobs = jobs;
     }
 
+    public String readFile(String path){
+        try{
+            //read file and return
+            InputStream in = new ClassPathResource(path).getInputStream();
+            String data = StreamUtils.copyToString(in, Charset.defaultCharset());
+            in.close();
+            return data;
+        }catch (IOException e){
+            return  "";
+        }
+    }
+
     public StateDTO getStateSummary(String stateName, HttpSession session){
 
-        ///make query here
-        //dummy object below
-        State state = new State();
+        State state= new State("NV","Nevada",4);
+        String data = readFile("data/NV/2012/State.geojson");
+        FeatureCollection featureCollection = (FeatureCollection) GeoJSONFactory.create(data);
+        List<Districting> districtings= new ArrayList<>();
+        int[] aa = new int[]{88601, 16972, 72744, 131912};
+        int[] white = new int[]{347382, 582218, 523798, 435644};
+        int[] asian = new int[]{60582, 32304, 126960, 47066};
+        int[] hispanic = new int[]{343864, 183123, 166285, 238360};
+        int[] all = new int[]{723705, 766064, 853240, 786739};
+
+        for(int i=0;i<30;i++){
+            Districting dist = new Districting(state,featureCollection);
+            List<District> districts = new ArrayList<>();
+            Feature[]fs=featureCollection.getFeatures();
+            for(int j=0;j<fs.length;j++){
+                Population population= new Population();
+                population.setPopulation(PopulationMeasure.TOTAL,Demographic.ALL,all[j]);
+                population.setPopulation(PopulationMeasure.TOTAL,Demographic.AFRICAN_AMERICAN,aa[j]);
+                population.setPopulation(PopulationMeasure.TOTAL,Demographic.ASIAN,asian[j]);
+                population.setPopulation(PopulationMeasure.TOTAL,Demographic.HISPANIC,hispanic[j]);
+                population.setPopulation(PopulationMeasure.TOTAL,Demographic.WHITE,white[j]);
+                District district= new District(i,dist,fs[0]);
+                districts.add(district);
+            }
+
+            dist.setDistricts(districts);
+            districtings.add(dist);
+        }
+
+
+        state.setDistrictings(districtings);
+        session.setAttribute("state",state);
         return state.makeDTO();
     }
 
