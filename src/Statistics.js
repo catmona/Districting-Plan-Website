@@ -23,12 +23,13 @@ const Demographic = {
 function Statistics(props) {
     const [state, setState] = useState({
         isLoaded: false,
-        stateName: props.stateName ? props.stateName.toLowerCase() : null,
+        stateName: props.stateName ? props.stateName.toLowerCase() : "",
         stateData: null
     });
 
     useEffect(() => {
-        if (!state.isLoaded && props.districtingData) {
+        console.log("use effect")
+        if (props.districtingData) {
 
             console.log(props.districtingData);
             var formattedDataList = [];
@@ -53,10 +54,11 @@ function Statistics(props) {
 
             setState({
                 isLoaded: true,
+                stateName: props.stateName ? props.stateName.toLowerCase() : "",
                 stateData: formattedDataList
             });
         }
-    });
+    }, []);
     
     return (
         <div>
