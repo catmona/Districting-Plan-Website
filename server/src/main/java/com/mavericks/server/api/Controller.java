@@ -1,6 +1,6 @@
 package com.mavericks.server.api;
 
-import com.mavericks.server.dto.DistricitingDTO;
+import com.mavericks.server.dto.DistrictingDTO;
 import com.mavericks.server.dto.PlanDTO;
 import com.mavericks.server.dto.StateDTO;
 import com.mavericks.server.entity.BoxWhisker;
@@ -38,7 +38,7 @@ public class Controller {
     }
 
     @GetMapping(value = "districtings")
-    public List<DistricitingDTO> handleDistrictings(@RequestParam("state") String state, HttpSession session){
+    public List<DistrictingDTO> handleDistrictings(@RequestParam("state") String state, HttpSession session){
         return handler.getDistrictings(state,session);
     }
 

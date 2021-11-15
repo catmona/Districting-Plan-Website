@@ -1,6 +1,7 @@
 package com.mavericks.server.entity;
 
-import com.mavericks.server.dto.DistricitingDTO;
+import com.mavericks.server.dto.DistrictingDTO;
+import com.mavericks.server.dto.DistrictingDTO;
 import com.mavericks.server.dto.PlanDTO;
 import org.locationtech.jts.geom.Geometry;
 import org.wololo.geojson.Feature;
@@ -128,8 +129,8 @@ public class Districting {
         this.population = population;
     }
 
-    public DistricitingDTO makeDistrictDTO(){
-        return new DistricitingDTO(this.polsbyPopper,this.populationEquality,this.election);
+    public DistrictingDTO makeDistrictDTO(){
+        return new DistrictingDTO(this.polsbyPopper,this.populationEquality,this.election);
     }
 
     public PlanDTO makePlanDTO(){

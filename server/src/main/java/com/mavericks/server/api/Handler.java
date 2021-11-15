@@ -1,6 +1,7 @@
 package com.mavericks.server.api;
 
-import com.mavericks.server.dto.DistricitingDTO;
+import com.mavericks.server.dto.DistrictingDTO;
+import com.mavericks.server.dto.DistrictingDTO;
 import com.mavericks.server.dto.PlanDTO;
 import com.mavericks.server.dto.StateDTO;
 import com.mavericks.server.entity.*;
@@ -97,9 +98,9 @@ public class Handler {
     }
 
 
-    public List<DistricitingDTO> getDistrictings(String stateName, HttpSession session){
+    public List<DistrictingDTO> getDistrictings(String stateName, HttpSession session){
         State state = (State) session.getAttribute("state");
-        List<DistricitingDTO> plansPreview= new ArrayList<>();
+        List<DistrictingDTO> plansPreview= new ArrayList<>();
         Districting enacted = state.getEnacted();
         for(int i=0;i<30;i++){
             plansPreview.add(enacted.makeDistrictDTO());
