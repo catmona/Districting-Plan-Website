@@ -9,7 +9,7 @@ mapboxgl.accessToken = 'pk.eyJ1IjoiZ29sZHlmbGFrZXMiLCJhIjoiY2t0ZGtrNHhiMDB5MjJxc
 // const districtColors = randomColor({count: 10, luminosity: 'bright', seed: 'random-mavs'});
 const districtColors = ["#00ff73", "#00ffed", "#0024ff", "#ac00ff", "#ff0056", "#d0ff00", "#ff9700", "#f3ccf2", "#90f1c9", "#d1f190"]
 const white = '#FFFFFF'; // white
-const zoomThreshold = 4;
+const zoomThreshold = 4;       
 let hoveredStateId = null;
 
 function Map(props) {
@@ -167,16 +167,16 @@ function Map(props) {
             onSelect(e.features[0].properties.NAME);
         });
 
-        //change cursor to pointer when hovering a state outline
+        //change cursor to pointer when hovering a state outline and change color
         map.current.on('mousemove', 'State-Outline-Layer', (e) => {
             map.current.getCanvas().style.cursor = 'pointer';
             if (e.features.length > 0) {
-                if (hoveredStateId !== null) {
-                    map.current.setFeatureState(
-                        { source: 'State-Outline-Source', id: hoveredStateId },
-                        { hover: false }
-                    );
-                }
+                // if (hoveredStateId !== null) {
+                //     map.current.setFeatureState(
+                //         { source: 'State-Outline-Source', id: hoveredStateId },
+                //         { hover: false }
+                //     );
+                // }
                 hoveredStateId = e.features[0].id;
                 map.current.setFeatureState(
                     { source: 'State-Outline-Source', id: hoveredStateId },
@@ -185,7 +185,7 @@ function Map(props) {
             }
 
         });
-        //change cursor back when not hovering a state outline
+        //change cursor back when not hovering a state outline and change color
         map.current.on('mouseleave', 'State-Outline-Layer', () => {
             map.current.getCanvas().style.cursor = '';
             if (hoveredStateId !== null) {

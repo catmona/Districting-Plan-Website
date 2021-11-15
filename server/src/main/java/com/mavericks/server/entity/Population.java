@@ -67,4 +67,11 @@ public class Population {
         return sumPop;
     }
 
+    public List<List<Integer>> getPopulations() {
+        return populations;
+    }
+
+    public void setPopulations(List<List<Integer>> populations) {
+        this.populations = populations;
+    }
 }
