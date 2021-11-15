@@ -15,7 +15,12 @@ class Statistics extends Component {
         };
     }
     componentDidMount() {
-        fetch("http://localhost:8080/api/stateinfo")
+        if (!this.props.districtingData) return;
+        this.setState({
+            isLoaded: true,
+            stateData: this.props.districtingData
+        });
+        fetch("http://localhost:8080/api2/stateinfo")
             .then(res => res.json())
             .then(
                 (result) => {

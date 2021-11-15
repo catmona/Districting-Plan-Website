@@ -20,11 +20,13 @@ function Map(props) {
     const [zoom, setZoom] = useState(3.6);
     const [bounds, setBounds] = useState([[-138.42, 12.22], [-56.80, 57.27]])
     let stateName = props.stateName;
+    let districtingData = props.districtingData;
+    let onSelect = props.onSelect;
 
     useEffect(() => {
         if (map.current) {
             /* Get geoJson on demand */
-            getGeojson(stateName);
+            setMap();
 
             //focus map on selected state
             flyToState(stateName);
@@ -71,6 +73,15 @@ function Map(props) {
     //     })
     //     map.current.on('flymove', () => console.log("flying"))
     // });
+
+    function setMap() {
+        if (districtingData && districtingData.featureCollection) { // user selected a state
+            let layer = map.current.getSource(stateName + "-district-source");
+            if (!layer) { // map does not have the district boundaries
+                addDistrictGeoJSON(map.current, stateName, districtingData.featureCollection);
+            }
+        }
+    }
 
     function getGeojson(stateName) {
         if (stateName) { // user selected a state
@@ -153,6 +164,7 @@ function Map(props) {
         //set state by clicking on its outline
         map.current.on('click', 'State-Outline-Layer', (e) => {
             props.setStateName(e.features[0].properties.NAME);
+            onSelect(e.features[0].properties.NAME);
         });
 
         //change cursor to pointer when hovering a state outline
