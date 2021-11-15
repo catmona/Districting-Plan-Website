@@ -6,9 +6,11 @@ import StateOutlineSource from './data/us_state_outlines.geojson';
 mapboxgl.accessToken = 'pk.eyJ1IjoiZ29sZHlmbGFrZXMiLCJhIjoiY2t0ZGtrNHhiMDB5MjJxcWN6bWZ5ZGx3byJ9.IMzQecUSVBFlT4rUycdG3Q';
 
 // constants for styling districts on map
-const districtColors = randomColor({count: 10, luminosity: 'bright', seed: 'mavericks'});
+// const districtColors = randomColor({count: 10, luminosity: 'bright', seed: 'random-mavs'});
+const districtColors = ["#00ff73", "#00ffed", "#0024ff", "#ac00ff", "#ff0056", "#d0ff00", "#ff9700", "#f3ccf2", "#90f1c9", "#d1f190"]
 const white = '#FFFFFF'; // white
 const zoomThreshold = 4;
+let hoveredStateId = null;
 
 function Map(props) {
     const mapContainer = useRef(null);
@@ -139,7 +141,12 @@ function Map(props) {
             "layout": {},
             "paint": {
                 "fill-color": '#4285F4',
-                "fill-opacity": 0.5,
+                "fill-opacity": [
+                    'case',
+                    ['boolean', ['feature-state', 'hover'], false],
+                    1,
+                    0.5
+                ]
             }
         });
 
@@ -149,13 +156,33 @@ function Map(props) {
         });
 
         //change cursor to pointer when hovering a state outline
-        map.current.on('mouseenter', 'State-Outline-Layer', () => {
+        map.current.on('mousemove', 'State-Outline-Layer', (e) => {
             map.current.getCanvas().style.cursor = 'pointer';
-            
+            if (e.features.length > 0) {
+                if (hoveredStateId !== null) {
+                    map.current.setFeatureState(
+                        { source: 'State-Outline-Source', id: hoveredStateId },
+                        { hover: false }
+                    );
+                }
+                hoveredStateId = e.features[0].id;
+                map.current.setFeatureState(
+                    { source: 'State-Outline-Source', id: hoveredStateId },
+                    { hover: true }
+                );
+            }
+
         });
-         //change cursor back when not hovering a state outline
-         map.current.on('mouseleave', 'State-Outline-Layer', () => {
+        //change cursor back when not hovering a state outline
+        map.current.on('mouseleave', 'State-Outline-Layer', () => {
             map.current.getCanvas().style.cursor = '';
+            if (hoveredStateId !== null) {
+                map.current.setFeatureState(
+                    { source: 'State-Outline-Source', id: hoveredStateId },
+                    { hover: false }
+                );
+            }
+            hoveredStateId = null;
         });
     }
 
