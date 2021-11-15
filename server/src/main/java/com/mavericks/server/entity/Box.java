@@ -1,6 +1,7 @@
 package com.mavericks.server.entity;
 
 public class Box {
+    //each index corresponds to a district
     private double[] upperExtreme;
     private double[] upperQuartile;
     private double[] median;

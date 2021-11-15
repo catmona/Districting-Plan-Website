@@ -127,8 +127,8 @@ public class Handler {
         return planDTOs;
     }
 
-    public BoxWhisker getBoxWhisker(long stateId,long districtingId, long demographicId,boolean enacted,
-                                               boolean current, HttpSession session){
+    public BoxWhisker getBoxWhisker(long districtingId, Basis basis,boolean enacted,
+                                               boolean current, boolean postAlg, HttpSession session){
 
         State state = (State) session.getAttribute("state");
         Districting districting= state.getEnacted();

@@ -3,6 +3,7 @@ package com.mavericks.server.api;
 import com.mavericks.server.dto.DistrictingDTO;
 import com.mavericks.server.dto.PlanDTO;
 import com.mavericks.server.dto.StateDTO;
+import com.mavericks.server.entity.Basis;
 import com.mavericks.server.entity.BoxWhisker;
 import com.mavericks.server.entity.PopulationMeasure;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +34,7 @@ public class Controller {
 
     @PostMapping(value = "setPopulationType")
     public ResponseEntity handlePopulationType(@RequestParam("populationType")String populationType, HttpSession session){
-        session.setAttribute("PopType",mapStringToEnum(populationType));
+        session.setAttribute("PopType",mapPopToEnum(populationType));
         return ResponseEntity.ok().build();
     }
 
@@ -54,12 +55,12 @@ public class Controller {
     }
 
     @GetMapping(value = "boxwhiskers")
-    public BoxWhisker handleBoxWhisker(@RequestParam("stateId")long stateId,
-                                       @RequestParam("districtingId")long districtingId,
-                                       @RequestParam("demographicId") long demographicId,
+    public BoxWhisker handleBoxWhisker(@RequestParam("districtingId")long districtingId,
+                                       @RequestParam("basis") String basis,
                                        @RequestParam("enacted")boolean enacted,
-                                       @RequestParam("current")boolean current, HttpSession session){
-        return handler.getBoxWhisker(stateId,districtingId,demographicId,enacted,current,session);
+                                       @RequestParam("current")boolean current,
+                                       @RequestParam("postAlg")boolean postAlg, HttpSession session){
+        return handler.getBoxWhisker(districtingId,mapBasisToEnum(basis),enacted,current,postAlg,session);
     }
 
     @PostMapping("mapfilter")
@@ -97,7 +98,7 @@ public class Controller {
         return new Hashtable<>();
     }
 
-    private PopulationMeasure mapStringToEnum(String s){
+    private PopulationMeasure mapPopToEnum(String s){
         switch (s){
             case "TOTAL":
                 return PopulationMeasure.TOTAL;
@@ -105,6 +106,23 @@ public class Controller {
                 return PopulationMeasure.CVAP;
             default:
                 return PopulationMeasure.VAP;
+        }
+    }
+
+    private Basis mapBasisToEnum(String s){
+        switch (s){
+            case "WHITE":
+                return Basis.WHITE;
+            case "AFRICAN_AMERICAN":
+                return Basis.AFRICAN_AMERICAN;
+            case "ASIAN":
+                return Basis.ASIAN;
+            case "HISPANIC":
+                return Basis.HISPANIC;
+            case "DEMOCRAT":
+                return Basis.DEMOCRAT;
+            default:
+                return Basis.REPUBLICAN;
         }
     }
 
