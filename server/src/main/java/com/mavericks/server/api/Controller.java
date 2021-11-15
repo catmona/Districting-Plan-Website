@@ -3,6 +3,7 @@ package com.mavericks.server.api;
 import com.mavericks.server.dto.DistricitingDTO;
 import com.mavericks.server.dto.PlanDTO;
 import com.mavericks.server.dto.StateDTO;
+import com.mavericks.server.entity.BoxWhisker;
 import com.mavericks.server.entity.PopulationMeasure;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +18,6 @@ import java.util.Map;
 @CrossOrigin(origins = "http://localhost:8081")
 @RequestMapping(path = "api2/")
 public class Controller {
-
     private final Handler handler;
 
     @Autowired
@@ -49,12 +49,12 @@ public class Controller {
     }
 
     @GetMapping(value = "boxwhiskers")
-    public Map<String,Object> handleBoxWhisker(@RequestParam("stateId")long stateId,
-                                               @RequestParam("districtingId")long districtingId,
-                                               @RequestParam("demographicId") long demographicId,
-                                               @RequestParam("enacted")boolean enacted,
-                                               @RequestParam("current")boolean current,HttpSession session){
-        return new Hashtable<>();
+    public BoxWhisker handleBoxWhisker(@RequestParam("stateId")long stateId,
+                                       @RequestParam("districtingId")long districtingId,
+                                       @RequestParam("demographicId") long demographicId,
+                                       @RequestParam("enacted")boolean enacted,
+                                       @RequestParam("current")boolean current, HttpSession session){
+        return handler.getBoxWhisker(stateId,districtingId,demographicId,enacted,current,session);
     }
 
     @PostMapping("mapfilter")
