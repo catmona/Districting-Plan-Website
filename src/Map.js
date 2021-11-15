@@ -3,6 +3,7 @@ import mapboxgl from '!mapbox-gl'; // eslint-disable-line import/no-webpack-load
 import randomColor from 'randomcolor';
 import StateOutlineSource from './data/us_state_outlines.geojson';
 import { Form } from 'react-bootstrap';
+import { color } from '@mui/system';
 
 mapboxgl.accessToken = 'pk.eyJ1IjoiZ29sZHlmbGFrZXMiLCJhIjoiY2t0ZGtrNHhiMDB5MjJxcWN6bWZ5ZGx3byJ9.IMzQecUSVBFlT4rUycdG3Q';
 
@@ -60,24 +61,25 @@ function Map(props) {
         }
     }
 
-    function getGeojson(stateName) {
-        if (stateName) { // user selected a state
-            let layer = map.current.getSource(stateName + "-district-source");
-            if (!layer) { // map does not have the district boundaries
-                let url = "http://localhost:8080/api2/getStateSummary?state=" + stateName;
-                fetch(url)
-                    .then(res => res.json())
-                    .then(
-                        (result) => {
-                            addDistrictGeoJSON(map.current, stateName, result.featureCollection);
-                        },
-                        (error) => {
-                            console.log(error); // failed to fetch geojson
-                        }
-                    );
-            }
-        }
-    }
+    //deprecated
+    // function getGeojson(stateName) {
+    //     if (stateName) { // user selected a state
+    //         let layer = map.current.getSource(stateName + "-district-source");
+    //         if (!layer) { // map does not have the district boundaries
+    //             let url = "http://localhost:8080/api2/getStateSummary?state=" + stateName;
+    //             fetch(url)
+    //                 .then(res => res.json())
+    //                 .then(
+    //                     (result) => {
+    //                         addDistrictGeoJSON(map.current, stateName, result.featureCollection);
+    //                     },
+    //                     (error) => {
+    //                         console.log(error); // failed to fetch geojson
+    //                     }
+    //                 );
+    //         }
+    //     }
+    // }
 
     function flyToState(stateName) {
         switch(stateName) {
@@ -149,7 +151,7 @@ function Map(props) {
             map.current.getCanvas().style.cursor = 'pointer';
             if (e.features.length > 0) {
                 if (hoveredStateId !== null) {
-                    map.current.setFeatureState(
+                    map.current.setFeatureState( //TODO fix this
                         { source: 'State-Outline-Source', id: hoveredStateId },
                         { hover: false }
                     );
@@ -185,6 +187,7 @@ function Map(props) {
                         type="checkbox" 
                         className="dark-checkbox" 
                         id="map-filter-districts" 
+                        checked="true"
                         label="districts"
                     />
                     <Form.Check //counties

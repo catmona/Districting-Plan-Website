@@ -5,8 +5,7 @@ import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Chart from 'react-google-charts'
-import { Button } from 'react-bootstrap';
-//import { Form } from 'react-bootstrap';
+import { Form, Button } from 'react-bootstrap';
 
 function TabPanel(props) {
     const { children, value, index, stateData, ...other } = props;
@@ -27,8 +26,6 @@ function TabPanel(props) {
         </div>
     );
 }
-import { Form } from 'react-bootstrap';
-import { ContactPageSharp } from '@mui/icons-material';
 
 TabPanel.propTypes = {
     children: PropTypes.node,

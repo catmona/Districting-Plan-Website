@@ -33,13 +33,13 @@ function districtings(props) {
     let districtingPlan = props.districtingPlan;
     let setDistrictingPlan = props.setDistrictingPlan;
     let tooltipSummaries = props.seaWulfSummaries;
-    const NUM_districtingS = 20; //changeable to an array later, or fetched from a json or ini file
+    const NUM_DISTRICTINGS = 20; //changeable to an array later, or fetched from a json or ini file
 
     useEffect(() => {
         //right now this doesnt account for a different number of districtings per state
         //it wont delete excess images if there are any
         if(stateName || stateName != "") { 
-            for(let i = 0; i < NUM_districtingS; i++) {
+            for(let i = 0; i < NUM_DISTRICTINGS; i++) {
                 var col = document.getElementById("districting-img-" + (i+1));
                 var img = col.firstChild;
                 if(img) {
