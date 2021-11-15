@@ -13,15 +13,14 @@ public class Population {
 
     public Population() {
         // instantiate empty populations var
-        populations=new ArrayList<>();
-
+        populations = new ArrayList<>();
 
         for (int i = 0; i < PopulationMeasure.values().length; i++) {
             List<Integer> popMeasure = new ArrayList<Integer>();
             for (int j = 0; j < Demographic.values().length; j++) {
                 popMeasure.add(j, 0);
             }
-            populations.set(i, popMeasure);
+            populations.add(i, popMeasure);
         }
 
     }
