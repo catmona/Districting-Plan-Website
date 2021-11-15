@@ -5,6 +5,7 @@ import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Chart from 'react-google-charts'
+import { Button } from 'react-bootstrap';
 //import { Form } from 'react-bootstrap';
 
 function TabPanel(props) {
@@ -214,74 +215,79 @@ export default function VerticalTabs(props) {
                         rootProps={{ 'data-testid': '2' }}
                     />
                     
-                    <Form id="box-whisker-right" className="scrollbar-primary"> 
-                        <Form.Group>
-                            <Form.Check 
-                                type="checkbox" 
-                                classname="dark-checkbox" 
-                                id="boxwhisker-enacted" 
-                                label="Show enacted plan?" 
-                            />
-                            <Form.Check 
-                                type="checkbox" 
-                                classname="dark-checkbox" 
-                                id="boxwhisker-districting" 
-                                label="Show current districting plan?" 
-                                disabled //Enabled when a plan other than the enacted plan is selected
-                            />
-                            <Form.Check 
-                                type="checkbox" 
-                                classname="dark-checkbox" 
-                                id="boxwhisker-equalized" 
-                                label="Show equalized plan?" 
-                                disabled //Enabled when the user has run the equalize algorithm on current districting plan
-                            />
-                        </Form.Group>
-                        <hr />
-                        <Form.Group>
-                            <Form.Check 
-                                type="radio" 
-                                classname="dark-checkbox" 
-                                id="boxwhisker-basis-african" 
-                                name="boxwhisker-basis"
-                                label="Compare African American Population" 
-                            />
-                            <Form.Check 
-                                type="radio" 
-                                classname="dark-checkbox" 
-                                id="boxwhisker-basis-hispanic" 
-                                name="boxwhisker-basis"
-                                label="Compare Hispanic Population" 
-                            />
-                            <Form.Check 
-                                type="radio" 
-                                classname="dark-checkbox" 
-                                id="boxwhisker-basis-white" 
-                                name="boxwhisker-basis"
-                                label="Compare Asian Population" 
-                            />
-                            <Form.Check 
-                                type="radio" 
-                                classname="dark-checkbox" 
-                                id="boxwhisker-basis-white" 
-                                name="boxwhisker-basis"
-                                label="Compare White Population" 
-                            />
-                            <Form.Check 
-                                type="radio" 
-                                classname="dark-checkbox" 
-                                id="boxwhisker-basis-republican" 
-                                name="boxwhisker-basis"
-                                label="Compare Republican Population" 
-                            />
-                            <Form.Check 
-                                type="radio" 
-                                classname="dark-checkbox" 
-                                id="boxwhisker-basis-democratic" 
-                                name="boxwhisker-basis"
-                                label="Compare Democratic Population" 
-                            />
-                        </Form.Group>
+                    <Form id="box-whisker-right"> 
+                        <div id="box-whisker-scrollable" className="scrollbar-primary">
+                            <Form.Group>
+                                <Form.Check 
+                                    type="checkbox" 
+                                    classname="dark-checkbox" 
+                                    id="boxwhisker-enacted" 
+                                    label="Show enacted plan?" 
+                                />
+                                <Form.Check 
+                                    type="checkbox" 
+                                    classname="dark-checkbox" 
+                                    id="boxwhisker-districting" 
+                                    label="Show current districting plan?" 
+                                    disabled //Enabled when a plan other than the enacted plan is selected
+                                />
+                                <Form.Check 
+                                    type="checkbox" 
+                                    classname="dark-checkbox" 
+                                    id="boxwhisker-equalized" 
+                                    label="Show equalized plan?" 
+                                    disabled //Enabled when the user has run the equalize algorithm on current districting plan
+                                />
+                            </Form.Group>
+                            <hr />
+                            <Form.Group>
+                                <Form.Check 
+                                    type="radio" 
+                                    classname="dark-checkbox" 
+                                    id="boxwhisker-basis-african" 
+                                    name="boxwhisker-basis"
+                                    label="Compare African American Population" 
+                                />
+                                <Form.Check 
+                                    type="radio" 
+                                    classname="dark-checkbox" 
+                                    id="boxwhisker-basis-hispanic" 
+                                    name="boxwhisker-basis"
+                                    label="Compare Hispanic Population" 
+                                />
+                                <Form.Check 
+                                    type="radio" 
+                                    classname="dark-checkbox" 
+                                    id="boxwhisker-basis-white" 
+                                    name="boxwhisker-basis"
+                                    label="Compare Asian Population" 
+                                />
+                                <Form.Check 
+                                    type="radio" 
+                                    classname="dark-checkbox" 
+                                    id="boxwhisker-basis-white" 
+                                    name="boxwhisker-basis"
+                                    label="Compare White Population" 
+                                />
+                                <Form.Check 
+                                    type="radio" 
+                                    classname="dark-checkbox" 
+                                    id="boxwhisker-basis-republican" 
+                                    name="boxwhisker-basis"
+                                    label="Compare Republican Population" 
+                                />
+                                <Form.Check 
+                                    type="radio" 
+                                    classname="dark-checkbox" 
+                                    id="boxwhisker-basis-democratic" 
+                                    name="boxwhisker-basis"
+                                    label="Compare Democratic Population" 
+                                />
+                            </Form.Group>
+                        </div>
+                        <Button id="box-whisker-submit" variant="primary" type="submit">
+                                Submit
+                            </Button>
                     </Form>
                 </div>
             </TabPanel>

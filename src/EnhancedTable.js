@@ -58,6 +58,7 @@ const columns = [
   },
 ];
 
+//TODO note to cat: use a Modal
 export default function EnhancedTable(props) {
   return (
     <div style={{ height: 400, width: '100%'}} className={'datagrid'}>
@@ -81,8 +82,8 @@ export default function EnhancedTable(props) {
       <Box sx={{ '& > :not(style)': { m: 1 } }} className='button-submit'>
       <Fab variant="extended" size="medium" color="primary" aria-label="add" className='submit'>
         <NavigationIcon sx={{ mr: 1 }} />
-        <span className='submit'>Equalize Population</span> //TODO note to cat: use a Modal
-      </Fab>
+        <span className='submit'>Equalize Population</span> 
+      </Fab> 
       <Fab variant="extended" size="medium" color="primary" aria-label="add" className='submit'>
         <KeyboardBackspaceIcon sx={{ mr: 1 }} />
         <span className='submit'>Go Back</span>
