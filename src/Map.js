@@ -9,7 +9,7 @@ mapboxgl.accessToken = 'pk.eyJ1IjoiZ29sZHlmbGFrZXMiLCJhIjoiY2t0ZGtrNHhiMDB5MjJxc
 // const districtColors = randomColor({count: 10, luminosity: 'bright', seed: 'random-mavs'});
 const districtColors = ["#00ff73", "#00ffed", "#0024ff", "#ac00ff", "#ff0056", "#d0ff00", "#ff9700", "#f3ccf2", "#90f1c9", "#d1f190"]
 const white = '#FFFFFF'; // white
-const zoomThreshold = 4;
+const zoomThreshold = 4;7       
 let hoveredStateId = null;
 
 function Map(props) {

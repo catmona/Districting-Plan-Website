@@ -4,8 +4,8 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import Demo from 'DemographicsChart.js'
 import Chart from 'react-google-charts'
+//import { Form } from 'react-bootstrap';
 
 function TabPanel(props) {
     const { children, value, index, stateData, ...other } = props;
@@ -26,6 +26,7 @@ function TabPanel(props) {
         </div>
     );
 }
+import { Form } from 'react-bootstrap';
 
 TabPanel.propTypes = {
     children: PropTypes.node,
@@ -59,24 +60,23 @@ export default function VerticalTabs(props) {
         >
             {/* <button onClick = {() => {console.log(partyData)}}>Press me</button> */}
             <Tabs
+                className="vertical-tab-bar"
                 orientation="vertical"
                 variant="scrollable"
                 value={value}
                 onChange={handleChange}
                 aria-label="Vertical tabs example"
                 sx={{ borderRight: 1, borderColor: 'divider', color: 'white' }}
-                className="kosta-test"
             >
                 <Tab label="Population" {...a11yProps(0)} width='200px' />
                 <Tab label="Demographics" {...a11yProps(1)} />
-                <Tab label="Comparison with Enacted " {...a11yProps(2)} />
+                <Tab label="Compare to other districtings" {...a11yProps(2)} />
             </Tabs>
             <TabPanel value={value} index={0} width={'100%'} className="dark-tabpanel">
-
                 <Chart
                     className="dark-chart"
                     width={'600px'}
-                    height={'300px'}
+                    height={'350px'}
                     chartType="ColumnChart"
                     loader={<div>Loading Chart</div>}
                     data={partyData}
@@ -123,7 +123,7 @@ export default function VerticalTabs(props) {
                 <Chart
                     className="dark-chart"
                     width={'600px'}
-                    height={'300px'}
+                    height={'350px'}
                     chartType="ColumnChart"
                     loader={<div>Loading Chart</div>}
                     data={demographicData}
@@ -166,53 +166,126 @@ export default function VerticalTabs(props) {
                 />
             </TabPanel>
             <TabPanel value={value} index={2} width={'100%'} className="dark-tabpanel">
-                <Chart
-                    className="dark-chart"
-                    width={600}
-                    height={350}
-                    chartType="CandlestickChart"
-                    loader={<div>Loading Chart</div>}
-                    data={[
-                        ['day', 'a', 'b', 'c', 'd'],
-                        ['1', 20, 28, 38, 45],
-                        ['2', 31, 38, 55, 66],
-                        ['3', 50, 55, 77, 80],
-                        ['4', 77, 77, 66, 50],
-                        ['5', 68, 66, 22, 15],
-                        ['6', 20, 28, 38, 45],
-                        ['7', 31, 38, 55, 66],
-                        ['8', 50, 55, 77, 80],
-                        ['9', 77, 77, 66, 50],
-                        ['10', 68, 66, 22, 15],
-                    ]}
-                    options={{
-                        legend: 'none',
-                        title: "Box and Whiskers Plot Placeholder",
+                <div id="box-whisker-wrapper">
+                    <Chart
+                        className="dark-chart"
+                        id = "box-whisker-left"
+                        width={'600px'}
+                        height={'350px'}
+                        chartType="CandlestickChart"
+                        loader={<div>Loading Chart</div>}
+                        data={[
+                            ['day', 'a', 'b', 'c', 'd'],
+                            ['1', 20, 28, 38, 45],
+                            ['2', 31, 38, 55, 66],
+                            ['3', 50, 55, 77, 80],
+                            ['4', 77, 77, 66, 50],
+                            ['5', 68, 66, 22, 15],
+                            ['6', 20, 28, 38, 45],
+                            ['7', 31, 38, 55, 66],
+                            ['8', 50, 55, 77, 80],
+                            ['9', 77, 77, 66, 50],
+                            ['10', 68, 66, 22, 15],
+                        ]}
+                        options={{
+                            legend: 'none',
+                            title: "Compare against average & other districtings",
 
-                        titleTextStyle: {
-                            color: 'white',
-                            fontSize: 20
-                        },
-                        backgroundColor: bgcolor,
-                        hAxis: {
-                            textStyle: {
-                                color: 'white'
-                            },
                             titleTextStyle: {
-                                color: 'white'
-                            }
-                        },
-                        vAxis: {
-                            textStyle: {
-                                color: 'white'
+                                color: 'white',
+                                fontSize: 20
                             },
-                            titleTextStyle: {
-                                color: 'white'
-                            }
-                        },
-                    }}
-                    rootProps={{ 'data-testid': '2' }}
-                />
+                            backgroundColor: bgcolor,
+                            hAxis: {
+                                textStyle: {
+                                    color: 'white'
+                                },
+                                titleTextStyle: {
+                                    color: 'white'
+                                }
+                            },
+                            vAxis: {
+                                textStyle: {
+                                    color: 'white'
+                                },
+                                titleTextStyle: {
+                                    color: 'white'
+                                }
+                            },
+                        }}
+                        rootProps={{ 'data-testid': '2' }}
+                    />
+                    
+                    <Form id="box-whisker-right"> 
+                        <Form.Group>
+                            <Form.Check 
+                                type="checkbox" 
+                                classname="dark-checkbox" 
+                                id="boxwhisker-enacted" 
+                                label="Show enacted plan?" 
+                            />
+                            <Form.Check 
+                                type="checkbox" 
+                                classname="dark-checkbox" 
+                                id="boxwhisker-districting" 
+                                label="Show current districting plan?" 
+                                disabled //Enabled when a plan other than the enacted plan is selected
+                            />
+                            <Form.Check 
+                                type="checkbox" 
+                                classname="dark-checkbox" 
+                                id="boxwhisker-equalized" 
+                                label="Show equalized plan?" 
+                                disabled //Enabled when the user has run the equalize algorithm on current districting plan
+                            />
+                        </Form.Group>
+                        <hr />
+                        <Form.Group>
+                            <Form.Check 
+                                type="radio" 
+                                classname="dark-checkbox" 
+                                id="boxwhisker-basis-african" 
+                                name="boxwhisker-basis"
+                                label="Compare African American Population" 
+                            />
+                            <Form.Check 
+                                type="radio" 
+                                classname="dark-checkbox" 
+                                id="boxwhisker-basis-hispanic" 
+                                name="boxwhisker-basis"
+                                label="Compare Hispanic Population" 
+                            />
+                            <Form.Check 
+                                type="radio" 
+                                classname="dark-checkbox" 
+                                id="boxwhisker-basis-white" 
+                                name="boxwhisker-basis"
+                                label="Compare Asian Population" 
+                            />
+                            <Form.Check 
+                                type="radio" 
+                                classname="dark-checkbox" 
+                                id="boxwhisker-basis-white" 
+                                name="boxwhisker-basis"
+                                label="Compare White Population" 
+                            />
+                            <Form.Check 
+                                type="radio" 
+                                classname="dark-checkbox" 
+                                id="boxwhisker-basis-republican" 
+                                name="boxwhisker-basis"
+                                label="Compare Republican Population" 
+                            />
+                            <Form.Check 
+                                type="radio" 
+                                classname="dark-checkbox" 
+                                id="boxwhisker-basis-democratic" 
+                                name="boxwhisker-basis"
+                                label="Compare Democratic Population" 
+                            />
+                        </Form.Group>
+                    </Form>
+                </div>
             </TabPanel>
         </Box>
     );
