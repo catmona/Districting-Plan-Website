@@ -81,7 +81,7 @@ export default function EnhancedTable(props) {
       <Box sx={{ '& > :not(style)': { m: 1 } }} className='button-submit'>
       <Fab variant="extended" size="medium" color="primary" aria-label="add" className='submit'>
         <NavigationIcon sx={{ mr: 1 }} />
-        <span className='submit'>Equalize Population</span>
+        <span className='submit'>Equalize Population</span> //TODO note to cat: use a Modal
       </Fab>
       <Fab variant="extended" size="medium" color="primary" aria-label="add" className='submit'>
         <KeyboardBackspaceIcon sx={{ mr: 1 }} />

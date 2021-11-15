@@ -2,6 +2,7 @@ import React, { useRef, useEffect, useState } from 'react';
 import mapboxgl from '!mapbox-gl'; // eslint-disable-line import/no-webpack-loader-syntax
 import randomColor from 'randomcolor';
 import StateOutlineSource from './data/us_state_outlines.geojson';
+import { Form } from 'react-bootstrap';
 
 mapboxgl.accessToken = 'pk.eyJ1IjoiZ29sZHlmbGFrZXMiLCJhIjoiY2t0ZGtrNHhiMDB5MjJxcWN6bWZ5ZGx3byJ9.IMzQecUSVBFlT4rUycdG3Q';
 
@@ -49,30 +50,6 @@ function Map(props) {
             });
         }
     });
-
-    /** this breaks everything. https://docs.mapbox.com/help/tutorials/use-mapbox-gl-js-with-react/ claims
-    *   that it is necessary in order to store location data after the map has been interacted with. If
-    *   this doesn't work then we can't have dynamic bounds, however it conflicts with flyToState() by 
-    *   constantly setting the lat and lng in both flyToState() and in this function, crashing the app.
-    */
-    // useEffect(() => {
-    //     if(!map.current) return; //wait for map to initialize
-
-    //     map.current.on('move', ({ originalEvent }) => {
-    //         if (originalEvent) {
-    //           map.current.fire('usermove');
-    //         } else {
-    //           map.current.fire('flymove');
-    //         }
-    //       });
-
-    //     map.current.on('usermove', () => {
-    //         console.log(map.current.getCenter().lng.toFixed(4));
-    //         console.log(map.current.getCenter().lat.toFixed(4));
-    //         console.log(map.current.getZoom().toFixed(2));
-    //     })
-    //     map.current.on('flymove', () => console.log("flying"))
-    // });
 
     function setMap() {
         if (districtingData && districtingData.featureCollection) { // user selected a state
@@ -171,12 +148,12 @@ function Map(props) {
         map.current.on('mousemove', 'State-Outline-Layer', (e) => {
             map.current.getCanvas().style.cursor = 'pointer';
             if (e.features.length > 0) {
-                // if (hoveredStateId !== null) {
-                //     map.current.setFeatureState(
-                //         { source: 'State-Outline-Source', id: hoveredStateId },
-                //         { hover: false }
-                //     );
-                // }
+                if (hoveredStateId !== null) {
+                    map.current.setFeatureState(
+                        { source: 'State-Outline-Source', id: hoveredStateId },
+                        { hover: false }
+                    );
+                }
                 hoveredStateId = e.features[0].id;
                 map.current.setFeatureState(
                     { source: 'State-Outline-Source', id: hoveredStateId },
@@ -201,7 +178,38 @@ function Map(props) {
     return (
         <div className = "map-wrapper">
             <div className = "map-fade" />
-            
+            <div id="map-filter">
+                <p id="map-filter-label"><b>Filter</b></p>
+                <Form>
+                    <Form.Check //districts
+                        type="checkbox" 
+                        classname="dark-checkbox" 
+                        id="map-filter-districts" 
+                        label="districts"
+                    />
+                    <Form.Check //counties
+                        type="checkbox" 
+                        classname="dark-checkbox" 
+                        id="map-filter-counties" 
+                        label="counties" 
+                        disabled
+                    />
+                    <Form.Check //precints
+                        type="checkbox" 
+                        classname="dark-checkbox" 
+                        id="map-filter-precincts" 
+                        label="precincts"
+                        disabled 
+                    />
+                    <Form.Check //census blocks
+                        type="checkbox" 
+                        classname="dark-checkbox" 
+                        id="map-filter-census-blocks" 
+                        label="census blocks" 
+                        disabled
+                    />
+                </Form>
+            </div>
             <div ref={mapContainer} className = "map-container" />
         </div>
     );
@@ -313,3 +321,27 @@ function addDistrictStyleLayer(map, sourceId) {
 }
 
 export default Map;
+
+/** this breaks everything. https://docs.mapbox.com/help/tutorials/use-mapbox-gl-js-with-react/ claims
+    *   that it is necessary in order to store location data after the map has been interacted with. If
+    *   this doesn't work then we can't have dynamic bounds, however it conflicts with flyToState() by 
+    *   constantly setting the lat and lng in both flyToState() and in this function, crashing the app.
+    */
+    // useEffect(() => {
+    //     if(!map.current) return; //wait for map to initialize
+
+    //     map.current.on('move', ({ originalEvent }) => {
+    //         if (originalEvent) {
+    //           map.current.fire('usermove');
+    //         } else {
+    //           map.current.fire('flymove');
+    //         }
+    //       });
+
+    //     map.current.on('usermove', () => {
+    //         console.log(map.current.getCenter().lng.toFixed(4));
+    //         console.log(map.current.getCenter().lat.toFixed(4));
+    //         console.log(map.current.getZoom().toFixed(2));
+    //     })
+    //     map.current.on('flymove', () => console.log("flying"))
+    // });
