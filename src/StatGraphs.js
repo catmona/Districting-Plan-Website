@@ -55,9 +55,7 @@ export default function VerticalTabs(props) {
     let demographicData = [['District', 'Hispanic or Latino', 'African American', 'Asian']];
     demographicData.push(...props.stateData.map((x) => { return [x['id'] + "", x['hispanic'], x['africanamerican'], x['asianamerican']] }));
     return (
-        <Box
-            sx={{ flexGrow: 1, bgcolor: bgcolor2, display: 'flex', height: 325 }}
-        >
+        <Box sx={{ flexGrow: 1, bgcolor: bgcolor2, display: 'flex', height: 325 }} >
             {/* <button onClick = {() => {console.log(partyData)}}>Press me</button> */}
             <Tabs
                 className="vertical-tab-bar"
