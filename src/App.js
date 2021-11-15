@@ -14,7 +14,7 @@ function App() {
     const [seaWulfSummaries, setSeaWulfSummaries] = useState(""); //tooltip summaries for SeaWulf districtings 
 
     function getStateSummary(stateAbbr) {
-        fetch("http://localhost:8080/api2/getStateSummary?state=" + stateAbbr)
+        fetch("http://localhost:8080/api2/getStateSummary?state=" + stateAbbr, { credentials: 'include' })
                 .then(res => res.json())
                 .then(
                     (result) => {
@@ -28,7 +28,7 @@ function App() {
     }
 
     function getSeaWulfSummaries() {
-        fetch("http://localhost:8080/api2/districtingSummaries")
+        fetch("http://localhost:8080/api2/districtings", { credentials: 'include' })
                     .then(res => res.json())
                     .then(
                         (result) => {
