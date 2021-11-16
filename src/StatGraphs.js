@@ -288,6 +288,7 @@ export default function VerticalTabs(props) {
                                     classname="dark-checkbox" 
                                     id="boxwhisker-basis-african" 
                                     name="boxwhisker-basis"
+                                    checked = {true}
                                     onChange={ () => setBoxWhiskerBasis("african_american") }
                                     label="Compare African American Population" 
                                 />
