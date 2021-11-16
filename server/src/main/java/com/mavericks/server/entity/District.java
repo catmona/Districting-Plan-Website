@@ -14,6 +14,7 @@ public class District {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String name;
+    private int districtNumber;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "districtingId")
     private Districting districtingPlan;
@@ -97,7 +98,7 @@ public class District {
 
     }
 
-    public void addCensusBlock(){
+    public void addCensusBlock(CensusBlock cb){
 
     }
 
@@ -119,5 +120,17 @@ public class District {
 
     public void setMeasures(Measures measures) {
         this.measures = measures;
+    }
+
+    public CensusBlock getRandCensusBlock(){
+        return blocks.get((int)(Math.random()*blocks.size()));
+    }
+
+    public int getDistrictNumber() {
+        return districtNumber;
+    }
+
+    public void setDistrictNumber(int districtNumber) {
+        this.districtNumber = districtNumber;
     }
 }

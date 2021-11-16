@@ -1,7 +1,19 @@
 package com.mavericks.server;
 
+import com.mavericks.server.dto.AlgorithmDTO;
+import com.mavericks.server.entity.CensusBlock;
 import com.mavericks.server.entity.District;
 import com.mavericks.server.entity.Districting;
+import com.mavericks.server.entity.Measures;
+import org.wololo.geojson.Feature;
+import org.wololo.geojson.GeoJSONFactory;
+import org.wololo.jts2geojson.GeoJSONReader;
+import org.wololo.jts2geojson.GeoJSONWriter;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class Algorithm implements Runnable{
 
@@ -12,6 +24,8 @@ public class Algorithm implements Runnable{
     //measure constraints
     private double minPopulationEquality;
     private double minCompactness;
+    private double compactness;
+    private double populationEquality;
     //number of failed consecutive block moves
     private int failedCbMoves;
     private int maxFaildCbMoves;
@@ -28,11 +42,46 @@ public class Algorithm implements Runnable{
 
     @Override
     public void run() {
-        while(iterations!=max_iterations && failedCbMoves!=maxFaildCbMoves){
+        while(iterations!=max_iterations && failedCbMoves!=maxFaildCbMoves && !running){
             District d1=inProgressPlan.getRandDistrict();
             District d2=d1.getRandNeighbor();
+            CensusBlock cb = d1.getRandCensusBlock();
+            d1.addCensusBlock(cb);
+            d2.removeCensusBlock(cb);
+            Measures newMeasures=inProgressPlan.computeMeasures();
+            if(newMeasures.getPolsbyPopperScore()<=compactness &&
+                    newMeasures.getPopulationEqualityScore()<=populationEquality){
+                d1.addCensusBlock(cb);
+                d2.removeCensusBlock(cb);
+                failedCbMoves++;
+            }
+            else {
+                failedCbMoves=0;
+            }
+
+            iterations++;
+
         }
     }
+
+    public AlgorithmDTO getProgress(){
+        return new AlgorithmDTO(inProgressPlan.getMeasures(),iterations,running,null,null);
+    }
+
+
+    public AlgorithmDTO getResults(){
+        List<Feature> features = new ArrayList<>();
+        GeoJSONWriter writer = new GeoJSONWriter();
+        for(District d:inProgressPlan.getDistricts()){
+            Map<String,Object> properties = new HashMap<>();
+            properties.put("District",d.getDistrictNumber());
+            properties.put("District_Name",""+d.getDistrictNumber());
+            features.add(new Feature(((Feature)GeoJSONFactory.create(writer.write(d.getGeometry()).toString())).getGeometry(),properties));
+        }
+        return new AlgorithmDTO(inProgressPlan.getMeasures(),iterations,running,writer.write(features)
+                ,inProgressPlan.getPopulation());
+    }
+
 
     public void setInProgressPlan(Districting inProgressPlan) {
         this.inProgressPlan = inProgressPlan;

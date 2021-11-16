@@ -147,6 +147,11 @@ public class Districting {
 
     }
 
+    //stubbed
+    public Measures computeMeasures(){
+        return null;
+    }
+
     private double polsbyHelper(District district){
         double area = district.getGeometry().getArea();
         double perimeter = district.getGeometry().getLength();
