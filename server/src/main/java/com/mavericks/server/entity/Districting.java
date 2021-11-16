@@ -10,6 +10,7 @@ import org.wololo.geojson.FeatureCollection;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "Districtings")
@@ -22,8 +23,8 @@ public class Districting {
     private State state;
     @Transient
     private FeatureCollection geometries;
-    private double populationEquality;
-    private double polsbyPopper;
+    @Transient
+    private Measures measures;
     private int numberOfOpportunity;
     private String imageUrl; // used by SeaWulf districtings, is the preview image filepath
     @Transient
@@ -63,18 +64,12 @@ public class Districting {
         this.geometries = geometries;
     }
 
-    public double getPopulationEquality() {
-        return populationEquality;
-    }
-    public void setPopulationEquality(double populationEquality) {
-        this.populationEquality = populationEquality;
+    public Measures getMeasures() {
+        return measures;
     }
 
-    public double getPolsbyPopper() {
-        return polsbyPopper;
-    }
-    public void setPolsbyPopper(double polsbyPopper) {
-        this.polsbyPopper = polsbyPopper;
+    public void setMeasures(Measures measures) {
+        this.measures = measures;
     }
 
     public int getNumberOfOpportunity() {
@@ -130,7 +125,7 @@ public class Districting {
     }
 
     public DistrictingDTO makeDistrictDTO(){
-        return new DistrictingDTO(this.polsbyPopper,this.populationEquality,this.election);
+        return new DistrictingDTO(this.measures.getPolsbyPopperScore(),this.measures.getPopulationEqualityScore(),this.election);
     }
 
     public PlanDTO makePlanDTO(){
@@ -138,7 +133,25 @@ public class Districting {
         for(District d:districts){
             distPopulations.add(d.getPopulation());
         }
-        return new PlanDTO(districts.size(),this.polsbyPopper,this.populationEquality,this.election,distPopulations);
+        return new PlanDTO(districts.size(),this.measures.getPolsbyPopperScore(),
+                this.measures.getPopulationEqualityScore(),this.election,distPopulations);
+    }
+
+    public double computePolsbyPopper(District removedDistrict,District addedDistrict){
+        List<District> otherDistricts = districts.stream().filter(d->d.getId()!=removedDistrict.getId()
+                &&d.getId()!=addedDistrict.getId()).collect(Collectors.toList());
+        double removedPolsby=polsbyHelper(removedDistrict);
+        double addedPolsby=polsbyHelper(addedDistrict);
+        return (otherDistricts.stream().mapToDouble(d->d.getMeasures().getPolsbyPopperScore())
+                .reduce(0,(a,b)->a+b)+removedPolsby+addedPolsby)/districts.size();
+
+    }
+
+    private double polsbyHelper(District district){
+        double area = district.getGeometry().getArea();
+        double perimeter = district.getGeometry().getLength();
+
+        return (Math.PI*4*area)/(Math.pow(perimeter,2));
     }
 
     @Override
@@ -147,8 +160,8 @@ public class Districting {
                 "id=" + id +
                 ", state=" + state.getId() +
                 ", geometry=" + geometries.toString() +
-                ", populationEquality=" + populationEquality +
-                ", polsbyPopper=" + polsbyPopper +
+                ", populationEquality=" + this.measures.getPopulationEqualityScore() +
+                ", polsbyPopper=" + this.measures.getPolsbyPopperScore() +
                 ", numberOfOpportunity=" + numberOfOpportunity +
                 ", imageUrl='" + imageUrl + '\'' +
                 '}';

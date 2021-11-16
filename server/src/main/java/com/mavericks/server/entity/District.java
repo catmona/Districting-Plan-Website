@@ -18,7 +18,7 @@ public class District {
     @JoinColumn(name = "districtingId")
     private Districting districtingPlan;
     @Transient
-    private Feature geometry;
+    private Geometry geometry;
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "DistrictNeighbors", joinColumns = {@JoinColumn(name = "districtId")}, inverseJoinColumns = {@JoinColumn(name = "neighborId")})
     private List<District> neighbors; // should be a Set or Hashset type to reduce overhead
@@ -26,9 +26,7 @@ public class District {
     private List<Precinct> precincts;
 
     @Transient
-    private List<CensusBlock> borderBlocks;
-    @Transient
-    private List<CensusBlock> innerBlocks;
+    private List<CensusBlock> blocks;
     @Transient
     private Measures measures;
 
@@ -37,7 +35,7 @@ public class District {
 
     public District() {}
 
-    public District(long id, Districting districtingPlan, Feature geometry) {
+    public District(long id, Districting districtingPlan, Geometry geometry) {
         this.id = id;
         this.districtingPlan = districtingPlan;
         this.geometry = geometry;
@@ -64,10 +62,10 @@ public class District {
         this.districtingPlan = districtingPlan;
     }
 
-    public Feature getGeometry() {
+    public Geometry getGeometry() {
         return geometry;
     }
-    public void setGeometry(Feature geometry) {
+    public void setGeometry(Geometry geometry) {
         this.geometry = geometry;
     }
 
@@ -75,9 +73,10 @@ public class District {
         return neighbors.get((int)(Math.random()*neighbors.size()));
     }
 
+    /*
     public CensusBlock getRandCensusBlock(){
         return borderBlocks.get((int)(Math.random()*borderBlocks.size()));
-    }
+    }*/
 
     public Population computePopulation() {
         // get population by aggregating the plan's District populations
@@ -104,5 +103,21 @@ public class District {
 
     public void setPopulation(Population population) {
         this.population = population;
+    }
+
+    public List<CensusBlock> getBlocks() {
+        return blocks;
+    }
+
+    public void setBlocks(List<CensusBlock> blocks) {
+        this.blocks = blocks;
+    }
+
+    public Measures getMeasures() {
+        return measures;
+    }
+
+    public void setMeasures(Measures measures) {
+        this.measures = measures;
     }
 }

@@ -1,10 +1,12 @@
 package com.mavericks.server.api;
 
+import com.mavericks.server.Algorithm;
 import com.mavericks.server.dto.DistrictingDTO;
 import com.mavericks.server.dto.DistrictingDTO;
 import com.mavericks.server.dto.PlanDTO;
 import com.mavericks.server.dto.StateDTO;
 import com.mavericks.server.entity.*;
+import org.locationtech.jts.geom.Geometry;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.HttpStatus;
@@ -14,6 +16,8 @@ import org.springframework.web.server.ResponseStatusException;
 import org.wololo.geojson.Feature;
 import org.wololo.geojson.FeatureCollection;
 import org.wololo.geojson.GeoJSONFactory;
+
+import org.wololo.jts2geojson.GeoJSONReader;
 
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
@@ -50,8 +54,14 @@ public class Handler {
 
         State state= new State("NV","Nevada",4);
         String data = readFile("data/NV/2012/State.geojson");
+        String data2 = readFile("data/NV/nv-cb-geo.geojson");
+
+
         FeatureCollection featureCollection = (FeatureCollection) GeoJSONFactory.create(data);
+        FeatureCollection f2 = (FeatureCollection)GeoJSONFactory.create(data2);
+
         List<Districting> districtings= new ArrayList<>();
+
         int[] aa = new int[]{88601, 16972, 72744, 131912};
         int[] white = new int[]{347382, 582218, 523798, 435644};
         int[] asian = new int[]{60582, 32304, 126960, 47066};
@@ -59,7 +69,7 @@ public class Handler {
         int[] all = new int[]{723705, 766064, 853240, 786739};
         int[] democratic = new int[]{137868, 155780, 203421, 168457};
         int[] republican = new int[]{74490, 216078, 190975, 152284};
-
+        GeoJSONReader reader = new GeoJSONReader();
         for(int i=0;i<30;i++){
             Districting dist = new Districting(state,featureCollection);
             List<District> districts = new ArrayList<>();
@@ -75,7 +85,7 @@ public class Handler {
                 population.setPopulation(PopulationMeasure.TOTAL,Demographic.HISPANIC,hispanic[j]);
                 population.setPopulation(PopulationMeasure.TOTAL,Demographic.WHITE,white[j]);
                 DistrictElection districtVoteData= new DistrictElection(republican[j],democratic[j]);
-                District district= new District(i,dist,fs[0]);
+                District district= new District(i,dist,reader.read(fs[0].getGeometry()));
                 districts.add(district);
                 district.setPopulation(population);
                 voteData.add(districtVoteData);
@@ -88,13 +98,31 @@ public class Handler {
         }
 
         state.setEnacted(districtings.get(0));
-        districtings.get(0).setPolsbyPopper(0.07725808180925772);
-        districtings.get(0).setPopulationEquality(0.0413883162478257);
+        Districting enacted =districtings.get(0);
+        Measures m = new Measures(0.0413883162478257,0.07725808180925772);
+        enacted.setMeasures(m);
+
+        Feature[]blocks = featureCollection.getFeatures();
+        List<List<CensusBlock>>distToBlocks=new ArrayList<>();
+        for(Feature f:blocks){
+            Integer distNum=(Integer)f.getProperties().get("district");
+            Long blockId=Long.parseLong((String)f.getProperties().get("blockId"));
+            Geometry g =reader.read(f.getGeometry());
+            CensusBlock cb = new CensusBlock(blockId,null,g,false);
+
+        }
+
+        for(int i=0;i<enacted.getDistricts().size();i++){
+            enacted.getDistricts().get(i).setBlocks(distToBlocks.get(i));
+        }
+
+
 
         state.setDistrictings(districtings);
         session.setAttribute("state",state);
         StateDTO dto =state.makeDTO();
-        return dto;
+
+        return null;
     }
 
 
@@ -135,7 +163,7 @@ public class Handler {
         List<Box>boxes=new ArrayList<>();
 
         double []upperExtreme={5,5,5,5};
-        double []upperQuartile={15,15,15,35};
+        double []upperQuartile={15,15,15,25};
         double []median={25,25,25,25};
         double []lowerQuartile={35,35,35,35};
         double []lowerExtreme={45,45,35,45};
@@ -151,16 +179,25 @@ public class Handler {
      * @return the thread id
      */
     public long setLimits(double minPopulationEquality, double minCompactness){
-//        Algorithm alg = new Algorithm(minPopulationEquality,minCompactness,100000);
-//        Thread t = new Thread(alg);
-//        Object[] pair={t,alg};
-//        jobs.put(t.getId(),pair);
-//        return t.getId();
-        return 0;
+        Algorithm alg = new Algorithm(minPopulationEquality,minCompactness);
+        Thread t = new Thread(alg);
+        Object[] pair={t,alg};
+        jobs.put(t.getId(),pair);
+        return t.getId();
     }
 
-    public Map<String,Object> startAlgorithm(long threadId){
-        return new Hashtable<>();
+    public Map<String,Object> startAlgorithm(long threadId, int districtingNum, HttpSession session){
+        State state = (State)session.getAttribute("state");
+        Districting districting=state.getDistrictings().get(districtingNum);
+        Object[]pair = jobs.get(threadId);
+        Algorithm alg=(Algorithm)pair[1];
+        alg.setInProgressPlan(districting);
+
+        Map<String ,Object> data= new Hashtable<>();
+        data.put("Measures",districting.getMeasures());
+        data.put("iterations",alg.getIterations());
+        return data;
+
     }
 
     public Map<String,Object> getProgress(long threadId){

@@ -80,8 +80,9 @@ public class Controller {
     }
 
     @GetMapping(value = "algorithm")
-    public Map<String,Object> handleStartAlgorithm(@RequestParam("threadId")long threadId){
-        return new Hashtable<>();
+    public Map<String,Object> handleStartAlgorithm(@RequestParam("threadId")long threadId,
+                                                   @RequestParam("districingNume")int districtingNum,HttpSession session){
+        return handler.startAlgorithm(threadId,districtingNum,session);
     }
 
     @GetMapping(value="algorithmProgress")

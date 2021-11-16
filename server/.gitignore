@@ -33,6 +33,7 @@ build/
 .vscode/
 
 .idea/
+/src/main/resources/data/NV/nv-cb-geo.geojson
 
 
 

@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Map;
 
 @Entity
 @Table(name = "CensusBlocks")
@@ -16,6 +17,7 @@ public class CensusBlock {
     @JoinColumn(name = "precinctId")
     private Precinct precinct;
     private Geometry geometry;
+
     private boolean isBorderBlock;
 
     @OneToMany(mappedBy = "censusBlock", fetch = FetchType.LAZY)
@@ -31,6 +33,7 @@ public class CensusBlock {
         this.precinct = precinct;
         this.geometry = geometry;
         this.isBorderBlock = isBorderBlock;
+
     }
 
     public long getId() {

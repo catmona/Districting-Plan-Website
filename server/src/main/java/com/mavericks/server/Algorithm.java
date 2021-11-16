@@ -17,10 +17,11 @@ public class Algorithm implements Runnable{
     private int maxFaildCbMoves;
     private Districting inProgressPlan;
 
-    public Algorithm(double minPopulationEquality, double minCompactness, int max_iterations) {
+    public Algorithm(double minPopulationEquality, double minCompactness) {
         this.minPopulationEquality = minPopulationEquality;
         this.minCompactness = minCompactness;
-        this.max_iterations=max_iterations;
+        this.max_iterations=100000;
+        this.maxFaildCbMoves=1000;
         running=true;
     }
 
@@ -31,5 +32,53 @@ public class Algorithm implements Runnable{
             District d1=inProgressPlan.getRandDistrict();
             District d2=d1.getRandNeighbor();
         }
+    }
+
+    public void setInProgressPlan(Districting inProgressPlan) {
+        this.inProgressPlan = inProgressPlan;
+    }
+
+    public Districting getInProgressPlan() {
+        return inProgressPlan;
+    }
+
+    public boolean isRunning() {
+        return running;
+    }
+
+    public void setRunning(boolean running) {
+        this.running = running;
+    }
+
+    public int getIterations() {
+        return iterations;
+    }
+
+    public void setIterations(int iterations) {
+        this.iterations = iterations;
+    }
+
+    public double getMinPopulationEquality() {
+        return minPopulationEquality;
+    }
+
+    public void setMinPopulationEquality(double minPopulationEquality) {
+        this.minPopulationEquality = minPopulationEquality;
+    }
+
+    public double getMinCompactness() {
+        return minCompactness;
+    }
+
+    public void setMinCompactness(double minCompactness) {
+        this.minCompactness = minCompactness;
+    }
+
+    public int getFailedCbMoves() {
+        return failedCbMoves;
+    }
+
+    public void setFailedCbMoves(int failedCbMoves) {
+        this.failedCbMoves = failedCbMoves;
     }
 }
