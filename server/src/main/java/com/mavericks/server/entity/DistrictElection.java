@@ -21,6 +21,10 @@ public class DistrictElection {
         this.totalVotes = republicanVotes+democraticVotes;
     }
 
+    public DistrictElection(){
+
+    }
+
     public DistrictElectionKey getKey() {
         return key;
     }

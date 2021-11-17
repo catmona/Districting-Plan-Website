@@ -54,11 +54,8 @@ public class Handler {
 
         State state= new State("NV","Nevada",4);
         String data = readFile("data/NV/2012/State.geojson");
-//        String data2 = readFile("data/NV/nv-cb-geo.geojson");
-
 
         FeatureCollection featureCollection = (FeatureCollection) GeoJSONFactory.create(data);
-//        FeatureCollection f2 = (FeatureCollection)GeoJSONFactory.create(data2);
 
         List<Districting> districtings= new ArrayList<>();
 
@@ -71,7 +68,7 @@ public class Handler {
         int[] republican = new int[]{74490, 216078, 190975, 152284};
         GeoJSONReader reader = new GeoJSONReader();
         for(int i=0;i<30;i++){
-            Districting dist = new Districting(state,featureCollection);
+            Districting dist = new Districting(featureCollection);
             List<District> districts = new ArrayList<>();
             Feature[]fs=featureCollection.getFeatures();
             List<Population> distPopulations= new ArrayList<>();
@@ -102,19 +99,6 @@ public class Handler {
         Measures m = new Measures(0.0413883162478257,0.07725808180925772);
         enacted.setMeasures(m);
 
-//        Feature[]blocks = featureCollection.getFeatures();
-//        List<List<CensusBlock>>distToBlocks=new ArrayList<>();
-//        for(Feature f:blocks){
-//            Integer distNum=(Integer)f.getProperties().get("district");
-//            Long blockId=Long.parseLong((String)f.getProperties().get("blockId"));
-//            Geometry g =reader.read(f.getGeometry());
-//            CensusBlock cb = new CensusBlock(blockId,null,g,false);
-//
-//        }
-//
-//        for(int i=0;i<enacted.getDistricts().size();i++){
-//            enacted.getDistricts().get(i).setBlocks(distToBlocks.get(i));
-//        }
 
 
 
@@ -189,6 +173,34 @@ public class Handler {
     public Map<String,Object> startAlgorithm(long threadId, int districtingNum, HttpSession session){
         State state = (State)session.getAttribute("state");
         Districting districting=state.getDistrictings().get(districtingNum);
+
+
+        String data2 = readFile("data/nv-cb-geo.geojson");
+        FeatureCollection f2 = (FeatureCollection)GeoJSONFactory.create(data2);
+
+        GeoJSONReader reader = new GeoJSONReader();
+        Feature[]blocks = f2.getFeatures();
+        List<List<CensusBlock>>distToBlocks=new ArrayList<>();
+        for(int i=0;i<districting.getDistricts().size();i++){
+            distToBlocks.add(new ArrayList<>());
+        }
+
+        for(Feature f:blocks){
+            Integer distNum=(Integer)f.getProperties().get("districtId")-1;
+            Long blockId=Long.parseLong((String)f.getProperties().get("blockId"));
+            boolean border =(Boolean)f.getProperties().get("boundary");
+            Geometry g =reader.read(f.getGeometry());
+            CensusBlock cb = new CensusBlock(blockId,null,g,border);
+            distToBlocks.get(distNum).add(cb);
+
+        }
+
+        for(int i=0;i<districting.getDistricts().size();i++){
+            districting.getDistricts().get(i).setBlocks(distToBlocks.get(i));
+        }
+
+
+
         Object[]pair = jobs.get(threadId);
         Algorithm alg=(Algorithm)pair[1];
         alg.setInProgressPlan(districting);

@@ -15,9 +15,12 @@ public class District {
     private long id;
     private String name;
     private int districtNumber;
+
+    //we don't need this
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "districtingId")
     private Districting districtingPlan;
+
     @Transient
     private Geometry geometry;
     @ManyToMany(fetch = FetchType.LAZY)

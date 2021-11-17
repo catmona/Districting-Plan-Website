@@ -24,8 +24,7 @@ public class State {
     @OneToMany(mappedBy = "state", fetch = FetchType.LAZY)
     private List<Districting> districtings;
 
-    @Transient
-    private Population population;
+
 
     public State() {}
 
@@ -90,7 +89,7 @@ public class State {
         for(District d:districts){
             distPopulations.add(d.getPopulation());
         }
-        return new StateDTO(3129748,this.center,collection,distPopulations, districting.getElection());
+        return new StateDTO(districting.getPopulation().getPopulation(PopulationMeasure.TOTAL,Demographic.ALL),this.center,collection,distPopulations, districting.getElection());
     }
 
     @Override

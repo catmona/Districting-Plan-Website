@@ -35,5 +35,6 @@ build/
 .idea/
 /src/main/resources/data/NV/nv-cb-geo.geojson
 
+src/main/resources/data/nv-border-blocks.geojson
 
 
