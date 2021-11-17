@@ -69,7 +69,7 @@ export default function VerticalTabs(props) {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        fetch("http://localhost:8080/api2/boxwhiskers?districtingId=0"
+        fetch("http://localhost:8080/api2/boxwhiskers?districtingId=0" //TODO get districting ID from StateInfo
         + "&basis=" + boxWhiskerBasis 
         + "&enacted=" + boxWhiskerEnacted 
         + "&current=" + boxWhiskerCurrent 
@@ -85,8 +85,6 @@ export default function VerticalTabs(props) {
                             console.log(error)
                         }
                     );
-
-        //TODO somehow get the districting id
     };
 
     const bgcolor = "#1f1f1f";

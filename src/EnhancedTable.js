@@ -62,7 +62,6 @@ const columns = [
 export default function EnhancedTable(props) {
   return (
     <div style={{ height: 400, width: '100%'}} className={'datagrid'}>
-      {/* <button onClick = {() => {console.log(props.stateData)}}>press me</button>  */}
       <DataGrid
         //https://mui.com/api/data-grid/data-grid/
         rows={props.stateData}

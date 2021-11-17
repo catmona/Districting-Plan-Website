@@ -20,21 +20,21 @@ const Demographic = {
 }
 
 function formatResponseToStatisticData(response) {
-    console.log("DATA FROM SERVER: %o", response);
+    //console.log("DATA FROM SERVER: %o", response);
     var formattedDataList = [];
     for(let i = 0; i < response.districtPopulations.length; i++) {
         let total = response.districtPopulations[i].populations[PopMeasure.TOTAL];
         let election = response.elections.districtElections[i];
         var formattedData = {
             'id': i+1,
-            'popMeasure':PopMeasure.TOTAL,
-            'africanamerican':total[Demographic.AFRICAN_AMERICAN],
-            'white':total[Demographic.WHITE],
-            'asianamerican':total[Demographic.ASIAN],
-            'hispanic':total[Demographic.HISPANIC],
-            'republican':election.republicanVotes,
-            'democrat':election.democraticVotes,
-            'population':total[Demographic.ALL]
+            'popMeasure': PopMeasure.TOTAL,
+            'africanamerican': total[Demographic.AFRICAN_AMERICAN],
+            'white': total[Demographic.WHITE],
+            'asianamerican': total[Demographic.ASIAN],
+            'hispanic': total[Demographic.HISPANIC],
+            'republican': election.republicanVotes,
+            'democrat': election.democraticVotes,
+            'population': total[Demographic.ALL]
         };
         formattedDataList.push(formattedData);
         // console.log("Formatted data: %o", formattedDataList);
@@ -52,13 +52,12 @@ function Statistics(props) {
 
     function getPopType(p) {
         setPopType(p)
+        //fetch("http://localhost:8080/api2/setPopulationType?populationType=" + popType);
         //TODO use this
     }
 
     useEffect(() => {
-        console.log("use effect")
         if (props.districtingData) {
-
             var formattedData = formatResponseToStatisticData(props.districtingData);
 
             setState({

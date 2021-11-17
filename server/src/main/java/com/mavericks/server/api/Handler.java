@@ -54,11 +54,11 @@ public class Handler {
 
         State state= new State("NV","Nevada",4);
         String data = readFile("data/NV/2012/State.geojson");
-        String data2 = readFile("data/NV/nv-cb-geo.geojson");
+//        String data2 = readFile("data/NV/nv-cb-geo.geojson");
 
 
         FeatureCollection featureCollection = (FeatureCollection) GeoJSONFactory.create(data);
-        FeatureCollection f2 = (FeatureCollection)GeoJSONFactory.create(data2);
+//        FeatureCollection f2 = (FeatureCollection)GeoJSONFactory.create(data2);
 
         List<Districting> districtings= new ArrayList<>();
 
@@ -102,19 +102,19 @@ public class Handler {
         Measures m = new Measures(0.0413883162478257,0.07725808180925772);
         enacted.setMeasures(m);
 
-        Feature[]blocks = featureCollection.getFeatures();
-        List<List<CensusBlock>>distToBlocks=new ArrayList<>();
-        for(Feature f:blocks){
-            Integer distNum=(Integer)f.getProperties().get("district");
-            Long blockId=Long.parseLong((String)f.getProperties().get("blockId"));
-            Geometry g =reader.read(f.getGeometry());
-            CensusBlock cb = new CensusBlock(blockId,null,g,false);
-
-        }
-
-        for(int i=0;i<enacted.getDistricts().size();i++){
-            enacted.getDistricts().get(i).setBlocks(distToBlocks.get(i));
-        }
+//        Feature[]blocks = featureCollection.getFeatures();
+//        List<List<CensusBlock>>distToBlocks=new ArrayList<>();
+//        for(Feature f:blocks){
+//            Integer distNum=(Integer)f.getProperties().get("district");
+//            Long blockId=Long.parseLong((String)f.getProperties().get("blockId"));
+//            Geometry g =reader.read(f.getGeometry());
+//            CensusBlock cb = new CensusBlock(blockId,null,g,false);
+//
+//        }
+//
+//        for(int i=0;i<enacted.getDistricts().size();i++){
+//            enacted.getDistricts().get(i).setBlocks(distToBlocks.get(i));
+//        }
 
 
 
@@ -122,7 +122,7 @@ public class Handler {
         session.setAttribute("state",state);
         StateDTO dto =state.makeDTO();
 
-        return null;
+        return dto;
     }
 
 

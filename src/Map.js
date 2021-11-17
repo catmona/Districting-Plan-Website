@@ -1,16 +1,13 @@
 import React, { useRef, useEffect, useState } from 'react';
 import mapboxgl from '!mapbox-gl'; // eslint-disable-line import/no-webpack-loader-syntax
-import randomColor from 'randomcolor';
-import StateOutlineSource from './data/us_state_outlines.geojson';
+import StateOverlaySource from './data/us_state_overlay.geojson';
 import { Form } from 'react-bootstrap';
-import { color } from '@mui/system';
 
 mapboxgl.accessToken = 'pk.eyJ1IjoiZ29sZHlmbGFrZXMiLCJhIjoiY2t0ZGtrNHhiMDB5MjJxcWN6bWZ5ZGx3byJ9.IMzQecUSVBFlT4rUycdG3Q';
 
 // constants for styling districts on map
-// const districtColors = randomColor({count: 10, luminosity: 'bright', seed: 'random-mavs'});
 const districtColors = ["#00ff73", "#00ffed", "#0024ff", "#ac00ff", "#ff0056", "#d0ff00", "#ff9700", "#f3ccf2", "#90f1c9", "#d1f190"]
-const white = '#FFFFFF'; // white
+const white = '#FFFFFF';
 const zoomThreshold = 4;       
 let hoveredStateId = null;
 
@@ -21,21 +18,19 @@ function Map(props) {
     const [lat, setLat] = useState(40.35);
     const [zoom, setZoom] = useState(3.6);
     const [bounds, setBounds] = useState([[-138.42, 12.22], [-56.80, 57.27]])
-    const [districtBoundaries, setDistrictBoundaries] = useState(true)
+    const [showDistrictBoundaries, setShowDistrictBoundaries] = useState(true)
     let stateName = props.stateName;
     let districtingData = props.districtingData;
     let onSelect = props.onSelect;
 
     useEffect(() => {
         if (map.current) {
-            /* Get geoJson on demand */
-            setMap();
+            getStateGeoJSON();
 
-            //focus map on selected state
-            flyToState(stateName);
+            focusState(stateName);
 
-            let v = "";
-            districtBoundaries ? v = "visible" : v = "none";
+            let v = "visible";
+            showDistrictBoundaries ? v = "visible" : v = "none";
             //togle boundaries based on filter
             map.current.setLayoutProperty(stateName + "-district-source-layer-outline", 'visibility', v)
 
@@ -50,14 +45,12 @@ function Map(props) {
                 });
 
             map.current.on("load", function() {
-
-                // load the geojson for the state outlines
-                getStateOutlines()
+                getStateOverlay()
             });
         }
     });
 
-    function setMap() {
+    function getStateGeoJSON() {
         if (districtingData && districtingData.featureCollection) { // user selected a state
             let layer = map.current.getSource(stateName + "-district-source");
 
@@ -67,7 +60,7 @@ function Map(props) {
         }
     }
 
-    function flyToState(stateName) {
+    function focusState(stateName) {
         switch(stateName) {
             case "Washington": 
                 setLat(47.75);
@@ -98,21 +91,20 @@ function Map(props) {
                     center: [lng, lat],
                     zoom: zoom,
                 });
-                //console.log(map.current.getMaxBounds())
                 break;
         }
     
     }
 
-    function getStateOutlines() {
-        map.current.addSource("State-Outline-Source", {
+    function getStateOverlay() {
+        map.current.addSource("State-Overlay-Source", {
             "type": "geojson",
-            "data": StateOutlineSource
+            "data": StateOverlaySource
         });
         map.current.addLayer({
-            "id": "State-Outline-Layer",
+            "id": "State-Overlay-Layer",
             "type": "fill",
-            "source": "State-Outline-Source",
+            "source": "State-Overlay-Source",
             "maxzoom": zoomThreshold,
             "layout": {},
             "paint": {
@@ -126,36 +118,36 @@ function Map(props) {
             }
         });
 
-        //set state by clicking on its outline
-        map.current.on('click', 'State-Outline-Layer', (e) => {
+        //set state by clicking on its overlay
+        map.current.on('click', 'State-Overlay-Layer', (e) => {
             props.setStateName(e.features[0].properties.NAME);
             onSelect(e.features[0].properties.NAME);
         });
 
-        //change cursor to pointer when hovering a state outline and change color
-        map.current.on('mousemove', 'State-Outline-Layer', (e) => {
+        //change cursor to pointer when hovering a state outline and change color of overlay
+        map.current.on('mousemove', 'State-Overlay-Layer', (e) => {
             map.current.getCanvas().style.cursor = 'pointer';
             if (e.features.length > 0) {
                 if (hoveredStateId !== null) {
                     map.current.setFeatureState( //TODO fix this
-                        { source: 'State-Outline-Source', id: hoveredStateId },
+                        { source: 'State-Overlay-Source', id: hoveredStateId },
                         { hover: false }
                     );
                 }
                 hoveredStateId = e.features[0].id;
                 map.current.setFeatureState(
-                    { source: 'State-Outline-Source', id: hoveredStateId },
+                    { source: 'State-Overlay-Source', id: hoveredStateId },
                     { hover: true }
                 );
             }
 
         });
-        //change cursor back when not hovering a state outline and change color
-        map.current.on('mouseleave', 'State-Outline-Layer', () => {
+        //change cursor back when not hovering a state outline and change color of overlay
+        map.current.on('mouseleave', 'State-Overlay-Layer', () => {
             map.current.getCanvas().style.cursor = '';
             if (hoveredStateId !== null) {
                 map.current.setFeatureState(
-                    { source: 'State-Outline-Source', id: hoveredStateId },
+                    { source: 'State-Overlay-Source', id: hoveredStateId },
                     { hover: false }
                 );
             }
@@ -173,8 +165,8 @@ function Map(props) {
                         type="checkbox" 
                         className="dark-checkbox" 
                         id="map-filter-districts" 
-                        onChange={ (e) => setDistrictBoundaries(e.target.checked) }
-                        checked= {districtBoundaries}
+                        onChange={ (e) => setShowDistrictBoundaries(e.target.checked) }
+                        checked= {showDistrictBoundaries}
                         label="districts"
                     />
                     <Form.Check //counties
@@ -218,7 +210,6 @@ function addDistrictGeoJSON(map, sourceId, source) {
 }
 
 function addDistrictStyleLayer(map, sourceId) {
-    // this is really just to stop anyone from mistakenly using this method. I meant for it to be used w/ addDistrictGeoJSON.
     if (!map.getSource(sourceId)) {
         console.log("Must add source before applying style layer.");
         return;
@@ -261,7 +252,8 @@ function addDistrictStyleLayer(map, sourceId) {
         }
     });
 
-    // adds polygon outlines with adjustable width
+    // adds district outlines with adjustable width
+    console.log(layerName + '-outline')
     map.addLayer({
         'id': layerName + '-outline',
         'type': 'line',
@@ -273,7 +265,7 @@ function addDistrictStyleLayer(map, sourceId) {
         }
     });
 
-    // Add a symbol layer
+    // Add district names
     map.addLayer({
         'id': layerName + '-label',
         'type': 'symbol',
