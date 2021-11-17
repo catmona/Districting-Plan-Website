@@ -68,7 +68,7 @@ public class Handler {
         int[] republican = new int[]{74490, 216078, 190975, 152284};
         GeoJSONReader reader = new GeoJSONReader();
         for(int i=0;i<30;i++){
-            Districting dist = new Districting(featureCollection);
+            Districting dist = new Districting(state,featureCollection);
             List<District> districts = new ArrayList<>();
             Feature[]fs=featureCollection.getFeatures();
             List<Population> distPopulations= new ArrayList<>();

@@ -18,14 +18,14 @@ public class Districting {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "stateId")*/
-//    private State state;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "stateId")
+    private State state;
     @Transient
     private FeatureCollection geometries;
     @Transient
     private Measures measures;
-   // private int numberOfOpportunity;
+    private int numberOfOpportunity;
     private String imageUrl; // used by SeaWulf districtings, is the preview image filepath
     @Transient
     private Election election;
@@ -38,7 +38,7 @@ public class Districting {
 
     public Districting() {}
 
-    public Districting(/*State state*/ FeatureCollection geometries) {
+    public Districting(State state, FeatureCollection geometries) {
         //this.state = state;
         this.geometries=geometries;
     }
@@ -50,12 +50,12 @@ public class Districting {
         this.id = id;
     }
 
-//    public State getState() {
-//        return state;
-//    }
-//    public void setState(State state) {
-//        this.state = state;
-//    }
+    public State getState() {
+        return state;
+    }
+    public void setState(State state) {
+        this.state = state;
+    }
 
     public FeatureCollection getGeometry() {
         return geometries;
@@ -71,13 +71,13 @@ public class Districting {
     public void setMeasures(Measures measures) {
         this.measures = measures;
     }
-//
-//    public int getNumberOfOpportunity() {
-//        return numberOfOpportunity;
-//    }
-//    public void setNumberOfOpportunity(int numberOfOpportunity) {
-//        this.numberOfOpportunity = numberOfOpportunity;
-//    }
+
+    public int getNumberOfOpportunity() {
+        return numberOfOpportunity;
+    }
+    public void setNumberOfOpportunity(int numberOfOpportunity) {
+        this.numberOfOpportunity = numberOfOpportunity;
+    }
 
     public String getImageUrl() {
         return imageUrl;

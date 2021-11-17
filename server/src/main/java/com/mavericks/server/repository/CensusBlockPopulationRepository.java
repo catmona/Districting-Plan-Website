@@ -7,5 +7,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface CensusBlockPopulationRepository extends JpaRepository<CensusBlockPopulation, CBPopKey> {
-    List<CensusBlockPopulation> findByCensusBlockId(long censusBlockId);
+    //List<CensusBlockPopulation> findByCensusBlockId(long censusBlockId);
 }
