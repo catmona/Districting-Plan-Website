@@ -33,7 +33,8 @@ build/
 .vscode/
 
 .idea/
+/src/main/resources/data/NV/nv-cb-geo.geojson
 
-/src/main/java/com/mavericks/server/Algorithm.java
-/src/main/java/com/mavericks/server/Config.java
+src/main/resources/data/nv-border-blocks.geojson
+
 

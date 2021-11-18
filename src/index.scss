@@ -42,6 +42,14 @@ h3 {
     align-items: center;
     justify-content: center;
 }
+#left-app {
+    min-width: 50%;
+    max-width: 50%;
+}
+#right-app {
+    min-width: 50%;
+    max-width: 50%;
+}
 /* #endregion */
 
 /* #region map */
@@ -52,6 +60,7 @@ h3 {
 }
 .map-fade {
     position: absolute;
+    pointer-events: none;
     top: 0;
     bottom: 0;
     width: 100%;
@@ -63,6 +72,50 @@ h3 {
     position: absolute;
     height: 100%;
     width: 49%;
+}
+#map-filter {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 1;
+    border-radius: 3px;
+    width: 150px;
+    height: 45px;
+    transition: height 0.5s;
+    display: block;
+    cursor: pointer;
+    padding: 10px;
+    border-bottom: 1px solid $accentColor;
+    border-top: 1px solid $accentColor;
+    background-color: $fgColor;
+    color:$textColor;
+    overflow: hidden;
+    .form-check {
+        display: none;
+        padding: 5px;
+        margin-left: 25%;
+    }
+    #map-filter-label {
+        text-align: center;
+    }
+}
+#map-filter:hover {
+    height: 225px !important;
+    .form-check {
+        display: block;
+    }
+}
+#map-filter-districts:checked {
+    background-color: grey;
+}
+#map-filter-counties:checked {
+    background-color: purple;
+}
+#map-filter-precincts:checked {
+    background-color: green;
+}
+#map-filter-census-blocks:checked {
+    background-color: yellow;
 }
 /* #endregion */
 
@@ -148,16 +201,16 @@ h3 {
 }
 /* #endregion */
 
-/* #region redistrictings */
+/* #region districtings */
 .thumbnail:hover {
     background-color: $accentColor;
     opacity: 0.65;
 }
-.redistricting-img {
+.districting-img {
     margin-top: 8%;
     margin-bottom: 8%;
 }
-#redistrictings {
+#districtings {
     background-color: $fgColor;
     bottom: 0;
 }
@@ -217,11 +270,49 @@ h3 {
 }
 /* #endregion */
 
-/* #region vertical-tabs */
+/* #region StatGraphs */
 .dark-tabpanel {
-    background-color: $bgColor;
+    background-color: $fgColor;
 }
 .dark-chart {
     margin-top: -3%;
+}
+.vertical-tab-bar {
+    min-width: 165px;
+    max-width: 165px;
+}
+#box-whisker-wrapper {
+    display: flex;
+    background-color: $fgColor;
+}
+#box-whisker-left {
+    flex: 0 0 65%;
+}
+#box-whisker-right {
+    flex: 1;
+    background-color: $fgColor;
+    margin-left: 10px;
+    margin-bottom: 5px;
+    margin-top: -1.5%;
+    max-height: 300px !important;
+}
+#box-whisker-scrollable {
+    overflow-y: scroll;
+    max-height: 260px;
+}
+#box-whisker-submit {
+    margin-left: 30%;
+    margin-top: 7px;
+}
+#tab-section {
+    min-width: 165px;
+    max-width: 165px;
+}
+#poptype-dropdown {
+    margin-left: 20px;
+    margin-left: 20px;
+    margin-top: 40%;
+    max-width: 150px;
+    white-space: normal;
 }
 /* #endregion */

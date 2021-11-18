@@ -1,5 +1,11 @@
 package com.mavericks.server.api;
 
+import com.mavericks.server.dto.DistrictingDTO;
+import com.mavericks.server.dto.PlanDTO;
+import com.mavericks.server.dto.StateDTO;
+import com.mavericks.server.entity.Basis;
+import com.mavericks.server.entity.Box;
+import com.mavericks.server.entity.BoxWhisker;
 import com.mavericks.server.entity.PopulationMeasure;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -7,13 +13,13 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.util.Hashtable;
+import java.util.List;
 import java.util.Map;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:8081")
+@CrossOrigin(origins = "http://localhost:8081", allowCredentials = "true")
 @RequestMapping(path = "api2/")
 public class Controller {
-
     private final Handler handler;
 
     @Autowired
@@ -22,39 +28,40 @@ public class Controller {
     }
 
     @GetMapping(value = "getStateSummary")
-    public Map<String,Object> handleStateSummary(@RequestParam("stateId")long stateId, HttpSession session){
+    public StateDTO handleStateSummary(@RequestParam("state")String state, HttpSession session){
 
-        session.setAttribute("state",Math.round(Math.random()*18));
-        return handler.getStateSummary(stateId);
+        return handler.getStateSummary(state,session);
     }
 
     @PostMapping(value = "setPopulationType")
     public ResponseEntity handlePopulationType(@RequestParam("populationType")String populationType, HttpSession session){
-        session.setAttribute("PopType",mapStringToEnum(populationType));
+        session.setAttribute("PopType",mapPopToEnum(populationType));
         return ResponseEntity.ok().build();
     }
 
     @GetMapping(value = "districtings")
-    public Map<String,Object> handleDistrictings(@RequestParam("stateId") long stateId,HttpSession session){
-        System.out.println(session.getAttribute("state"));
-        Map<String,Object> m= new Hashtable<>();
-        m.put("state",session.getAttribute("state"));
-        return m;
+    public List<DistrictingDTO> handleDistrictings(HttpSession session){
+        return handler.getDistrictings(session);
     }
 
     @GetMapping(value = "districtingSummary")
-    public Map<String,Object> handleDistrictingSummary(@RequestParam("districtingId")long districtingId,
-                                                       HttpSession session){
-        return new Hashtable<>();
+    public PlanDTO handleDistrictingSummary(@RequestParam("districtingId")long districtingId,
+                                            HttpSession session){
+        return handler.getDistrictingSummary(districtingId,session);
+    }
+
+    @GetMapping(value = "districtingSummaries")
+    public List<PlanDTO> handleDistrictingSummaries(HttpSession session){
+        return handler.getDistrictingSummaries(session);
     }
 
     @GetMapping(value = "boxwhiskers")
-    public Map<String,Object> handleBoxWhisker(@RequestParam("stateId")long stateId,
-                                               @RequestParam("districtingId")long districtingId,
-                                               @RequestParam("demographicId") long demographicId,
-                                               @RequestParam("enacted")boolean enacted,
-                                               @RequestParam("current")boolean current,HttpSession session){
-        return new Hashtable<>();
+    public Box handleBoxWhisker(@RequestParam("districtingId")long districtingId,
+                                @RequestParam("basis") String basis,
+                                @RequestParam("enacted")boolean enacted,
+                                @RequestParam("current")boolean current,
+                                @RequestParam("postAlg")boolean postAlg, HttpSession session){
+        return handler.getBoxWhisker(districtingId,mapBasisToEnum(basis),enacted,current,postAlg,session);
     }
 
     @PostMapping("mapfilter")
@@ -69,12 +76,13 @@ public class Controller {
     @PostMapping("algorithmlimits")
     public long handleLimits(@RequestParam("minPopulationEquality") double minPopulationEquality,
                              @RequestParam("minCompactness") double minCompactness){
-        return 0;
+        return handler.setLimits(minPopulationEquality,minCompactness);
     }
 
     @GetMapping(value = "algorithm")
-    public Map<String,Object> handleStartAlgorithm(@RequestParam("threadId")long threadId){
-        return new Hashtable<>();
+    public Map<String,Object> handleStartAlgorithm(@RequestParam("threadId")long threadId,
+                                                   @RequestParam("districingNum")int districtingNum,HttpSession session){
+        return handler.startAlgorithm(threadId,districtingNum,session);
     }
 
     @GetMapping(value="algorithmProgress")
@@ -92,7 +100,7 @@ public class Controller {
         return new Hashtable<>();
     }
 
-    private PopulationMeasure mapStringToEnum(String s){
+    private PopulationMeasure mapPopToEnum(String s){
         switch (s){
             case "TOTAL":
                 return PopulationMeasure.TOTAL;
@@ -100,6 +108,23 @@ public class Controller {
                 return PopulationMeasure.CVAP;
             default:
                 return PopulationMeasure.VAP;
+        }
+    }
+
+    private Basis mapBasisToEnum(String s){
+        switch (s.toUpperCase()){
+            case "WHITE":
+                return Basis.WHITE;
+            case "AFRICAN_AMERICAN":
+                return Basis.AFRICAN_AMERICAN;
+            case "ASIAN":
+                return Basis.ASIAN;
+            case "HISPANIC":
+                return Basis.HISPANIC;
+            case "DEMOCRAT":
+                return Basis.DEMOCRAT;
+            default:
+                return Basis.REPUBLICAN;
         }
     }
 
