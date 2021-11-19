@@ -316,3 +316,17 @@ h3 {
     white-space: normal;
 }
 /* #endregion */
+
+/* #region modal */
+.dark-modal {
+    .modal-content {
+        background-color: $bgColor !important;
+    }
+    div {
+        color: $textColor;
+    }
+    .btn-close {
+        background-color: grey !important;
+    }
+}
+/* #endregion */

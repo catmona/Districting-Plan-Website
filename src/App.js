@@ -9,7 +9,7 @@ import StateTabs from './StateTabs';
 function App() {
     const [stateName, setStateName] = useState("");
     const [districtingPlan, setDistrictingPlan] = useState(""); //districting plan
-    const [districtingData, setDistrictingData] = useState(""); //statisctics table data, population per district of the plan
+    const [districtingData, setDistrictingData] = useState(""); //statistics table data, population per district of the plan
     const [seaWulfSummaries, setSeaWulfSummaries] = useState(""); //tooltip summaries for SeaWulf districtings 
 
     function getStateSummary(stateAbbr) {
