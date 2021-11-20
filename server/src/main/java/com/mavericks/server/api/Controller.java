@@ -3,10 +3,9 @@ package com.mavericks.server.api;
 import com.mavericks.server.dto.DistrictingDTO;
 import com.mavericks.server.dto.PlanDTO;
 import com.mavericks.server.dto.StateDTO;
-import com.mavericks.server.entity.Basis;
-import com.mavericks.server.entity.Box;
 import com.mavericks.server.entity.BoxWhisker;
-import com.mavericks.server.entity.PopulationMeasure;
+import com.mavericks.server.enumeration.Basis;
+import com.mavericks.server.enumeration.PopulationMeasure;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -56,12 +55,15 @@ public class Controller {
     }
 
     @GetMapping(value = "boxwhiskers")
-    public Box handleBoxWhisker(@RequestParam("districtingId")long districtingId,
-                                @RequestParam("basis") String basis,
-                                @RequestParam("enacted")boolean enacted,
-                                @RequestParam("current")boolean current,
-                                @RequestParam("postAlg")boolean postAlg, HttpSession session){
-        return handler.getBoxWhisker(districtingId,mapBasisToEnum(basis),enacted,current,postAlg,session);
+    public BoxWhisker handleBoxWhisker(@RequestParam("districtingId")long districtingId,
+                                       @RequestParam("basis") String basis,
+                                       @RequestParam("enacted")boolean enacted,
+                                       @RequestParam("current")boolean current,
+                                       @RequestParam("postAlg")boolean postAlg, HttpSession session){
+
+        // TODO implement this, i think it was meant to return a list of district BoxWhiskers for a certain basis
+        handler.getBoxWhisker(districtingId,mapBasisToEnum(basis),enacted,current,postAlg,session);
+        return null;
     }
 
     @PostMapping("mapfilter")

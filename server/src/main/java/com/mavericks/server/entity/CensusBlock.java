@@ -1,39 +1,40 @@
 package com.mavericks.server.entity;
 
+import com.mavericks.server.enumeration.Region;
 import org.locationtech.jts.geom.Geometry;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.*;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 @Entity
 @Table(name = "CensusBlocks")
 public class CensusBlock {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="id", nullable=false)
     private long id;
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "precinctId")
-    private Precinct precinct;
-    private Geometry geometry;
 
+    @Column(name="precinctId", nullable=false)
+    private long precinctId;
+
+    @Column(name="geometry")
+    private String geometry;
+
+    @Column(name="isBorderBlock", nullable=false)
     private boolean isBorderBlock;
 
-    @OneToMany(mappedBy = "censusBlock", fetch = FetchType.LAZY)
-    private List<CensusBlockPopulation> censusBlockPopulations;
-
-    @Transient
-    private Population population;
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "CensusBlockNeighbors", joinColumns = {@JoinColumn(name = "censusBlockId")}, inverseJoinColumns = {@JoinColumn(name = "neighborId")})
+    private Set<CensusBlock> neighbors;
 
     public CensusBlock() {}
 
-    public CensusBlock(long id, Precinct precinct, Geometry geometry, boolean isBorderBlock) {
-        this.id = id;
-        this.precinct = precinct;
-        this.geometry = geometry;
+    public CensusBlock(long precinctId, boolean isBorderBlock) {
+        this.precinctId = precinctId;
         this.isBorderBlock = isBorderBlock;
-
     }
 
     public long getId() {
@@ -44,19 +45,19 @@ public class CensusBlock {
         this.id = id;
     }
 
-    public Precinct getPrecinct() {
-        return precinct;
+    public long getPrecinctId() {
+        return precinctId;
     }
 
-    public void setPrecinct(Precinct precinct) {
-        this.precinct = precinct;
+    public void setPrecinctId(long precinctId) {
+        this.precinctId = precinctId;
     }
 
-    public Geometry getGeometry() {
+    public String getGeometry() {
         return geometry;
     }
 
-    public void setGeometry(Geometry geometry) {
+    public void setGeometry(String geometry) {
         this.geometry = geometry;
     }
 
@@ -68,20 +69,15 @@ public class CensusBlock {
         isBorderBlock = borderBlock;
     }
 
-    public Population getPopulation() {
-        // get population by aggregating the populations
-        Population res = new Population();
-        return res;
+    public Set<CensusBlock> getNeighbors() {
+        return neighbors;
     }
 
-    @Override
-    public String toString() {
-        return "CensusBlock{" +
-                "id=" + id +
-                ", precinct=" + precinct +
-                ", geometry=" + geometry +
-                ", isBorderBlock=" + isBorderBlock +
-                '}';
+    public void setNeighbors(Set<CensusBlock> neighbors) {
+        this.neighbors = neighbors;
     }
 
+    public Region getRegion() {
+        return Region.CENSUS_BLOCK;
+    }
 }

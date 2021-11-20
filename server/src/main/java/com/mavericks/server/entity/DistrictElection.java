@@ -5,32 +5,45 @@ import javax.persistence.*;
 @Entity
 @Table(name = "DistrictElections")
 public class DistrictElection {
-    @EmbeddedId
-    private DistrictElectionKey key;
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "electionId", insertable = false, updatable = false)
-    private Election election;
+    @Column(name="districtId", nullable=false)
+    private long districtId;
+
+    @Column(name="electionId", nullable=false)
+    private long electionId;
+
+    @Column(name="numberOfRepublicanVotes", nullable=false)
     private long republicanVotes;
+
+    @Column(name="numberOfDemocraticVotes", nullable=false)
     private long democraticVotes;
 
-    private long totalVotes;
+    @Column(name="numberOfOtherVotes", nullable=false)
+    private long otherVotes;
 
-    public DistrictElection(int republicanVotes, int democraticVotes) {
+    public DistrictElection() {}
+
+    public DistrictElection(long districtId, long electionId, long republicanVotes, long democraticVotes, long otherVotes) {
+        this.districtId = districtId;
+        this.electionId = electionId;
         this.republicanVotes = republicanVotes;
         this.democraticVotes = democraticVotes;
-        this.totalVotes = republicanVotes+democraticVotes;
+        this.otherVotes = otherVotes;
     }
 
-    public DistrictElection(){
-
+    public long getDistrictId() {
+        return districtId;
     }
 
-    public DistrictElectionKey getKey() {
-        return key;
+    public void setDistrictId(long districtId) {
+        this.districtId = districtId;
     }
 
-    public void setKey(DistrictElectionKey key) {
-        this.key = key;
+    public long getElectionId() {
+        return electionId;
+    }
+
+    public void setElectionId(long electionId) {
+        this.electionId = electionId;
     }
 
     public long getRepublicanVotes() {
@@ -45,15 +58,15 @@ public class DistrictElection {
         return democraticVotes;
     }
 
-    public void setDemocratVotes(long democraticVotes) {
+    public void setDemocraticVotes(long democraticVotes) {
         this.democraticVotes = democraticVotes;
     }
 
-    public long getTotalVotes() {
-        return totalVotes;
+    public long getOtherVotes() {
+        return otherVotes;
     }
 
-    public void setTotalVotes(long totalVotes) {
-        this.totalVotes = totalVotes;
+    public void setOtherVotes(long otherVotes) {
+        this.otherVotes = otherVotes;
     }
 }
