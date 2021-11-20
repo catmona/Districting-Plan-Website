@@ -1,77 +1,89 @@
 package com.mavericks.server.entity;
 
-import com.mavericks.server.entity.Demographic;
-import com.mavericks.server.entity.PopulationMeasure;
+import com.mavericks.server.enumeration.Demographic;
+import com.mavericks.server.enumeration.PopulationMeasure;
+import com.mavericks.server.enumeration.Region;
 
-import java.util.ArrayList;
-import java.util.List;
+import javax.persistence.*;
 
+@Entity
+@Table(name = "Population")
 public class Population {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="id", nullable=false)
+    private long id;
 
-    // PopulationMeasure[Demographics[]]
-    private List<List<Integer>> populations;
+    @Column(name="regionType", nullable=false)
+    private Region regionType;
 
-    public Population() {
-        // instantiate empty populations var
-        populations = new ArrayList<>();
+    @Column(name="regionId", nullable=false)
+    private long regionId;
 
-        for (int i = 0; i < PopulationMeasure.values().length; i++) {
-            List<Integer> popMeasure = new ArrayList<Integer>();
-            for (int j = 0; j < Demographic.values().length; j++) {
-                popMeasure.add(j, 0);
-            }
-            populations.add(i, popMeasure);
-        }
+    @Column(name="populationMeasureType", nullable=false)
+    private PopulationMeasure populationMeasureType;
 
+    @Column(name="demographicType", nullable=false)
+    private Demographic demographicType;
+
+    @Column(name="value", nullable=false)
+    private int value;
+
+    public Population() {}
+
+    public Population(Region regionType, long regionId, PopulationMeasure populationMeasureType, Demographic demographicType, int value) {
+        this.regionType = regionType;
+        this.regionId = regionId;
+        this.populationMeasureType = populationMeasureType;
+        this.demographicType = demographicType;
+        this.value = value;
     }
 
-    public List<Integer> getDemographics(PopulationMeasure popMeasure){
-        return populations.get(popMeasure.ordinal());
+    public long getId() {
+        return id;
     }
 
-    public Integer getPopulation(PopulationMeasure popMeasure, Demographic demo) {
-        return populations.get(popMeasure.ordinal()).get(demo.ordinal());
+    public void setId(long id) {
+        this.id = id;
     }
 
-    public void setPopulation(PopulationMeasure popMeasure, Demographic demo, int value) {
-        populations.get(popMeasure.ordinal()).set(demo.ordinal(), value);
+    public Region getRegionType() {
+        return regionType;
     }
 
-    public void combinePopulations(Population p1) {
-        PopulationMeasure popMeasureEnum;
-        Demographic demoEnum;
-        for (int i = 0; i < PopulationMeasure.values().length; i++) {
-            for (int j = 0; j < Demographic.values().length; j++) {
-                popMeasureEnum = PopulationMeasure.values()[i];
-                demoEnum = Demographic.values()[j];
-                this.setPopulation(popMeasureEnum, demoEnum,
-                        this.getPopulation(popMeasureEnum, demoEnum) + p1.getPopulation(popMeasureEnum, demoEnum));
-            }
-        }
+    public void setRegionType(Region regionType) {
+        this.regionType = regionType;
     }
 
-    // made this in case
-    public static Population combinePopulations(Population p1, Population p2) {
-        Population sumPop = new Population();
-        PopulationMeasure popMeasureEnum;
-        Demographic demoEnum;
-        for (int i = 0; i < PopulationMeasure.values().length; i++) {
-            for (int j = 0; j < Demographic.values().length; j++) {
-                popMeasureEnum = PopulationMeasure.values()[i];
-                demoEnum = Demographic.values()[j];
-                sumPop.setPopulation(popMeasureEnum, demoEnum,
-                        p1.getPopulation(popMeasureEnum, demoEnum) + p2.getPopulation(popMeasureEnum, demoEnum));
-            }
-        }
-
-        return sumPop;
+    public long getRegionId() {
+        return regionId;
     }
 
-    public List<List<Integer>> getPopulations() {
-        return populations;
+    public void setRegionId(long regionId) {
+        this.regionId = regionId;
     }
 
-    public void setPopulations(List<List<Integer>> populations) {
-        this.populations = populations;
+    public PopulationMeasure getPopulationMeasureType() {
+        return populationMeasureType;
+    }
+
+    public void setPopulationMeasureType(PopulationMeasure populationMeasureType) {
+        this.populationMeasureType = populationMeasureType;
+    }
+
+    public Demographic getDemographicType() {
+        return demographicType;
+    }
+
+    public void setDemographicType(Demographic demographicType) {
+        this.demographicType = demographicType;
+    }
+
+    public int getValue() {
+        return value;
+    }
+
+    public void setValue(int value) {
+        this.value = value;
     }
 }

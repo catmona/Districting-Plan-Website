@@ -1,29 +1,27 @@
 package com.mavericks.server.entity;
 
+import com.mavericks.server.enumeration.Region;
+
 import javax.persistence.*;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "Precincts")
 public class Precinct {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="id", nullable=false)
     private long id;
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "districtId")
-    private District district;
-    @OneToMany(mappedBy = "precinct", fetch = FetchType.LAZY)
-    private List<CensusBlock> censusBlocks;
 
-    @Transient
-    private Population population;
+    @Column(name="districtId", nullable=false)
+    private long districtId;
+
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "precinctId")
+    private Set<CensusBlock> censusBlocks;
 
     public Precinct() {}
-
-    public Precinct(long id, District district) {
-        this.id = id;
-        this.district = district;
-    }
 
     public long getId() {
         return id;
@@ -33,20 +31,23 @@ public class Precinct {
         this.id = id;
     }
 
-    public District getDistrict() {
-        return district;
+    public long getDistrictId() {
+        return districtId;
     }
 
-    public void setDistrict(District district) {
-        this.district = district;
+    public void setDistrictId(long districtId) {
+        this.districtId = districtId;
     }
 
-    public Population getPopulation() {
-        // get population by aggregating the plan's District populations
-        Population res = new Population();
-        for (CensusBlock cb: censusBlocks) {
-            res.combinePopulations(cb.getPopulation());
-        }
-        return res;
+    public Set<CensusBlock> getCensusBlocks() {
+        return censusBlocks;
     }
+
+    public void setCensusBlocks(Set<CensusBlock> censusBlocks) {
+        this.censusBlocks = censusBlocks;
+    }
+    public Region getRegion() {
+        return Region.PRECINCT;
+    }
+
 }

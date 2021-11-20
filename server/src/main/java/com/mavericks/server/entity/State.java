@@ -1,8 +1,13 @@
 package com.mavericks.server.entity;
+import com.mavericks.server.converter.ObjectConverterJson;
 import com.mavericks.server.dto.StateDTO;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+
+import com.mavericks.server.enumeration.Demographic;
+import com.mavericks.server.enumeration.PopulationMeasure;
 import org.wololo.geojson.FeatureCollection;
 
 import javax.persistence.*;
@@ -11,46 +16,56 @@ import javax.persistence.*;
 @Table(name = "States")
 public class State {
     @Id
+    @Column(name="id", length=2, nullable=false)
     private String id;
-    private String name;
-    @Transient
+
+    @Column(name="fullName", length=50, nullable=false)
+    private String fullName;
+
+    @Convert(converter = ObjectConverterJson.class)
+    @Column(name="center")
     private Point center;
-    //private BoxWhisker boxWhisker;
+
+    @Column(name="numberOfDistricts", nullable=false)
     private int numberOfDistricts;
+
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "enactedDistricting")
+    @JoinColumn(name = "enactedId", referencedColumnName = "id")
+    @Column(name="enactedId")
     private Districting enacted;
 
-    @OneToMany(mappedBy = "state", fetch = FetchType.LAZY)
-    private List<Districting> districtings;
-
-
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "stateId")
+    private Set<Districting> districtings;
 
     public State() {}
 
-    public State(String id, String name, int numberOfDistricts) {
+    public State(String id, String fullName, int numberOfDistricts) {
         this.id = id;
-        this.name = name;
+        this.fullName = fullName;
         this.numberOfDistricts = numberOfDistricts;
     }
 
     public String getId() {
         return id;
     }
+
     public void setId(String id) {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getFullName() {
+        return fullName;
     }
-    public void setName(String name) {
-        this.name = name;
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 
     public Point getCenter() {
         return center;
     }
+
     public void setCenter(Point center) {
         this.center = center;
     }
@@ -58,6 +73,7 @@ public class State {
     public int getNumberOfDistricts() {
         return numberOfDistricts;
     }
+
     public void setNumberOfDistricts(int numberOfDistricts) {
         this.numberOfDistricts = numberOfDistricts;
     }
@@ -65,20 +81,20 @@ public class State {
     public Districting getEnacted() {
         return enacted;
     }
+
     public void setEnacted(Districting enacted) {
         this.enacted = enacted;
     }
 
-    public List<Districting> getDistrictings() {
+    public Set<Districting> getDistrictings() {
         return districtings;
     }
-    public void setDistrictings(List<Districting> districtings) {
+
+    public void setDistrictings(Set<Districting> districtings) {
         this.districtings = districtings;
     }
 
-    public Population getPopulation() {
-        return getEnacted().getPopulation();
-    }
+    /* Other class methods below */
 
     public StateDTO makeDTO(){
         //dummy value; replace later
@@ -89,6 +105,7 @@ public class State {
         for(District d:districts){
             distPopulations.add(d.getPopulation());
         }
+<<<<<<< HEAD
         return new StateDTO(145,this.center,collection,distPopulations, districting.getElection());
     }
 
@@ -101,5 +118,8 @@ public class State {
                 ", numberOfDistricts=" + numberOfDistricts +
                 ", enacted=" + enacted.getId() +
                 '}';
+=======
+        return new StateDTO(districting.getPopulation().getPopulation(PopulationMeasure.TOTAL, Demographic.ALL),this.center,collection,distPopulations, districting.getElection());
+>>>>>>> origin/entities
     }
 }
