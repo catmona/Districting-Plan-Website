@@ -6,6 +6,7 @@ import com.mavericks.server.dto.DistrictingDTO;
 import com.mavericks.server.dto.PlanDTO;
 import com.mavericks.server.dto.StateDTO;
 import com.mavericks.server.entity.*;
+import com.mavericks.server.repository.CensusBlockPopulationRepository;
 import org.locationtech.jts.geom.Geometry;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
@@ -32,6 +33,8 @@ import java.util.Map;
 public class Handler {
 
     private final Map<Long,Object[]> jobs;
+
+    //private final CensusBlockPopulationRepository;
 
     @Autowired
     public Handler(Map<Long, Object[]> jobs) {

@@ -89,7 +89,7 @@ public class State {
         for(District d:districts){
             distPopulations.add(d.getPopulation());
         }
-        return new StateDTO(districting.getPopulation().getPopulation(PopulationMeasure.TOTAL,Demographic.ALL),this.center,collection,distPopulations, districting.getElection());
+        return new StateDTO(145,this.center,collection,distPopulations, districting.getElection());
     }
 
     @Override

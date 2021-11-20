@@ -64,6 +64,17 @@ public class Algorithm implements Runnable{
         }
     }
 
+    private double acceptanceProbability(int oldScore, int newScore, int temp){
+        if(oldScore>newScore){
+            return 1.0;
+        }
+        else{
+            return Math.exp((newScore-oldScore)/temp);
+        }
+    }
+
+
+
     public AlgorithmDTO getProgress(){
         return new AlgorithmDTO(inProgressPlan.getMeasures(),iterations,running,null,null);
     }
