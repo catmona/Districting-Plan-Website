@@ -8,9 +8,8 @@ import StateTabs from './StateTabs';
 
 function App() {
     const [stateName, setStateName] = useState("");
-    const [districtingPlan, setDistrictingPlan] = useState(""); //districting plan
     const [districtingData, setDistrictingData] = useState(""); //statistics table data, population per district of the plan
-    const [seaWulfSummaries, setSeaWulfSummaries] = useState(""); //tooltip summaries for SeaWulf districtings 
+    const [districtingPreviews, setDistrictingPreviews] = useState(""); //tooltip summaries for SeaWulf districtings 
 
     function getStateSummary(stateAbbr) {
         fetch("http://localhost:8080/api2/getStateSummary?state=" + stateAbbr, { credentials: 'include' })
@@ -24,18 +23,33 @@ function App() {
                         console.log(error)
                     }
                 );
+        
+        switch (stateAbbr) {
+            case "WA":
+                setStateName("Washington")
+            break;
+            
+            case "NV":
+                setStateName("Nevada")
+            break;
+
+            case "AR":
+                setStateName("Arkansas")
+            break;
+
+            default:
+            break;
+        }
     }
 
-    function getSeaWulfSummaries() {
+    function getDistrictingPreviews() {
         fetch("http://localhost:8080/api2/districtings", { credentials: 'include' })
                     .then(res => res.json())
                     .then(
                         (result) => {
-                            console.log("Summaries: %o", result);
-                            setSeaWulfSummaries(result);
+                            setDistrictingPreviews(result);
                         },
                         (error) => {
-                            console.log("Summaries: %o", result);
                             console.log(error)
                         }
                     );
@@ -46,13 +60,13 @@ function App() {
             <Row>
                 <Col id="left-app">
                     <Row>
-                        <Topbar stateName={stateName} setStateName={setStateName} onSelect={getStateSummary} />
+                        <Topbar stateName={stateName} setState={getStateSummary} />
 
-                        <StateTabs stateName={stateName} districtingPlan={districtingPlan} districtingData={districtingData} setDistrictingPlan={setDistrictingPlan} onSelectTab={getSeaWulfSummaries} seaWulfSummaries={seaWulfSummaries}></StateTabs>
+                        <StateTabs stateName={stateName} districtingData={districtingData} getDistrictingPreviews={getDistrictingPreviews} districtingPreviews={districtingPreviews}></StateTabs>
                     </Row>
                 </Col>
                 <Col id="right-app">
-                    <Map stateName={stateName} setStateName={setStateName} districtingData={districtingData} onSelect={getStateSummary} />
+                    <Map stateName={stateName} districtingData={districtingData} setState={getStateSummary} />
                 </Col>
             </Row>
         </Container>

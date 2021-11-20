@@ -6,33 +6,34 @@ import Statistics from 'Statistics.js';
 function StateTabs(props) {
     const [stateSelected, setStateSelected] = useState(false);
     const [tab, setTab] = useState("none");
-    let onSelectTab = props.onSelectTab
+    let getDistrictingPreviews = props.getDistrictingPreviews;
+    let stateName = props.stateName;
 
     function selectTab(key) {
         if (key === "random-districts") {
-            onSelectTab();
+            getDistrictingPreviews();
         }
         setTab(key)
     }
 
     useEffect(() => {
-        if (!props.stateName || props.stateName === "") {
+        if (!stateName || stateName === "") {
             setTab("none");
             setStateSelected(false);
         } else {
             setTab("data-table");
             setStateSelected(true);
         }
-    }, [props.stateName]);
+    }, [stateName]);
 
     return (
         <Container fluid id="state-tabs">
             <Tabs activeKey={tab} onSelect={(k) => selectTab(k)}>
                 <Tab disabled={!stateSelected} eventKey="data-table" title="District Data">
-                    {(props.stateName)?<Statistics stateName={props.stateName} districtingData={props.districtingData}/>:""}
+                    {(stateName)?<Statistics stateName={stateName} districtingData={props.districtingData}/>:""}
                 </Tab>
                 <Tab disabled={!stateSelected} eventKey="random-districts" title="Districtings">
-                        <Districtings stateName={props.stateName} districtingPlan={props.districtingPlan} setDistrictingPlan={props.setDistrictingPlan} seaWulfSummaries={props.seaWulfSummaries}/>
+                        <Districtings stateName={stateName} districtingPreviews={props.districtingPreviews}/>
                 </Tab>
             </Tabs>
             <div hidden={stateSelected} className="instructions-container">

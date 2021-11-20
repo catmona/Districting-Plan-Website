@@ -21,7 +21,7 @@ function Map(props) {
     const [showDistrictBoundaries, setShowDistrictBoundaries] = useState(true)
     let stateName = props.stateName;
     let districtingData = props.districtingData;
-    let onSelect = props.onSelect;
+    let setState = props.setState;
 
     useEffect(() => {
         if (map.current) {
@@ -120,8 +120,7 @@ function Map(props) {
 
         //set state by clicking on its overlay
         map.current.on('click', 'State-Overlay-Layer', (e) => {
-            props.setStateName(e.features[0].properties.NAME);
-            onSelect(e.features[0].properties.NAME);
+            setState(e.features[0].properties.ABBR);
         });
 
         //change cursor to pointer when hovering a state outline and change color of overlay
@@ -142,6 +141,7 @@ function Map(props) {
             }
 
         });
+        
         //change cursor back when not hovering a state outline and change color of overlay
         map.current.on('mouseleave', 'State-Overlay-Layer', () => {
             map.current.getCanvas().style.cursor = '';

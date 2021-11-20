@@ -12,7 +12,7 @@ function DistrictingModal(props) {
         <Modal {...props} size="lg" centered className="dark-modal">
             <Modal.Header closeButton>
                 <Modal.Title id="districtingModalTitle">
-                    {"Districting Plan " + props.data.districtingNum + " Summary"}
+                    {props.stateName + " Redistricting Plan " + props.data.districtingNum}
                 </Modal.Title>
             </Modal.Header>
             <Modal.Body>
