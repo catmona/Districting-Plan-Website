@@ -1,5 +1,6 @@
 package com.mavericks.server.entity;
 
+import com.mavericks.server.SetCustom;
 import com.mavericks.server.converter.GeometryConverterString;
 import com.mavericks.server.enumeration.Region;
 import org.locationtech.jts.geom.Geometry;
@@ -26,11 +27,11 @@ public class District {
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "DistrictNeighbors", joinColumns = {@JoinColumn(name = "districtId")}, inverseJoinColumns = {@JoinColumn(name = "neighborId")})
-    private Set<District> neighbors;
+    private List<District> neighbors;
 
     @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "districtId")
-    private Set<Precinct> precincts;
+    private List<Precinct> precincts;
 
     public District() {}
 
@@ -62,19 +63,19 @@ public class District {
         this.districtingId = districtingId;
     }
 
-    public Set<District> getNeighbors() {
+    public List<District> getNeighbors() {
         return neighbors;
     }
 
-    public void setNeighbors(Set<District> neighbors) {
+    public void setNeighbors(List<District> neighbors) {
         this.neighbors = neighbors;
     }
 
-    public Set<Precinct> getPrecincts() {
+    public List<Precinct> getPrecincts() {
         return precincts;
     }
 
-    public void setPrecincts(Set<Precinct> precincts) {
+    public void setPrecincts(List<Precinct> precincts) {
         this.precincts = precincts;
     }
 

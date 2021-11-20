@@ -75,17 +75,17 @@ public class Controller {
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("algorithmlimits")
-    public long handleLimits(@RequestParam("minPopulationEquality") double minPopulationEquality,
-                             @RequestParam("minCompactness") double minCompactness){
-        return handler.setLimits(minPopulationEquality,minCompactness);
-    }
-
-    @GetMapping(value = "algorithm")
-    public Map<String,Object> handleStartAlgorithm(@RequestParam("threadId")long threadId,
-                                                   @RequestParam("districingNum")int districtingNum,HttpSession session){
-        return handler.startAlgorithm(threadId,districtingNum,session);
-    }
+//    @PostMapping("algorithmlimits")
+//    public long handleLimits(@RequestParam("minPopulationEquality") double minPopulationEquality,
+//                             @RequestParam("minCompactness") double minCompactness){
+//        return handler.setLimits(minPopulationEquality,minCompactness);
+//    }
+//
+//    @GetMapping(value = "algorithm")
+//    public Map<String,Object> handleStartAlgorithm(@RequestParam("threadId")long threadId,
+//                                                   @RequestParam("districingNum")int districtingNum,HttpSession session){
+//        return handler.startAlgorithm(threadId,districtingNum,session);
+//    }
 
     @GetMapping(value="algorithmProgress")
     public Map<String,Object> handleGetProgress(@RequestParam("threadId") long threadId){

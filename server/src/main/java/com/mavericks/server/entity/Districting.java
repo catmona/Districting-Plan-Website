@@ -1,5 +1,6 @@
 package com.mavericks.server.entity;
 
+import com.mavericks.server.SetCustom;
 import com.mavericks.server.dto.DistrictingDTO;
 import com.mavericks.server.dto.DistrictingDTO;
 import com.mavericks.server.dto.PlanDTO;
@@ -40,7 +41,7 @@ public class Districting {
 
     @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "districtingId")
-    private Set<District> districts;
+    private List<District> districts;
 
     @Transient
     private FeatureCollection geometries;
@@ -92,11 +93,11 @@ public class Districting {
         this.previewImageUrl = previewImageUrl;
     }
 
-    public Set<District> getDistricts() {
+    public List<District> getDistricts() {
         return districts;
     }
 
-    public void setDistricts(Set<District> districts) {
+    public void setDistricts(List<District> districts) {
         this.districts = districts;
     }
 
@@ -119,16 +120,18 @@ public class Districting {
     }
 
     public DistrictingDTO makeDistrictDTO(){
-        return new DistrictingDTO(this.measures.getPolsbyPopperScore(),this.measures.getPopulationEqualityScore(),this.election);
+        return null;
+//        return new DistrictingDTO(this.measures.getPolsbyPopperScore(),this.measures.getPopulationEqualityScore(),this.election);
     }
 
     public PlanDTO makePlanDTO(){
-        List<Population>distPopulations = new ArrayList<>();
-        for(District d:districts){
-            distPopulations.add(d.getPopulation());
-        }
-        return new PlanDTO(districts.size(),this.measures.getPolsbyPopperScore(),
-                this.measures.getPopulationEqualityScore(),this.election,distPopulations);
+        return null;
+//        List<Population>distPopulations = new ArrayList<>();
+//        for(District d:districts){
+//            distPopulations.add(d.getPopulation());
+//        }
+//        return new PlanDTO(districts.size(),this.measures.getPolsbyPopperScore(),
+//                this.measures.getPopulationEqualityScore(),this.election,distPopulations);
     }
 
     public double computePolsbyPopper(District removedDistrict,District addedDistrict){
@@ -136,8 +139,9 @@ public class Districting {
                 &&d.getId()!=addedDistrict.getId()).collect(Collectors.toList());
         double removedPolsby=polsbyHelper(removedDistrict);
         double addedPolsby=polsbyHelper(addedDistrict);
-        return (otherDistricts.stream().mapToDouble(d->d.getMeasures().getPolsbyPopperScore())
-                .reduce(0,(a,b)->a+b)+removedPolsby+addedPolsby)/districts.size();
+        return 0;
+//        return (otherDistricts.stream().mapToDouble(d->d.getMeasures().getPolsbyPopperScore())
+//                .reduce(0,(a,b)->a+b)+removedPolsby+addedPolsby)/districts.size();
 
     }
 

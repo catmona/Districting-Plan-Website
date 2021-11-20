@@ -5,6 +5,11 @@ import javax.persistence.*;
 @Entity
 @Table(name = "DistrictElections")
 public class DistrictElection {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="id", nullable=false)
+    private long id;
+
     @Column(name="districtId", nullable=false)
     private long districtId;
 

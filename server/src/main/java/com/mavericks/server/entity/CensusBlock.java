@@ -1,5 +1,6 @@
 package com.mavericks.server.entity;
 
+import com.mavericks.server.SetCustom;
 import com.mavericks.server.converter.GeometryConverterString;
 import com.mavericks.server.converter.ObjectConverterJson;
 import com.mavericks.server.enumeration.Region;
@@ -31,7 +32,7 @@ public class CensusBlock {
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "CensusBlockNeighbors", joinColumns = {@JoinColumn(name = "censusBlockId")}, inverseJoinColumns = {@JoinColumn(name = "neighborId")})
-    private Set<CensusBlock> neighbors;
+    private List<CensusBlock> neighbors;
 
     public CensusBlock() {}
 
@@ -72,11 +73,11 @@ public class CensusBlock {
         isBorderBlock = borderBlock;
     }
 
-    public Set<CensusBlock> getNeighbors() {
+    public List<CensusBlock> getNeighbors() {
         return neighbors;
     }
 
-    public void setNeighbors(Set<CensusBlock> neighbors) {
+    public void setNeighbors(List<CensusBlock> neighbors) {
         this.neighbors = neighbors;
     }
 

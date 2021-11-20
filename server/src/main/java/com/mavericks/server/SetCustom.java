@@ -7,7 +7,6 @@ public class SetCustom<V> implements Set<V> {
 
     public SetCustom(){
         values=new ArrayList<>();
-        Set<V>blah= new HashSet<V>();
     }
 
     @Override

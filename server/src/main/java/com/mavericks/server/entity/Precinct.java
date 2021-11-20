@@ -1,5 +1,6 @@
 package com.mavericks.server.entity;
 
+import com.mavericks.server.SetCustom;
 import com.mavericks.server.enumeration.Region;
 
 import javax.persistence.*;
@@ -19,7 +20,7 @@ public class Precinct {
 
     @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "precinctId")
-    private Set<CensusBlock> censusBlocks;
+    private List<CensusBlock> censusBlocks;
 
     public Precinct() {}
 
@@ -39,11 +40,11 @@ public class Precinct {
         this.districtId = districtId;
     }
 
-    public Set<CensusBlock> getCensusBlocks() {
+    public List<CensusBlock> getCensusBlocks() {
         return censusBlocks;
     }
 
-    public void setCensusBlocks(Set<CensusBlock> censusBlocks) {
+    public void setCensusBlocks(List<CensusBlock> censusBlocks) {
         this.censusBlocks = censusBlocks;
     }
     public Region getRegion() {

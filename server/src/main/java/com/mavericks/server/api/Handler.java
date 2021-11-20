@@ -1,13 +1,10 @@
 package com.mavericks.server.api;
 
-import com.mavericks.server.Algorithm;
+//import com.mavericks.server.Algorithm;
 import com.mavericks.server.dto.DistrictingDTO;
 import com.mavericks.server.dto.PlanDTO;
 import com.mavericks.server.dto.StateDTO;
 import com.mavericks.server.entity.*;
-<<<<<<< HEAD
-import com.mavericks.server.repository.CensusBlockPopulationRepository;
-=======
 import com.mavericks.server.enumeration.Basis;
 import com.mavericks.server.enumeration.Demographic;
 import com.mavericks.server.enumeration.PopulationMeasure;
@@ -15,7 +12,6 @@ import com.mavericks.server.repository.DistrictElectionRepository;
 import com.mavericks.server.repository.DistrictingRepository;
 import com.mavericks.server.repository.PopulationRepository;
 import com.mavericks.server.repository.StateRepository;
->>>>>>> origin/entities
 import org.locationtech.jts.geom.Geometry;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
@@ -173,7 +169,7 @@ public class Handler {
     public List<PlanDTO> getDistrictingSummaries(HttpSession session){
         // TODO get all districting summaries of the currently selected state
         State state = (State) session.getAttribute("state");
-        Set<Districting> districtings = state.getDistrictings();
+        List<Districting> districtings = state.getDistrictings();
         List<PlanDTO> planDTOs = new ArrayList<PlanDTO>();
         // TODO will use Set later
 //        for (int i = 0; i < districtings.size(); i++) {
@@ -217,55 +213,55 @@ public class Handler {
      * @param minCompactness the geometric compactness computed by polsby popper
      * @return the thread id
      */
-    public long setLimits(double minPopulationEquality, double minCompactness){
-        Algorithm alg = new Algorithm(minPopulationEquality,minCompactness);
-        Thread t = new Thread(alg);
-        Object[] pair={t,alg};
-        jobs.put(t.getId(),pair);
-        return t.getId();
-    }
-
-    public Map<String,Object> startAlgorithm(long threadId, int districtingNum, HttpSession session){
-        State state = (State)session.getAttribute("state");
-        Districting districting=state.getDistrictings().get(districtingNum);
-
-
-        String data2 = readFile("data/nv-cb-geo.geojson");
-        FeatureCollection f2 = (FeatureCollection)GeoJSONFactory.create(data2);
-
-        GeoJSONReader reader = new GeoJSONReader();
-        Feature[]blocks = f2.getFeatures();
-        List<List<CensusBlock>>distToBlocks=new ArrayList<>();
-        for(int i=0;i<districting.getDistricts().size();i++){
-            distToBlocks.add(new ArrayList<>());
-        }
-
-        for(Feature f:blocks){
-            Integer distNum=(Integer)f.getProperties().get("districtId")-1;
-            Long blockId=Long.parseLong((String)f.getProperties().get("blockId"));
-            boolean border =(Boolean)f.getProperties().get("boundary");
-            Geometry g =reader.read(f.getGeometry());
-            CensusBlock cb = new CensusBlock(blockId,null,g,border);
-            distToBlocks.get(distNum).add(cb);
-
-        }
-
-        for(int i=0;i<districting.getDistricts().size();i++){
-            districting.getDistricts().get(i).setBlocks(distToBlocks.get(i));
-        }
-
-
-
-        Object[]pair = jobs.get(threadId);
-        Algorithm alg=(Algorithm)pair[1];
-        alg.setInProgressPlan(districting);
-
-        Map<String ,Object> data= new Hashtable<>();
-        data.put("Measures",districting.getMeasures());
-        data.put("iterations",alg.getIterations());
-        return data;
-
-    }
+//    public long setLimits(double minPopulationEquality, double minCompactness){
+//        Algorithm alg = new Algorithm(minPopulationEquality,minCompactness);
+//        Thread t = new Thread(alg);
+//        Object[] pair={t,alg};
+//        jobs.put(t.getId(),pair);
+//        return t.getId();
+//    }
+//
+//    public Map<String,Object> startAlgorithm(long threadId, int districtingNum, HttpSession session){
+//        State state = (State)session.getAttribute("state");
+//        Districting districting=state.getDistrictings().get(districtingNum);
+//
+//
+//        String data2 = readFile("data/nv-cb-geo.geojson");
+//        FeatureCollection f2 = (FeatureCollection)GeoJSONFactory.create(data2);
+//
+//        GeoJSONReader reader = new GeoJSONReader();
+//        Feature[]blocks = f2.getFeatures();
+//        List<List<CensusBlock>>distToBlocks=new ArrayList<>();
+//        for(int i=0;i<districting.getDistricts().size();i++){
+//            distToBlocks.add(new ArrayList<>());
+//        }
+//
+//        for(Feature f:blocks){
+//            Integer distNum=(Integer)f.getProperties().get("districtId")-1;
+//            Long blockId=Long.parseLong((String)f.getProperties().get("blockId"));
+//            boolean border =(Boolean)f.getProperties().get("boundary");
+//            Geometry g =reader.read(f.getGeometry());
+//            CensusBlock cb = new CensusBlock(blockId,null,g,border);
+//            distToBlocks.get(distNum).add(cb);
+//
+//        }
+//
+//        for(int i=0;i<districting.getDistricts().size();i++){
+//            districting.getDistricts().get(i).setBlocks(distToBlocks.get(i));
+//        }
+//
+//
+//
+//        Object[]pair = jobs.get(threadId);
+//        Algorithm alg=(Algorithm)pair[1];
+//        alg.setInProgressPlan(districting);
+//
+//        Map<String ,Object> data= new Hashtable<>();
+//        data.put("Measures",districting.getMeasures());
+//        data.put("iterations",alg.getIterations());
+//        return data;
+//
+//    }
 
     public Map<String,Object> getProgress(long threadId){
         return new Hashtable<>();

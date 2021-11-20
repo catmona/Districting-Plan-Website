@@ -16,6 +16,7 @@ public class BoxWhisker {
     @Column(name="districtId", nullable=false)
     private long districtId;
 
+    @Enumerated(EnumType.STRING)
     @Column(name="basisType", nullable=false)
     private Basis basisType;
 

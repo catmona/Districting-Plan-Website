@@ -1,4 +1,5 @@
 package com.mavericks.server.entity;
+import com.mavericks.server.SetCustom;
 import com.mavericks.server.converter.ObjectConverterJson;
 import com.mavericks.server.dto.StateDTO;
 
@@ -31,12 +32,11 @@ public class State {
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "enactedId", referencedColumnName = "id")
-    @Column(name="enactedId")
     private Districting enacted;
 
     @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "stateId")
-    private Set<Districting> districtings;
+    private List<Districting> districtings;
 
     public State() {}
 
@@ -86,40 +86,39 @@ public class State {
         this.enacted = enacted;
     }
 
-    public Set<Districting> getDistrictings() {
+    public List<Districting> getDistrictings() {
         return districtings;
     }
 
-    public void setDistrictings(Set<Districting> districtings) {
+    public void setDistrictings(List<Districting> districtings) {
         this.districtings = districtings;
     }
 
     /* Other class methods below */
 
     public StateDTO makeDTO(){
+        return null;
         //dummy value; replace later
-        Districting districting= this.getEnacted();
-        FeatureCollection collection = districting.getGeometry();
-        List<Population> distPopulations= new ArrayList<>();
-        List<District>districts=districting.getDistricts();
-        for(District d:districts){
-            distPopulations.add(d.getPopulation());
-        }
-<<<<<<< HEAD
-        return new StateDTO(145,this.center,collection,distPopulations, districting.getElection());
+//        Districting districting= this.getEnacted();
+//        FeatureCollection collection = districting.getGeometry();
+//        List<Population> distPopulations= new ArrayList<>();
+//        List<District>districts=districting.getDistricts();
+//        for(District d:districts){
+//            distPopulations.add(d.getPopulation());
+//        }
+//        return new StateDTO(145,this.center,collection,distPopulations, districting.getElection());
     }
 
     @Override
     public String toString() {
-        return "State{" +
-                "id='" + id + '\'' +
-                ", name='" + name + '\'' +
-                ", center=" + center.toString() +
-                ", numberOfDistricts=" + numberOfDistricts +
-                ", enacted=" + enacted.getId() +
-                '}';
-=======
-        return new StateDTO(districting.getPopulation().getPopulation(PopulationMeasure.TOTAL, Demographic.ALL),this.center,collection,distPopulations, districting.getElection());
->>>>>>> origin/entities
+        return null;
+//        return "State{" +
+//                "id='" + id + '\'' +
+//                ", name='" + name + '\'' +
+//                ", center=" + center.toString() +
+//                ", numberOfDistricts=" + numberOfDistricts +
+//                ", enacted=" + enacted.getId() +
+//                '}';
+//        return new StateDTO(districting.getPopulation().getPopulation(PopulationMeasure.TOTAL, Demographic.ALL),this.center,collection,distPopulations, districting.getElection());
     }
 }
