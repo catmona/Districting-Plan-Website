@@ -24,7 +24,7 @@ public class CensusBlock {
 
     @Convert(converter = GeometryConverterString.class)
     @Column(name="geometry")
-    private String geometry;
+    private Geometry geometry;
 
     @Column(name="isBorderBlock", nullable=false)
     private boolean isBorderBlock;
@@ -56,11 +56,11 @@ public class CensusBlock {
         this.precinctId = precinctId;
     }
 
-    public String getGeometry() {
+    public Geometry getGeometry() {
         return geometry;
     }
 
-    public void setGeometry(String geometry) {
+    public void setGeometry(Geometry geometry) {
         this.geometry = geometry;
     }
 
