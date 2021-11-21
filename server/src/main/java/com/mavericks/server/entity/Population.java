@@ -11,27 +11,27 @@ import javax.persistence.*;
 public class Population {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="id", nullable=false)
+    @Column(name = "id", nullable = false)
     private long id;
 
-    @Column(name="regionType", nullable=false)
+    @Column(name = "regionType", nullable = false)
     private Region regionType;
 
-    @Column(name="regionId", nullable=false)
-    private long regionId;
+    @Column(name = "regionId", length = 50, nullable = false)
+    private String regionId;
 
-    @Column(name="populationMeasureType", nullable=false)
+    @Column(name = "populationMeasureType", nullable = false)
     private PopulationMeasure populationMeasureType;
 
-    @Column(name="demographicType", nullable=false)
+    @Column(name = "demographicType", nullable = false)
     private Demographic demographicType;
 
-    @Column(name="value", nullable=false)
+    @Column(name = "value", nullable = false)
     private int value;
 
     public Population() {}
 
-    public Population(Region regionType, long regionId, PopulationMeasure populationMeasureType, Demographic demographicType, int value) {
+    public Population(Region regionType, String regionId, PopulationMeasure populationMeasureType, Demographic demographicType, int value) {
         this.regionType = regionType;
         this.regionId = regionId;
         this.populationMeasureType = populationMeasureType;
@@ -55,11 +55,11 @@ public class Population {
         this.regionType = regionType;
     }
 
-    public long getRegionId() {
+    public String getRegionId() {
         return regionId;
     }
 
-    public void setRegionId(long regionId) {
+    public void setRegionId(String regionId) {
         this.regionId = regionId;
     }
 

@@ -10,57 +10,42 @@ import java.util.List;
 public class BoxWhisker {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="id", nullable=false)
-    private long id;
+    @Column(name = "id", length = 50, nullable = false)
+    private String id;
 
-    @Column(name="districtId", nullable=false)
-    private long districtId;
+    @Column(name = "stateId", length = 50, nullable = false)
+    private String stateId;
 
     @Enumerated(EnumType.STRING)
     @Column(name="basisType", nullable=false)
     private Basis basisType;
 
-    @Column(name="upperExtreme", nullable=false)
-    private int upperExtreme;
-
-    @Column(name="upperQuartile", nullable=false)
-    private int upperQuartile;
-
-    @Column(name="median", nullable=false)
-    private int median;
-
-    @Column(name="lowerQuartile", nullable=false)
-    private int lowerQuartile;
-
-    @Column(name="lowerExtreme", nullable=false)
-    private int lowerExtreme;
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "boxWhiskerId")
+    private List<Box> boxes;
 
     public BoxWhisker() {}
 
-    public BoxWhisker(long districtId, Basis basisType, int upperExtreme, int upperQuartile, int median, int lowerQuartile, int lowerExtreme) {
-        this.districtId = districtId;
+    public BoxWhisker(String id, String stateId, Basis basisType) {
+        this.id = id;
+        this.stateId = stateId;
         this.basisType = basisType;
-        this.upperExtreme = upperExtreme;
-        this.upperQuartile = upperQuartile;
-        this.median = median;
-        this.lowerQuartile = lowerQuartile;
-        this.lowerExtreme = lowerExtreme;
     }
 
-    public long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
-    public long getDistrictId() {
-        return districtId;
+    public String getStateId() {
+        return stateId;
     }
 
-    public void setDistrictId(long districtId) {
-        this.districtId = districtId;
+    public void setStateId(String stateId) {
+        this.stateId = stateId;
     }
 
     public Basis getBasisType() {
@@ -71,43 +56,11 @@ public class BoxWhisker {
         this.basisType = basisType;
     }
 
-    public int getUpperExtreme() {
-        return upperExtreme;
+    public List<Box> getBoxes() {
+        return boxes;
     }
 
-    public void setUpperExtreme(int upperExtreme) {
-        this.upperExtreme = upperExtreme;
-    }
-
-    public int getUpperQuartile() {
-        return upperQuartile;
-    }
-
-    public void setUpperQuartile(int upperQuartile) {
-        this.upperQuartile = upperQuartile;
-    }
-
-    public int getMedian() {
-        return median;
-    }
-
-    public void setMedian(int median) {
-        this.median = median;
-    }
-
-    public int getLowerQuartile() {
-        return lowerQuartile;
-    }
-
-    public void setLowerQuartile(int lowerQuartile) {
-        this.lowerQuartile = lowerQuartile;
-    }
-
-    public int getLowerExtreme() {
-        return lowerExtreme;
-    }
-
-    public void setLowerExtreme(int lowerExtreme) {
-        this.lowerExtreme = lowerExtreme;
+    public void setBoxes(List<Box> boxes) {
+        this.boxes = boxes;
     }
 }

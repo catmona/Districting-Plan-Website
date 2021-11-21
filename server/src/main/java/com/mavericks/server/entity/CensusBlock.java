@@ -1,6 +1,5 @@
 package com.mavericks.server.entity;
 
-import com.mavericks.server.converter.GeometryConverterString;
 import com.mavericks.server.enumeration.Region;
 import org.locationtech.jts.geom.Geometry;
 
@@ -11,20 +10,20 @@ import java.util.List;
 @Table(name = "CensusBlocks")
 public class CensusBlock {
     @Id
-    @Column(name="id", nullable=false)
-    private long id;
+    @Column(name = "id", length = 50, nullable = false)
+    private String id;
 
-    @Column(name="districtId", nullable=false)
-    private long districtId;
+    @Column(name = "districtId", length = 50, nullable = false)
+    private String districtId;
 
-    @Column(name="precinctNumber", nullable=false)
-    private int precinctNumber;
+    @Column(name = "precinctId", length = 50, nullable = false)
+    private String precinctId;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "geometryId", referencedColumnName = "id")
     private CensusBlockGeometry cbGeometry;
 
-    @Column(name="isBorderBlock", nullable=false)
+    @Column(name = "isBorderBlock", nullable = false)
     private boolean isBorderBlock;
 
     @ManyToMany(fetch = FetchType.LAZY)
@@ -33,34 +32,34 @@ public class CensusBlock {
 
     public CensusBlock() {}
 
-    public CensusBlock(long districtId, int precinctNumber, boolean isBorderBlock) {
+    public CensusBlock(String districtId, String precinctId, boolean isBorderBlock) {
         this.districtId = districtId;
-        this.precinctNumber = precinctNumber;
+        this.precinctId = precinctId;
         this.isBorderBlock = isBorderBlock;
     }
 
-    public long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
-    public long getDistrictId() {
+    public String getDistrictId() {
         return districtId;
     }
 
-    public void setDistrictId(long districtId) {
+    public void setDistrictId(String districtId) {
         this.districtId = districtId;
     }
 
-    public int getPrecinctNumber() {
-        return precinctNumber;
+    public String getPrecinctId() {
+        return precinctId;
     }
 
-    public void setPrecinctNumber(int precinctNumber) {
-        this.precinctNumber = precinctNumber;
+    public void setPrecinctId(String precinctId) {
+        this.precinctId = precinctId;
     }
 
     public CensusBlockGeometry getCbGeometry() {

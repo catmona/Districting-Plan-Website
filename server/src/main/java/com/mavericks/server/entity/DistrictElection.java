@@ -7,27 +7,27 @@ import javax.persistence.*;
 public class DistrictElection {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="id", nullable=false)
+    @Column(name = "id", nullable = false)
     private long id;
 
-    @Column(name="districtId", nullable=false)
-    private long districtId;
+    @Column(name = "districtId", length = 50, nullable = false)
+    private String districtId;
 
-    @Column(name="electionId", nullable=false)
-    private long electionId;
+    @Column(name = "electionId", length = 50, nullable = false)
+    private String electionId;
 
-    @Column(name="numberOfRepublicanVotes", nullable=false)
+    @Column(name = "numberOfRepublicanVotes", nullable = false)
     private long republicanVotes;
 
-    @Column(name="numberOfDemocraticVotes", nullable=false)
+    @Column(name = "numberOfDemocraticVotes", nullable = false)
     private long democraticVotes;
 
-    @Column(name="numberOfOtherVotes", nullable=false)
+    @Column(name = "numberOfOtherVotes", nullable = false)
     private long otherVotes;
 
     public DistrictElection() {}
 
-    public DistrictElection(long districtId, long electionId, long republicanVotes, long democraticVotes, long otherVotes) {
+    public DistrictElection(String districtId, String electionId, long republicanVotes, long democraticVotes, long otherVotes) {
         this.districtId = districtId;
         this.electionId = electionId;
         this.republicanVotes = republicanVotes;
@@ -35,19 +35,19 @@ public class DistrictElection {
         this.otherVotes = otherVotes;
     }
 
-    public long getDistrictId() {
+    public String getDistrictId() {
         return districtId;
     }
 
-    public void setDistrictId(long districtId) {
+    public void setDistrictId(String districtId) {
         this.districtId = districtId;
     }
 
-    public long getElectionId() {
+    public String getElectionId() {
         return electionId;
     }
 
-    public void setElectionId(long electionId) {
+    public void setElectionId(String electionId) {
         this.electionId = electionId;
     }
 

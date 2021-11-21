@@ -6,22 +6,14 @@ import com.mavericks.server.dto.PlanDTO;
 import com.mavericks.server.dto.StateDTO;
 import com.mavericks.server.entity.*;
 import com.mavericks.server.enumeration.Basis;
-import com.mavericks.server.enumeration.Demographic;
-import com.mavericks.server.enumeration.PopulationMeasure;
 import com.mavericks.server.repository.DistrictElectionRepository;
 import com.mavericks.server.repository.DistrictingRepository;
 import com.mavericks.server.repository.PopulationRepository;
 import com.mavericks.server.repository.StateRepository;
-import org.locationtech.jts.geom.Geometry;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StreamUtils;
-import org.wololo.geojson.Feature;
-import org.wololo.geojson.FeatureCollection;
-import org.wololo.geojson.GeoJSONFactory;
-
-import org.wololo.jts2geojson.GeoJSONReader;
 
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
@@ -89,7 +81,7 @@ public class Handler {
         return plansPreview;
     }
 
-    public PlanDTO getDistrictingSummary(long districtingId, HttpSession session){
+    public PlanDTO getDistrictingSummary(String districtingId, HttpSession session){
         State state = (State) session.getAttribute("state");
         Optional<Districting> districting = state.getDistrictings()
                 .stream().filter(d -> d.getId() == districtingId).findFirst();
@@ -129,8 +121,8 @@ public class Handler {
      * @param session
      * @return
      */
-    public Set<BoxWhisker> getBoxWhisker(long districtingId, Basis basis, boolean enacted,
-                                         boolean current, boolean postAlg, HttpSession session){
+    public Set<Box> getBoxWhisker(long districtingId, Basis basis, boolean enacted,
+                                  boolean current, boolean postAlg, HttpSession session){
 
         State state = (State) session.getAttribute("state");
         Districting districting = state.getEnacted();

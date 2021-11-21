@@ -15,19 +15,18 @@ import java.util.stream.Collectors;
 @Table(name = "Districtings")
 public class Districting {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="id", nullable=false)
-    private long id;
+    @Column(name = "id", length = 50, nullable = false)
+    private String id;
 
-    @Column(name="stateId", length=2, nullable=false)
+    @Column(name = "stateId", length = 2, nullable = false)
     private String stateId;
 
     @Convert(converter = FeatureCollectionConverterString.class)
-    @Column(name="districtGeoJSON")
+    @Column(name = "districtGeoJSON")
     private FeatureCollection districtGeoJSON;
 
     @Convert(converter = FeatureCollectionConverterString.class)
-    @Column(name="precinctGeoJSON")
+    @Column(name = "precinctGeoJSON")
     private FeatureCollection precinctGeoJSON;
 
     @Embedded
@@ -37,7 +36,7 @@ public class Districting {
     })
     private Measures measures;
 
-    @Column(name="previewImageUrl")
+    @Column(name = "previewImageUrl")
     private String previewImageUrl; // used by SeaWulf districtings, is the preview image filepath
 
     @OneToMany(fetch = FetchType.LAZY)
@@ -56,11 +55,11 @@ public class Districting {
         this.measures = measures;
     }
 
-    public long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(String id) {
         this.id = id;
     }
 

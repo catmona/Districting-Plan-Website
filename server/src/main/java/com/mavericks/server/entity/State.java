@@ -33,6 +33,10 @@ public class State {
     @JoinColumn(name = "stateId")
     private List<Districting> districtings;
 
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "stateId")
+    private List<BoxWhisker> boxWhiskers;
+
     public State() {}
 
     public State(String id, String fullName, int numberOfDistricts) {
@@ -87,6 +91,14 @@ public class State {
 
     public void setDistrictings(List<Districting> districtings) {
         this.districtings = districtings;
+    }
+
+    public List<BoxWhisker> getBoxWhiskers() {
+        return boxWhiskers;
+    }
+
+    public void setBoxWhiskers(List<BoxWhisker> boxWhiskers) {
+        this.boxWhiskers = boxWhiskers;
     }
 
     /* Other class methods below */

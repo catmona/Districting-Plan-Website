@@ -16,26 +16,19 @@ import java.util.Set;
 @Table(name = "Districts")
 public class District {
     @Id
-    @Column(name="id", nullable=false)
-    private long id;
+    @Column(name = "id", length = 50, nullable = false)
+    private String id;
 
-    @Column(name="districtingId", nullable=false)
-    private long districtingId;
-
-    @Column(name="number", nullable=false)
-    private int number;
+    @Column(name = "districtingId", length = 50, nullable = false)
+    private String districtingId;
 
     @Convert(converter = GeometryConverterString.class)
-    @Column(name="geometry")
+    @Column(name = "geometry")
     private Geometry geometry;
 
     @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "districtId")
     private List<DistrictElection> electionData;
-
-    @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "districtId")
-    private List<BoxWhisker> boxWhiskers;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "DistrictNeighbors", joinColumns = {@JoinColumn(name = "districtId")}, inverseJoinColumns = {@JoinColumn(name = "neighborId")})
@@ -47,16 +40,15 @@ public class District {
 
     public District() {}
 
-    public District(long districtingId, int number) {
+    public District(String districtingId) {
         this.districtingId = districtingId;
-        this.number = number;
     }
 
-    public long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -68,20 +60,12 @@ public class District {
         this.geometry = geometry;
     }
 
-    public long getDistrictingId() {
+    public String getDistrictingId() {
         return districtingId;
     }
 
-    public void setDistrictingId(long districtingId) {
+    public void setDistrictingId(String districtingId) {
         this.districtingId = districtingId;
-    }
-
-    public int getNumber() {
-        return number;
-    }
-
-    public void setNumber(int number) {
-        this.number = number;
     }
 
     public List<CensusBlock> getCensusBlocks() {
@@ -100,14 +84,6 @@ public class District {
         this.electionData = electionData;
     }
 
-    public List<BoxWhisker> getBoxWhiskers() {
-        return boxWhiskers;
-    }
-
-    public void setBoxWhiskers(List<BoxWhisker> boxWhiskers) {
-        this.boxWhiskers = boxWhiskers;
-    }
-
     public List<District> getNeighbors() {
         return neighbors;
     }
@@ -122,14 +98,9 @@ public class District {
 
     /* Other class methods below */
 
-    public DistrictElection getElectionDataByElection(long electionId) {
+    public DistrictElection getElectionDataByElection(String electionId) {
         Optional<DistrictElection> data = electionData.stream().filter(e -> e.getElectionId() == electionId).findFirst();
         return data.isPresent() ? data.get() : null;
-    }
-
-    public BoxWhisker getBoxWhiskersByBasis(Basis basis) {
-        Optional<BoxWhisker> box = boxWhiskers.stream().filter(bw -> bw.getBasisType() == basis).findFirst();
-        return box.isPresent() ? box.get() : null;
     }
 
     public District getRandomNeighbor(){

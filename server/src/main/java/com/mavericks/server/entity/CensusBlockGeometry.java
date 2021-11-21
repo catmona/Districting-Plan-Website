@@ -9,25 +9,25 @@ import javax.persistence.*;
 @Table(name = "CensusBlockGeometries")
 public class CensusBlockGeometry {
     @Id
-    @Column(name="id", nullable=false)
-    private long id;
+    @Column(name = "id", length = 50, nullable=false)
+    private String id;
 
     @Convert(converter = GeometryConverterString.class)
-    @Column(name="geometry")
+    @Column(name = "geometry")
     private Geometry geometry;
 
     public CensusBlockGeometry() {}
 
-    public CensusBlockGeometry(long id, Geometry geometry) {
+    public CensusBlockGeometry(String id, Geometry geometry) {
         this.id = id;
         this.geometry = geometry;
     }
 
-    public long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(String id) {
         this.id = id;
     }
 

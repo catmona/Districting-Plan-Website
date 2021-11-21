@@ -8,13 +8,13 @@ import java.util.Date;
 public class Election {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="id", nullable=false)
-    private long id;
+    @Column(name = "id", length = 50, nullable = false)
+    private String id;
 
-    @Column(name="name", nullable=false)
+    @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name="date", nullable=false)
+    @Column(name = "date", nullable = false)
     private Date date;
 
     public Election() {}
@@ -24,11 +24,11 @@ public class Election {
         this.date = date;
     }
 
-    public long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
