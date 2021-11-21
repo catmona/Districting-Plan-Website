@@ -6,7 +6,7 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Chart from 'react-google-charts'
 import { Form, Button } from 'react-bootstrap';
-import { Dropdown, DropdownButton } from 'react-bootstrap';
+import { Dropdown, DropdownButton, Row, Col } from 'react-bootstrap';
 import BoxWhiskerModal from './BoxWhiskerModal';
 
 function TabPanel(props) {
@@ -50,7 +50,7 @@ function formatResponseToBoxWhisker(result) {
         var col = { label: l, y: box }
         data.push(col);
     }
-    
+
     return data;
 }
 
@@ -99,7 +99,7 @@ function StatGraphs(props) {
     
     return (
         <>
-            <Box sx={{ flexGrow: 1, bgcolor: bgcolor2, display: 'flex', height: 325 }} >
+            <Box sx={{ flexGrow: 1, bgcolor: bgcolor2, display: 'flex' }} >
                 {/* <button onClick = {() => {console.log(partyData)}}>Press me</button> */}
                 <div id="tab-section">
                     <Tabs
@@ -113,7 +113,7 @@ function StatGraphs(props) {
                     >
                         <Tab label="Population" {...a11yProps(0)} width='200px' />
                         <Tab label="Demographics" {...a11yProps(1)} />
-                        <Tab label="Compare to other districtings" {...a11yProps(2)} />
+                        <Tab label="Compare to Average" {...a11yProps(2)} />
                     </Tabs>
                     <hr />
                     <DropdownButton menuVariant="dark" size="md" title={"Population Type: " + props.popType} id="poptype-dropdown">
@@ -212,93 +212,95 @@ function StatGraphs(props) {
                     />
                 </TabPanel>
                 <TabPanel value={value} index={2} width={'100%'} className="dark-tabpanel">
-                    <div id="box-whisker-wrapper">
-
-                        <Form id="box-whisker-right" onSubmit={handleSubmit}> 
-                            <div id="box-whisker-scrollable" className="scrollbar-primary">
-                                <Form.Group>
-                                    <Form.Check 
-                                        type="checkbox" 
-                                        classname="dark-checkbox" 
-                                        id="boxwhisker-enacted" 
-                                        onChange={ (e) => setBoxWhiskerEnacted(e.target.checked) }
-                                        label="Show enacted plan?" 
-                                    />
-                                    <Form.Check 
-                                        type="checkbox" 
-                                        classname="dark-checkbox" 
-                                        id="boxwhisker-districting" 
-                                        onChange={ (e) => setBoxWhiskerCurrent(e.target.checked) }
-                                        label="Show current districting plan?" 
-                                        disabled //Enabled when a plan other than the enacted plan is selected
-                                    />
-                                    <Form.Check 
-                                        type="checkbox" 
-                                        classname="dark-checkbox" 
-                                        id="boxwhisker-equalized" 
-                                        onChange={ (e) => setBoxWhiskerEqualized(e.target.checked) }
-                                        label="Show equalized plan?" 
-                                        disabled //Enabled when the user has run the equalize algorithm on current districting plan
-                                    />
-                                </Form.Group>
-                                <hr />
-                                <Form.Group>
-                                    <Form.Check 
-                                        type="radio" 
-                                        classname="dark-checkbox" 
-                                        id="boxwhisker-basis-african" 
-                                        name="boxwhisker-basis"
-                                        checked = {true}
-                                        onChange={ () => setBoxWhiskerBasis("african_american") }
-                                        label="Compare African American Population" 
-                                    />
-                                    <Form.Check 
-                                        type="radio" 
-                                        classname="dark-checkbox" 
-                                        id="boxwhisker-basis-hispanic" 
-                                        name="boxwhisker-basis"
-                                        onChange={ () => setBoxWhiskerBasis("hispanic") }
-                                        label="Compare Hispanic Population" 
-                                    />
-                                    <Form.Check 
-                                        type="radio" 
-                                        classname="dark-checkbox" 
-                                        id="boxwhisker-basis-white" 
-                                        name="boxwhisker-basis"
-                                        onChange={ () => setBoxWhiskerBasis("asian") }
-                                        label="Compare Asian Population" 
-                                    />
-                                    <Form.Check 
-                                        type="radio" 
-                                        classname="dark-checkbox" 
-                                        id="boxwhisker-basis-white" 
-                                        name="boxwhisker-basis"
-                                        onChange={ () => setBoxWhiskerBasis("white") }
-                                        label="Compare White Population" 
-                                    />
-                                    <Form.Check 
-                                        type="radio" 
-                                        classname="dark-checkbox" 
-                                        id="boxwhisker-basis-republican" 
-                                        name="boxwhisker-basis"
-                                        onChange={ () => setBoxWhiskerBasis("republican") }
-                                        label="Compare Republican Population" 
-                                    />
-                                    <Form.Check 
-                                        type="radio" 
-                                        classname="dark-checkbox" 
-                                        id="boxwhisker-basis-democratic" 
-                                        name="boxwhisker-basis"
-                                        onChange={ () => setBoxWhiskerBasis("democrat") }
-                                        label="Compare Democratic Population" 
-                                    />
-                                </Form.Group>
-                            </div>
-                            <Button id="box-whisker-submit" variant="primary" type="submit">
-                                Submit
-                            </Button>
+                        <Form onSubmit={handleSubmit}> 
+                            <Row id="box-whisker-form">
+                                <Col id="box-whisker-form-left">
+                                    <Form.Group>
+                                        <Form.Check 
+                                            type="checkbox" 
+                                            classname="dark-checkbox" 
+                                            id="boxwhisker-enacted" 
+                                            onChange={ (e) => setBoxWhiskerEnacted(e.target.checked) }
+                                            label="Show enacted plan?" 
+                                        />
+                                        <Form.Check 
+                                            type="checkbox" 
+                                            classname="dark-checkbox" 
+                                            id="boxwhisker-districting" 
+                                            onChange={ (e) => setBoxWhiskerCurrent(e.target.checked) }
+                                            label="Show current districting plan?" 
+                                            disabled //Enabled when a plan other than the enacted plan is selected
+                                        />
+                                        <Form.Check 
+                                            type="checkbox" 
+                                            classname="dark-checkbox" 
+                                            id="boxwhisker-equalized" 
+                                            onChange={ (e) => setBoxWhiskerEqualized(e.target.checked) }
+                                            label="Show equalized plan?" 
+                                            disabled //Enabled when the user has run the equalize algorithm on current districting plan
+                                        />
+                                    </Form.Group>
+                                </Col>
+                                <Col id="box-whisker-form-right">
+                                    <Form.Group className="scrollbar-primary">
+                                        <Form.Check 
+                                            type="radio" 
+                                            classname="dark-checkbox" 
+                                            id="boxwhisker-basis-african" 
+                                            name="boxwhisker-basis"
+                                            checked = {true}
+                                            onChange={ () => setBoxWhiskerBasis("african_american") }
+                                            label="Compare African American Population" 
+                                        />
+                                        <Form.Check 
+                                            type="radio" 
+                                            classname="dark-checkbox" 
+                                            id="boxwhisker-basis-hispanic" 
+                                            name="boxwhisker-basis"
+                                            onChange={ () => setBoxWhiskerBasis("hispanic") }
+                                            label="Compare Hispanic Population" 
+                                        />
+                                        <Form.Check 
+                                            type="radio" 
+                                            classname="dark-checkbox" 
+                                            id="boxwhisker-basis-white" 
+                                            name="boxwhisker-basis"
+                                            onChange={ () => setBoxWhiskerBasis("asian") }
+                                            label="Compare Asian Population" 
+                                        />
+                                        <Form.Check 
+                                            type="radio" 
+                                            classname="dark-checkbox" 
+                                            id="boxwhisker-basis-white" 
+                                            name="boxwhisker-basis"
+                                            onChange={ () => setBoxWhiskerBasis("white") }
+                                            label="Compare White Population" 
+                                        />
+                                        <Form.Check 
+                                            type="radio" 
+                                            classname="dark-checkbox" 
+                                            id="boxwhisker-basis-republican" 
+                                            name="boxwhisker-basis"
+                                            onChange={ () => setBoxWhiskerBasis("republican") }
+                                            label="Compare Republican Population" 
+                                        />
+                                        <Form.Check 
+                                            type="radio" 
+                                            classname="dark-checkbox" 
+                                            id="boxwhisker-basis-democratic" 
+                                            name="boxwhisker-basis"
+                                            onChange={ () => setBoxWhiskerBasis("democrat") }
+                                            label="Compare Democratic Population" 
+                                        />
+                                    </Form.Group>
+                                </Col>
+                            </Row>
+                            <Row id="box-whisker-button-container">
+                                <Button id="box-whisker-submit" size="md" variant="primary" type="submit">
+                                    Show Chart
+                                </Button>
+                            </Row>
                         </Form>
-                    </div>
                 </TabPanel>
             </Box>
             <>
