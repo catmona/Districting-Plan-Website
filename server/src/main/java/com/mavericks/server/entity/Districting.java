@@ -112,13 +112,7 @@ public class Districting {
         this.precinctGeoJSON = precinctGeoJSON;
     }
 
-    public List<Population> getPopulations() {
-        return populations;
-    }
 
-    public void setPopulations(List<Population> populations) {
-        this.populations = populations;
-    }
 
     public Region getRegion() {
         return Region.DISTRICTING;

@@ -11,7 +11,6 @@ import java.util.List;
 @Table(name = "CensusBlocks")
 public class CensusBlock {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id", nullable=false)
     private long id;
 
@@ -21,9 +20,9 @@ public class CensusBlock {
     @Column(name="precinctNumber", nullable=false)
     private int precinctNumber;
 
-    @Convert(converter = GeometryConverterString.class)
-    @Column(name="geometry")
-    private Geometry geometry;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "geometryId", referencedColumnName = "id")
+    private CensusBlockGeometry cbGeometry;
 
     @Column(name="isBorderBlock", nullable=false)
     private boolean isBorderBlock;
@@ -64,12 +63,16 @@ public class CensusBlock {
         this.precinctNumber = precinctNumber;
     }
 
-    public Geometry getGeometry() {
-        return geometry;
+    public CensusBlockGeometry getCbGeometry() {
+        return cbGeometry;
     }
 
-    public void setGeometry(Geometry geometry) {
-        this.geometry = geometry;
+    public void setCbGeometry(CensusBlockGeometry cbGeometry) {
+        this.cbGeometry = cbGeometry;
+    }
+
+    public Geometry getGeometry() {
+        return cbGeometry.getGeometry();
     }
 
     public boolean isBorderBlock() {

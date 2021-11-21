@@ -139,3 +139,8 @@ node_modules/
 
 
 preprocessing/data
+
+#Sylvia Stuff
+.vscode/launch.json
+server/src/main/java/com/mavericks/server/WebSocketConfig.java
+server/src/main/resources/gz_2010_us_040_00_5m.json
