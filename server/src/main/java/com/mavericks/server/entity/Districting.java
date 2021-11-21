@@ -1,18 +1,14 @@
 package com.mavericks.server.entity;
 
-import com.mavericks.server.SetCustom;
-import com.mavericks.server.dto.DistrictingDTO;
+import com.mavericks.server.converter.FeatureCollectionConverterString;
 import com.mavericks.server.dto.DistrictingDTO;
 import com.mavericks.server.dto.PlanDTO;
 import com.mavericks.server.enumeration.Region;
-import org.locationtech.jts.geom.Geometry;
-import org.wololo.geojson.Feature;
+import org.hibernate.annotations.Where;
 import org.wololo.geojson.FeatureCollection;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @Entity
@@ -26,8 +22,13 @@ public class Districting {
     @Column(name="stateId", length=2, nullable=false)
     private String stateId;
 
-    @Column(name="geoJSON")
-    private String geoJSON;
+    @Convert(converter = FeatureCollectionConverterString.class)
+    @Column(name="districtGeoJSON")
+    private FeatureCollection districtGeoJSON;
+
+    @Convert(converter = FeatureCollectionConverterString.class)
+    @Column(name="precinctGeoJSON")
+    private FeatureCollection precinctGeoJSON;
 
     @Embedded
     @AttributeOverrides({
@@ -43,8 +44,10 @@ public class Districting {
     @JoinColumn(name = "districtingId")
     private List<District> districts;
 
-    @Transient
-    private FeatureCollection geometries;
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "regionId")
+    @Where(clause = "regionType='DISTRICTING'")
+    private List<Population> populations;
 
     public Districting() {}
 
@@ -67,14 +70,6 @@ public class Districting {
 
     public void setStateId(String stateId) {
         this.stateId = stateId;
-    }
-
-    public String getGeoJSON() {
-        return geoJSON;
-    }
-
-    public void setGeoJSON(String geoJSON) {
-        this.geoJSON = geoJSON;
     }
 
     public Measures getMeasures() {
@@ -101,12 +96,28 @@ public class Districting {
         this.districts = districts;
     }
 
-    public FeatureCollection getGeometries() {
-        return geometries;
+    public FeatureCollection getDistrictGeoJSON() {
+        return districtGeoJSON;
     }
 
-    public void setGeometries(FeatureCollection geometries) {
-        this.geometries = geometries;
+    public void setDistrictGeoJSON(FeatureCollection districtGeoJSON) {
+        this.districtGeoJSON = districtGeoJSON;
+    }
+
+    public FeatureCollection getPrecinctGeoJSON() {
+        return precinctGeoJSON;
+    }
+
+    public void setPrecinctGeoJSON(FeatureCollection precinctGeoJSON) {
+        this.precinctGeoJSON = precinctGeoJSON;
+    }
+
+    public List<Population> getPopulations() {
+        return populations;
+    }
+
+    public void setPopulations(List<Population> populations) {
+        this.populations = populations;
     }
 
     public Region getRegion() {

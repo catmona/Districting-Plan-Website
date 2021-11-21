@@ -8,15 +8,13 @@ import java.util.List;
 
 public class StateDTO {
 
-    private Integer population;
     private Point center;
     private List<Population> districtPopulations;
     private Election elections;
     private FeatureCollection featureCollection;
 
-    public StateDTO(Integer population, Point center, FeatureCollection collection,
+    public StateDTO(Point center, FeatureCollection collection,
                     List<Population> districtPopulations, Election elections) {
-        this.population = population;
         this.center = center;
         this.featureCollection= collection;
         this.districtPopulations=districtPopulations;
@@ -49,14 +47,6 @@ public class StateDTO {
 
     public void setCenter(Point center) {
         this.center = center;
-    }
-
-    public Integer getPopulation() {
-        return population;
-    }
-
-    public void setPopulation(Integer population) {
-        this.population = population;
     }
 
     public Election getElections() {

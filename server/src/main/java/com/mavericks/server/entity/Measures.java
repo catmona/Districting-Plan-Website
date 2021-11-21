@@ -9,6 +9,8 @@ public class Measures {
 
     private double polsbyPopperScore;
 
+    public  Measures() {}
+
     public Measures(double populationEqualityScore, double polsbyPopperScore) {
         this.populationEqualityScore = populationEqualityScore;
         this.polsbyPopperScore = polsbyPopperScore;

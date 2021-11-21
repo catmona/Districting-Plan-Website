@@ -69,72 +69,12 @@ public class Handler {
      * @return
      */
     public StateDTO getStateSummary(String stateName, HttpSession session){
-        // TODO this is how the flow will be in the end
         if (stateName == null || stateName == "") {
             return null;
         }
-        // get state from db
         State state = stateRepo.getById(stateName);
-        // set state to session
         session.setAttribute("state", state);
-        // return state dto
         return state.makeDTO();
-
-//        State state= new State("NV","Nevada",4);
-//        String data = readFile("data/NV/2012/State.geojson");
-//
-//        FeatureCollection featureCollection = (FeatureCollection) GeoJSONFactory.create(data);
-//
-//        List<Districting> districtings= new ArrayList<>();
-//
-//        int[] aa = new int[]{88601, 16972, 72744, 131912};
-//        int[] white = new int[]{347382, 582218, 523798, 435644};
-//        int[] asian = new int[]{60582, 32304, 126960, 47066};
-//        int[] hispanic = new int[]{343864, 183123, 166285, 238360};
-//        int[] all = new int[]{723705, 766064, 853240, 786739};
-//        int[] democratic = new int[]{137868, 155780, 203421, 168457};
-//        int[] republican = new int[]{74490, 216078, 190975, 152284};
-//        GeoJSONReader reader = new GeoJSONReader();
-//        for(int i=0;i<30;i++){
-//            Districting dist = new Districting(state,featureCollection);
-//            List<District> districts = new ArrayList<>();
-//            Feature[]fs=featureCollection.getFeatures();
-//            List<Population> distPopulations= new ArrayList<>();
-//            List<DistrictElection>voteData=new ArrayList<>();
-//            Election election = new Election(665526,633827);
-//            for(int j=0;j<fs.length;j++){
-//                Population population= new Population();
-//                population.setPopulation(PopulationMeasure.TOTAL, Demographic.ALL,all[j]);
-//                population.setPopulation(PopulationMeasure.TOTAL,Demographic.AFRICAN_AMERICAN,aa[j]);
-//                population.setPopulation(PopulationMeasure.TOTAL,Demographic.ASIAN,asian[j]);
-//                population.setPopulation(PopulationMeasure.TOTAL,Demographic.HISPANIC,hispanic[j]);
-//                population.setPopulation(PopulationMeasure.TOTAL,Demographic.WHITE,white[j]);
-//                DistrictElection districtVoteData= new DistrictElection(republican[j],democratic[j]);
-//                District district= new District(i,dist,reader.read(fs[0].getGeometry()));
-//                districts.add(district);
-//                district.setPopulation(population);
-//                voteData.add(districtVoteData);
-//            }
-//
-//            dist.setDistricts(districts);
-//            election.setDistrictElections(voteData);
-//            dist.setElection(election);
-//            districtings.add(dist);
-//        }
-//
-//        state.setEnacted(districtings.get(0));
-//        Districting enacted =districtings.get(0);
-//        Measures m = new Measures(0.0413883162478257,0.07725808180925772);
-//        enacted.setMeasures(m);
-//
-//
-//
-//
-//        state.setDistrictings(districtings);
-//        session.setAttribute("state", state);
-//        StateDTO dto =state.makeDTO();
-//
-//        return dto;
     }
 
 

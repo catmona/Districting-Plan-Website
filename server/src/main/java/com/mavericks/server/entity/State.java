@@ -1,15 +1,10 @@
 package com.mavericks.server.entity;
-import com.mavericks.server.SetCustom;
-import com.mavericks.server.converter.ObjectConverterJson;
+import com.mavericks.server.converter.PointConverterString;
 import com.mavericks.server.dto.StateDTO;
+import org.wololo.geojson.FeatureCollection;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
-
-import com.mavericks.server.enumeration.Demographic;
-import com.mavericks.server.enumeration.PopulationMeasure;
-import org.wololo.geojson.FeatureCollection;
 
 import javax.persistence.*;
 
@@ -23,7 +18,7 @@ public class State {
     @Column(name="fullName", length=50, nullable=false)
     private String fullName;
 
-    @Convert(converter = ObjectConverterJson.class)
+    @Convert(converter = PointConverterString.class)
     @Column(name="center")
     private Point center;
 
@@ -97,28 +92,10 @@ public class State {
     /* Other class methods below */
 
     public StateDTO makeDTO(){
-        return null;
-        //dummy value; replace later
-//        Districting districting= this.getEnacted();
-//        FeatureCollection collection = districting.getGeometry();
-//        List<Population> distPopulations= new ArrayList<>();
-//        List<District>districts=districting.getDistricts();
-//        for(District d:districts){
-//            distPopulations.add(d.getPopulation());
-//        }
-//        return new StateDTO(145,this.center,collection,distPopulations, districting.getElection());
-    }
-
-    @Override
-    public String toString() {
-        return null;
-//        return "State{" +
-//                "id='" + id + '\'' +
-//                ", name='" + name + '\'' +
-//                ", center=" + center.toString() +
-//                ", numberOfDistricts=" + numberOfDistricts +
-//                ", enacted=" + enacted.getId() +
-//                '}';
-//        return new StateDTO(districting.getPopulation().getPopulation(PopulationMeasure.TOTAL, Demographic.ALL),this.center,collection,distPopulations, districting.getElection());
+        // TODO
+        List<Population> p = new ArrayList<>();
+        Districting e = enacted;
+        FeatureCollection fc = e.getDistrictGeoJSON();
+        return new StateDTO(center, fc, p, null);
     }
 }

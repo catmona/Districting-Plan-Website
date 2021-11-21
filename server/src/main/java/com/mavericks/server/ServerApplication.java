@@ -1,7 +1,9 @@
 package com.mavericks.server;
 
+import com.mavericks.server.dto.StateDTO;
 import com.mavericks.server.entity.Districting;
 import com.mavericks.server.entity.Measures;
+import com.mavericks.server.entity.Point;
 import com.mavericks.server.entity.State;
 import com.mavericks.server.repository.DistrictingRepository;
 import com.mavericks.server.repository.StateRepository;
@@ -16,6 +18,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.util.StreamUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
@@ -131,26 +134,14 @@ public class ServerApplication {
 	 */
 	@CrossOrigin(origins = "http://localhost:8081")
 	@GetMapping(value = "entities",produces = MediaType.APPLICATION_JSON_VALUE)
-	public void entities(@RequestParam("state")String state,
-						   @RequestParam("fullName")String fullName,
-						   @RequestParam("numOfDist")int numOfDist,
-						   @RequestParam("geoJSON")String geoJSON,
-						   @RequestParam("popEq")int popEq,
-						   @RequestParam("polsby")int polsby){
-		try {
-			// try persisting a state w districting
-//			State s = new State(state, fullName, numOfDist);
-//			Districting d = new Districting(state, geoJSON, new Measures(popEq, polsby), null);
-//
-//			repos.stateRepo.save(s);
-//			repos.distRepo.save(d);
-//
-//			s.setEnacted(d);
-//			repos.stateRepo.save(s);
-
-		} catch (Exception e){
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Entities api error",e);
-		}
+	public String entities(@RequestParam("state")String state){
+		State s = repos.stateRepo.getById(state);
+		String n = s.getFullName();
+		String abbv = s.getId();
+		Point p = s.getCenter();
+		int d = s.getNumberOfDistricts();
+		List<Districting> ds = s.getDistrictings();
+		return s.toString();
 	}
 
 }

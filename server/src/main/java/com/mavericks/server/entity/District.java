@@ -2,12 +2,14 @@ package com.mavericks.server.entity;
 
 import com.mavericks.server.SetCustom;
 import com.mavericks.server.converter.GeometryConverterString;
+import com.mavericks.server.enumeration.Basis;
 import com.mavericks.server.enumeration.Region;
 import org.locationtech.jts.geom.Geometry;
 import org.wololo.geojson.Feature;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 @Entity
@@ -18,12 +20,23 @@ public class District {
     @Column(name="id", nullable=false)
     private long id;
 
+    @Column(name="districtingId", nullable=false)
+    private long districtingId;
+
+    @Column(name="number", nullable=false)
+    private int number;
+
     @Convert(converter = GeometryConverterString.class)
     @Column(name="geometry")
     private Geometry geometry;
 
-    @Column(name="districtingId", nullable=false)
-    private long districtingId;
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "districtId")
+    private List<DistrictElection> electionData;
+
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "districtId")
+    private List<BoxWhisker> boxWhiskers;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "DistrictNeighbors", joinColumns = {@JoinColumn(name = "districtId")}, inverseJoinColumns = {@JoinColumn(name = "neighborId")})
@@ -31,12 +44,13 @@ public class District {
 
     @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "districtId")
-    private List<Precinct> precincts;
+    private List<CensusBlock> censusBlocks;
 
     public District() {}
 
-    public District(long districtingId) {
+    public District(long districtingId, int number) {
         this.districtingId = districtingId;
+        this.number = number;
     }
 
     public long getId() {
@@ -63,6 +77,38 @@ public class District {
         this.districtingId = districtingId;
     }
 
+    public int getNumber() {
+        return number;
+    }
+
+    public void setNumber(int number) {
+        this.number = number;
+    }
+
+    public List<CensusBlock> getCensusBlocks() {
+        return censusBlocks;
+    }
+
+    public void setCensusBlocks(List<CensusBlock> censusBlocks) {
+        this.censusBlocks = censusBlocks;
+    }
+
+    public List<DistrictElection> getElectionData() {
+        return electionData;
+    }
+
+    public void setElectionData(List<DistrictElection> electionData) {
+        this.electionData = electionData;
+    }
+
+    public List<BoxWhisker> getBoxWhiskers() {
+        return boxWhiskers;
+    }
+
+    public void setBoxWhiskers(List<BoxWhisker> boxWhiskers) {
+        this.boxWhiskers = boxWhiskers;
+    }
+
     public List<District> getNeighbors() {
         return neighbors;
     }
@@ -71,21 +117,23 @@ public class District {
         this.neighbors = neighbors;
     }
 
-    public List<Precinct> getPrecincts() {
-        return precincts;
-    }
-
-    public void setPrecincts(List<Precinct> precincts) {
-        this.precincts = precincts;
-    }
-
     public Region getRegion() {
         return Region.DISTRICT;
     }
 
     /* Other class methods below */
 
-    public District getRandNeighbor(){
+    public DistrictElection getElectionDataByElection(long electionId) {
+        Optional<DistrictElection> data = electionData.stream().filter(e -> e.getElectionId() == electionId).findFirst();
+        return data.isPresent() ? data.get() : null;
+    }
+
+    public BoxWhisker getBoxWhiskersByBasis(Basis basis) {
+        Optional<BoxWhisker> box = boxWhiskers.stream().filter(bw -> bw.getBasisType() == basis).findFirst();
+        return box.isPresent() ? box.get() : null;
+    }
+
+    public District getRandomNeighbor(){
         return neighbors.get((int)(Math.random()*neighbors.size()));
     }
 

@@ -15,8 +15,6 @@
 	<description>CSE 416 project</description>
 	<properties>
 		<java.version>11</java.version>
-		<maven.compiler.source>8</maven.compiler.source>
-		<maven.compiler.target>8</maven.compiler.target>
 		<jts.version>1.18.2</jts.version>
 	</properties>
 

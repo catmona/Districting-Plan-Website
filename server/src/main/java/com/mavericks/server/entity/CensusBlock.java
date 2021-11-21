@@ -1,16 +1,11 @@
 package com.mavericks.server.entity;
 
-import com.mavericks.server.SetCustom;
 import com.mavericks.server.converter.GeometryConverterString;
-import com.mavericks.server.converter.ObjectConverterJson;
 import com.mavericks.server.enumeration.Region;
 import org.locationtech.jts.geom.Geometry;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.*;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 @Entity
 @Table(name = "CensusBlocks")
@@ -20,8 +15,11 @@ public class CensusBlock {
     @Column(name="id", nullable=false)
     private long id;
 
-    @Column(name="precinctId", nullable=false)
-    private long precinctId;
+    @Column(name="districtId", nullable=false)
+    private long districtId;
+
+    @Column(name="precinctNumber", nullable=false)
+    private int precinctNumber;
 
     @Convert(converter = GeometryConverterString.class)
     @Column(name="geometry")
@@ -36,8 +34,9 @@ public class CensusBlock {
 
     public CensusBlock() {}
 
-    public CensusBlock(long precinctId, boolean isBorderBlock) {
-        this.precinctId = precinctId;
+    public CensusBlock(long districtId, int precinctNumber, boolean isBorderBlock) {
+        this.districtId = districtId;
+        this.precinctNumber = precinctNumber;
         this.isBorderBlock = isBorderBlock;
     }
 
@@ -49,12 +48,20 @@ public class CensusBlock {
         this.id = id;
     }
 
-    public long getPrecinctId() {
-        return precinctId;
+    public long getDistrictId() {
+        return districtId;
     }
 
-    public void setPrecinctId(long precinctId) {
-        this.precinctId = precinctId;
+    public void setDistrictId(long districtId) {
+        this.districtId = districtId;
+    }
+
+    public int getPrecinctNumber() {
+        return precinctNumber;
+    }
+
+    public void setPrecinctNumber(int precinctNumber) {
+        this.precinctNumber = precinctNumber;
     }
 
     public Geometry getGeometry() {
