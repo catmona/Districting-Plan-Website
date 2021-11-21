@@ -1,12 +1,11 @@
 import * as React from 'react';
+import { Dropdown, DropdownButton, Row, Col, Form, Button } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Chart from 'react-google-charts'
-import { Form, Button } from 'react-bootstrap';
-import { Dropdown, DropdownButton, Row, Col } from 'react-bootstrap';
 import BoxWhiskerModal from './BoxWhiskerModal';
 
 function TabPanel(props) {
@@ -42,26 +41,71 @@ function a11yProps(index) {
     };
 }
 
-function formatResponseToBoxWhisker(result) {
-    var data = []
+function formatResponseToBoxWhisker(result, popType, basis) {
+    var boxData = []
+    var pointData = { enacted: [], selected: [], equalized: [] }
+    var yAxisLabel = ""
+
+    //format boxes
     for(let i = 0; i < result.lowerExtreme.length; i++) {
         var l = "District " + (i+1);
         var box = [result.lowerExtreme[i], result.lowerQuartile[i], result.upperQuartile[i], result.upperExtreme[i], result.median[i]];
         var col = { label: l, y: box }
-        data.push(col);
+        boxData.push(col);
     }
 
-    return data;
+    //format optional points
+    //TODO
+
+    //format y-axis label
+    switch(popType) {
+        case "TOTAL":
+            yAxisLabel += "Total"
+            break;
+        case "VAP":
+            yAxisLabel += "VAP"
+            break;
+        case "CVAP":
+            yAxisLabel += "CVAP"
+            break;
+    }
+
+    switch(basis) {
+        case "african_american":
+            yAxisLabel += " African American"
+            break;
+        case "hispanic":
+            yAxisLabel += " Hispanic"
+            break;
+        case "asian":
+            yAxisLabel += " White"
+            break;
+        case "white":
+            yAxisLabel += " White"
+            break;
+        case "republican":
+            yAxisLabel += " Republican"
+            break;
+        case "democrat":
+            yAxisLabel += " Democrat"
+            break;
+    }
+
+    yAxisLabel += " Population"
+
+    return {boxes: boxData, points: pointData, label: yAxisLabel}
 }
 
 function StatGraphs(props) {
     const [value, setValue] = React.useState(0);
-    const [boxWhiskerBasis, setBoxWhiskerBasis] = React.useState(null)
+    const [boxWhiskerBasis, setBoxWhiskerBasis] = React.useState("african_american")
     const [boxWhiskerEnacted, setBoxWhiskerEnacted] = React.useState(false)
     const [boxWhiskerCurrent, setBoxWhiskerCurrent] = React.useState(false)
     const [boxWhiskerEqualized, setBoxWhiskerEqualized] = React.useState(false)
     const [showModal, setShowModal] = React.useState(false)
     const [boxes, setBoxes] = React.useState(null)
+    const [points, setPoints] = React.useState({ enacted: [], selected: [], equalized: [] })
+    const [label, setLabel] = React.useState("Total Population")
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
@@ -78,9 +122,12 @@ function StatGraphs(props) {
         .then(res => res.json())
                     .then(
                         (result) => {
-                            var formattedData = formatResponseToBoxWhisker(result);
-                            setBoxes(formattedData);
+                            var formattedData = formatResponseToBoxWhisker(result, props.popType, boxWhiskerBasis);
+                            setBoxes(formattedData.boxes);
+                            setPoints(formattedData.points);
+                            setLabel(formattedData.label);
                             setShowModal(true);
+                            console.log(result)
                         },
                         (error) => {
                             console.log(error)
@@ -118,8 +165,8 @@ function StatGraphs(props) {
                     <hr />
                     <DropdownButton menuVariant="dark" size="md" title={"Population Type: " + props.popType} id="poptype-dropdown">
                         <Dropdown.Item onClick={() => {props.onSelectPopType("TOTAL")}} className='poptype-dropdown-option'>Total</Dropdown.Item>
-                        <Dropdown.Item onClick={() => {props.onSelectPopType("CVAP")}} className='poptype-dropdown-option'>CVAP</Dropdown.Item>
-                        <Dropdown.Item onClick={() => {props.onSelectPopType("VAP")}} className='poptype-dropdown-option'>VAP</Dropdown.Item>
+                        <Dropdown.Item disabled onClick={() => {props.onSelectPopType("CVAP")}} className='poptype-dropdown-option'>CVAP</Dropdown.Item>
+                        <Dropdown.Item disabled onClick={() => {props.onSelectPopType("VAP")}} className='poptype-dropdown-option'>VAP</Dropdown.Item>
                     </DropdownButton>
                 </div>
                 <TabPanel value={value} index={0} width={'100%'} className="dark-tabpanel">
@@ -228,7 +275,7 @@ function StatGraphs(props) {
                                             classname="dark-checkbox" 
                                             id="boxwhisker-districting" 
                                             onChange={ (e) => setBoxWhiskerCurrent(e.target.checked) }
-                                            label="Show current districting plan?" 
+                                            label="Show selected redistricting plan?" 
                                             disabled //Enabled when a plan other than the enacted plan is selected
                                         />
                                         <Form.Check 
@@ -248,7 +295,7 @@ function StatGraphs(props) {
                                             classname="dark-checkbox" 
                                             id="boxwhisker-basis-african" 
                                             name="boxwhisker-basis"
-                                            checked = {true}
+                                            checked = {boxWhiskerBasis == "african_american" ? true : false}
                                             onChange={ () => setBoxWhiskerBasis("african_american") }
                                             label="Compare African American Population" 
                                         />
@@ -257,6 +304,7 @@ function StatGraphs(props) {
                                             classname="dark-checkbox" 
                                             id="boxwhisker-basis-hispanic" 
                                             name="boxwhisker-basis"
+                                            checked = {boxWhiskerBasis == "hispanic" ? true : false}
                                             onChange={ () => setBoxWhiskerBasis("hispanic") }
                                             label="Compare Hispanic Population" 
                                         />
@@ -265,6 +313,7 @@ function StatGraphs(props) {
                                             classname="dark-checkbox" 
                                             id="boxwhisker-basis-white" 
                                             name="boxwhisker-basis"
+                                            checked = {boxWhiskerBasis == "asian" ? true : false}
                                             onChange={ () => setBoxWhiskerBasis("asian") }
                                             label="Compare Asian Population" 
                                         />
@@ -273,6 +322,7 @@ function StatGraphs(props) {
                                             classname="dark-checkbox" 
                                             id="boxwhisker-basis-white" 
                                             name="boxwhisker-basis"
+                                            checked = {boxWhiskerBasis == "white" ? true : false}
                                             onChange={ () => setBoxWhiskerBasis("white") }
                                             label="Compare White Population" 
                                         />
@@ -281,6 +331,7 @@ function StatGraphs(props) {
                                             classname="dark-checkbox" 
                                             id="boxwhisker-basis-republican" 
                                             name="boxwhisker-basis"
+                                            checked = {boxWhiskerBasis == "republican" ? true : false}
                                             onChange={ () => setBoxWhiskerBasis("republican") }
                                             label="Compare Republican Population" 
                                         />
@@ -289,6 +340,7 @@ function StatGraphs(props) {
                                             classname="dark-checkbox" 
                                             id="boxwhisker-basis-democratic" 
                                             name="boxwhisker-basis"
+                                            checked = {boxWhiskerBasis == "democrat" ? true : false}
                                             onChange={ () => setBoxWhiskerBasis("democrat") }
                                             label="Compare Democratic Population" 
                                         />
@@ -304,7 +356,7 @@ function StatGraphs(props) {
                 </TabPanel>
             </Box>
             <>
-                <BoxWhiskerModal boxes = {boxes} bgcolor = {bgcolor} show = {showModal} onHide = {() => setShowModal(false)} />
+                <BoxWhiskerModal boxes = {boxes} points = {points} label = {label} bgcolor = {bgcolor} show = {showModal} onHide = {() => setShowModal(false)} />
             </>
         </>
     );

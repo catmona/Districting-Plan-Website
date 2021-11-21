@@ -1,22 +1,25 @@
 import React, { useRef, useEffect, useState } from 'react';
-import Chart from 'react-google-charts'
 import { Modal, Button } from 'react-bootstrap';
 import { CanvasJSChart } from 'canvasjs-react-charts'
 
 function BoxWhiskerModal(props) {
-    const chart = useRef(null)
+    const chart = useRef(null);
+    let points = props.points;
+    let boxes = props.boxes;
+    let label = props.label;
+
     const options = {
         theme: "dark1",
         animationEnabled: true,
-        axisY: { title: "test" }, //TODO make this whatever the selected pop measure was
-        dataPointWidth: 15,
+        axisY: { title: label }, //TODO make this whatever the selected pop measure was
+        dataPointWidth: 20,
         data: [{
             type: "boxAndWhisker",
             //yValueFormatString: "#,##0.# \"kcal/100g\"",
             color: "#4285F4",
             stemThickness: 2,
             whickerThickness: 8,
-            dataPoints: props.boxes
+            dataPoints: boxes
         },
         {
             type: "scatter",
@@ -24,7 +27,7 @@ function BoxWhiskerModal(props) {
             toolTipContent: "<span style=\"color:{color}\">{name}</span>: {y} people",
             showInLegend: true,
             color: "#00ff00",
-            dataPoints: []
+            dataPoints: points.enacted
         },
         {
             type: "scatter",
@@ -32,7 +35,7 @@ function BoxWhiskerModal(props) {
             toolTipContent: "<span style=\"color:{color}\">{name}</span>: {y} people",
             showInLegend: true,
             color: "#ff0000",
-            dataPoints: []
+            dataPoints: points.selected
         },
         {
             type: "scatter",
@@ -40,7 +43,7 @@ function BoxWhiskerModal(props) {
             toolTipContent: "<span style=\"color:{color}\">{name}</span>: {y} people",
             showInLegend: true,
             color: "#0000ff",
-            dataPoints: []
+            dataPoints: points.equalized
         }]
     }
 
@@ -50,7 +53,7 @@ function BoxWhiskerModal(props) {
     });
 
     return (
-        <Modal {...props} size="lg" centered className="dark-modal">
+        <Modal {...props} size="lg" centered dialogClassName="modal-sizing" className="dark-modal">
             <Modal.Header closeButton>
                 <Modal.Title id="boxWhiskerModalTitle">
                     Box & Whisker Chart
@@ -58,8 +61,7 @@ function BoxWhiskerModal(props) {
             </Modal.Header>
             <Modal.Body>
                 <div id="box-whisker-container">
-                    <CanvasJSChart options = {options} id="box-whisker" 
-                        ref={chart} />   
+                    <CanvasJSChart options = {options} id="box-whisker" ref={chart} height="900px" />   
                 </div>
             </Modal.Body>
             <Modal.Footer>
