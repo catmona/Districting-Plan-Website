@@ -14,9 +14,6 @@ public class Population {
     @Column(name = "id", nullable = false)
     private long id;
 
-    @Column(name = "regionType", nullable = false)
-    private Region regionType;
-
     @Column(name = "regionId", length = 50, nullable = false)
     private String regionId;
 
@@ -31,8 +28,7 @@ public class Population {
 
     public Population() {}
 
-    public Population(Region regionType, String regionId, PopulationMeasure populationMeasureType, Demographic demographicType, int value) {
-        this.regionType = regionType;
+    public Population(String regionId, PopulationMeasure populationMeasureType, Demographic demographicType, int value) {
         this.regionId = regionId;
         this.populationMeasureType = populationMeasureType;
         this.demographicType = demographicType;
@@ -45,14 +41,6 @@ public class Population {
 
     public void setId(long id) {
         this.id = id;
-    }
-
-    public Region getRegionType() {
-        return regionType;
-    }
-
-    public void setRegionType(Region regionType) {
-        this.regionType = regionType;
     }
 
     public String getRegionId() {
