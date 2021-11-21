@@ -33,6 +33,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 //TODO get data from server
 export default function CustomizedTables() {
+
     useEffect(() => {
         document.getElementById("cellPopEquality").textContent = 0.05;
         document.getElementById("cellDevAverage").textContent = 0.5;
@@ -43,40 +44,70 @@ export default function CustomizedTables() {
 
     //TODO insert formulas 
     return (
-        <TableContainer component={Paper} className="kosta-test">
+        <TableContainer component={Paper} className="measure-table">
             <Table aria-label="customized table">
                 <TableHead>
                     <TableRow>
                         <StyledTableCell align='center'>Population Equality
-                            <Tooltip title="The population equality measure was computed using Mattingly's formula: [FORMULA].">
+                            <Tooltip title={
+                                <React.Fragment>
+                                    <p className="formula-text">The population equality measure was computed using Mattingly's formula: </p>
+                                    <img src={require("/public/assets/formulas/PopEquality.svg").default} className="formula-svg" />
+                                </React.Fragment>}
+                                >
                                 <IconButton>
                                     <ContactSupportIcon className='white-icon'/>
                                 </IconButton>
                             </Tooltip>
                         </StyledTableCell>
                         <StyledTableCell align="center">Deviation From Average                          
-                        <Tooltip title="The deviation from average districting is computed by taking the sum of squared differences between the average and the computed districting: [FORMULA]. ">
-                            <IconButton>
-                                <ContactSupportIcon className='white-icon' />
-                            </IconButton>
-                        </Tooltip></StyledTableCell>
+                            <Tooltip title={
+                                <React.Fragment>
+                                    <p className="formula-text">The deviation from average districting is computed by taking the sum of squared differences between the average and the computed districting: </p>
+                                    <img src={require("/public/assets/formulas/PopEquality.svg").default} className="formula-svg" />
+                                </React.Fragment>}
+                                >
+                                <IconButton>
+                                    <ContactSupportIcon className='white-icon' />
+                                </IconButton>
+                            </Tooltip>
+                        </StyledTableCell>
                         <StyledTableCell align="center">Deviation From Enacted
-                            <Tooltip title="The deviation from enacted districting is computed by taking the sum of squared differences between the enacted and the computed districting: [FORMULA].">
+                            <Tooltip title={
+                                <React.Fragment>
+                                    <p className="formula-text">The deviation from enacted districting is computed by taking the sum of squared differences between the enacted and the computed districting: </p>
+                                    <img src={require("/public/assets/formulas/PopEquality.svg").default} className="formula-svg" />
+                                </React.Fragment>}
+                                >
                                 <IconButton>
                                     <ContactSupportIcon className='white-icon' />
                                 </IconButton>
-                            </Tooltip></StyledTableCell>
+                            </Tooltip>
+                        </StyledTableCell>
                         <StyledTableCell align="center">Compactness
-                            <Tooltip title="The compactness was computed using the Polsby-Popper measure: [FORMULA].">
+                            <Tooltip title={
+                                <React.Fragment>
+                                    <p className="formula-text">The compactness was computed using the Polsby-Popper measure: </p>
+                                    <img src={require("/public/assets/formulas/PolsbyPopper.svg").default } className="formula-svg" />
+                                </React.Fragment>}
+                                >
                                 <IconButton>
                                     <ContactSupportIcon className='white-icon' />
                                 </IconButton>
-                            </Tooltip></StyledTableCell>
-                        <StyledTableCell align="center">Political Fairness                          <Tooltip title="Political fairness was computed with the Efficiency Gap measure by Stephanopoulos & McGhee: [FORMULA].">
-                            <IconButton>
-                                <ContactSupportIcon className='white-icon' />
-                            </IconButton>
-                        </Tooltip></StyledTableCell>
+                            </Tooltip>
+                        </StyledTableCell>
+                        <StyledTableCell align="center">Political Fairness                          
+                            <Tooltip title={
+                                <React.Fragment>
+                                    <p className="formula-text">Political fairness was computed with the Efficiency Gap measure by Stephanopoulos & McGhee: </p>
+                                    <img src={require("/public/assets/formulas/PolFairness.svg").default} className="formula-svg" />
+                                </React.Fragment>}
+                                >
+                                <IconButton>
+                                    <ContactSupportIcon className='white-icon' />
+                                </IconButton>
+                            </Tooltip>
+                        </StyledTableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody id="district-tablebody">

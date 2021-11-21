@@ -276,6 +276,8 @@ h3 {
 }
 .dark-chart {
     margin-top: -3%;
+    width: 600px;
+    height: 325px;
 }
 .vertical-tab-bar {
     min-width: 165px;
@@ -285,8 +287,13 @@ h3 {
     display: flex;
     background-color: $fgColor;
 }
-#box-whisker-left {
-    flex: 0 0 65%;
+#box-whisker-container {
+    position: relative;
+    height: 100%;
+    width: 100%;
+}
+#box-whisker {
+    color: $fgColor;
 }
 #box-whisker-right {
     flex: 1;
@@ -328,5 +335,26 @@ h3 {
     .btn-close {
         background-color: grey !important;
     }
+}
+/* #endregion */
+
+/* #region measure-table */
+.MuiTooltip-tooltip {
+    background-color: #747474 !important;
+}
+.formula-text {
+    color: $textColor;
+    font-size: 15px;
+}
+.formula-svg {
+    max-width: 290px;
+    max-height: 290px;
+    filter: invert(100%) brightness(100%);
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+.measure-table {
+    width: 100% !important;
 }
 /* #endregion */

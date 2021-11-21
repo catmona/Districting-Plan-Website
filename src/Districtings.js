@@ -1,9 +1,5 @@
 import React, { useRef, useEffect, useState } from 'react';
-import { Container } from 'react-bootstrap';
-import { Row } from 'react-bootstrap';
-import { Col } from 'react-bootstrap';
-import { Popover } from 'react-bootstrap';
-import { OverlayTrigger } from 'react-bootstrap';
+import { Container, Row, Col, Popover, OverlayTrigger } from 'react-bootstrap';
 import DistrictingModal from './DistrictingModal';
 
 function DistrictingPopover(props) {
@@ -53,10 +49,6 @@ function districtings(props) {
             }
         }
     });
-
-    function getDistrictingData(i) {
-        return {districtingNum: (i+1), summary: previews[i]}
-    }
 
     // summaries.map((s) => (<Col xs={3} id="districting-img-"+""><DistrictingPopover num={1} data={props.}/></Col>))
     // TODO figure this out later
