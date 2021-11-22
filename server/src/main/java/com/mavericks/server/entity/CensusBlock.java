@@ -29,12 +29,6 @@ public class CensusBlock {
     @Column(name = "isBorderBlock", nullable = false)
     private boolean isBorderBlock;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "CensusBlockNeighbors",
-            joinColumns = {@JoinColumn(name = "censusBlockId")},
-            inverseJoinColumns = {@JoinColumn(name = "neighborId")})
-    private List<CensusBlock> neighbors;
-
     @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "regionId")
     @OrderBy("populationMeasureType, demographicType")
@@ -90,14 +84,6 @@ public class CensusBlock {
 
     public void setBorderBlock(boolean borderBlock) {
         isBorderBlock = borderBlock;
-    }
-
-    public List<CensusBlock> getNeighbors() {
-        return neighbors;
-    }
-
-    public void setNeighbors(List<CensusBlock> neighbors) {
-        this.neighbors = neighbors;
     }
 
     public List<Population> getPopulations() {
