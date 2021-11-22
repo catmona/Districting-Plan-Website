@@ -4,6 +4,7 @@ import com.mavericks.server.SetCustom;
 import com.mavericks.server.converter.GeometryConverterString;
 import com.mavericks.server.enumeration.Basis;
 import com.mavericks.server.enumeration.Region;
+import org.hibernate.annotations.Where;
 import org.locationtech.jts.geom.Geometry;
 import org.wololo.geojson.Feature;
 
@@ -37,6 +38,11 @@ public class District {
     @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "districtId")
     private List<CensusBlock> censusBlocks;
+
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "districtId")
+    @Where(clause = "isBorderBlock='1'")
+    private List<CensusBlock> borderBlocks;
 
     @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "regionId")
