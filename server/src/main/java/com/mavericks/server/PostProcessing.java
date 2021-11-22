@@ -12,20 +12,20 @@ public class PostProcessing {
     public static CensusBlockRepository repo;
 
     public static void main(String[]args){
-        List<CensusBlock> blocks = repo.findAll();
-        List<String> blockNeighbors;
-        List<CensusBlock> neighbors;
-        for(CensusBlock cb:blocks){
-            blockNeighbors = repo.findBlockNeighbors(cb.getId());
-            boolean isBorderBlock=false;
-            neighbors = repo.findAllById(blockNeighbors);
-            for(CensusBlock neighbor : neighbors){
-                if(cb.getDistrictId()!=neighbor.getDistrictId()){
-                    isBorderBlock=true;
-                }
-            }
-            cb.setBorderBlock(isBorderBlock);
-        }
+//        List<CensusBlock> blocks = repo.findAll();
+//        List<String> blockNeighbors;
+//        List<CensusBlock> neighbors;
+//        for(CensusBlock cb:blocks){
+//            blockNeighbors = repo.findBlockNeighborsId(cb.getId());
+//            boolean isBorderBlock=false;
+//            neighbors = repo.findAllById(blockNeighbors);
+//            for(CensusBlock neighbor : neighbors){
+//                if(cb.getDistrictId()!=neighbor.getDistrictId()){
+//                    isBorderBlock=true;
+//                }
+//            }
+//            cb.setBorderBlock(isBorderBlock);
+//        }
 
 
     }
