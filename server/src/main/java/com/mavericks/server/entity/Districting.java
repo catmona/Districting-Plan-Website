@@ -65,6 +65,9 @@ public class Districting {
 
     public District findNeighboringDistrict(CensusBlock cb){
         for(District d:districts){
+            if(d.getDistrictingId().equals(cb.getDistrictId())){
+                continue;
+            }
             if(cb.getGeometry().touches(d.getGeometry())){
                 return d;
             }
@@ -72,6 +75,13 @@ public class Districting {
 
         return null;
     }
+
+    public void redrawDistricts(){
+        for(District d:districts){
+            d.redraw();
+        }
+    }
+
 
 
 

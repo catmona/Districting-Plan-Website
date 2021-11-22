@@ -34,6 +34,7 @@ public class Algorithm implements Runnable{
     private int failedCbMoves;
     private int maxFaildCbMoves;
     private Districting inProgressPlan;
+    private final int REDRAW_CONST=5;
 
     @Autowired
     private CensusBlockRepository repo;
@@ -57,13 +58,14 @@ public class Algorithm implements Runnable{
             if(d2==null){
                 continue;
             }
-            d1.addCensusBlock(d1,cb,inProgressPlan);
-            d2.removeCensusBlock(cb);
+            List<CensusBlock> neighbors = repo.findBlockNeighbors(cb.getId());
+            d1.addCensusBlock(d1,cb,inProgressPlan,neighbors);
+            d2.removeCensusBlock(cb,neighbors);
             Measures newMeasures=inProgressPlan.computeMeasures();
             if(newMeasures.getPolsbyPopperScore()<=compactness &&
                     newMeasures.getPopulationEqualityScore()<=populationEquality){
-                d1.addCensusBlock(d2,cb,inProgressPlan);
-                d2.removeCensusBlock(cb);
+                d1.addCensusBlock(d2,cb,inProgressPlan,neighbors);
+                d2.removeCensusBlock(cb,neighbors);
                 failedCbMoves++;
             }
             else {
@@ -71,6 +73,10 @@ public class Algorithm implements Runnable{
                 compactness=newMeasures.getPolsbyPopperScore();
                 populationEquality=newMeasures.getPopulationEqualityScore();
                 failedCbMoves=0;
+            }
+
+            if(iterations%REDRAW_CONST==0){
+                inProgressPlan.redrawDistricts();
             }
 
             iterations++;

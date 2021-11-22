@@ -49,6 +49,12 @@ public class District {
     private List<Population> populations;
 
     @Transient
+    private List<Geometry>cbToAdd;
+
+    @Transient
+    private List<Geometry>cbToRemove;
+
+    @Transient
     private int districtNumber;
 
     public District() {}
@@ -61,19 +67,43 @@ public class District {
         return districtNumber;
     }
 
-    public void removeCensusBlock(CensusBlock cb){
-        cb.getNeighbors().stream().forEach(c->c.setBorderBlock(true));
-        geometry=geometry.difference(cb.getGeometry());
+    public void redraw(){
+        for(Geometry geo :cbToAdd){
+            this.geometry=geometry.union(geo);
+        }
+
+        for(Geometry geo:cbToRemove){
+            this.geometry=geometry.difference(geo);
+        }
+
     }
 
-    public void addCensusBlock(District oldDistrict,CensusBlock cb,Districting plan){
-        List<Geometry>districtGeoms=plan.getDistricts().stream().filter(d->d.districtingId!=oldDistrict.id
-                        && this.id!=d.districtingId).map(d->d.geometry).collect(Collectors.toList());
+    public void removeCensusBlock(CensusBlock cb,List<CensusBlock>neighbors){
+        List<CensusBlock>cbBorders=neighbors.stream().filter(c->c.getDistrictId()!=this.districtingId)
+                .collect(Collectors.toList());
+        cbBorders.stream().forEach(c->c.setBorderBlock(true));
+        censusBlocks.addAll(cbBorders);
+        this.cbToRemove.add(cb.getGeometry());
+        //geometry=geometry.difference(cb.getGeometry());
+
+    }
+
+    public void addCensusBlock(District oldDistrict,CensusBlock cb,Districting plan,List<CensusBlock>neighbors){
+        List<Geometry>districtGeoms=plan.getDistricts().stream().filter(d->!(d.districtingId.equals(oldDistrict.id)
+                        && this.id.equals(d.districtingId))).map(d->d.geometry).collect(Collectors.toList());
         Geometry cutDistrict = oldDistrict.geometry.difference(cb.getGeometry());
         districtGeoms.add(cutDistrict);
-        List<CensusBlock>neighbors=cb.getNeighbors().stream().filter(c->c.getDistrictId()!=oldDistrict.districtingId)
+        List<CensusBlock>newDistNeighbors=neighbors.stream().filter(c->c.getDistrictId().equals(this.id))
                 .collect(Collectors.toList());
         cb.setDistrictId(districtingId);
+        adjBorderBlocks(newDistNeighbors,districtGeoms);
+
+        this.cbToAdd.add(cb.getGeometry());
+        //geometry=geometry.union(cb.getGeometry());
+
+    }
+
+    private void adjBorderBlocks(List<CensusBlock>neighbors,List<Geometry>districtGeoms){
         for(CensusBlock neigh:neighbors){
             boolean border=false;
             for(Geometry geom:districtGeoms){
@@ -83,8 +113,12 @@ public class District {
             }
             neigh.setBorderBlock(border);
         }
-        geometry=geometry.union(cb.getGeometry());
 
+        for(CensusBlock neigh:neighbors){
+            if(!neigh.isBorderBlock()){
+                censusBlocks.remove(neigh);
+            }
+        }
     }
 
 
@@ -161,14 +195,5 @@ public class District {
         return data.isPresent() ? data.get() : null;
     }
 
-<<<<<<< HEAD
-=======
-    public void removeCensusBlock(CensusBlock cb){
 
-    }
-
-    public void addCensusBlock(CensusBlock cb){
-
-    }
->>>>>>> c5ea75860e323022afdd6583a399806a86f78c22
 }
