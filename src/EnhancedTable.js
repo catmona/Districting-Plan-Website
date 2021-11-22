@@ -60,7 +60,6 @@ const columns = [
   },
 ];
 
-//TODO note to cat: use a Modal
 export default function EnhancedTable(props) {
   const [showAlgLimits, setShowAlgLimits] = useState(false)
   const [showAlgProgress, setShowAlgProgress] = useState(false)
@@ -98,8 +97,17 @@ export default function EnhancedTable(props) {
         </Box>
       </div>
       <>
-        <AlgLimitsModal show={showAlgLimits} onHide={() => setShowAlgLimits(false)} showProgress={setShowAlgProgress} />
-        <AlgProgressModal show={showAlgProgress} onHide={() => setShowAlgProgress(false)} />
+        <AlgLimitsModal 
+          show={showAlgLimits} 
+          onHide={() => setShowAlgLimits(false)} 
+          showProgress={setShowAlgProgress} 
+        />
+        <AlgProgressModal 
+          show={showAlgProgress} 
+          onHide={() => setShowAlgProgress(false)} 
+          algResults={props.algResults} 
+          setAlgResults={props.setAlgResults} 
+        />
       </>
     </>
   );

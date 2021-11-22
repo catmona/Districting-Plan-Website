@@ -10,6 +10,7 @@ function App() {
     const [stateName, setStateName] = useState("");
     const [districtingData, setDistrictingData] = useState(""); //statistics table data, population per district of the plan
     const [districtingPreviews, setDistrictingPreviews] = useState(""); //tooltip summaries for SeaWulf districtings 
+    const [algResults, setAlgResults] = useState(null);
 
     function getStateSummary(stateAbbr) {
         fetch("http://localhost:8080/api2/getStateSummary?state=" + stateAbbr, { credentials: 'include' })
@@ -36,9 +37,6 @@ function App() {
             case "AR":
                 setStateName("Arkansas")
             break;
-
-            default:
-            break;
         }
     }
 
@@ -62,7 +60,14 @@ function App() {
                     <Row>
                         <Topbar stateName={stateName} setState={getStateSummary} />
 
-                        <StateTabs stateName={stateName} districtingData={districtingData} getDistrictingPreviews={getDistrictingPreviews} districtingPreviews={districtingPreviews}></StateTabs>
+                        <StateTabs 
+                            stateName={stateName} 
+                            districtingData={districtingData} 
+                            algResults={algResults} 
+                            setAlgResults={setAlgResults} 
+                            getDistrictingPreviews={getDistrictingPreviews} 
+                            districtingPreviews={districtingPreviews}
+                        />
                     </Row>
                 </Col>
                 <Col id="right-app">

@@ -8,7 +8,8 @@ function AlgProgressModal(props) {
     const [compactness, setCompactness] = useState(0); //this too
     const [timeRunning, setTimeRunning] = useState(0);
     const [estTimeRemaining, setEstTimeRemaining] = useState(0);
-    const [progressPercent, setProgressPrecent] = useState(0);
+    const [progressPercent, setProgressPrecent] = useState(100);
+    const {setAlgResults, ...rest} = props;
     const chart = useRef(null);
 
     var dataLength = 20;
@@ -36,9 +37,13 @@ function AlgProgressModal(props) {
         }]
     }
 
+    const finishAlg = () => {
+        props.setAlgResults("h");
+        props.onHide();
+    }
+
     useEffect(() => {
         //do other stuff
-
 
         //update chart
         if(!chart.current) return;
@@ -69,7 +74,7 @@ function AlgProgressModal(props) {
     //TODO can the user pause? finish early? how do we resume?
 
     return(
-        <Modal {...props} size="lg" centered className="dark-modal">
+        <Modal {...rest} size="lg" centered className="dark-modal">
             <Modal.Header>
                 <Modal.Title>
                     Algorithm progress
@@ -111,7 +116,8 @@ function AlgProgressModal(props) {
                     </div>
                 </Row>
             </Modal.Body>
-            <Modal.Footer>    
+            <Modal.Footer className="modal-spaced-footer">    
+                <Button variant="success" disabled={progressPercent != 100} onClick = {finishAlg}>See Results</Button>
                 <Button variant="danger" onClick = {props.onHide}>Cancel</Button>
             </Modal.Footer>
         </Modal>
