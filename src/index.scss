@@ -342,10 +342,25 @@ h3 {
         background-color: grey !important;
     }
 }
-.modal-sizingaa {
+.modal-sizingtest {
     width: 60vw;
     max-width: 60vw;
     height: 30vw;
+}
+.modal-spaced-footer {
+    display: flex;
+    justify-content: space-between;
+    padding: 2px;
+    padding-left: 11.5%;
+    padding-right: 11%;
+    padding-bottom: 1.5%;
+    padding-top: 2%;
+    border-top: 1px solid white;
+    background-color: $fgColor;
+
+    button {
+        border: 1px solid black;
+    }
 }
 /* #endregion */
 
@@ -367,5 +382,34 @@ h3 {
 }
 .measure-table {
     width: 100% !important;
+}
+/* #endregion */
+
+/* #region algorithm */
+.constraint-group {
+    background-color: $fgColor;
+    padding: 5px;
+    max-width: 80%;
+    margin: auto;
+    margin-bottom: 1%;
+    margin-top: 1%;
+    border: 1px solid black;
+}
+.constraint-label {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px;
+
+    h3 {
+        display: inline;
+        color: $accentColor
+    }
+    label {
+        font-size: 20px;
+    }
+}
+.constraint-slider {
+    padding-left: 6%;
+    padding-right: 6%;
 }
 /* #endregion */
