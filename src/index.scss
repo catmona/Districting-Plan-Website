@@ -124,30 +124,27 @@ h3 {
 /* #endregion */
 
 /* #region topbar */
-#state-dropdown {
-    position: relative;
-    top: 0%;
-    left: 50%;
-    width:200px;
-    align-self: left;
-}
-.state-dropdown-option{
-    width:200px;
-}
 #topbar {
-    z-index: 6;
-    background-color: #191919;
-    height: 100 px;
-    padding:20px;
-    display:flex;
-    flex-direction: column;
-    border-radius: 10px;
+    position: relative;
+    background-color: $fgColor;
+    border-radius: 15px;
+    width: 100%;
+    height: 50%;
+    margin-top: 5px;
+}
+.topbar-item {
+    padding: 6px;
+    margin: auto;
 }
 .topbar-text {
-    color: whitesmoke;
-    position: relative;
-    top: 0%;
-    display: inline;
+    display: inline-block;
+    margin: auto;
+}
+#state-dropdown {
+    width: 150px;
+}
+.state-dropdown-option {
+    width: 150px;
 }
 /* #endregion */
 
@@ -474,4 +471,8 @@ h3 {
         background-color: $fgColor;
     }
 }
+/* #endregion */
+
+/* #region algResults */
+
 /* #endregion */
