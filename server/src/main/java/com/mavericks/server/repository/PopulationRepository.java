@@ -8,13 +8,13 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import java.util.Set;
+import java.util.List;
 
 public interface PopulationRepository extends JpaRepository<Population,Long> {
     @Query(value = "SELECT * FROM Populations WHERE regionType = :regionType " +
             "AND regionId = :regionId " +
             "AND populationMeasureType = :populationMeasureType;", nativeQuery = true)
-    Set<Population> findAllRegionPopulationsByMeasure(
+    List<Population> findAllRegionPopulationsByMeasure(
             @Param("regionType")Region regionType,
             @Param("regionId") long regionId,
             @Param("populationMeasureType") PopulationMeasure popMeasureType);
@@ -23,7 +23,7 @@ public interface PopulationRepository extends JpaRepository<Population,Long> {
             "AND regionId = :regionId " +
             "AND populationMeasureType = :populationMeasureType " +
             "AND demographicType = :demographicType;", nativeQuery = true)
-    Set<Population> findAllRegionPopulationsByMeasureAndDemographic(
+    List<Population> findAllRegionPopulationsByMeasureAndDemographic(
             @Param("regionType")Region regionType,
             @Param("regionId") long regionId,
             @Param("populationMeasureType") PopulationMeasure popMeasureType,
