@@ -341,6 +341,12 @@ h3 {
     .btn-close {
         background-color: grey !important;
     }
+    .modal-footer {
+        background-color: $fgColor;
+        button {
+            border: 1px solid black;
+        }
+    }
 }
 .modal-sizingtest {
     width: 60vw;
@@ -356,11 +362,6 @@ h3 {
     padding-bottom: 1.5%;
     padding-top: 2%;
     border-top: 1px solid white;
-    background-color: $fgColor;
-
-    button {
-        border: 1px solid black;
-    }
 }
 /* #endregion */
 

@@ -78,7 +78,7 @@ function formatResponseToBoxWhisker(result, popType, basis) {
             yAxisLabel += " Hispanic"
             break;
         case "asian":
-            yAxisLabel += " White"
+            yAxisLabel += " Asian"
             break;
         case "white":
             yAxisLabel += " White"

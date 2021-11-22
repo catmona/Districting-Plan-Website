@@ -33,7 +33,7 @@ function AlgorithmModal(props) {
                 <Modal.Body>
                     <Form.Group className="constraint-group">
                         <div className="constraint-label">
-                            <Form.Label>Population Equality: </Form.Label>
+                            <Form.Label>Minimum Population Equality Score: </Form.Label>
                             <h3>{popEqualityLim}</h3>
                         </div>
                         <Form.Range 
@@ -51,7 +51,7 @@ function AlgorithmModal(props) {
                     </Form.Group>
                     <Form.Group className="constraint-group">
                         <div className="constraint-label">
-                            <Form.Label>Compactness: </Form.Label>
+                            <Form.Label>Minimum Compactness Score: </Form.Label>
                             <h3>{compactnessLim}</h3>
                         </div>
                         <Form.Range 
