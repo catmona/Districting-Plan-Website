@@ -3,6 +3,8 @@ package com.mavericks.server.entity;
 import com.mavericks.server.SetCustom;
 import com.mavericks.server.converter.GeometryConverterString;
 import com.mavericks.server.enumeration.Basis;
+import com.mavericks.server.enumeration.Demographic;
+import com.mavericks.server.enumeration.PopulationMeasure;
 import com.mavericks.server.enumeration.Region;
 import org.hibernate.annotations.Where;
 import org.locationtech.jts.geom.Geometry;
@@ -12,6 +14,7 @@ import javax.persistence.*;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "Districts")
@@ -46,6 +49,7 @@ public class District {
 
     @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "regionId")
+    @OrderBy("populationMeasureType, demographicType")
     private List<Population> populations;
 
     public District() {}
@@ -115,6 +119,16 @@ public class District {
     }
 
     /* Other class methods below */
+
+    public Integer getPopulation(PopulationMeasure measure, Demographic demg) {
+        return populations.get(measure.ordinal() + demg.ordinal()).getValue();
+    }
+
+    public List<Integer> getPopulation(PopulationMeasure measure) {
+        return populations.stream().filter(p -> p.getPopulationMeasureType() == measure)
+                .map(p -> p.getValue())
+                .collect(Collectors.toList());
+    }
 
     public DistrictElection getElectionDataByElection(String electionId) {
         Optional<DistrictElection> data = electionData.stream().filter(e -> e.getElectionId() == electionId).findFirst();

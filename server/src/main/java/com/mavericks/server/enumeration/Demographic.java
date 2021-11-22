@@ -2,8 +2,7 @@ package com.mavericks.server.enumeration;
 
 public enum Demographic {
     WHITE,
-    AFRICAN_AMERICAN,
+    BLACK,
     ASIAN,
-    HISPANIC,
     ALL
 }

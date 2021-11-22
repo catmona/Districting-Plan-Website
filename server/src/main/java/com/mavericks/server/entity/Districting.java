@@ -3,6 +3,8 @@ package com.mavericks.server.entity;
 import com.mavericks.server.converter.FeatureCollectionConverterString;
 import com.mavericks.server.dto.DistrictingDTO;
 import com.mavericks.server.dto.PlanDTO;
+import com.mavericks.server.enumeration.Demographic;
+import com.mavericks.server.enumeration.PopulationMeasure;
 import com.mavericks.server.enumeration.Region;
 import org.hibernate.annotations.Where;
 import org.wololo.geojson.FeatureCollection;
@@ -21,13 +23,11 @@ public class Districting {
     @Column(name = "stateId", length = 2, nullable = false)
     private String stateId;
 
-    @Convert(converter = FeatureCollectionConverterString.class)
     @Column(name = "districtGeoJSON")
-    private FeatureCollection districtGeoJSON;
+    private String districtGeoJSON;
 
-    @Convert(converter = FeatureCollectionConverterString.class)
     @Column(name = "precinctGeoJSON")
-    private FeatureCollection precinctGeoJSON;
+    private String precinctGeoJSON;
 
     @Embedded
     @AttributeOverrides({
@@ -45,6 +45,7 @@ public class Districting {
 
     @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "regionId")
+    @OrderBy("populationMeasureType, demographicType")
     private List<Population> populations;
 
     public Districting() {}
@@ -94,19 +95,19 @@ public class Districting {
         this.districts = districts;
     }
 
-    public FeatureCollection getDistrictGeoJSON() {
+    public String getDistrictGeoJSON() {
         return districtGeoJSON;
     }
 
-    public void setDistrictGeoJSON(FeatureCollection districtGeoJSON) {
+    public void setDistrictGeoJSON(String districtGeoJSON) {
         this.districtGeoJSON = districtGeoJSON;
     }
 
-    public FeatureCollection getPrecinctGeoJSON() {
+    public String getPrecinctGeoJSON() {
         return precinctGeoJSON;
     }
 
-    public void setPrecinctGeoJSON(FeatureCollection precinctGeoJSON) {
+    public void setPrecinctGeoJSON(String precinctGeoJSON) {
         this.precinctGeoJSON = precinctGeoJSON;
     }
 
@@ -123,6 +124,16 @@ public class Districting {
     }
 
     /* Other class methods below */
+
+    public Integer getPopulation(PopulationMeasure measure, Demographic demg) {
+        return populations.get(measure.ordinal() + demg.ordinal()).getValue();
+    }
+
+    public List<Integer> getPopulation(PopulationMeasure measure) {
+        return populations.stream().filter(p -> p.getPopulationMeasureType() == measure)
+                .map(p -> p.getValue())
+                .collect(Collectors.toList());
+    }
 
     public District getRandDistrict(){
         return districts.get((int)(Math.random()*districts.size()));

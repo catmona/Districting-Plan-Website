@@ -103,7 +103,7 @@ public class Controller {
     }
 
     private PopulationMeasure mapPopToEnum(String s){
-        switch (s){
+        switch (s.toUpperCase()){
             case "TOTAL":
                 return PopulationMeasure.TOTAL;
             case "CVAP":

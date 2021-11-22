@@ -6,6 +6,8 @@ import com.mavericks.server.dto.PlanDTO;
 import com.mavericks.server.dto.StateDTO;
 import com.mavericks.server.entity.*;
 import com.mavericks.server.enumeration.Basis;
+import com.mavericks.server.enumeration.Demographic;
+import com.mavericks.server.enumeration.PopulationMeasure;
 import com.mavericks.server.repository.DistrictElectionRepository;
 import com.mavericks.server.repository.DistrictingRepository;
 import com.mavericks.server.repository.PopulationRepository;
@@ -42,18 +44,6 @@ public class Handler {
         this.jobs = jobs;
     }
 
-    public String readFile(String path){
-        try{
-            //read file and return
-            InputStream in = new ClassPathResource(path).getInputStream();
-            String data = StreamUtils.copyToString(in, Charset.defaultCharset());
-            in.close();
-            return data;
-        }catch (IOException e){
-            return  "";
-        }
-    }
-
     /**
      * Get the summary information for a state's enacted districting.
      * @param stateName State abbreviation
@@ -65,8 +55,11 @@ public class Handler {
             return null;
         }
         State state = stateRepo.getById(stateName);
+
+        PopulationMeasure popType = (PopulationMeasure) session.getAttribute("PopType");
+
         session.setAttribute("state", state);
-        return state.makeDTO();
+        return state.makeDTO(popType);
     }
 
 
@@ -139,12 +132,6 @@ public class Handler {
         return null;
     }
 
-    /**
-     * Sets the algorithm constraints
-     * @param minPopulationEquality deviation from ideal population
-     * @param minCompactness the geometric compactness computed by polsby popper
-     * @return the thread id
-     */
 //    public long setLimits(double minPopulationEquality, double minCompactness){
 //        Algorithm alg = new Algorithm(minPopulationEquality,minCompactness);
 //        Thread t = new Thread(alg);

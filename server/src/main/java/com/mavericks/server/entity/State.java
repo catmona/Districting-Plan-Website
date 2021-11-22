@@ -1,6 +1,7 @@
 package com.mavericks.server.entity;
 import com.mavericks.server.converter.PointConverterString;
 import com.mavericks.server.dto.StateDTO;
+import com.mavericks.server.enumeration.PopulationMeasure;
 import org.wololo.geojson.FeatureCollection;
 
 import java.util.ArrayList;
@@ -103,11 +104,13 @@ public class State {
 
     /* Other class methods below */
 
-    public StateDTO makeDTO(){
-        // TODO
-        List<Population> p = new ArrayList<>();
+    public StateDTO makeDTO(PopulationMeasure popType){
         Districting e = enacted;
-        FeatureCollection fc = e.getDistrictGeoJSON();
-        return new StateDTO(center, fc, p, null);
+        String geoJSON = e.getDistrictGeoJSON();
+        List<List<Integer>> populations = new ArrayList<>();
+        for (District d : e.getDistricts()) {
+            populations.add(d.getPopulation(popType));
+        }
+        return new StateDTO(center, geoJSON, populations, null); // TODO election data
     }
 }

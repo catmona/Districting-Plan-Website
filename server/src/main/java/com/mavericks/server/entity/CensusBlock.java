@@ -1,10 +1,13 @@
 package com.mavericks.server.entity;
 
+import com.mavericks.server.enumeration.Demographic;
+import com.mavericks.server.enumeration.PopulationMeasure;
 import com.mavericks.server.enumeration.Region;
 import org.locationtech.jts.geom.Geometry;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "CensusBlocks")
@@ -27,11 +30,14 @@ public class CensusBlock {
     private boolean isBorderBlock;
 
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "CensusBlockNeighbors", joinColumns = {@JoinColumn(name = "censusBlockId")}, inverseJoinColumns = {@JoinColumn(name = "neighborId")})
+    @JoinTable(name = "CensusBlockNeighbors",
+            joinColumns = {@JoinColumn(name = "censusBlockId")},
+            inverseJoinColumns = {@JoinColumn(name = "neighborId")})
     private List<CensusBlock> neighbors;
 
     @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "regionId")
+    @OrderBy("populationMeasureType, demographicType")
     private List<Population> populations;
 
     public CensusBlock() {}
@@ -104,5 +110,15 @@ public class CensusBlock {
 
     public Region getRegion() {
         return Region.CENSUS_BLOCK;
+    }
+
+    public Integer getPopulation(PopulationMeasure measure, Demographic demg) {
+        return populations.get(measure.ordinal() + demg.ordinal()).getValue();
+    }
+
+    public List<Integer> getPopulation(PopulationMeasure measure) {
+        return populations.stream().filter(p -> p.getPopulationMeasureType() == measure)
+                .map(p -> p.getValue())
+                .collect(Collectors.toList());
     }
 }

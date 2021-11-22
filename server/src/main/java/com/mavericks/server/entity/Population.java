@@ -7,7 +7,7 @@ import com.mavericks.server.enumeration.Region;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "Population")
+@Table(name = "Populations")
 public class Population {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,9 +17,11 @@ public class Population {
     @Column(name = "regionId", length = 50, nullable = false)
     private String regionId;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "populationMeasureType", nullable = false)
     private PopulationMeasure populationMeasureType;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "demographicType", nullable = false)
     private Demographic demographicType;
 
