@@ -13,9 +13,13 @@ public class PostProcessing {
 
     public static void main(String[]args){
         List<CensusBlock> blocks = repo.findAll();
+        List<String> blockNeighbors;
+        List<CensusBlock> neighbors;
         for(CensusBlock cb:blocks){
+            blockNeighbors = repo.findBlockNeighbors(cb.getId());
             boolean isBorderBlock=false;
-            for(CensusBlock neighbor : cb.getNeighbors()){
+            neighbors = repo.findAllById(blockNeighbors);
+            for(CensusBlock neighbor : neighbors){
                 if(cb.getDistrictId()!=neighbor.getDistrictId()){
                     isBorderBlock=true;
                 }

@@ -16,5 +16,5 @@ public interface CensusBlockRepository extends JpaRepository<CensusBlock,String>
 
     @Query(value = "SELECT cbn.neighborId FROM CensusBlockNeighbors cbn " +
             "WHERE cbn.censusBlockId = :censusBlockId;", nativeQuery = true)
-    List<CensusBlock> findBlockNeighbors(@Param("censusBlockId") String censusBlockId);
+    List<String> findBlockNeighbors(@Param("censusBlockId") String censusBlockId);
 }
