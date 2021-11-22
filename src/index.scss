@@ -2,6 +2,10 @@
 $bgColor: #1f1f1f;
 $fgColor: #161616;
 $accentColor: #4285F4;
+$accentColor2: #28a745;
+$accentColor3: #ffc107;
+$accentColor4: #dc3545;
+$accentColor5: #17a2b8;
 $textColor: whitesmoke;
 /* #endregion */
 
@@ -386,7 +390,7 @@ h3 {
 }
 /* #endregion */
 
-/* #region algorithm */
+/* #region algLimits */
 .constraint-group {
     background-color: $fgColor;
     padding: 5px;
@@ -412,5 +416,62 @@ h3 {
 .constraint-slider {
     padding-left: 6%;
     padding-right: 6%;
+}
+/* #endregion */
+
+/* #region algProgress */
+.progress-block {
+    background-color: $fgColor;
+    border: 1px solid black;
+    padding: 0.5%;
+    max-width: 32%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 2%;
+    display:flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.progress-label {
+    text-align: center;
+}
+.progress-value {
+    text-align: center;
+}
+#progress-iterations {
+    color: $accentColor;
+}
+#progress-equality {
+    color: $accentColor3;
+}
+#progress-compactness {
+    color: $accentColor5;
+}
+.progress-graph {
+    background-color: $fgColor;
+    border: 1px solid black;
+    max-width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 2%;
+}
+#progress-time {
+    color: $accentColor2;
+}
+#progress-time-remaining {
+    color: $accentColor4;
+}
+.progress-bar {
+    max-width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 0.5%;
+    margin-bottom: 1%;
+    background-color: transparent;
+    div {
+        margin-left: 0;
+        margin-right: 0;
+        background-color: $fgColor;
+    }
 }
 /* #endregion */
