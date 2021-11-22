@@ -7,10 +7,14 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
-public interface CensusBlockRepository extends JpaRepository<CensusBlock,Long> {
+public interface CensusBlockRepository extends JpaRepository<CensusBlock,String> {
     @Query(value = "SELECT cbs.id, cbs.precinctId, cbs.geometry, cbs.isBorderBlock FROM CensusBlocks cbs " +
             "JOIN Precincts ps ON ps.id = cbs.precinctId " +
             "JOIN Districts ds ON ds.id = ps.districtId " +
             "WHERE ds.id = :districtId;", nativeQuery = true)
     List<CensusBlock> findAllByDistrict(@Param("districtId") long districtId);
+
+    @Query(value = "SELECT cbn.neighborId FROM CensusBlockNeighbors cbn " +
+            "WHERE cbn.censusBlockId = :censusBlockId;", nativeQuery = true)
+    List<CensusBlock> findBlockNeighbors(@Param("censusBlockId") String censusBlockId);
 }
