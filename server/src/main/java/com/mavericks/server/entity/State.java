@@ -1,9 +1,11 @@
 package com.mavericks.server.entity;
+import com.mavericks.server.converter.PointConverterString;
 import com.mavericks.server.dto.StateDTO;
+import com.mavericks.server.enumeration.PopulationMeasure;
+import org.wololo.geojson.FeatureCollection;
 
 import java.util.ArrayList;
 import java.util.List;
-import org.wololo.geojson.FeatureCollection;
 
 import javax.persistence.*;
 
@@ -11,46 +13,59 @@ import javax.persistence.*;
 @Table(name = "States")
 public class State {
     @Id
+    @Column(name="id", length=2, nullable=false)
     private String id;
-    private String name;
-    @Transient
+
+    @Column(name="fullName", length=50, nullable=false)
+    private String fullName;
+
+    @Convert(converter = PointConverterString.class)
+    @Column(name="center")
     private Point center;
-    //private BoxWhisker boxWhisker;
+
+    @Column(name="numberOfDistricts", nullable=false)
     private int numberOfDistricts;
+
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "enactedDistricting")
+    @JoinColumn(name = "enactedId", referencedColumnName = "id")
     private Districting enacted;
 
-    @OneToMany(mappedBy = "state", fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "stateId")
     private List<Districting> districtings;
 
-
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "stateId")
+    private List<BoxWhisker> boxWhiskers;
 
     public State() {}
 
-    public State(String id, String name, int numberOfDistricts) {
+    public State(String id, String fullName, int numberOfDistricts) {
         this.id = id;
-        this.name = name;
+        this.fullName = fullName;
         this.numberOfDistricts = numberOfDistricts;
     }
 
     public String getId() {
         return id;
     }
+
     public void setId(String id) {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getFullName() {
+        return fullName;
     }
-    public void setName(String name) {
-        this.name = name;
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 
     public Point getCenter() {
         return center;
     }
+
     public void setCenter(Point center) {
         this.center = center;
     }
@@ -58,6 +73,7 @@ public class State {
     public int getNumberOfDistricts() {
         return numberOfDistricts;
     }
+
     public void setNumberOfDistricts(int numberOfDistricts) {
         this.numberOfDistricts = numberOfDistricts;
     }
@@ -65,6 +81,7 @@ public class State {
     public Districting getEnacted() {
         return enacted;
     }
+
     public void setEnacted(Districting enacted) {
         this.enacted = enacted;
     }
@@ -72,34 +89,28 @@ public class State {
     public List<Districting> getDistrictings() {
         return districtings;
     }
+
     public void setDistrictings(List<Districting> districtings) {
         this.districtings = districtings;
     }
 
-    public Population getPopulation() {
-        return getEnacted().getPopulation();
+    public List<BoxWhisker> getBoxWhiskers() {
+        return boxWhiskers;
     }
 
-    public StateDTO makeDTO(){
-        //dummy value; replace later
-        Districting districting= this.getEnacted();
-        FeatureCollection collection = districting.getGeometry();
-        List<Population> distPopulations= new ArrayList<>();
-        List<District>districts=districting.getDistricts();
-        for(District d:districts){
-            distPopulations.add(d.getPopulation());
+    public void setBoxWhiskers(List<BoxWhisker> boxWhiskers) {
+        this.boxWhiskers = boxWhiskers;
+    }
+
+    /* Other class methods below */
+
+    public StateDTO makeDTO(PopulationMeasure popType){
+        Districting e = enacted;
+        String geoJSON = e.getDistrictGeoJSON();
+        List<List<Integer>> populations = new ArrayList<>();
+        for (District d : e.getDistricts()) {
+            populations.add(d.getPopulation(popType));
         }
-        return new StateDTO(23,this.center,collection,distPopulations, districting.getElection());
-    }
-
-    @Override
-    public String toString() {
-        return "State{" +
-                "id='" + id + '\'' +
-                ", name='" + name + '\'' +
-                ", center=" + center.toString() +
-                ", numberOfDistricts=" + numberOfDistricts +
-                ", enacted=" + enacted.getId() +
-                '}';
+        return new StateDTO(center, geoJSON, populations, null); // TODO election data
     }
 }

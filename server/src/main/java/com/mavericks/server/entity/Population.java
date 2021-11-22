@@ -1,77 +1,79 @@
 package com.mavericks.server.entity;
 
-import com.mavericks.server.entity.Demographic;
-import com.mavericks.server.entity.PopulationMeasure;
+import com.mavericks.server.enumeration.Demographic;
+import com.mavericks.server.enumeration.PopulationMeasure;
+import com.mavericks.server.enumeration.Region;
 
-import java.util.ArrayList;
-import java.util.List;
+import javax.persistence.*;
 
+@Entity
+@Table(name = "Populations")
 public class Population {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
+    private long id;
 
-    // PopulationMeasure[Demographics[]]
-    private List<List<Integer>> populations;
+    @Column(name = "regionId", length = 50, nullable = false)
+    private String regionId;
 
-    public Population() {
-        // instantiate empty populations var
-        populations = new ArrayList<>();
+    @Enumerated(EnumType.STRING)
+    @Column(name = "populationMeasureType", nullable = false)
+    private PopulationMeasure populationMeasureType;
 
-        for (int i = 0; i < PopulationMeasure.values().length; i++) {
-            List<Integer> popMeasure = new ArrayList<Integer>();
-            for (int j = 0; j < Demographic.values().length; j++) {
-                popMeasure.add(j, 0);
-            }
-            populations.add(i, popMeasure);
-        }
+    @Enumerated(EnumType.STRING)
+    @Column(name = "demographicType", nullable = false)
+    private Demographic demographicType;
 
+    @Column(name = "value", nullable = false)
+    private int value;
+
+    public Population() {}
+
+    public Population(String regionId, PopulationMeasure populationMeasureType, Demographic demographicType, int value) {
+        this.regionId = regionId;
+        this.populationMeasureType = populationMeasureType;
+        this.demographicType = demographicType;
+        this.value = value;
     }
 
-    public List<Integer> getDemographics(PopulationMeasure popMeasure){
-        return populations.get(popMeasure.ordinal());
+    public long getId() {
+        return id;
     }
 
-    public Integer getPopulation(PopulationMeasure popMeasure, Demographic demo) {
-        return populations.get(popMeasure.ordinal()).get(demo.ordinal());
+    public void setId(long id) {
+        this.id = id;
     }
 
-    public void setPopulation(PopulationMeasure popMeasure, Demographic demo, int value) {
-        populations.get(popMeasure.ordinal()).set(demo.ordinal(), value);
+    public String getRegionId() {
+        return regionId;
     }
 
-    public void combinePopulations(Population p1) {
-        PopulationMeasure popMeasureEnum;
-        Demographic demoEnum;
-        for (int i = 0; i < PopulationMeasure.values().length; i++) {
-            for (int j = 0; j < Demographic.values().length; j++) {
-                popMeasureEnum = PopulationMeasure.values()[i];
-                demoEnum = Demographic.values()[j];
-                this.setPopulation(popMeasureEnum, demoEnum,
-                        this.getPopulation(popMeasureEnum, demoEnum) + p1.getPopulation(popMeasureEnum, demoEnum));
-            }
-        }
+    public void setRegionId(String regionId) {
+        this.regionId = regionId;
     }
 
-    // made this in case
-    public static Population combinePopulations(Population p1, Population p2) {
-        Population sumPop = new Population();
-        PopulationMeasure popMeasureEnum;
-        Demographic demoEnum;
-        for (int i = 0; i < PopulationMeasure.values().length; i++) {
-            for (int j = 0; j < Demographic.values().length; j++) {
-                popMeasureEnum = PopulationMeasure.values()[i];
-                demoEnum = Demographic.values()[j];
-                sumPop.setPopulation(popMeasureEnum, demoEnum,
-                        p1.getPopulation(popMeasureEnum, demoEnum) + p2.getPopulation(popMeasureEnum, demoEnum));
-            }
-        }
-
-        return sumPop;
+    public PopulationMeasure getPopulationMeasureType() {
+        return populationMeasureType;
     }
 
-    public List<List<Integer>> getPopulations() {
-        return populations;
+    public void setPopulationMeasureType(PopulationMeasure populationMeasureType) {
+        this.populationMeasureType = populationMeasureType;
     }
 
-    public void setPopulations(List<List<Integer>> populations) {
-        this.populations = populations;
+    public Demographic getDemographicType() {
+        return demographicType;
+    }
+
+    public void setDemographicType(Demographic demographicType) {
+        this.demographicType = demographicType;
+    }
+
+    public int getValue() {
+        return value;
+    }
+
+    public void setValue(int value) {
+        this.value = value;
     }
 }

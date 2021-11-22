@@ -1,14 +1,44 @@
 package com.mavericks.server.entity;
 
-public class Box {
-    //each index corresponds to a district
-    private double[] upperExtreme;
-    private double[] upperQuartile;
-    private double[] median;
-    private double[] lowerQuartile;
-    private double[] lowerExtreme;
+import com.mavericks.server.enumeration.Basis;
 
-    public Box(double[] upperExtreme, double[] upperQuartile, double[] median, double[] lowerQuartile, double[] lowerExtreme) {
+import javax.persistence.*;
+import java.util.List;
+
+@Entity
+@Table(name = "Boxes")
+public class Box {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
+    private long id;
+
+    @Column(name = "boxWhiskerId", length = 50, nullable = false)
+    private String boxWhiskerId;
+
+    @Column(name = "districtNumber", nullable = false)
+    private int districtNumber;
+
+    @Column(name = "upperExtreme", nullable = false)
+    private int upperExtreme;
+
+    @Column(name = "upperQuartile", nullable = false)
+    private int upperQuartile;
+
+    @Column(name = "median", nullable = false)
+    private int median;
+
+    @Column(name = "lowerQuartile", nullable = false)
+    private int lowerQuartile;
+
+    @Column(name = "lowerExtreme", nullable = false)
+    private int lowerExtreme;
+
+    public Box() {}
+
+    public Box(String boxWhiskerId, int districtNumber, int upperExtreme, int upperQuartile, int median, int lowerQuartile, int lowerExtreme) {
+        this.boxWhiskerId = boxWhiskerId;
+        this.districtNumber= districtNumber;
         this.upperExtreme = upperExtreme;
         this.upperQuartile = upperQuartile;
         this.median = median;
@@ -16,43 +46,67 @@ public class Box {
         this.lowerExtreme = lowerExtreme;
     }
 
-    public double[] getUpperExtreme() {
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public String getBoxWhiskerId() {
+        return boxWhiskerId;
+    }
+
+    public void setBoxWhiskerId(String boxWhiskerId) {
+        this.boxWhiskerId = boxWhiskerId;
+    }
+
+    public int getDistrictNumber() {
+        return districtNumber;
+    }
+
+    public void setDistrictNumber(int districtNumber) {
+        this.districtNumber = districtNumber;
+    }
+
+    public int getUpperExtreme() {
         return upperExtreme;
     }
 
-    public void setUpperExtreme(double[] upperExtreme) {
+    public void setUpperExtreme(int upperExtreme) {
         this.upperExtreme = upperExtreme;
     }
 
-    public double[] getUpperQuartile() {
+    public int getUpperQuartile() {
         return upperQuartile;
     }
 
-    public void setUpperQuartile(double[] upperQuartile) {
+    public void setUpperQuartile(int upperQuartile) {
         this.upperQuartile = upperQuartile;
     }
 
-    public double[] getMedian() {
+    public int getMedian() {
         return median;
     }
 
-    public void setMedian(double[] median) {
+    public void setMedian(int median) {
         this.median = median;
     }
 
-    public double[] getLowerQuartile() {
+    public int getLowerQuartile() {
         return lowerQuartile;
     }
 
-    public void setLowerQuartile(double[] lowerQuartile) {
+    public void setLowerQuartile(int lowerQuartile) {
         this.lowerQuartile = lowerQuartile;
     }
 
-    public double[] getLowerExtreme() {
+    public int getLowerExtreme() {
         return lowerExtreme;
     }
 
-    public void setLowerExtreme(double[] lowerExtreme) {
+    public void setLowerExtreme(int lowerExtreme) {
         this.lowerExtreme = lowerExtreme;
     }
 }

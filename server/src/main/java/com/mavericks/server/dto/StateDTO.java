@@ -8,38 +8,34 @@ import java.util.List;
 
 public class StateDTO {
 
-    private Integer population;
     private Point center;
-    private List<Population> districtPopulations;
+    private List<List<Integer>> districtPopulations;
     private Election elections;
-    private FeatureCollection featureCollection;
+    private String featureCollection;
 
-    public StateDTO(Integer population, Point center, FeatureCollection collection,
-                    List<Population> districtPopulations, Election elections) {
-        this.population = population;
+    public StateDTO(Point center, String collection,
+                    List<List<Integer>> districtPopulations, Election elections) {
         this.center = center;
-        this.featureCollection= collection;
-        this.districtPopulations=districtPopulations;
+        this.featureCollection = collection;
+        this.districtPopulations = districtPopulations;
         this.elections = elections;
     }
 
-    public StateDTO(){
+    public StateDTO(){}
 
-    }
-
-    public List<Population> getDistrictPopulations() {
+    public List<List<Integer>> getDistrictPopulations() {
         return districtPopulations;
     }
 
-    public void setDistrictPopulations(List<Population> districtPopulations) {
+    public void setDistrictPopulations(List<List<Integer>> districtPopulations) {
         this.districtPopulations = districtPopulations;
     }
 
-    public FeatureCollection getFeatureCollection() {
+    public String getFeatureCollection() {
         return featureCollection;
     }
 
-    public void setFeatureCollection(FeatureCollection featureCollection) {
+    public void setFeatureCollection(String featureCollection) {
         this.featureCollection = featureCollection;
     }
 
@@ -49,14 +45,6 @@ public class StateDTO {
 
     public void setCenter(Point center) {
         this.center = center;
-    }
-
-    public Integer getPopulation() {
-        return population;
-    }
-
-    public void setPopulation(Integer population) {
-        this.population = population;
     }
 
     public Election getElections() {

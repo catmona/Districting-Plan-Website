@@ -1,80 +1,50 @@
 package com.mavericks.server.entity;
 
 import javax.persistence.*;
-import java.util.List;
+import java.util.Date;
 
 @Entity
 @Table(name = "Elections")
 public class Election {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "stateId")
-    private State state;
-    @Enumerated(EnumType.STRING)
-    private ElectionType electionTypeEnum;
-    @OneToMany(mappedBy = "election", fetch = FetchType.LAZY)
-    private List<DistrictElection> districtElections;
+    @Column(name = "id", length = 50, nullable = false)
+    private String id;
 
-    @Transient
-    private int totalDemocratVotes;
-    @Transient
-    private int totalRepublicanVotes;
-    @Transient
-    private int totalVotes;
+    @Column(name = "name", nullable = false)
+    private String name;
 
-    public Election(int totalDemocratVotes, int totalRepublicanVotes) {
-        this.totalDemocratVotes = totalDemocratVotes;
-        this.totalRepublicanVotes = totalRepublicanVotes;
-        this.totalVotes = totalDemocratVotes+totalRepublicanVotes;
+    @Column(name = "date", nullable = false)
+    private Date date;
+
+    public Election() {}
+
+    public Election(String name, Date date) {
+        this.name = name;
+        this.date = date;
     }
 
-    public DistrictElection getVoteByDistrict(int distNum){
-        return districtElections.get(distNum);
+    public String getId() {
+        return id;
     }
 
-    public int getTotalDemocratVotes() {
-        int votes = 0;
-        for(DistrictElection dv : districtElections) {
-            votes += dv.getDemocraticVotes();
-        }
-        return votes;
+    public void setId(String id) {
+        this.id = id;
     }
 
-    public void setTotalDemocratVotes(int totalDemocratVotes) {
-        this.totalDemocratVotes = totalDemocratVotes;
+    public String getName() {
+        return name;
     }
 
-    public int getTotalRepublicanVotes() {
-        int votes = 0;
-        for(DistrictElection dv : districtElections) {
-            votes += dv.getRepublicanVotes();
-        }
-        return votes;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public void setTotalRepublicanVotes(int totalRepublicanVotes) {
-        this.totalRepublicanVotes = totalRepublicanVotes;
+    public Date getDate() {
+        return date;
     }
 
-    public int getTotalVotes() {
-        int votes = 0;
-        for(DistrictElection dv : districtElections) {
-            votes += dv.getTotalVotes();
-        }
-        return votes;
-    }
-
-    public void setTotalVotes(int totalVotes) {
-        this.totalVotes = totalVotes;
-    }
-
-    public List<DistrictElection> getDistrictElections() {
-        return districtElections;
-    }
-
-    public void setDistrictElections(List<DistrictElection> districtElections) {
-        this.districtElections = districtElections;
+    public void setDate(Date date) {
+        this.date = date;
     }
 }

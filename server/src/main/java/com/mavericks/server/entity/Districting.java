@@ -1,14 +1,15 @@
 package com.mavericks.server.entity;
 
-import com.mavericks.server.dto.DistrictingDTO;
+import com.mavericks.server.converter.FeatureCollectionConverterString;
 import com.mavericks.server.dto.DistrictingDTO;
 import com.mavericks.server.dto.PlanDTO;
-import org.locationtech.jts.geom.Geometry;
-import org.wololo.geojson.Feature;
+import com.mavericks.server.enumeration.Demographic;
+import com.mavericks.server.enumeration.PopulationMeasure;
+import com.mavericks.server.enumeration.Region;
+import org.hibernate.annotations.Where;
 import org.wololo.geojson.FeatureCollection;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -16,52 +17,58 @@ import java.util.stream.Collectors;
 @Table(name = "Districtings")
 public class Districting {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "stateId")
-    private State state;
-    @Transient
-    private FeatureCollection geometries;
-    @Transient
-    private Measures measures;
-    private int numberOfOpportunity;
-    private String imageUrl; // used by SeaWulf districtings, is the preview image filepath
-    @Transient
-    private Election election;
+    @Column(name = "id", length = 50, nullable = false)
+    private String id;
 
-    @OneToMany(mappedBy = "districtingPlan", fetch = FetchType.LAZY)
+    @Column(name = "stateId", length = 2, nullable = false)
+    private String stateId;
+
+    @Column(name = "districtGeoJSON")
+    private String districtGeoJSON;
+
+    @Column(name = "precinctGeoJSON")
+    private String precinctGeoJSON;
+
+    @Embedded
+    @AttributeOverrides({
+            @AttributeOverride( name="populationEqualityScore", column=@Column(name = "populationEqualityScore")),
+            @AttributeOverride( name="polsbyPopperScore", column=@Column(name = "polsbyPopperScore"))
+    })
+    private Measures measures;
+
+    @Column(name = "previewImageUrl")
+    private String previewImageUrl; // used by SeaWulf districtings, is the preview image filepath
+
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "districtingId")
     private List<District> districts;
 
-    @Transient
-    private Population population;
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "regionId")
+    @OrderBy("populationMeasureType, demographicType")
+    private List<Population> populations;
 
     public Districting() {}
 
-    public Districting(State state, FeatureCollection geometries) {
-        //this.state = state;
-        this.geometries=geometries;
+    public Districting(String stateId, Measures measures) {
+        this.stateId = stateId;
+        this.measures = measures;
     }
 
-    public long getId() {
+    public String getId() {
         return id;
     }
-    public void setId(long id) {
+
+    public void setId(String id) {
         this.id = id;
     }
 
-    public State getState() {
-        return state;
-    }
-    public void setState(State state) {
-        this.state = state;
+    public String getStateId() {
+        return stateId;
     }
 
-    public FeatureCollection getGeometry() {
-        return geometries;
-    }
-    public void setGeometry(FeatureCollection geometries) {
-        this.geometries = geometries;
+    public void setStateId(String stateId) {
+        this.stateId = stateId;
     }
 
     public Measures getMeasures() {
@@ -72,69 +79,79 @@ public class Districting {
         this.measures = measures;
     }
 
-    public int getNumberOfOpportunity() {
-        return numberOfOpportunity;
-    }
-    public void setNumberOfOpportunity(int numberOfOpportunity) {
-        this.numberOfOpportunity = numberOfOpportunity;
+    public String getPreviewImageUrl() {
+        return previewImageUrl;
     }
 
-    public String getImageUrl() {
-        return imageUrl;
-    }
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
+    public void setPreviewImageUrl(String previewImageUrl) {
+        this.previewImageUrl = previewImageUrl;
     }
 
     public List<District> getDistricts() {
         return districts;
     }
+
     public void setDistricts(List<District> districts) {
         this.districts = districts;
+    }
+
+    public String getDistrictGeoJSON() {
+        return districtGeoJSON;
+    }
+
+    public void setDistrictGeoJSON(String districtGeoJSON) {
+        this.districtGeoJSON = districtGeoJSON;
+    }
+
+    public String getPrecinctGeoJSON() {
+        return precinctGeoJSON;
+    }
+
+    public void setPrecinctGeoJSON(String precinctGeoJSON) {
+        this.precinctGeoJSON = precinctGeoJSON;
+    }
+
+    public List<Population> getPopulations() {
+        return populations;
+    }
+
+    public void setPopulations(List<Population> populations) {
+        this.populations = populations;
+    }
+
+    public Region getRegion() {
+        return Region.DISTRICTING;
+    }
+
+    /* Other class methods below */
+
+    public Integer getPopulation(PopulationMeasure measure, Demographic demg) {
+        return populations.get(measure.ordinal() + demg.ordinal()).getValue();
+    }
+
+    public List<Integer> getPopulation(PopulationMeasure measure) {
+        return populations.stream().filter(p -> p.getPopulationMeasureType() == measure)
+                .map(p -> p.getValue())
+                .collect(Collectors.toList());
     }
 
     public District getRandDistrict(){
         return districts.get((int)(Math.random()*districts.size()));
     }
 
-
-    //replace stuff in other areas.
-    public Population computePopulation() {
-        // get population by aggregating the plan's District populations
-        Population res = new Population();
-        for (District d: districts) {
-            res.combinePopulations(d.getPopulation());
-        }
-        return res;
-    }
-
-    public Population getPopulation(){
-        return this.population;
-    }
-
-    public Election getElection() {
-        return election;
-    }
-
-    public void setElection(Election election) {
-        this.election = election;
-    }
-
-    public void setPopulation(Population population) {
-        this.population = population;
-    }
-
     public DistrictingDTO makeDistrictDTO(){
-        return new DistrictingDTO(this.measures.getPolsbyPopperScore(),this.measures.getPopulationEqualityScore(),this.election);
+        return null;
+//        return new DistrictingDTO(this.measures.getPolsbyPopperScore(),this.measures.getPopulationEqualityScore(),this.election);
     }
 
     public PlanDTO makePlanDTO(){
-        List<Population>distPopulations = new ArrayList<>();
-        for(District d:districts){
-            distPopulations.add(d.getPopulation());
-        }
-        return new PlanDTO(districts.size(),this.measures.getPolsbyPopperScore(),
-                this.measures.getPopulationEqualityScore(),this.election,distPopulations);
+        return null;
+//        List<Population>distPopulations = new ArrayList<>();
+//        for(District d:districts){
+//            distPopulations.add(d.getPopulation());
+//        }
+//        return new PlanDTO(districts.size(),this.measures.getPolsbyPopperScore(),
+//                this.measures.getPopulationEqualityScore(),this.election,distPopulations);
     }
 
     public double computePolsbyPopper(District removedDistrict,District addedDistrict){
@@ -142,8 +159,9 @@ public class Districting {
                 &&d.getId()!=addedDistrict.getId()).collect(Collectors.toList());
         double removedPolsby=polsbyHelper(removedDistrict);
         double addedPolsby=polsbyHelper(addedDistrict);
-        return (otherDistricts.stream().mapToDouble(d->d.getMeasures().getPolsbyPopperScore())
-                .reduce(0,(a,b)->a+b)+removedPolsby+addedPolsby)/districts.size();
+        return 0;
+//        return (otherDistricts.stream().mapToDouble(d->d.getMeasures().getPolsbyPopperScore())
+//                .reduce(0,(a,b)->a+b)+removedPolsby+addedPolsby)/districts.size();
 
     }
 
@@ -159,16 +177,4 @@ public class Districting {
         return (Math.PI*4*area)/(Math.pow(perimeter,2));
     }
 
-    @Override
-    public String toString() {
-        return "Districting{" +
-                "id=" + id +
-               /* ", state=" +state.getId()  +*/
-                ", geometry=" + geometries.toString() +
-                ", populationEquality=" + this.measures.getPopulationEqualityScore() +
-                ", polsbyPopper=" + this.measures.getPolsbyPopperScore() +
-                /*", numberOfOpportunity=" + numberOfOpportunity +*/
-                ", imageUrl='" + imageUrl + '\'' +
-                '}';
-    }
 }

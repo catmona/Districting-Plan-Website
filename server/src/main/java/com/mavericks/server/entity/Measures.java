@@ -1,9 +1,15 @@
 package com.mavericks.server.entity;
 
+import javax.persistence.Embeddable;
+
+@Embeddable
 public class Measures {
 
     private double populationEqualityScore;
+
     private double polsbyPopperScore;
+
+    public  Measures() {}
 
     public Measures(double populationEqualityScore, double polsbyPopperScore) {
         this.populationEqualityScore = populationEqualityScore;

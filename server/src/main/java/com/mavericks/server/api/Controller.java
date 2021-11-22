@@ -3,10 +3,9 @@ package com.mavericks.server.api;
 import com.mavericks.server.dto.DistrictingDTO;
 import com.mavericks.server.dto.PlanDTO;
 import com.mavericks.server.dto.StateDTO;
-import com.mavericks.server.entity.Basis;
 import com.mavericks.server.entity.Box;
-import com.mavericks.server.entity.BoxWhisker;
-import com.mavericks.server.entity.PopulationMeasure;
+import com.mavericks.server.enumeration.Basis;
+import com.mavericks.server.enumeration.PopulationMeasure;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -45,7 +44,7 @@ public class Controller {
     }
 
     @GetMapping(value = "districtingSummary")
-    public PlanDTO handleDistrictingSummary(@RequestParam("districtingId")long districtingId,
+    public PlanDTO handleDistrictingSummary(@RequestParam("districtingId")String districtingId,
                                             HttpSession session){
         return handler.getDistrictingSummary(districtingId,session);
     }
@@ -61,7 +60,10 @@ public class Controller {
                                 @RequestParam("enacted")boolean enacted,
                                 @RequestParam("current")boolean current,
                                 @RequestParam("postAlg")boolean postAlg, HttpSession session){
-        return handler.getBoxWhisker(districtingId,mapBasisToEnum(basis),enacted,current,postAlg,session);
+
+        // TODO implement this, i think it was meant to return a list of district BoxWhiskers for a certain basis
+        handler.getBoxWhisker(districtingId,mapBasisToEnum(basis),enacted,current,postAlg,session);
+        return null;
     }
 
     @PostMapping("mapfilter")
@@ -73,17 +75,17 @@ public class Controller {
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("algorithmlimits")
-    public long handleLimits(@RequestParam("minPopulationEquality") double minPopulationEquality,
-                             @RequestParam("minCompactness") double minCompactness){
-        return handler.setLimits(minPopulationEquality,minCompactness);
-    }
-
-    @GetMapping(value = "algorithm")
-    public Map<String,Object> handleStartAlgorithm(@RequestParam("threadId")long threadId,
-                                                   @RequestParam("districingNum")int districtingNum,HttpSession session){
-        return handler.startAlgorithm(threadId,districtingNum,session);
-    }
+//    @PostMapping("algorithmlimits")
+//    public long handleLimits(@RequestParam("minPopulationEquality") double minPopulationEquality,
+//                             @RequestParam("minCompactness") double minCompactness){
+//        return handler.setLimits(minPopulationEquality,minCompactness);
+//    }
+//
+//    @GetMapping(value = "algorithm")
+//    public Map<String,Object> handleStartAlgorithm(@RequestParam("threadId")long threadId,
+//                                                   @RequestParam("districingNum")int districtingNum,HttpSession session){
+//        return handler.startAlgorithm(threadId,districtingNum,session);
+//    }
 
     @GetMapping(value="algorithmProgress")
     public Map<String,Object> handleGetProgress(@RequestParam("threadId") long threadId){
@@ -101,7 +103,7 @@ public class Controller {
     }
 
     private PopulationMeasure mapPopToEnum(String s){
-        switch (s){
+        switch (s.toUpperCase()){
             case "TOTAL":
                 return PopulationMeasure.TOTAL;
             case "CVAP":

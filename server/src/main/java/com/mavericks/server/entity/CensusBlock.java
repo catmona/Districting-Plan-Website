@@ -1,63 +1,81 @@
 package com.mavericks.server.entity;
 
+import com.mavericks.server.enumeration.Demographic;
+import com.mavericks.server.enumeration.PopulationMeasure;
+import com.mavericks.server.enumeration.Region;
 import org.locationtech.jts.geom.Geometry;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.*;
 import java.util.List;
-import java.util.Map;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "CensusBlocks")
 public class CensusBlock {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "precinctId")
-    private Precinct precinct;
-    private Geometry geometry;
+    @Column(name = "id", length = 50, nullable = false)
+    private String id;
 
+    @Column(name = "districtId", length = 50, nullable = false)
+    private String districtId;
+
+    @Column(name = "precinctId", length = 50, nullable = false)
+    private String precinctId;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "geometryId", referencedColumnName = "id")
+    private CensusBlockGeometry cbGeometry;
+
+    @Column(name = "isBorderBlock", nullable = false)
     private boolean isBorderBlock;
 
-    @OneToMany(mappedBy = "censusBlock", fetch = FetchType.LAZY)
-    private List<CensusBlockPopulation> censusBlockPopulations;
-
-    @Transient
-    private Population population;
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "regionId")
+    @OrderBy("populationMeasureType, demographicType")
+    private List<Population> populations;
 
     public CensusBlock() {}
 
-    public CensusBlock(long id, Precinct precinct, Geometry geometry, boolean isBorderBlock) {
-        this.id = id;
-        this.precinct = precinct;
-        this.geometry = geometry;
+    public CensusBlock(String districtId, String precinctId, boolean isBorderBlock) {
+        this.districtId = districtId;
+        this.precinctId = precinctId;
         this.isBorderBlock = isBorderBlock;
-
     }
 
-    public long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
-    public Precinct getPrecinct() {
-        return precinct;
+    public String getDistrictId() {
+        return districtId;
     }
 
-    public void setPrecinct(Precinct precinct) {
-        this.precinct = precinct;
+    public void setDistrictId(String districtId) {
+        this.districtId = districtId;
+    }
+
+    public String getPrecinctId() {
+        return precinctId;
+    }
+
+    public void setPrecinctId(String precinctId) {
+        this.precinctId = precinctId;
+    }
+
+    public CensusBlockGeometry getCbGeometry() {
+        return cbGeometry;
+    }
+
+    public void setCbGeometry(CensusBlockGeometry cbGeometry) {
+        this.cbGeometry = cbGeometry;
     }
 
     public Geometry getGeometry() {
-        return geometry;
-    }
-
-    public void setGeometry(Geometry geometry) {
-        this.geometry = geometry;
+        return cbGeometry.getGeometry();
     }
 
     public boolean isBorderBlock() {
@@ -68,20 +86,25 @@ public class CensusBlock {
         isBorderBlock = borderBlock;
     }
 
-    public Population getPopulation() {
-        // get population by aggregating the populations
-        Population res = new Population();
-        return res;
+    public List<Population> getPopulations() {
+        return populations;
     }
 
-    @Override
-    public String toString() {
-        return "CensusBlock{" +
-                "id=" + id +
-                ", precinct=" + precinct +
-                ", geometry=" + geometry +
-                ", isBorderBlock=" + isBorderBlock +
-                '}';
+    public void setPopulations(List<Population> populations) {
+        this.populations = populations;
     }
 
+    public Region getRegion() {
+        return Region.CENSUS_BLOCK;
+    }
+
+    public Integer getPopulation(PopulationMeasure measure, Demographic demg) {
+        return populations.get(measure.ordinal() + demg.ordinal()).getValue();
+    }
+
+    public List<Integer> getPopulation(PopulationMeasure measure) {
+        return populations.stream().filter(p -> p.getPopulationMeasureType() == measure)
+                .map(p -> p.getValue())
+                .collect(Collectors.toList());
+    }
 }

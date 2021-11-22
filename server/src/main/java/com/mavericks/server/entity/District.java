@@ -1,101 +1,127 @@
 package com.mavericks.server.entity;
 
+import com.mavericks.server.SetCustom;
+import com.mavericks.server.converter.GeometryConverterString;
+import com.mavericks.server.enumeration.Basis;
+import com.mavericks.server.enumeration.Demographic;
+import com.mavericks.server.enumeration.PopulationMeasure;
+import com.mavericks.server.enumeration.Region;
+import org.hibernate.annotations.Where;
 import org.locationtech.jts.geom.Geometry;
 import org.wololo.geojson.Feature;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "Districts")
 public class District {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
-    private String name;
-    private int districtNumber;
+    @Column(name = "id", length = 50, nullable = false)
+    private String id;
 
-    //we don't need this
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "districtingId")
-    private Districting districtingPlan;
+    @Column(name = "districtingId", length = 50, nullable = false)
+    private String districtingId;
 
-    @Transient
+    @Convert(converter = GeometryConverterString.class)
+    @Column(name = "geometry")
     private Geometry geometry;
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "DistrictNeighbors", joinColumns = {@JoinColumn(name = "districtId")}, inverseJoinColumns = {@JoinColumn(name = "neighborId")})
-    private List<District> neighbors; // should be a Set or Hashset type to reduce overhead
-    @OneToMany(mappedBy = "district", fetch = FetchType.LAZY)
-    private List<Precinct> precincts;
 
-    @Transient
-    private List<CensusBlock> blocks;
-    @Transient
-    private Measures measures;
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "districtId")
+    private List<DistrictElection> electionData;
 
-    @Transient
-    private Population population;
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "districtId")
+    private List<CensusBlock> censusBlocks;
+
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "districtId")
+    @Where(clause = "isBorderBlock='1'")
+    private List<CensusBlock> borderBlocks;
+
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "regionId")
+    @OrderBy("populationMeasureType, demographicType")
+    private List<Population> populations;
 
     public District() {}
 
-    public District(long id, Districting districtingPlan, Geometry geometry) {
-        this.id = id;
-        this.districtingPlan = districtingPlan;
-        this.geometry = geometry;
+    public District(String districtingId) {
+        this.districtingId = districtingId;
     }
 
-    public long getId() {
+    public String getId() {
         return id;
     }
-    public void setId(long id) {
+
+    public void setId(String id) {
         this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Districting getDistrictingPlan() {
-        return districtingPlan;
-    }
-    public void setDistrictingPlan(Districting districtingPlan) {
-        this.districtingPlan = districtingPlan;
     }
 
     public Geometry getGeometry() {
         return geometry;
     }
+
     public void setGeometry(Geometry geometry) {
         this.geometry = geometry;
     }
 
-    public District getRandNeighbor(){
-        return neighbors.get((int)(Math.random()*neighbors.size()));
+    public String getDistrictingId() {
+        return districtingId;
     }
 
-    /*
-    public CensusBlock getRandCensusBlock(){
-        return borderBlocks.get((int)(Math.random()*borderBlocks.size()));
-    }*/
-
-    public Population computePopulation() {
-        // get population by aggregating the plan's District populations
-        Population res = new Population();
-        for (Precinct p: precincts) {
-            res.combinePopulations(p.getPopulation());
-        }
-        return res;
+    public void setDistrictingId(String districtingId) {
+        this.districtingId = districtingId;
     }
 
-    public Population getPopulation(){
-        return this.population;
+    public List<CensusBlock> getCensusBlocks() {
+        return censusBlocks;
     }
 
+    public void setCensusBlocks(List<CensusBlock> censusBlocks) {
+        this.censusBlocks = censusBlocks;
+    }
 
+    public List<DistrictElection> getElectionData() {
+        return electionData;
+    }
+
+    public void setElectionData(List<DistrictElection> electionData) {
+        this.electionData = electionData;
+    }
+
+    public List<Population> getPopulations() {
+        return populations;
+    }
+
+    public void setPopulations(List<Population> populations) {
+        this.populations = populations;
+    }
+
+    public Region getRegion() {
+        return Region.DISTRICT;
+    }
+
+    /* Other class methods below */
+
+    public Integer getPopulation(PopulationMeasure measure, Demographic demg) {
+        return populations.get(measure.ordinal() + demg.ordinal()).getValue();
+    }
+
+    public List<Integer> getPopulation(PopulationMeasure measure) {
+        return populations.stream().filter(p -> p.getPopulationMeasureType() == measure)
+                .map(p -> p.getValue())
+                .collect(Collectors.toList());
+    }
+
+    public DistrictElection getElectionDataByElection(String electionId) {
+        Optional<DistrictElection> data = electionData.stream().filter(e -> e.getElectionId() == electionId).findFirst();
+        return data.isPresent() ? data.get() : null;
+    }
 
     public void removeCensusBlock(CensusBlock cb){
 
@@ -103,37 +129,5 @@ public class District {
 
     public void addCensusBlock(CensusBlock cb){
 
-    }
-
-    public void setPopulation(Population population) {
-        this.population = population;
-    }
-
-    public List<CensusBlock> getBlocks() {
-        return blocks;
-    }
-
-    public void setBlocks(List<CensusBlock> blocks) {
-        this.blocks = blocks;
-    }
-
-    public Measures getMeasures() {
-        return measures;
-    }
-
-    public void setMeasures(Measures measures) {
-        this.measures = measures;
-    }
-
-    public CensusBlock getRandCensusBlock(){
-        return blocks.get((int)(Math.random()*blocks.size()));
-    }
-
-    public int getDistrictNumber() {
-        return districtNumber;
-    }
-
-    public void setDistrictNumber(int districtNumber) {
-        this.districtNumber = districtNumber;
     }
 }
