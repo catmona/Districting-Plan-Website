@@ -29,10 +29,8 @@ function Map(props) {
 
             focusState(stateName);
 
-            let v = "visible";
-            showDistrictBoundaries ? v = "visible" : v = "none";
-            //togle boundaries based on filter
-            map.current.setLayoutProperty(stateName + "-district-source-layer-outline", 'visibility', v)
+            toggleBoundaries(stateName);
+
 
         } // initialize map only once
         else {
@@ -49,6 +47,17 @@ function Map(props) {
             });
         }
     });
+
+    function toggleBoundaries() {
+        let v = "visible";
+
+        //district boundaries
+        showDistrictBoundaries ? v = "visible" : v = "none";
+        let distictBoundaryLayer = stateName + "-district-source-layer-outline";
+        if(map.current.getSource(distictBoundaryLayer))
+            map.current.setLayoutProperty(distictBoundaryLayer, 'visibility', v)
+    }
+    
 
     function getStateGeoJSON() {
         if (districtingData && districtingData.featureCollection) { // user selected a state
@@ -173,8 +182,8 @@ function Map(props) {
                         type="checkbox" 
                         className="dark-checkbox" 
                         id="map-filter-counties" 
-                        checked = {true}
                         label="counties"
+                        disabled
                     />
                     <Form.Check //precints
                         type="checkbox" 

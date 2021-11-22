@@ -1,14 +1,12 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { Modal, Button, Form} from 'react-bootstrap';
 
-function AlgorithmModal(props) {
+function AlgLimitsModal(props) {
     const [popEqualityLim, setPopEqualityLim] = useState(1)
     const [compactnessLim, setCompactnessLim] = useState(1)
     const [algReady, setAlgReady] = useState(false)
 
-    useEffect(() => {
-
-    });
+    const {showProgress, ...rest} = props;
 
     const setAlgLimits = (event) => {
         event.preventDefault();
@@ -20,10 +18,13 @@ function AlgorithmModal(props) {
 
     const startAlg = () => {
         console.log("alg started")
+        //TODO fetch
+        props.showProgress(true);
+        props.onHide();
     }
 
     return (
-        <Modal {...props} size="lg" centered className="dark-modal">
+        <Modal {...rest} size="lg" centered className="dark-modal">
             <Modal.Header closeButton>
                 <Modal.Title>
                     Set Equalization Constraints
@@ -78,4 +79,4 @@ function AlgorithmModal(props) {
     )
 }
 
-export default AlgorithmModal
+export default AlgLimitsModal;
