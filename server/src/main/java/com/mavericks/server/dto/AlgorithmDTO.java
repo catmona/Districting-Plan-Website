@@ -6,14 +6,17 @@ import org.locationtech.jts.geom.Geometry;
 import org.wololo.geojson.FeatureCollection;
 import org.wololo.geojson.GeoJSON;
 
+import java.util.List;
+
 public class AlgorithmDTO {
     private Measures measures;
     private int iterations;
     private boolean isRunning;
     private FeatureCollection geometry;
-    private Population population;
+    private List<Population> population;
 
-    public AlgorithmDTO(Measures measures, int iterations, boolean isRunning, FeatureCollection geometry, Population population) {
+    public AlgorithmDTO(Measures measures, int iterations, boolean isRunning, FeatureCollection geometry,
+                        List<Population> population) {
         this.measures = measures;
         this.iterations = iterations;
         this.isRunning = isRunning;

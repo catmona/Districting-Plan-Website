@@ -52,10 +52,48 @@ public class District {
     @OrderBy("populationMeasureType, demographicType")
     private List<Population> populations;
 
+    @Transient
+    private int districtNumber;
+
     public District() {}
 
     public District(String districtingId) {
         this.districtingId = districtingId;
+    }
+
+    public int getDistrictNumber(){
+        return districtNumber;
+    }
+
+    public void removeCensusBlock(CensusBlock cb){
+        cb.getNeighbors().stream().forEach(c->c.setBorderBlock(true));
+        geometry=geometry.difference(cb.getGeometry());
+    }
+
+    public void addCensusBlock(District oldDistrict,CensusBlock cb,Districting plan){
+        List<Geometry>districtGeoms=plan.getDistricts().stream().filter(d->d.districtingId!=oldDistrict.id)
+                .map(d->d.geometry).collect(Collectors.toList());
+        Geometry cutDistrict = oldDistrict.geometry.difference(cb.getGeometry());
+        districtGeoms.add(cutDistrict);
+        List<CensusBlock>neighbors=cb.getNeighbors().stream().filter(c->c.getDistrictId()!=oldDistrict.districtingId)
+                .collect(Collectors.toList());
+        cb.setDistrictId(districtingId);
+        for(CensusBlock neigh:neighbors){
+            boolean border=false;
+            for(Geometry geom:districtGeoms){
+                if(neigh.getGeometry().touches(geom)){
+                    border=true;
+                }
+            }
+            neigh.setBorderBlock(border);
+        }
+        geometry=geometry.union(cb.getGeometry());
+
+    }
+
+
+    public CensusBlock getRandCensusBlock(){
+        return borderBlocks.get((int)(Math.random()*populations.size()));
     }
 
     public String getId() {
@@ -135,15 +173,4 @@ public class District {
         return data.isPresent() ? data.get() : null;
     }
 
-    public District getRandomNeighbor(){
-        return neighbors.get((int)(Math.random()*neighbors.size()));
-    }
-
-    public void removeCensusBlock(CensusBlock cb){
-
-    }
-
-    public void addCensusBlock(CensusBlock cb){
-
-    }
 }

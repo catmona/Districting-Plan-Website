@@ -55,6 +55,26 @@ public class Districting {
         this.measures = measures;
     }
 
+    public District getRandDistrict(){
+        District dist = districts.get((int)(Math.random()*districts.size()));
+        while(dist.getCensusBlocks().size()==0){
+            dist = districts.get((int)(Math.random()*districts.size()));
+        }
+        return dist;
+    }
+
+    public District findNeighboringDistrict(CensusBlock cb){
+        for(District d:districts){
+            if(cb.getGeometry().touches(d.getGeometry())){
+                return d;
+            }
+        }
+
+        return null;
+    }
+
+
+
     public String getId() {
         return id;
     }
@@ -135,9 +155,12 @@ public class Districting {
                 .collect(Collectors.toList());
     }
 
-    public District getRandDistrict(){
-        return districts.get((int)(Math.random()*districts.size()));
+    public List<Population>getPopulation(){
+        return populations;
     }
+
+
+
 
     public DistrictingDTO makeDistrictDTO(){
         return null;
