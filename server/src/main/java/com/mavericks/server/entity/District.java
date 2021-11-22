@@ -34,10 +34,6 @@ public class District {
     @JoinColumn(name = "districtId")
     private List<DistrictElection> electionData;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "DistrictNeighbors", joinColumns = {@JoinColumn(name = "districtId")}, inverseJoinColumns = {@JoinColumn(name = "neighborId")})
-    private List<District> neighbors;
-
     @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "districtId")
     private List<CensusBlock> censusBlocks;
@@ -136,14 +132,6 @@ public class District {
         this.electionData = electionData;
     }
 
-    public List<District> getNeighbors() {
-        return neighbors;
-    }
-
-    public void setNeighbors(List<District> neighbors) {
-        this.neighbors = neighbors;
-    }
-
     public List<Population> getPopulations() {
         return populations;
     }
@@ -173,4 +161,14 @@ public class District {
         return data.isPresent() ? data.get() : null;
     }
 
+<<<<<<< HEAD
+=======
+    public void removeCensusBlock(CensusBlock cb){
+
+    }
+
+    public void addCensusBlock(CensusBlock cb){
+
+    }
+>>>>>>> c5ea75860e323022afdd6583a399806a86f78c22
 }

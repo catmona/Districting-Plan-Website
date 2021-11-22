@@ -2,6 +2,10 @@
 $bgColor: #1f1f1f;
 $fgColor: #161616;
 $accentColor: #4285F4;
+$accentColor2: #28a745;
+$accentColor3: #ffc107;
+$accentColor4: #dc3545;
+$accentColor5: #17a2b8;
 $textColor: whitesmoke;
 /* #endregion */
 
@@ -273,36 +277,49 @@ h3 {
 /* #region StatGraphs */
 .dark-tabpanel {
     background-color: $fgColor;
+    width: 100%;
+    height: 325px;
 }
 .dark-chart {
-    margin-top: -3%;
+    position: relative;
+    margin-top: -1.5%;
+    height: 295px;
+    max-width: 600px;
 }
 .vertical-tab-bar {
     min-width: 165px;
     max-width: 165px;
 }
-#box-whisker-wrapper {
-    display: flex;
-    background-color: $fgColor;
+#box-whisker-container {
+    position: static;
+    width: 100%;
 }
-#box-whisker-left {
-    flex: 0 0 65%;
+#box-whisker {
+    height: 100% !important;
 }
-#box-whisker-right {
-    flex: 1;
-    background-color: $fgColor;
-    margin-left: 10px;
-    margin-bottom: 5px;
+#box-whisker-form {
+    background-color: $bgColor;
+    height: 260px;
+    max-width: 600px;
+    padding: 5px;
     margin-top: -1.5%;
-    max-height: 300px !important;
+    margin-left: 0%;
 }
-#box-whisker-scrollable {
-    overflow-y: scroll;
-    max-height: 260px;
+#box-whisker-form-left {
+    height: 275px;
+}
+#box-whisker-form-right {
+    overflow-y: auto;
+    max-height: 255px;
+    border-left: 1px solid grey;
+}
+#box-whisker-button-container {
+    max-width: 600px;
+    margin-left: 1px;
 }
 #box-whisker-submit {
-    margin-left: 30%;
-    margin-top: 7px;
+    margin-bottom: 5px;
+    margin-top: 5px;
 }
 #tab-section {
     min-width: 165px;
@@ -314,5 +331,147 @@ h3 {
     margin-top: 40%;
     max-width: 150px;
     white-space: normal;
+}
+/* #endregion */
+
+/* #region modal */
+.dark-modal {
+    .modal-content {
+        background-color: $bgColor !important;
+    }
+    div {
+        color: $textColor;
+    }
+    .btn-close {
+        background-color: grey !important;
+    }
+    .modal-footer {
+        background-color: $fgColor;
+        button {
+            border: 1px solid black;
+        }
+    }
+}
+.modal-sizingtest {
+    width: 60vw;
+    max-width: 60vw;
+    height: 30vw;
+}
+.modal-spaced-footer {
+    display: flex;
+    justify-content: space-between;
+    padding: 2px;
+    padding-left: 11.5%;
+    padding-right: 11%;
+    padding-bottom: 1.5%;
+    padding-top: 2%;
+    border-top: 1px solid white;
+}
+/* #endregion */
+
+/* #region measure-table */
+.MuiTooltip-tooltip {
+    background-color: #747474 !important;
+}
+.formula-text {
+    color: $textColor;
+    font-size: 15px;
+}
+.formula-svg {
+    max-width: 290px;
+    max-height: 290px;
+    filter: invert(100%) brightness(100%);
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+.measure-table {
+    width: 100% !important;
+}
+/* #endregion */
+
+/* #region algLimits */
+.constraint-group {
+    background-color: $fgColor;
+    padding: 5px;
+    max-width: 80%;
+    margin: auto;
+    margin-bottom: 1%;
+    margin-top: 1%;
+    border: 1px solid black;
+}
+.constraint-label {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px;
+
+    h3 {
+        display: inline;
+        color: $accentColor
+    }
+    label {
+        font-size: 20px;
+    }
+}
+.constraint-slider {
+    padding-left: 6%;
+    padding-right: 6%;
+}
+/* #endregion */
+
+/* #region algProgress */
+.progress-block {
+    background-color: $fgColor;
+    border: 1px solid black;
+    padding: 0.5%;
+    max-width: 32%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 2%;
+    display:flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.progress-label {
+    text-align: center;
+}
+.progress-value {
+    text-align: center;
+}
+#progress-iterations {
+    color: $accentColor;
+}
+#progress-equality {
+    color: $accentColor3;
+}
+#progress-compactness {
+    color: $accentColor5;
+}
+.progress-graph {
+    background-color: $fgColor;
+    border: 1px solid black;
+    max-width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 2%;
+}
+#progress-time {
+    color: $accentColor2;
+}
+#progress-time-remaining {
+    color: $accentColor4;
+}
+.progress-bar {
+    max-width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 0.5%;
+    margin-bottom: 1%;
+    background-color: transparent;
+    div {
+        margin: 0;
+        max-width: 100%;
+        background-color: $fgColor;
+    }
 }
 /* #endregion */

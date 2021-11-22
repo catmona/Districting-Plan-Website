@@ -35,6 +35,12 @@ public class CensusBlock {
     @OrderBy("populationMeasureType, demographicType")
     private List<Population> populations;
 
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "CensusBlockNeighbors",
+            joinColumns = {@JoinColumn(name = "censusBlockId")},
+            inverseJoinColumns = {@JoinColumn(name = "neighborId")})
+    private List<CensusBlock> neighbors;
+
     public CensusBlock() {}
 
     public CensusBlock(String districtId, String precinctId, boolean isBorderBlock) {
