@@ -7,6 +7,8 @@ import com.mavericks.server.entity.Districting;
 import com.mavericks.server.entity.Measures;
 import com.mavericks.server.enumeration.Demographic;
 import com.mavericks.server.enumeration.PopulationMeasure;
+import com.mavericks.server.repository.CensusBlockRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.wololo.geojson.Feature;
 import org.wololo.geojson.GeoJSONFactory;
 import org.wololo.jts2geojson.GeoJSONReader;
@@ -32,6 +34,9 @@ public class Algorithm implements Runnable{
     private int failedCbMoves;
     private int maxFaildCbMoves;
     private Districting inProgressPlan;
+
+    @Autowired
+    private CensusBlockRepository repo;
 
     public Algorithm(double minPopulationEquality, double minCompactness) {
         this.minPopulationEquality = minPopulationEquality;

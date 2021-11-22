@@ -29,6 +29,7 @@ public class CensusBlock {
     @Column(name = "isBorderBlock", nullable = false)
     private boolean isBorderBlock;
 
+
     @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "regionId")
     @OrderBy("populationMeasureType, demographicType")

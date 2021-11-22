@@ -71,8 +71,8 @@ public class District {
     }
 
     public void addCensusBlock(District oldDistrict,CensusBlock cb,Districting plan){
-        List<Geometry>districtGeoms=plan.getDistricts().stream().filter(d->d.districtingId!=oldDistrict.id)
-                .map(d->d.geometry).collect(Collectors.toList());
+        List<Geometry>districtGeoms=plan.getDistricts().stream().filter(d->d.districtingId!=oldDistrict.id
+                        && this.id!=d.districtingId).map(d->d.geometry).collect(Collectors.toList());
         Geometry cutDistrict = oldDistrict.geometry.difference(cb.getGeometry());
         districtGeoms.add(cutDistrict);
         List<CensusBlock>neighbors=cb.getNeighbors().stream().filter(c->c.getDistrictId()!=oldDistrict.districtingId)
