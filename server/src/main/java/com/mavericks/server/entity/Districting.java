@@ -45,7 +45,6 @@ public class Districting {
 
     @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "regionId")
-    @Where(clause = "regionType='DISTRICTING'")
     private List<Population> populations;
 
     public Districting() {}
@@ -111,7 +110,13 @@ public class Districting {
         this.precinctGeoJSON = precinctGeoJSON;
     }
 
+    public List<Population> getPopulations() {
+        return populations;
+    }
 
+    public void setPopulations(List<Population> populations) {
+        this.populations = populations;
+    }
 
     public Region getRegion() {
         return Region.DISTRICTING;

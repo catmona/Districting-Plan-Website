@@ -38,6 +38,10 @@ public class District {
     @JoinColumn(name = "districtId")
     private List<CensusBlock> censusBlocks;
 
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "regionId")
+    private List<Population> populations;
+
     public District() {}
 
     public District(String districtingId) {
@@ -90,6 +94,14 @@ public class District {
 
     public void setNeighbors(List<District> neighbors) {
         this.neighbors = neighbors;
+    }
+
+    public List<Population> getPopulations() {
+        return populations;
+    }
+
+    public void setPopulations(List<Population> populations) {
+        this.populations = populations;
     }
 
     public Region getRegion() {

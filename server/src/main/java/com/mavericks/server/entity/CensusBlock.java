@@ -30,6 +30,10 @@ public class CensusBlock {
     @JoinTable(name = "CensusBlockNeighbors", joinColumns = {@JoinColumn(name = "censusBlockId")}, inverseJoinColumns = {@JoinColumn(name = "neighborId")})
     private List<CensusBlock> neighbors;
 
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "regionId")
+    private List<Population> populations;
+
     public CensusBlock() {}
 
     public CensusBlock(String districtId, String precinctId, boolean isBorderBlock) {
@@ -88,6 +92,14 @@ public class CensusBlock {
 
     public void setNeighbors(List<CensusBlock> neighbors) {
         this.neighbors = neighbors;
+    }
+
+    public List<Population> getPopulations() {
+        return populations;
+    }
+
+    public void setPopulations(List<Population> populations) {
+        this.populations = populations;
     }
 
     public Region getRegion() {
