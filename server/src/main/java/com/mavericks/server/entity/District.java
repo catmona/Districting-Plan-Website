@@ -8,6 +8,8 @@ import com.mavericks.server.enumeration.PopulationMeasure;
 import com.mavericks.server.enumeration.Region;
 import org.hibernate.annotations.Where;
 import org.locationtech.jts.geom.Geometry;
+import org.locationtech.jts.geom.GeometryCollection;
+import org.locationtech.jts.geom.GeometryFactory;
 import org.wololo.geojson.Feature;
 
 import javax.persistence.*;
@@ -68,10 +70,7 @@ public class District {
     }
 
     public void redraw(){
-        for(Geometry geo :cbToAdd){
-            this.geometry=geometry.union(geo);
-        }
-
+        this.geometry=new GeometryCollection((Geometry[]) cbToAdd.toArray(),new GeometryFactory()).union();
         for(Geometry geo:cbToRemove){
             this.geometry=geometry.difference(geo);
         }
