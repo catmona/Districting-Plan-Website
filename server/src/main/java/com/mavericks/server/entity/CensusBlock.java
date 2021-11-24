@@ -34,11 +34,11 @@ public class CensusBlock {
     @OrderBy("populationMeasureType, demographicType")
     private List<Population> populations;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "CensusBlockNeighbors",
-            joinColumns = {@JoinColumn(name = "censusBlockId")},
-            inverseJoinColumns = {@JoinColumn(name = "neighborId")})
-    private List<CensusBlock> neighbors;
+    @ElementCollection(fetch = FetchType.LAZY)
+    @CollectionTable(name = "CensusBlockNeighbors",
+            joinColumns = @JoinColumn(name = "censusBlockId", referencedColumnName = "id"))
+    @Column(name = "neighborId")
+    private List<String> neighborIds;
 
     public CensusBlock() {}
 
@@ -98,6 +98,14 @@ public class CensusBlock {
 
     public void setPopulations(List<Population> populations) {
         this.populations = populations;
+    }
+
+    public List<String> getNeighborIds() {
+        return neighborIds;
+    }
+
+    public void setNeighborIds(List<String> neighborIds) {
+        this.neighborIds = neighborIds;
     }
 
     public Region getRegion() {

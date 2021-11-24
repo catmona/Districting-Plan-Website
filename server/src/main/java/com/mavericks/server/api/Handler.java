@@ -44,6 +44,16 @@ public class Handler {
         this.jobs = jobs;
     }
 
+    public void test(HttpSession session) {
+        // temporarily used this to test if CB map in District works, can be deleted if no one wants to use it
+        State state = stateRepo.getById("AR");
+        District d = state.getEnacted().getDistricts().get(0);
+        Map<String,CensusBlock> m = d.getCensusBlocks();
+        CensusBlock cb = m.get("650959502002103");
+        List<String> ids = cb.getNeighborIds();
+        int a = 1+1;
+    }
+
     /**
      * Get the summary information for a state's enacted districting.
      * @param stateName State abbreviation

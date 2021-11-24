@@ -1,19 +1,15 @@
 package com.mavericks.server.entity;
 
-import com.mavericks.server.SetCustom;
 import com.mavericks.server.converter.GeometryConverterString;
-import com.mavericks.server.enumeration.Basis;
 import com.mavericks.server.enumeration.Demographic;
 import com.mavericks.server.enumeration.PopulationMeasure;
 import com.mavericks.server.enumeration.Region;
-import org.hibernate.annotations.Where;
 import org.locationtech.jts.geom.Geometry;
-import org.wololo.geojson.Feature;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @Entity
@@ -36,12 +32,8 @@ public class District {
 
     @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "districtId")
-    private List<CensusBlock> censusBlocks;
-
-    @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "districtId")
-    @Where(clause = "isBorderBlock='1'")
-    private List<CensusBlock> borderBlocks;
+    @MapKey(name = "id")
+    private Map<String, CensusBlock> censusBlocks;
 
     @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "regionId")
@@ -78,11 +70,11 @@ public class District {
         this.districtingId = districtingId;
     }
 
-    public List<CensusBlock> getCensusBlocks() {
+    public Map<String, CensusBlock> getCensusBlocks() {
         return censusBlocks;
     }
 
-    public void setCensusBlocks(List<CensusBlock> censusBlocks) {
+    public void setCensusBlocks(Map<String, CensusBlock> censusBlocks) {
         this.censusBlocks = censusBlocks;
     }
 
