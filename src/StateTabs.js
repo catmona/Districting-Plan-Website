@@ -37,10 +37,23 @@ function StateTabs(props) {
         <Container fluid id="state-tabs">
             <Tabs activeKey={tab} onSelect={(k) => selectTab(k)}>
                 <Tab disabled={!stateSelected} eventKey="data-table" title="District Data">
-                    {(stateName)?<Statistics stateName={stateName} districtingData={props.districtingData} algResults={props.algResults} setAlgResults={props.setAlgResults} />:""}
+                    {(stateName) ? 
+                        <Statistics 
+                            showError={props.showError}
+                            stateName={stateName} 
+                            districtingData={props.districtingData} 
+                            algResults={props.algResults} 
+                            setAlgResults={props.setAlgResults} 
+                        /> 
+                    : ""}
                 </Tab>
                 <Tab disabled={!stateSelected} eventKey="random-districts" title="Districtings">
-                        <Districtings stateName={stateName} districtingPreviews={props.districtingPreviews} />
+                    <Districtings 
+                        showError={props.showError}
+                        stateName={stateName} 
+                        districtingPreviews={props.districtingPreviews} 
+                        setPlanType={props.setPlanType}
+                    />
                 </Tab>
                 <Tab disabled={props.algResults == null} eventKey="alg-results" title="Results">
 

@@ -18,7 +18,7 @@ function DistrictingPopover(props) {
     );
 
     return(
-       <OverlayTrigger trigger="hover" placement="right" overlay={pop}>
+       <OverlayTrigger trigger={"hover", "focus"} placement="right" overlay={pop}>
            <img alt="alt" className = "img-thumbnail mx-auto thumbnail districting-img"></img>
        </OverlayTrigger>
     );
@@ -87,7 +87,13 @@ function districtings(props) {
                 </Row>
             </Container>
             <>
-                <DistrictingModal stateName = {stateName} data = {districtingSummary} show = {showModal} onHide = {() => setShowModal(false)} />
+                <DistrictingModal 
+                    stateName = {stateName} 
+                    data = {districtingSummary} 
+                    show = {showModal} 
+                    onHide = {() => setShowModal(false)} 
+                    setPlanType = {props.setPlanType}
+                />
             </>
         </>
     )

@@ -69,7 +69,7 @@ function AlgLimitsModal(props) {
                         />
                     </Form.Group>
                 </Modal.Body>
-                <Modal.Footer class="modal-spaced-footer">
+                <Modal.Footer className="modal-spaced-footer">
                     <Button variant="primary" type="submit">Set Limits</Button>
                     <Button variant="success" onClick = {startAlg} disabled={!algReady}>Start Algorithm</Button>
                     <Button variant="danger" onClick = {props.onHide}>Cancel</Button>

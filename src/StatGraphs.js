@@ -21,7 +21,7 @@ function TabPanel(props) {
         >
             {value === index && (
                 <Box sx={{ p: 3 }}>
-                    <Typography>{children}</Typography>
+                    <Typography component={'span'}>{children}</Typography>
                 </Box> 
             )}
         </div>
@@ -120,19 +120,20 @@ function StatGraphs(props) {
         + "&postAlg=" + boxWhiskerEqualized,
         { credentials: 'include' })
         .then(res => res.json())
-                    .then(
-                        (result) => {
-                            var formattedData = formatResponseToBoxWhisker(result, props.popType, boxWhiskerBasis);
-                            setBoxes(formattedData.boxes);
-                            setPoints(formattedData.points);
-                            setLabel(formattedData.label);
-                            setShowModal(true);
-                            console.log(result)
-                        },
-                        (error) => {
-                            console.log(error)
-                        }
-                    );
+        .then(
+            (result) => {
+                var formattedData = formatResponseToBoxWhisker(result, props.popType, boxWhiskerBasis);
+                setBoxes(formattedData.boxes);
+                setPoints(formattedData.points);
+                setLabel(formattedData.label);
+                setShowModal(true);
+                console.log(result)
+            },
+            (error) => {
+                props.showError("Failed to get box and whisker data", error)
+                console.log(error);
+            }
+        );
     };
 
     const bgcolor = "#1f1f1f";

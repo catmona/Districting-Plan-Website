@@ -25,26 +25,35 @@ function Map(props) {
 
     useEffect(() => {
         if (map.current) {
-            getStateGeoJSON();
+            try {
+                getStateGeoJSON();
 
-            focusState(stateName);
+                focusState(stateName);
 
-            toggleBoundaries(stateName);
-
+                toggleBoundaries(stateName);
+            } catch(e) {
+                props.showError("Failed to update map", e)
+                console.log(e)
+            }
 
         } // initialize map only once
         else {
-            map.current = new mapboxgl.Map({
-                container: mapContainer.current,
-                style: 'mapbox://styles/goldyflakes/cktdkm1j51fmq18qj54fippsz',
-                center: [lng, lat],
-                zoom: zoom,
-                maxBounds: bounds,
-                });
+            try {
+                map.current = new mapboxgl.Map({
+                    container: mapContainer.current,
+                    style: 'mapbox://styles/goldyflakes/cktdkm1j51fmq18qj54fippsz',
+                    center: [lng, lat],
+                    zoom: zoom,
+                    maxBounds: bounds,
+                    });
 
-            map.current.on("load", function() {
-                getStateOverlay()
-            });
+                map.current.on("load", function() {
+                    getStateOverlay()
+                });
+            } catch (e) {
+                props.showError("Failed to start map", e)
+                console.log(e)
+            }
         }
     });
 

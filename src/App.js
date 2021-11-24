@@ -5,6 +5,7 @@ import { Row, Nav, Sonnet } from 'react-bootstrap';
 import Map from './Map';
 import Topbar from './Topbar';
 import StateTabs from './StateTabs';
+import ErrorModal from './ErrorModal';
 
 function App() {
     const [stateName, setStateName] = useState("");
@@ -12,6 +13,13 @@ function App() {
     const [districtingPreviews, setDistrictingPreviews] = useState(""); //tooltip summaries for SeaWulf districtings 
     const [algResults, setAlgResults] = useState(null);
     const [planType, setPlanType] = useState("");
+    const [showError, setShowError] = useState(false);
+    const [errorText, setErrorText] = useState({header: "", error: ""});
+
+    function showErrorModal(h, e) {
+        setErrorText({header: h, error: e});
+        setShowError(true);
+    }
 
     function getStateSummary(stateAbbr) {
         fetch("http://localhost:8080/api2/getStateSummary?state=" + stateAbbr, { credentials: 'include' })
@@ -22,7 +30,8 @@ function App() {
                     },
                     (error) => {
                         setDistrictingData(null)
-                        console.log(error)
+                        showErrorModal("Failed to get stats data", error);
+                        console.log(e)
                     }
                 );
         
@@ -51,33 +60,50 @@ function App() {
                             setDistrictingPreviews(result);
                         },
                         (error) => {
-                            console.log(error)
+                            showErrorModal("Failed to get districting previews", error)
+                            console.log(e)
                         }
                     );
     }
 
     return (
-        <Container fluid>
-            <Row>
-                <Col id="left-app">
-                    <Row>
-                        <Topbar stateName={stateName} setState={getStateSummary} planType={planType} />
+        <>
+            <Container fluid>
+                <Row>
+                    <Col id="left-app">
+                        <Row>
+                            <Topbar stateName={stateName} setState={getStateSummary} planType={planType} />
 
-                        <StateTabs 
+                            <StateTabs 
+                                showError={showErrorModal}
+                                stateName={stateName} 
+                                districtingData={districtingData} 
+                                algResults={algResults} 
+                                setAlgResults={setAlgResults} 
+                                getDistrictingPreviews={getDistrictingPreviews} 
+                                districtingPreviews={districtingPreviews}
+                                setPlanType={setPlanType}
+                            />
+                        </Row>
+                    </Col>
+                    <Col id="right-app">
+                        <Map 
+                            showError={showErrorModal}
                             stateName={stateName} 
                             districtingData={districtingData} 
-                            algResults={algResults} 
-                            setAlgResults={setAlgResults} 
-                            getDistrictingPreviews={getDistrictingPreviews} 
-                            districtingPreviews={districtingPreviews}
+                            setState={getStateSummary} 
                         />
-                    </Row>
-                </Col>
-                <Col id="right-app">
-                    <Map stateName={stateName} districtingData={districtingData} setState={getStateSummary} />
-                </Col>
-            </Row>
-        </Container>
+                    </Col>
+                </Row>
+            </Container>
+            <>
+                <ErrorModal 
+                    error={errorText} 
+                    show={showError} 
+                    backdrop="static"    
+                />
+            </>
+        </>
     );
 }
 

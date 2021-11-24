@@ -73,8 +73,17 @@ function Statistics(props) {
         <div>
             {state.isLoaded ? (state.stateData ? <div>
                 <CustomizedTables /> 
-                <StatGraphs stateData={state.stateData} onSelectPopType={getPopType} popType={popType}/> 
-                <EnhancedTable stateData={state.stateData} algResults={props.algResults} setAlgResults={props.setAlgResults} />
+                <StatGraphs 
+                    showError={props.showError}
+                    stateData={state.stateData} 
+                    onSelectPopType={getPopType} 
+                    popType={popType}
+                /> 
+                <EnhancedTable 
+                    stateData={state.stateData} 
+                    algResults={props.algResults} 
+                    setAlgResults={props.setAlgResults} 
+                />
             </div> : "") : <Box className = 'loading-container'><CircularProgress className = 'loading-icon'/></Box>}
         </div>
     );
