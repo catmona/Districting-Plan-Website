@@ -26,12 +26,6 @@ public class Controller {
         this.handler = handler;
     }
 
-    @GetMapping(value = "test")
-    public void test(HttpSession session){
-
-        handler.test(session);
-    }
-
     @GetMapping(value = "getStateSummary")
     public StateDTO handleStateSummary(@RequestParam("state")String state, HttpSession session){
 

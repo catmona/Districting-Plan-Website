@@ -4,6 +4,7 @@ import com.mavericks.server.converter.GeometryConverterString;
 import com.mavericks.server.enumeration.Demographic;
 import com.mavericks.server.enumeration.PopulationMeasure;
 import com.mavericks.server.enumeration.Region;
+import org.hibernate.annotations.Where;
 import org.locationtech.jts.geom.Geometry;
 
 import javax.persistence.*;
@@ -30,10 +31,22 @@ public class District {
     @JoinColumn(name = "districtId")
     private List<DistrictElection> electionData;
 
+//    @OneToMany(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "districtId")
+//    @MapKey(name = "id")
+//    private Map<String, CensusBlock> censusBlocks;
+
     @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "districtId")
+    @Where(clause = "isBorderBlock = '1'")
     @MapKey(name = "id")
-    private Map<String, CensusBlock> censusBlocks;
+    private Map<String, CensusBlock> borderBlocks;
+
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "districtId")
+    @Where(clause = "isBorderBlock = '0'")
+    @MapKey(name = "id")
+    private Map<String, CensusBlock> innerBlocks;
 
     @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "regionId")
@@ -70,12 +83,20 @@ public class District {
         this.districtingId = districtingId;
     }
 
-    public Map<String, CensusBlock> getCensusBlocks() {
-        return censusBlocks;
+    public Map<String, CensusBlock> getBorderBlocks() {
+        return borderBlocks;
     }
 
-    public void setCensusBlocks(Map<String, CensusBlock> censusBlocks) {
-        this.censusBlocks = censusBlocks;
+    public void setBorderBlocks(Map<String, CensusBlock> borderBlocks) {
+        this.borderBlocks = borderBlocks;
+    }
+
+    public Map<String, CensusBlock> getInnerBlocks() {
+        return innerBlocks;
+    }
+
+    public void setInnerBlocks(Map<String, CensusBlock> innerBlocks) {
+        this.innerBlocks = innerBlocks;
     }
 
     public List<DistrictElection> getElectionData() {
