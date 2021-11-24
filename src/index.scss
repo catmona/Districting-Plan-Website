@@ -139,12 +139,26 @@ h3 {
 .topbar-text {
     display: inline-block;
     margin: auto;
+    color: $textColor;
 }
 #state-dropdown {
     width: 150px;
 }
 .state-dropdown-option {
     width: 150px;
+}
+#topbar-status {
+    text-align: right;
+    div {
+        border-radius: 5px;
+        background-color: $bgColor;
+        border: 2px dashed $bgColor;
+        display: inline-block;
+    }
+    h3 { 
+        padding: 5px;
+        color: $accentColor;
+    }
 }
 /* #endregion */
 

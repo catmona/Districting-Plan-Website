@@ -36,8 +36,6 @@ public class Algorithm implements Runnable{
     private Districting inProgressPlan;
     private final int REDRAW_CONST=5;
 
-    @Autowired
-    private CensusBlockRepository repo;
 
     public Algorithm(double minPopulationEquality, double minCompactness) {
         this.minPopulationEquality = minPopulationEquality;
@@ -54,11 +52,11 @@ public class Algorithm implements Runnable{
                 && (compactness<minCompactness || populationEquality<minPopulationEquality)){
             District d1=inProgressPlan.getRandDistrict();
             CensusBlock cb = d1.getRandCensusBlock();
-            District d2=inProgressPlan.findNeighboringDistrict(cb);
+            List<CensusBlock> neighbors = inProgressPlan.getNeighbors(cb);
+            District d2=findNeighboringDistrict(neighbors,d1,inProgressPlan);
             if(d2==null){
                 continue;
             }
-            List<CensusBlock> neighbors = repo.findBlockNeighbors(cb.getId());
             d1.addCensusBlock(d1,cb,inProgressPlan,neighbors);
             d2.removeCensusBlock(cb,neighbors);
             Measures newMeasures=inProgressPlan.computeMeasures();
@@ -82,6 +80,15 @@ public class Algorithm implements Runnable{
             iterations++;
 
         }
+    }
+
+    public District findNeighboringDistrict(List<CensusBlock>neighbors,District currentDistrict,Districting plan){
+        for(CensusBlock cb:neighbors){
+            if(!cb.getDistrictId().equals(currentDistrict.getDistrictingId())){
+                return plan.getDistrict(cb.getDistrictId());
+            }
+        }
+        return null;
     }
 
     private double acceptanceProbability(int oldScore, int newScore, int temp){

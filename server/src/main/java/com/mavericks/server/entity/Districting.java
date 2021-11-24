@@ -10,6 +10,7 @@ import org.hibernate.annotations.Where;
 import org.wololo.geojson.FeatureCollection;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -57,23 +58,35 @@ public class Districting {
 
     public District getRandDistrict(){
         District dist = districts.get((int)(Math.random()*districts.size()));
-        while(dist.getCensusBlocks().size()==0){
+        while(dist.getBorderBlocks().size()==0){
             dist = districts.get((int)(Math.random()*districts.size()));
         }
         return dist;
     }
 
-    public District findNeighboringDistrict(CensusBlock cb){
+    public District getDistrict(String id){
         for(District d:districts){
-            if(d.getDistrictingId().equals(cb.getDistrictId())){
-                continue;
-            }
-            if(cb.getGeometry().touches(d.getGeometry())){
+            if(id.equals(d.getDistrictingId())){
                 return d;
             }
         }
-
         return null;
+    }
+
+
+    public List<CensusBlock> getNeighbors(CensusBlock cb){
+        List<CensusBlock> neighbors=new ArrayList<>();
+        for(String id:cb.getNeighborIds()){
+            for(District d:this.getDistricts()){
+                CensusBlock neighbor=d.getCb(id);
+                if(neighbor!=null){
+                    neighbors.add(d.getCb(id));
+                    break;
+                }
+            }
+        }
+
+        return neighbors;
     }
 
     public void redrawDistricts(){

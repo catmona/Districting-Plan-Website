@@ -11,6 +11,7 @@ function App() {
     const [districtingData, setDistrictingData] = useState(""); //statistics table data, population per district of the plan
     const [districtingPreviews, setDistrictingPreviews] = useState(""); //tooltip summaries for SeaWulf districtings 
     const [algResults, setAlgResults] = useState(null);
+    const [planType, setPlanType] = useState("");
 
     function getStateSummary(stateAbbr) {
         fetch("http://localhost:8080/api2/getStateSummary?state=" + stateAbbr, { credentials: 'include' })
@@ -38,6 +39,8 @@ function App() {
                 setStateName("Arkansas")
             break;
         }
+
+        setPlanType("Enacted");
     }
 
     function getDistrictingPreviews() {
@@ -58,7 +61,7 @@ function App() {
             <Row>
                 <Col id="left-app">
                     <Row>
-                        <Topbar stateName={stateName} setState={getStateSummary} />
+                        <Topbar stateName={stateName} setState={getStateSummary} planType={planType} />
 
                         <StateTabs 
                             stateName={stateName} 

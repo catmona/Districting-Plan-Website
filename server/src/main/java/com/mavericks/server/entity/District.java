@@ -1,8 +1,6 @@
 package com.mavericks.server.entity;
 
-import com.mavericks.server.SetCustom;
 import com.mavericks.server.converter.GeometryConverterString;
-import com.mavericks.server.enumeration.Basis;
 import com.mavericks.server.enumeration.Demographic;
 import com.mavericks.server.enumeration.PopulationMeasure;
 import com.mavericks.server.enumeration.Region;
@@ -14,8 +12,8 @@ import org.wololo.geojson.Feature;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @Entity
@@ -36,14 +34,22 @@ public class District {
     @JoinColumn(name = "districtId")
     private List<DistrictElection> electionData;
 
-    @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "districtId")
-    private List<CensusBlock> censusBlocks;
+//    @OneToMany(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "districtId")
+//    @MapKey(name = "id")
+//    private Map<String, CensusBlock> censusBlocks;
 
     @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "districtId")
-    @Where(clause = "isBorderBlock='1'")
-    private List<CensusBlock> borderBlocks;
+    @Where(clause = "isBorderBlock = '1'")
+    @MapKey(name = "id")
+    private Map<String, CensusBlock> borderBlocks;
+
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "districtId")
+    @Where(clause = "isBorderBlock = '0'")
+    @MapKey(name = "id")
+    private Map<String, CensusBlock> innerBlocks;
 
     @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "regionId")
@@ -80,43 +86,55 @@ public class District {
     public void removeCensusBlock(CensusBlock cb,List<CensusBlock>neighbors){
         List<CensusBlock>cbBorders=neighbors.stream().filter(c->c.getDistrictId()!=this.districtingId)
                 .collect(Collectors.toList());
-        cbBorders.stream().forEach(c->c.setBorderBlock(true));
-        censusBlocks.addAll(cbBorders);
-        this.cbToRemove.add(cb.getGeometry());
+        cbBorders.forEach(c->c.setBorderBlock(true));
+        for(CensusBlock block:cbBorders){
+            if(!block.isBorderBlock()){
+                borderBlocks.put(block.getId(),block);
+                innerBlocks.remove(block.getId());
+            }
+        }
+
+        if(this.cbToAdd.contains(cb.getGeometry())){
+            this.cbToAdd.remove(cb.getGeometry());
+        }
+        else{
+            this.cbToRemove.add(cb.getGeometry());
+        }
         //geometry=geometry.difference(cb.getGeometry());
 
     }
 
-    public void addCensusBlock(District oldDistrict,CensusBlock cb,Districting plan,List<CensusBlock>neighbors){
-        List<Geometry>districtGeoms=plan.getDistricts().stream().filter(d->!(d.districtingId.equals(oldDistrict.id)
-                        && this.id.equals(d.districtingId))).map(d->d.geometry).collect(Collectors.toList());
-        Geometry cutDistrict = oldDistrict.geometry.difference(cb.getGeometry());
-        districtGeoms.add(cutDistrict);
-        List<CensusBlock>newDistNeighbors=neighbors.stream().filter(c->c.getDistrictId().equals(this.id))
-                .collect(Collectors.toList());
-        cb.setDistrictId(districtingId);
-        adjBorderBlocks(newDistNeighbors,districtGeoms);
 
+    public void addCensusBlock(District oldDistrict,CensusBlock cb,Districting plan,List<CensusBlock>neighbors){
+        List<CensusBlock>newDistrictNeighbors= neighbors.stream().
+                filter(c->!c.getDistrictId().equals(oldDistrict.getDistrictingId())).collect(Collectors.toList());
+
+        for(CensusBlock newDistNeighbor: newDistrictNeighbors){
+            List<CensusBlock>otherDistNeighbors=plan.getNeighbors(cb);
+            boolean borderBlock=false;
+            for(CensusBlock block:otherDistNeighbors){
+                if(!block.getDistrictId().equals(newDistNeighbor.getDistrictId())
+                        && block.getId().equals(cb.getId())){
+                    borderBlock=true;
+                    this.borderBlocks.putIfAbsent(newDistNeighbor.getId(), newDistNeighbor);
+                    this.innerBlocks.remove(newDistNeighbor.getId());
+                }
+            }
+            newDistNeighbor.setBorderBlock(borderBlock);
+        }
+
+        cb.setDistrictId(this.id);
         this.cbToAdd.add(cb.getGeometry());
         //geometry=geometry.union(cb.getGeometry());
 
     }
 
-    private void adjBorderBlocks(List<CensusBlock>neighbors,List<Geometry>districtGeoms){
-        for(CensusBlock neigh:neighbors){
-            boolean border=false;
-            for(Geometry geom:districtGeoms){
-                if(neigh.getGeometry().touches(geom)){
-                    border=true;
-                }
-            }
-            neigh.setBorderBlock(border);
+    public CensusBlock getCb(String id){
+        if(borderBlocks.get(id)==null){
+            return innerBlocks.get(id);
         }
-
-        for(CensusBlock neigh:neighbors){
-            if(!neigh.isBorderBlock()){
-                censusBlocks.remove(neigh);
-            }
+        else{
+            return borderBlocks.get(id);
         }
     }
 
@@ -149,12 +167,20 @@ public class District {
         this.districtingId = districtingId;
     }
 
-    public List<CensusBlock> getCensusBlocks() {
-        return censusBlocks;
+    public Map<String, CensusBlock> getBorderBlocks() {
+        return borderBlocks;
     }
 
-    public void setCensusBlocks(List<CensusBlock> censusBlocks) {
-        this.censusBlocks = censusBlocks;
+    public void setBorderBlocks(Map<String, CensusBlock> borderBlocks) {
+        this.borderBlocks = borderBlocks;
+    }
+
+    public Map<String, CensusBlock> getInnerBlocks() {
+        return innerBlocks;
+    }
+
+    public void setInnerBlocks(Map<String, CensusBlock> innerBlocks) {
+        this.innerBlocks = innerBlocks;
     }
 
     public List<DistrictElection> getElectionData() {
@@ -194,5 +220,7 @@ public class District {
         return data.isPresent() ? data.get() : null;
     }
 
-
+    public void setDistrictNumber(int districtNumber) {
+        this.districtNumber = districtNumber;
+    }
 }
