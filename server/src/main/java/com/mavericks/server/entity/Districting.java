@@ -12,6 +12,7 @@ import org.wololo.geojson.FeatureCollection;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 @Entity
@@ -57,9 +58,10 @@ public class Districting {
     }
 
     public District getRandDistrict(){
-        District dist = districts.get((int)(Math.random()*districts.size()));
+        Random rand = new Random();
+        District dist = districts.get(rand.nextInt(districts.size()));
         while(dist.getBorderBlocks().size()==0){
-            dist = districts.get((int)(Math.random()*districts.size()));
+            dist = districts.get(rand.nextInt(districts.size()));
         }
         return dist;
     }

@@ -10,6 +10,7 @@ import com.mavericks.server.enumeration.PopulationMeasure;
 import com.mavericks.server.repository.CensusBlockRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
+import org.springframework.stereotype.Component;
 import org.wololo.geojson.Feature;
 import org.wololo.geojson.GeoJSONFactory;
 import org.wololo.jts2geojson.GeoJSONReader;
@@ -19,6 +20,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 
 public class Algorithm{
 
@@ -38,9 +40,7 @@ public class Algorithm{
     private final int REDRAW_CONST=5;
 
 
-    public Algorithm(double minPopulationEquality, double minCompactness) {
-        this.minPopulationEquality = minPopulationEquality;
-        this.minCompactness = minCompactness;
+    public Algorithm() {
         this.max_iterations=100000;
         this.maxFaildCbMoves=1000;
         running=true;
@@ -49,7 +49,8 @@ public class Algorithm{
 
     @Async
     public void run() {
-        while(iterations!=max_iterations && failedCbMoves!=maxFaildCbMoves && !running
+        System.out.println("entered");
+        while(iterations!=max_iterations && failedCbMoves!=maxFaildCbMoves && running
                 && (compactness<minCompactness || populationEquality<minPopulationEquality)){
             District d1=inProgressPlan.getRandDistrict();
             CensusBlock cb = d1.getRandCensusBlock();

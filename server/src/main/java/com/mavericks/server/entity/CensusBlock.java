@@ -22,7 +22,7 @@ public class CensusBlock {
     @Column(name = "precinctId", length = 50, nullable = false)
     private String precinctId;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "geometryId", referencedColumnName = "id")
     private CensusBlockGeometry cbGeometry;
 

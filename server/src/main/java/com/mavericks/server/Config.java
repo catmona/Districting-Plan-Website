@@ -1,14 +1,19 @@
-package com.mavericks.server.api;
+package com.mavericks.server;
 
 import com.mavericks.server.Algorithm;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Scope;
 import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 import java.util.*;
+import java.util.concurrent.Executor;
 
-@EnableAsync
+
 @Configuration
+@EnableAsync
 public class Config {
 
     @Bean
@@ -17,6 +22,11 @@ public class Config {
         return new HashMap<>();
     }
 
+    @Bean
+    @Scope("prototype")
+    public Algorithm getAlg(){
+        return new Algorithm();
+    }
 
 
 }

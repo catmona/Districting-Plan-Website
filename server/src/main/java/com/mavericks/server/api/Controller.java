@@ -22,6 +22,7 @@ import java.util.Map;
 public class Controller {
     private final Handler handler;
 
+
     @Autowired
     public Controller(Handler handler) {
         this.handler = handler;

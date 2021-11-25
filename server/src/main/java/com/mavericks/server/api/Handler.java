@@ -14,10 +14,14 @@ import com.mavericks.server.repository.DistrictElectionRepository;
 import com.mavericks.server.repository.DistrictingRepository;
 import com.mavericks.server.repository.PopulationRepository;
 import com.mavericks.server.repository.StateRepository;
+import org.apache.catalina.core.ApplicationContext;
+import org.springframework.beans.factory.BeanFactory;
+import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StreamUtils;
+import org.springframework.web.context.WebApplicationContext;
 
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
@@ -38,6 +42,9 @@ public class Handler {
     public DistrictElectionRepository distElectionRepo;
 
     private final Map<String,Algorithm> jobs;
+
+    @Autowired
+    private ObjectProvider<Algorithm> provider;
 
     //private final CensusBlockPopulationRepository;
 
@@ -136,14 +143,17 @@ public class Handler {
     }
 
     public void setLimits(double minPopulationEquality, double minCompactness,HttpSession session){
-        Algorithm alg = new Algorithm(minPopulationEquality,minCompactness);
+
+        Algorithm alg = provider.getObject();
+        alg.setMinPopulationEquality(minPopulationEquality);
+        alg.setMinCompactness(minCompactness);
         jobs.put(session.getId(),alg);
     }
 
     public AlgorithmDTO startAlgorithm(int districtingNum, HttpSession session){
         State state = (State)session.getAttribute("state");
         Algorithm alg = jobs.get(session.getId());
-        Districting plan =state.getDistrictings().get(districtingNum);
+        Districting plan =state.getEnacted();
         alg.setInProgressPlan(plan);
         AlgorithmDTO dto = new AlgorithmDTO(plan.getMeasures(),0,true,null,null);
         alg.run();
