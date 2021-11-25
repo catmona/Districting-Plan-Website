@@ -9,6 +9,7 @@ import com.mavericks.server.enumeration.Demographic;
 import com.mavericks.server.enumeration.PopulationMeasure;
 import com.mavericks.server.repository.CensusBlockRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.wololo.geojson.Feature;
 import org.wololo.geojson.GeoJSONFactory;
 import org.wololo.jts2geojson.GeoJSONReader;
@@ -19,12 +20,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Algorithm implements Runnable{
+public class Algorithm{
 
     //user set flag to continue running the algorithm
     private boolean running;
     private int iterations;
-    private int max_iterations;
+    private final int max_iterations;
     //measure constraints
     private double minPopulationEquality;
     private double minCompactness;
@@ -32,7 +33,7 @@ public class Algorithm implements Runnable{
     private double populationEquality;
     //number of failed consecutive block moves
     private int failedCbMoves;
-    private int maxFaildCbMoves;
+    private final int maxFaildCbMoves;
     private Districting inProgressPlan;
     private final int REDRAW_CONST=5;
 
@@ -46,7 +47,7 @@ public class Algorithm implements Runnable{
     }
 
 
-    @Override
+    @Async
     public void run() {
         while(iterations!=max_iterations && failedCbMoves!=maxFaildCbMoves && !running
                 && (compactness<minCompactness || populationEquality<minPopulationEquality)){

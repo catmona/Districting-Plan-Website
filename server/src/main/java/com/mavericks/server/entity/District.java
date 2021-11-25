@@ -11,9 +11,7 @@ import org.locationtech.jts.geom.GeometryFactory;
 import org.wololo.geojson.Feature;
 
 import javax.persistence.*;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Entity
@@ -140,7 +138,9 @@ public class District {
 
 
     public CensusBlock getRandCensusBlock(){
-        return borderBlocks.get((int)(Math.random()*populations.size()));
+        Object[]blocks =borderBlocks.values().toArray();
+        Random rand = new Random();
+        return (CensusBlock)blocks[rand.nextInt(blocks.length)];
     }
 
     public String getId() {

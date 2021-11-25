@@ -1,5 +1,6 @@
 package com.mavericks.server.api;
 
+import com.mavericks.server.dto.AlgorithmDTO;
 import com.mavericks.server.dto.DistrictingDTO;
 import com.mavericks.server.dto.PlanDTO;
 import com.mavericks.server.dto.StateDTO;
@@ -75,31 +76,31 @@ public class Controller {
         return ResponseEntity.ok().build();
     }
 
-//    @PostMapping("algorithmlimits")
-//    public long handleLimits(@RequestParam("minPopulationEquality") double minPopulationEquality,
-//                             @RequestParam("minCompactness") double minCompactness){
-//        return handler.setLimits(minPopulationEquality,minCompactness);
-//    }
-//
-//    @GetMapping(value = "algorithm")
-//    public Map<String,Object> handleStartAlgorithm(@RequestParam("threadId")long threadId,
-//                                                   @RequestParam("districingNum")int districtingNum,HttpSession session){
-//        return handler.startAlgorithm(threadId,districtingNum,session);
-//    }
+    @PostMapping("algorithmlimits")
+    public ResponseEntity handleLimits(@RequestParam("minPopulationEquality") double minPopulationEquality,
+                             @RequestParam("minCompactness") double minCompactness, HttpSession session){
+        handler.setLimits(minPopulationEquality,minCompactness,session);
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping(value = "algorithm")
+    public AlgorithmDTO handleStartAlgorithm(@RequestParam("districingNum")int districtingNum, HttpSession session){
+        return handler.startAlgorithm(districtingNum,session);
+    }
 
     @GetMapping(value="algorithmProgress")
-    public Map<String,Object> handleGetProgress(@RequestParam("threadId") long threadId){
-        return new Hashtable<>();
+    public AlgorithmDTO handleGetProgress(HttpSession session){
+        return handler.getProgress(session);
     }
 
     @GetMapping(value = "algorithmResults")
-    public Map<String,Object> handleGetResults(@RequestParam("threadId") long threadId){
-        return new Hashtable<>();
+    public AlgorithmDTO handleGetResults(HttpSession session){
+        return handler.getResults(session);
     }
 
     @GetMapping(value = "stopAlgorithm")
-    public Map<String,Object> handleStopAlgorithm(@RequestParam("threadId") long threadId){
-        return new Hashtable<>();
+    public AlgorithmDTO handleStopAlgorithm(HttpSession session){
+        return handler.stopAlgorithm(session);
     }
 
     private PopulationMeasure mapPopToEnum(String s){

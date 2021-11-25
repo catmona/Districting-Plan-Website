@@ -1,6 +1,8 @@
 package com.mavericks.server.api;
 
 //import com.mavericks.server.Algorithm;
+import com.mavericks.server.Algorithm;
+import com.mavericks.server.dto.AlgorithmDTO;
 import com.mavericks.server.dto.DistrictingDTO;
 import com.mavericks.server.dto.PlanDTO;
 import com.mavericks.server.dto.StateDTO;
@@ -35,12 +37,12 @@ public class Handler {
     @Autowired
     public DistrictElectionRepository distElectionRepo;
 
-    private final Map<Long,Object[]> jobs;
+    private final Map<String,Algorithm> jobs;
 
     //private final CensusBlockPopulationRepository;
 
     @Autowired
-    public Handler(Map<Long, Object[]> jobs) {
+    public Handler(Map<String, Algorithm> jobs) {
         this.jobs = jobs;
     }
 
@@ -133,67 +135,34 @@ public class Handler {
         return null;
     }
 
-//    public long setLimits(double minPopulationEquality, double minCompactness){
-//        Algorithm alg = new Algorithm(minPopulationEquality,minCompactness);
-//        Thread t = new Thread(alg);
-//        Object[] pair={t,alg};
-//        jobs.put(t.getId(),pair);
-//        return t.getId();
-//    }
-//
-//    public Map<String,Object> startAlgorithm(long threadId, int districtingNum, HttpSession session){
-//        State state = (State)session.getAttribute("state");
-//        Districting districting=state.getDistrictings().get(districtingNum);
-//
-//
-//        String data2 = readFile("data/nv-cb-geo.geojson");
-//        FeatureCollection f2 = (FeatureCollection)GeoJSONFactory.create(data2);
-//
-//        GeoJSONReader reader = new GeoJSONReader();
-//        Feature[]blocks = f2.getFeatures();
-//        List<List<CensusBlock>>distToBlocks=new ArrayList<>();
-//        for(int i=0;i<districting.getDistricts().size();i++){
-//            distToBlocks.add(new ArrayList<>());
-//        }
-//
-//        for(Feature f:blocks){
-//            Integer distNum=(Integer)f.getProperties().get("districtId")-1;
-//            Long blockId=Long.parseLong((String)f.getProperties().get("blockId"));
-//            boolean border =(Boolean)f.getProperties().get("boundary");
-//            Geometry g =reader.read(f.getGeometry());
-//            CensusBlock cb = new CensusBlock(blockId,null,g,border);
-//            distToBlocks.get(distNum).add(cb);
-//
-//        }
-//
-//        for(int i=0;i<districting.getDistricts().size();i++){
-//            districting.getDistricts().get(i).setBlocks(distToBlocks.get(i));
-//        }
-//
-//
-//
-//        Object[]pair = jobs.get(threadId);
-//        Algorithm alg=(Algorithm)pair[1];
-//        alg.setInProgressPlan(districting);
-//
-//        Map<String ,Object> data= new Hashtable<>();
-//        data.put("Measures",districting.getMeasures());
-//        data.put("iterations",alg.getIterations());
-//        return data;
-//
-//    }
+    public void setLimits(double minPopulationEquality, double minCompactness,HttpSession session){
+        Algorithm alg = new Algorithm(minPopulationEquality,minCompactness);
+        jobs.put(session.getId(),alg);
+    }
 
-    public Map<String,Object> getProgress(long threadId){
-        return new Hashtable<>();
+    public AlgorithmDTO startAlgorithm(int districtingNum, HttpSession session){
+        State state = (State)session.getAttribute("state");
+        Algorithm alg = jobs.get(session.getId());
+        Districting plan =state.getDistrictings().get(districtingNum);
+        alg.setInProgressPlan(plan);
+        AlgorithmDTO dto = new AlgorithmDTO(plan.getMeasures(),0,true,null,null);
+        alg.run();
+        return dto;
+    }
+
+    public AlgorithmDTO getProgress(HttpSession session){
+        return jobs.get(session.getId()).getProgress();
     }
 
 
-    public Map<String,Object> getResults(long threadId){
-        return new Hashtable<>();
+    public AlgorithmDTO getResults(HttpSession session){
+        return jobs.get(session.getId()).getResults();
     }
 
-    public Map<String,Object> stopAlgorithm(long threadId){
-        return new Hashtable<>();
+    public AlgorithmDTO stopAlgorithm(HttpSession session){
+        Algorithm alg = jobs.get(session.getId());
+        alg.setRunning(false);
+        return alg.getProgress();
     }
 
 
