@@ -155,6 +155,7 @@ public class Handler {
         Algorithm alg = jobs.get(session.getId());
         Districting plan =state.getEnacted();
         alg.setInProgressPlan(plan);
+        alg.setPopulationMeasure((PopulationMeasure) session.getAttribute("PopType"));
         AlgorithmDTO dto = new AlgorithmDTO(plan.getMeasures(),0,true,null,null);
         alg.run();
         return dto;

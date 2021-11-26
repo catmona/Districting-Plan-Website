@@ -6,8 +6,8 @@ import com.mavericks.server.dto.PlanDTO;
 import com.mavericks.server.enumeration.Demographic;
 import com.mavericks.server.enumeration.PopulationMeasure;
 import com.mavericks.server.enumeration.Region;
-import org.hibernate.annotations.Where;
-import org.wololo.geojson.FeatureCollection;
+import org.locationtech.jts.geom.Geometry;
+import org.locationtech.jts.operation.union.UnaryUnionOp;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -68,7 +68,7 @@ public class Districting {
 
     public District getDistrict(String id){
         for(District d:districts){
-            if(id.equals(d.getDistrictingId())){
+            if(id.equals(d.getId())){
                 return d;
             }
         }
@@ -202,25 +202,45 @@ public class Districting {
 //                this.measures.getPopulationEqualityScore(),this.election,distPopulations);
     }
 
-    public double computePolsbyPopper(District removedDistrict,District addedDistrict){
-        List<District> otherDistricts = districts.stream().filter(d->d.getId()!=removedDistrict.getId()
-                &&d.getId()!=addedDistrict.getId()).collect(Collectors.toList());
-        double removedPolsby=polsbyHelper(removedDistrict);
-        double addedPolsby=polsbyHelper(addedDistrict);
-        return 0;
-//        return (otherDistricts.stream().mapToDouble(d->d.getMeasures().getPolsbyPopperScore())
-//                .reduce(0,(a,b)->a+b)+removedPolsby+addedPolsby)/districts.size();
+    public double computePolsbyPopper(District removedDistrict,District addedDistrict, CensusBlock block){
+        List<District> otherDistricts = districts.stream().filter(d->!d.equals(removedDistrict)
+                && !d.equals(addedDistrict)).collect(Collectors.toList());
+        double removedPolsby=polsbyHelper(removedDistrict.getGeometry().difference(block.getGeometry()));
+        double addedPolsby=polsbyHelper(addedDistrict.getGeometry().union(block.getGeometry()));
+        double polsbySum=removedPolsby+addedPolsby;
+        for(District d:otherDistricts){
+            polsbySum+=polsbyHelper(d.getGeometry());
+        }
+        return (otherDistricts.stream().mapToDouble(d->polsbyHelper(d.getGeometry()))
+                .reduce(0,(a,b)->a+b)+removedPolsby+addedPolsby)/districts.size();
+
+    }
+
+    //work in progress
+    public double computePopulationEquality(PopulationMeasure measure){
+        double max=0;
+        double min=1.2;
+        double sum=0;
+        for(District d:districts){
+            int value=d.getPopulation(measure,Demographic.ALL);
+            min=Math.min(value,min);
+            max=Math.max(max,value);
+            sum+=value;
+        }
+        return (max-min)/(sum/districts.size());
 
     }
 
     //stubbed
-    public Measures computeMeasures(){
-        return null;
+    public Measures computeMeasures(CensusBlock block, District added, District removed,PopulationMeasure measure){
+        double polsby=computePolsbyPopper(removed,added,block);
+        double popEquality =computePopulationEquality(measure);
+        return new Measures(0.0,polsby);
     }
 
-    private double polsbyHelper(District district){
-        double area = district.getGeometry().getArea();
-        double perimeter = district.getGeometry().getLength();
+    private double polsbyHelper(Geometry geom){
+        double area = geom.getArea();
+        double perimeter = geom.getLength();
 
         return (Math.PI*4*area)/(Math.pow(perimeter,2));
     }

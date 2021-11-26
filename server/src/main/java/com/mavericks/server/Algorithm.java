@@ -37,6 +37,7 @@ public class Algorithm{
     private int failedCbMoves;
     private final int maxFaildCbMoves;
     private Districting inProgressPlan;
+    private PopulationMeasure populationMeasure;
     private final int REDRAW_CONST=5;
 
 
@@ -59,13 +60,13 @@ public class Algorithm{
             if(d2==null){
                 continue;
             }
-            d1.addCensusBlock(d1,cb,inProgressPlan,neighbors);
-            d2.removeCensusBlock(cb,neighbors);
-            Measures newMeasures=inProgressPlan.computeMeasures();
+            d2.addCensusBlock(d1,cb,inProgressPlan,neighbors,populationMeasure);
+            d1.removeCensusBlock(cb,neighbors,populationMeasure);
+            Measures newMeasures=inProgressPlan.computeMeasures(cb,d2,d1,populationMeasure);
             if(newMeasures.getPolsbyPopperScore()<=compactness &&
                     newMeasures.getPopulationEqualityScore()<=populationEquality){
-                d1.addCensusBlock(d2,cb,inProgressPlan,neighbors);
-                d2.removeCensusBlock(cb,neighbors);
+                d1.addCensusBlock(d2,cb,inProgressPlan,neighbors,populationMeasure);
+                d2.removeCensusBlock(cb,neighbors,populationMeasure);
                 failedCbMoves++;
             }
             else {
@@ -86,7 +87,7 @@ public class Algorithm{
 
     public District findNeighboringDistrict(List<CensusBlock>neighbors,District currentDistrict,Districting plan){
         for(CensusBlock cb:neighbors){
-            if(!cb.getDistrictId().equals(currentDistrict.getDistrictingId())){
+            if(!cb.getDistrictId().equals(currentDistrict.getId())){
                 return plan.getDistrict(cb.getDistrictId());
             }
         }
@@ -171,5 +172,9 @@ public class Algorithm{
 
     public void setFailedCbMoves(int failedCbMoves) {
         this.failedCbMoves = failedCbMoves;
+    }
+
+    public void setPopulationMeasure(PopulationMeasure populationMeasure) {
+        this.populationMeasure = populationMeasure;
     }
 }
