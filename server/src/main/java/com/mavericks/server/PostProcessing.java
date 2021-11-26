@@ -8,8 +8,8 @@ import java.util.List;
 
 public class PostProcessing {
 
-    @Autowired
-    public static CensusBlockRepository repo;
+//    @Autowired
+//    public static CensusBlockRepository repo;
 
     public static void main(String[]args){
 //        List<CensusBlock> blocks = repo.findAll();

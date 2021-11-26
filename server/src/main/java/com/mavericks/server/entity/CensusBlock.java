@@ -7,6 +7,7 @@ import org.locationtech.jts.geom.Geometry;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Entity
@@ -22,12 +23,13 @@ public class CensusBlock {
     @Column(name = "precinctId", length = 50, nullable = false)
     private String precinctId;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "geometryId", referencedColumnName = "id")
     private CensusBlockGeometry cbGeometry;
 
     @Column(name = "isBorderBlock", nullable = false)
     private boolean isBorderBlock;
+
 
     @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "regionId")
@@ -121,4 +123,16 @@ public class CensusBlock {
                 .map(p -> p.getValue())
                 .collect(Collectors.toList());
     }
+
+
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        CensusBlock that = (CensusBlock) o;
+        return that.getId().equals(id);
+    }
+
 }

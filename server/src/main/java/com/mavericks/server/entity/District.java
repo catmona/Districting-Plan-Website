@@ -6,11 +6,14 @@ import com.mavericks.server.enumeration.PopulationMeasure;
 import com.mavericks.server.enumeration.Region;
 import org.hibernate.annotations.Where;
 import org.locationtech.jts.geom.Geometry;
+import org.locationtech.jts.geom.GeometryCollection;
+import org.locationtech.jts.geom.GeometryFactory;
+import org.locationtech.jts.operation.union.UnaryUnionOp;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.wololo.geojson.Feature;
 
 import javax.persistence.*;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Entity
@@ -58,10 +61,94 @@ public class District {
     @OrderBy("populationMeasureType, demographicType")
     private List<Population> populations;
 
-    public District() {}
+    @Transient
+    @Autowired
+    private List<Geometry>cbToAdd;
+
+    @Transient
+    @Autowired
+    private List<Geometry>cbToRemove;
+
+    @Transient
+    private int districtNumber;
+
+    public District() {
+        this.cbToRemove=new ArrayList<>();
+        this.cbToAdd=new ArrayList<>();
+    }
 
     public District(String districtingId) {
         this.districtingId = districtingId;
+    }
+
+    public int getDistrictNumber(){
+        return districtNumber;
+    }
+
+
+
+    public void removeCensusBlock(CensusBlock cb,List<CensusBlock>neighbors,PopulationMeasure measure){
+        List<CensusBlock>cbBorders=neighbors.stream().filter(c->c.getDistrictId().equals(this.id))
+                .collect(Collectors.toList());
+        cbBorders.forEach(c->c.setBorderBlock(true));
+        for(CensusBlock block:cbBorders){
+            borderBlocks.putIfAbsent(block.getId(),block);
+            innerBlocks.remove(block.getId());
+        }
+
+        this.borderBlocks.remove(cb.getId());
+        Population distPop=this.getPopulationObj(measure,Demographic.ALL);
+        distPop.setValue(distPop.getValue()-cb.getPopulation(measure,Demographic.ALL));
+        this.geometry=this.geometry.difference(cb.getGeometry());
+
+    }
+
+
+    public void addCensusBlock(District oldDistrict,CensusBlock cb,Districting plan,List<CensusBlock>neighbors
+            ,PopulationMeasure measure){
+        List<CensusBlock>newDistrictNeighbors= neighbors.stream().
+                filter(c->c.getDistrictId().equals(this.id)).collect(Collectors.toList());
+
+        for(CensusBlock newDistNeighbor: newDistrictNeighbors){
+            List<CensusBlock>otherDistNeighbors=plan.getNeighbors(newDistNeighbor);
+            boolean borderBlock=false;
+            for(CensusBlock block:otherDistNeighbors){
+                if(!block.getDistrictId().equals(newDistNeighbor.getDistrictId())
+                        && !block.equals(cb)){
+                    borderBlock=true;
+                    break;
+                }
+            }
+            newDistNeighbor.setBorderBlock(borderBlock);
+            if(!borderBlock){
+                this.innerBlocks.put(newDistNeighbor.getId(),newDistNeighbor);
+                this.borderBlocks.remove(newDistNeighbor.getId());
+            }
+        }
+
+        cb.setDistrictId(this.id);
+        this.borderBlocks.put(cb.getId(),cb);
+        Population distPop=this.getPopulationObj(measure,Demographic.ALL);
+        distPop.setValue(distPop.getValue()+cb.getPopulation(measure,Demographic.ALL));
+        this.geometry= UnaryUnionOp.union(Arrays.asList(this.geometry,cb.getGeometry()));
+        int i=5;
+
+    }
+
+    public CensusBlock getCb(String id){
+        if(borderBlocks.get(id)==null){
+            return innerBlocks.get(id);
+        }
+        else{
+            return borderBlocks.get(id);
+        }
+    }
+
+
+    public CensusBlock getRandCensusBlock(){
+        Object[]blocks =borderBlocks.values().toArray();
+        Random rand = new Random();
+        return (CensusBlock)blocks[rand.nextInt(blocks.length)];
     }
 
     public String getId() {
@@ -144,16 +231,42 @@ public class District {
                 .collect(Collectors.toList());
     }
 
+    public Population getPopulationObj(PopulationMeasure measure, Demographic demg){
+        return populations.get(measure.ordinal() + demg.ordinal());
+    }
+
     public DistrictElection getElectionDataByElection(String electionId) {
         Optional<DistrictElection> data = electionData.stream().filter(e -> e.getElectionId() == electionId).findFirst();
         return data.isPresent() ? data.get() : null;
     }
 
-    public void removeCensusBlock(CensusBlock cb){
-
+    public void setDistrictNumber(int districtNumber) {
+        this.districtNumber = districtNumber;
     }
 
-    public void addCensusBlock(CensusBlock cb){
-
+    public List<Geometry> getCbToAdd() {
+        return cbToAdd;
     }
+
+    public void setCbToAdd(List<Geometry> cbToAdd) {
+        this.cbToAdd = cbToAdd;
+    }
+
+    public List<Geometry> getCbToRemove() {
+        return cbToRemove;
+    }
+
+    public void setCbToRemove(List<Geometry> cbToRemove) {
+        this.cbToRemove = cbToRemove;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        District district = (District) o;
+        return this.id.equals(district.getId());
+    }
+
+
 }
