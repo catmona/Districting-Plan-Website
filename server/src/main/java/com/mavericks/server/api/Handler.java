@@ -1,6 +1,8 @@
 package com.mavericks.server.api;
 
 //import com.mavericks.server.Algorithm;
+import com.mavericks.server.Algorithm;
+import com.mavericks.server.dto.AlgorithmDTO;
 import com.mavericks.server.dto.DistrictingDTO;
 import com.mavericks.server.dto.PlanDTO;
 import com.mavericks.server.dto.StateDTO;
@@ -12,10 +14,14 @@ import com.mavericks.server.repository.DistrictElectionRepository;
 import com.mavericks.server.repository.DistrictingRepository;
 import com.mavericks.server.repository.PopulationRepository;
 import com.mavericks.server.repository.StateRepository;
+import org.apache.catalina.core.ApplicationContext;
+import org.springframework.beans.factory.BeanFactory;
+import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StreamUtils;
+import org.springframework.web.context.WebApplicationContext;
 
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
@@ -35,12 +41,15 @@ public class Handler {
     @Autowired
     public DistrictElectionRepository distElectionRepo;
 
-    private final Map<Long,Object[]> jobs;
+    private final Map<String,Algorithm> jobs;
+
+    @Autowired
+    private ObjectProvider<Algorithm> provider;
 
     //private final CensusBlockPopulationRepository;
 
     @Autowired
-    public Handler(Map<Long, Object[]> jobs) {
+    public Handler(Map<String, Algorithm> jobs) {
         this.jobs = jobs;
     }
 
@@ -55,9 +64,7 @@ public class Handler {
             return null;
         }
         State state = stateRepo.getById(stateName);
-
         PopulationMeasure popType = (PopulationMeasure) session.getAttribute("PopType");
-
         session.setAttribute("state", state);
         return state.makeDTO(popType);
     }
@@ -133,67 +140,38 @@ public class Handler {
         return null;
     }
 
-//    public long setLimits(double minPopulationEquality, double minCompactness){
-//        Algorithm alg = new Algorithm(minPopulationEquality,minCompactness);
-//        Thread t = new Thread(alg);
-//        Object[] pair={t,alg};
-//        jobs.put(t.getId(),pair);
-//        return t.getId();
-//    }
-//
-//    public Map<String,Object> startAlgorithm(long threadId, int districtingNum, HttpSession session){
-//        State state = (State)session.getAttribute("state");
-//        Districting districting=state.getDistrictings().get(districtingNum);
-//
-//
-//        String data2 = readFile("data/nv-cb-geo.geojson");
-//        FeatureCollection f2 = (FeatureCollection)GeoJSONFactory.create(data2);
-//
-//        GeoJSONReader reader = new GeoJSONReader();
-//        Feature[]blocks = f2.getFeatures();
-//        List<List<CensusBlock>>distToBlocks=new ArrayList<>();
-//        for(int i=0;i<districting.getDistricts().size();i++){
-//            distToBlocks.add(new ArrayList<>());
-//        }
-//
-//        for(Feature f:blocks){
-//            Integer distNum=(Integer)f.getProperties().get("districtId")-1;
-//            Long blockId=Long.parseLong((String)f.getProperties().get("blockId"));
-//            boolean border =(Boolean)f.getProperties().get("boundary");
-//            Geometry g =reader.read(f.getGeometry());
-//            CensusBlock cb = new CensusBlock(blockId,null,g,border);
-//            distToBlocks.get(distNum).add(cb);
-//
-//        }
-//
-//        for(int i=0;i<districting.getDistricts().size();i++){
-//            districting.getDistricts().get(i).setBlocks(distToBlocks.get(i));
-//        }
-//
-//
-//
-//        Object[]pair = jobs.get(threadId);
-//        Algorithm alg=(Algorithm)pair[1];
-//        alg.setInProgressPlan(districting);
-//
-//        Map<String ,Object> data= new Hashtable<>();
-//        data.put("Measures",districting.getMeasures());
-//        data.put("iterations",alg.getIterations());
-//        return data;
-//
-//    }
+    public void setLimits(double minPopulationEquality, double minCompactness,HttpSession session){
 
-    public Map<String,Object> getProgress(long threadId){
-        return new Hashtable<>();
+        Algorithm alg = provider.getObject();
+        alg.setMinPopulationEquality(minPopulationEquality);
+        alg.setMinCompactness(minCompactness);
+        jobs.put(session.getId(),alg);
+    }
+
+    public AlgorithmDTO startAlgorithm(int districtingNum, HttpSession session){
+        State state = (State)session.getAttribute("state");
+        Algorithm alg = jobs.get(session.getId());
+        Districting plan =state.getEnacted();
+        alg.setInProgressPlan(plan);
+        alg.setPopulationMeasure((PopulationMeasure) session.getAttribute("PopType"));
+        AlgorithmDTO dto = new AlgorithmDTO(plan.getMeasures(),0,true,null,null);
+        alg.run();
+        return dto;
+    }
+
+    public AlgorithmDTO getProgress(HttpSession session){
+        return jobs.get(session.getId()).getProgress();
     }
 
 
-    public Map<String,Object> getResults(long threadId){
-        return new Hashtable<>();
+    public AlgorithmDTO getResults(HttpSession session){
+        return jobs.get(session.getId()).getResults();
     }
 
-    public Map<String,Object> stopAlgorithm(long threadId){
-        return new Hashtable<>();
+    public AlgorithmDTO stopAlgorithm(HttpSession session){
+        Algorithm alg = jobs.get(session.getId());
+        alg.setRunning(false);
+        return alg.getProgress();
     }
 
 

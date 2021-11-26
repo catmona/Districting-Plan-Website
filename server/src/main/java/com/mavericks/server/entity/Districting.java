@@ -6,11 +6,13 @@ import com.mavericks.server.dto.PlanDTO;
 import com.mavericks.server.enumeration.Demographic;
 import com.mavericks.server.enumeration.PopulationMeasure;
 import com.mavericks.server.enumeration.Region;
-import org.hibernate.annotations.Where;
-import org.wololo.geojson.FeatureCollection;
+import org.locationtech.jts.geom.Geometry;
+import org.locationtech.jts.operation.union.UnaryUnionOp;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 @Entity
@@ -54,6 +56,44 @@ public class Districting {
         this.stateId = stateId;
         this.measures = measures;
     }
+
+    public District getRandDistrict(){
+        Random rand = new Random();
+        District dist = districts.get(rand.nextInt(districts.size()));
+        while(dist.getBorderBlocks().size()==0){
+            dist = districts.get(rand.nextInt(districts.size()));
+        }
+        return dist;
+    }
+
+    public District getDistrict(String id){
+        for(District d:districts){
+            if(id.equals(d.getId())){
+                return d;
+            }
+        }
+        return null;
+    }
+
+
+    public List<CensusBlock> getNeighbors(CensusBlock cb){
+        List<CensusBlock> neighbors=new ArrayList<>();
+        for(String id:cb.getNeighborIds()){
+            for(District d:this.getDistricts()){
+                CensusBlock neighbor=d.getCb(id);
+                if(neighbor!=null){
+                    neighbors.add(d.getCb(id));
+                    break;
+                }
+            }
+        }
+
+        return neighbors;
+    }
+
+
+
+
 
     public String getId() {
         return id;
@@ -135,9 +175,12 @@ public class Districting {
                 .collect(Collectors.toList());
     }
 
-    public District getRandDistrict(){
-        return districts.get((int)(Math.random()*districts.size()));
+    public List<Population>getPopulation(){
+        return populations;
     }
+
+
+
 
     public DistrictingDTO makeDistrictDTO(){
         return null;
@@ -154,27 +197,44 @@ public class Districting {
 //                this.measures.getPopulationEqualityScore(),this.election,distPopulations);
     }
 
-    public double computePolsbyPopper(District removedDistrict,District addedDistrict){
-        List<District> otherDistricts = districts.stream().filter(d->d.getId()!=removedDistrict.getId()
-                &&d.getId()!=addedDistrict.getId()).collect(Collectors.toList());
-        double removedPolsby=polsbyHelper(removedDistrict);
-        double addedPolsby=polsbyHelper(addedDistrict);
-        return 0;
-//        return (otherDistricts.stream().mapToDouble(d->d.getMeasures().getPolsbyPopperScore())
-//                .reduce(0,(a,b)->a+b)+removedPolsby+addedPolsby)/districts.size();
+    public double computePolsbyPopper(){
+//        List<District> otherDistricts = districts.stream().filter(d->!d.equals(removedDistrict)
+//                && !d.equals(addedDistrict)).collect(Collectors.toList());
+//        double removedPolsby=polsbyHelper(removedDistrict.getGeometry().difference(block.getGeometry()));
+//        double addedPolsby=polsbyHelper(addedDistrict.getGeometry().union(block.getGeometry()));
+        double polsbySum=0;
+        for(District d:districts){
+            polsbySum+=polsbyHelper(d.getGeometry());
+        }
+        return polsbySum/districts.size();
+
+    }
+
+    //work in progress
+    public double computePopulationEquality(PopulationMeasure measure){
+        double max=0;
+        double min=Double.MAX_VALUE;
+        for(District d:districts){
+            int value=d.getPopulation(measure,Demographic.ALL);
+            min=Math.min(value,min);
+            max=Math.max(max,value);
+        }
+        return (max-min)/((min+max)/2);
 
     }
 
     //stubbed
-    public Measures computeMeasures(){
-        return null;
+    public Measures computeMeasures(PopulationMeasure measure){
+        double polsby=computePolsbyPopper();
+        double popEquality =computePopulationEquality(measure);
+        return new Measures(popEquality,polsby);
     }
 
-    private double polsbyHelper(District district){
-        double area = district.getGeometry().getArea();
-        double perimeter = district.getGeometry().getLength();
+    private double polsbyHelper(Geometry geom){
+        double area = geom.getArea();
+        double perimeter = geom.getLength();
 
-        return (Math.PI*4*area)/(Math.pow(perimeter,2));
+        return (Math.PI*4)*(area/Math.pow(perimeter,2));
     }
 
 }
