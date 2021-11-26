@@ -275,7 +275,6 @@ function addDistrictStyleLayer(map, sourceId) {
     });
 
     // adds district outlines with adjustable width
-    console.log(layerName + '-outline')
     map.addLayer({
         'id': layerName + '-outline',
         'type': 'line',
