@@ -31,6 +31,7 @@ public class Controller {
     @GetMapping(value = "getStateSummary")
     public StateDTO handleStateSummary(@RequestParam("state")String state, HttpSession session){
 
+        session.setAttribute("PopType",PopulationMeasure.TOTAL);
         return handler.getStateSummary(state,session);
     }
 

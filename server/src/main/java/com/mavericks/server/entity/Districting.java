@@ -91,11 +91,6 @@ public class Districting {
         return neighbors;
     }
 
-    public void redrawDistricts(){
-        for(District d:districts){
-            d.redraw();
-        }
-    }
 
 
 
@@ -202,47 +197,44 @@ public class Districting {
 //                this.measures.getPopulationEqualityScore(),this.election,distPopulations);
     }
 
-    public double computePolsbyPopper(District removedDistrict,District addedDistrict, CensusBlock block){
-        List<District> otherDistricts = districts.stream().filter(d->!d.equals(removedDistrict)
-                && !d.equals(addedDistrict)).collect(Collectors.toList());
-        double removedPolsby=polsbyHelper(removedDistrict.getGeometry().difference(block.getGeometry()));
-        double addedPolsby=polsbyHelper(addedDistrict.getGeometry().union(block.getGeometry()));
-        double polsbySum=removedPolsby+addedPolsby;
-        for(District d:otherDistricts){
+    public double computePolsbyPopper(){
+//        List<District> otherDistricts = districts.stream().filter(d->!d.equals(removedDistrict)
+//                && !d.equals(addedDistrict)).collect(Collectors.toList());
+//        double removedPolsby=polsbyHelper(removedDistrict.getGeometry().difference(block.getGeometry()));
+//        double addedPolsby=polsbyHelper(addedDistrict.getGeometry().union(block.getGeometry()));
+        double polsbySum=0;
+        for(District d:districts){
             polsbySum+=polsbyHelper(d.getGeometry());
         }
-        return (otherDistricts.stream().mapToDouble(d->polsbyHelper(d.getGeometry()))
-                .reduce(0,(a,b)->a+b)+removedPolsby+addedPolsby)/districts.size();
+        return polsbySum/districts.size();
 
     }
 
     //work in progress
     public double computePopulationEquality(PopulationMeasure measure){
         double max=0;
-        double min=1.2;
-        double sum=0;
+        double min=Double.MAX_VALUE;
         for(District d:districts){
             int value=d.getPopulation(measure,Demographic.ALL);
             min=Math.min(value,min);
             max=Math.max(max,value);
-            sum+=value;
         }
-        return (max-min)/(sum/districts.size());
+        return (max-min)/((min+max)/2);
 
     }
 
     //stubbed
-    public Measures computeMeasures(CensusBlock block, District added, District removed,PopulationMeasure measure){
-        double polsby=computePolsbyPopper(removed,added,block);
+    public Measures computeMeasures(PopulationMeasure measure){
+        double polsby=computePolsbyPopper();
         double popEquality =computePopulationEquality(measure);
-        return new Measures(0.0,polsby);
+        return new Measures(popEquality,polsby);
     }
 
     private double polsbyHelper(Geometry geom){
         double area = geom.getArea();
         double perimeter = geom.getLength();
 
-        return (Math.PI*4*area)/(Math.pow(perimeter,2));
+        return (Math.PI*4)*(area/Math.pow(perimeter,2));
     }
 
 }

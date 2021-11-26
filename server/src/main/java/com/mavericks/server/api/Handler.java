@@ -64,9 +64,7 @@ public class Handler {
             return null;
         }
         State state = stateRepo.getById(stateName);
-
         PopulationMeasure popType = (PopulationMeasure) session.getAttribute("PopType");
-
         session.setAttribute("state", state);
         return state.makeDTO(popType);
     }

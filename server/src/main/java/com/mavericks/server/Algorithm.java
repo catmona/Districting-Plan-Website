@@ -37,6 +37,7 @@ public class Algorithm{
     private int failedCbMoves;
     private final int maxFaildCbMoves;
     private Districting inProgressPlan;
+    //change later
     private PopulationMeasure populationMeasure;
     private final int REDRAW_CONST=5;
 
@@ -51,20 +52,22 @@ public class Algorithm{
     @Async
     public void run() {
         System.out.println("entered");
+        populationMeasure=PopulationMeasure.TOTAL;
         while(iterations!=max_iterations && failedCbMoves!=maxFaildCbMoves && running
-                && (compactness<minCompactness || populationEquality<minPopulationEquality)){
+                && (compactness<minCompactness || populationEquality>minPopulationEquality)){
             District d1=inProgressPlan.getRandDistrict();
             CensusBlock cb = d1.getRandCensusBlock();
             List<CensusBlock> neighbors = inProgressPlan.getNeighbors(cb);
             District d2=findNeighboringDistrict(neighbors,d1,inProgressPlan);
             if(d2==null){
+                iterations++;
                 continue;
             }
             d2.addCensusBlock(d1,cb,inProgressPlan,neighbors,populationMeasure);
             d1.removeCensusBlock(cb,neighbors,populationMeasure);
-            Measures newMeasures=inProgressPlan.computeMeasures(cb,d2,d1,populationMeasure);
+            Measures newMeasures=inProgressPlan.computeMeasures(populationMeasure);
             if(newMeasures.getPolsbyPopperScore()<=compactness &&
-                    newMeasures.getPopulationEqualityScore()<=populationEquality){
+                    newMeasures.getPopulationEqualityScore()>=populationEquality){
                 d1.addCensusBlock(d2,cb,inProgressPlan,neighbors,populationMeasure);
                 d2.removeCensusBlock(cb,neighbors,populationMeasure);
                 failedCbMoves++;
@@ -76,9 +79,6 @@ public class Algorithm{
                 failedCbMoves=0;
             }
 
-            if(iterations%REDRAW_CONST==0){
-                inProgressPlan.redrawDistricts();
-            }
 
             iterations++;
 
