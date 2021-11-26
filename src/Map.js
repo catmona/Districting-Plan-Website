@@ -60,14 +60,18 @@ function Map(props) {
     function toggleBoundaries() {
         let v = "visible";
 
+        //TODO country boundaries
+        //TODO state boundaries
+
         //district boundaries
         showDistrictBoundaries ? v = "visible" : v = "none";
         let distictBoundaryLayer = stateName + "-district-source-layer-outline";
         if(map.current.getSource(distictBoundaryLayer))
             map.current.setLayoutProperty(distictBoundaryLayer, 'visibility', v)
+        
+        //TODO county boundaries
     }
     
-
     function getStateGeoJSON() {
         if (districtingData && districtingData.featureCollection) { // user selected a state
             let layer = map.current.getSource(stateName + "-district-source");
@@ -278,8 +282,8 @@ function addDistrictStyleLayer(map, sourceId) {
         "minzoom": zoomThreshold,
         'source': sourceId,
         'paint': {
-        'line-color': white,
-        'line-width': 2.25
+            'line-color': white,
+            'line-width': 2.25
         }
     });
 
@@ -290,13 +294,13 @@ function addDistrictStyleLayer(map, sourceId) {
         "minzoom": zoomThreshold,
         'source': sourceId,
         'layout': {
-        // get the title name from the source's "title" property
-        'text-field': ['get', 'District_Name'],
-        'text-font': [
-        'Open Sans Semibold',
-        'Arial Unicode MS Bold'
-        ],
-        'text-anchor': 'center'
+            // get the title name from the source's "title" property
+            'text-field': ['get', 'District_Name'],
+            'text-font': [
+                'Open Sans Semibold',
+                'Arial Unicode MS Bold'
+            ],
+            'text-anchor': 'center'
         }
     });
 

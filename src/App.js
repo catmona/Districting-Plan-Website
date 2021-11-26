@@ -73,7 +73,6 @@ function App() {
                     <Col id="left-app">
                         <Row>
                             <Topbar stateName={stateName} setState={getStateSummary} planType={planType} />
-
                             <StateTabs 
                                 showError={showErrorModal}
                                 stateName={stateName} 
@@ -96,13 +95,11 @@ function App() {
                     </Col>
                 </Row>
             </Container>
-            <>
-                <ErrorModal 
-                    error={errorText} 
-                    show={showError} 
-                    backdrop="static"    
-                />
-            </>
+            <ErrorModal 
+                error={errorText} 
+                show={showError} 
+                backdrop="static"    
+            />
         </>
     );
 }

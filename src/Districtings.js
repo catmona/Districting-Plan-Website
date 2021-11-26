@@ -50,8 +50,6 @@ function districtings(props) {
         }
     });
 
-    // summaries.map((s) => (<Col xs={3} id="districting-img-"+""><DistrictingPopover num={1} data={props.}/></Col>))
-    // TODO figure this out later
     return(
         <>
             <Container id="districtings" className="scrollbar scrollbar-primary fluid">

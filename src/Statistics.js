@@ -37,7 +37,6 @@ function formatResponseToStatisticData(response) {
             'population': total[Demographic.ALL]
         };
         formattedDataList.push(formattedData);
-        // console.log("Formatted data: %o", formattedDataList);
     }
     return formattedDataList;
 }

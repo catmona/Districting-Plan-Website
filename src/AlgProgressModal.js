@@ -67,10 +67,6 @@ function AlgProgressModal(props) {
         chart.current.chart.render()
     });
 
-    //TODO Change in measures
-    //TODO num iterations
-    //TODO time has been running
-    //TODO est. time complete
     //TODO can the user pause? finish early? how do we resume?
 
     return(

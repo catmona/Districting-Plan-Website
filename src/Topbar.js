@@ -5,7 +5,7 @@ import { Col } from 'react-bootstrap';
 import { Row } from 'react-bootstrap';
 
 function Topbar(props) {
-    let stateName = props.stateName!==''?props.stateName:'Select State';
+    let stateName = props.stateName!=='' ? props.stateName : 'Select State';
     let setState = props.setState;
 
     useEffect(() => {
@@ -18,7 +18,11 @@ function Topbar(props) {
     return (
         <Row id="topbar">
             <Col className="topbar-item">
-                <h2 className="topbar-text">I want to </h2> <h1 className="topbar-text"><em className="rainbow-text">redistrict</em></h1> <h2 className="topbar-text">...</h2>
+                <h2 className="topbar-text">I want to </h2> 
+                <h1 className="topbar-text">
+                    <em className="rainbow-text">redistrict</em>
+                </h1> 
+                <h2 className="topbar-text">...</h2>
             </Col>
             <Col className="topbar-item" id="topbar-status" xd={"auto"}>
                 <div>
@@ -35,11 +39,5 @@ function Topbar(props) {
         </Row>
     )
 }
-
-/*
-<Col>
-    <h3 className="topbar-text rainbow-text" id="state-name"></h3>
-</Col>
-*/
 
 export default Topbar;
