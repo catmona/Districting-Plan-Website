@@ -23,17 +23,17 @@ function App() {
 
     function getStateSummary(stateAbbr) {
         fetch("http://localhost:8080/api2/getStateSummary?state=" + stateAbbr, { credentials: 'include' })
-                .then(res => res.json())
-                .then(
-                    (result) => {
-                        setDistrictingData(result);
-                    },
-                    (error) => {
-                        setDistrictingData(null)
-                        showErrorModal("Failed to get stats data", error);
-                        console.log(e)
-                    }
-                );
+        .then(res => res.json())
+        .then(
+            (result) => {
+                setDistrictingData(result);
+            },
+            (error) => {
+                setDistrictingData(null)
+                showErrorModal("Failed to get stats data", error);
+                console.log(e)
+            }
+        );
         
         switch (stateAbbr) {
             case "WA":
@@ -54,16 +54,16 @@ function App() {
 
     function getDistrictingPreviews() {
         fetch("http://localhost:8080/api2/districtings", { credentials: 'include' })
-                    .then(res => res.json())
-                    .then(
-                        (result) => {
-                            setDistrictingPreviews(result);
-                        },
-                        (error) => {
-                            showErrorModal("Failed to get districting previews", error)
-                            console.log(e)
-                        }
-                    );
+        .then(res => res.json())
+        .then(
+            (result) => {
+                setDistrictingPreviews(result);
+            },
+            (error) => {
+                showErrorModal("Failed to get districting previews", error)
+                console.log(e)
+            }
+        );
     }
 
     return (

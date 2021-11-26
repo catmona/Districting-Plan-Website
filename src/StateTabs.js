@@ -27,12 +27,6 @@ function StateTabs(props) {
         }
     }, [stateName]);
 
-    useEffect(() => {
-        if(props.algResults != null) {
-            setTab("alg-results")
-        }
-    }, [props.algResults]);
-
     return (
         <Container fluid id="state-tabs">
             <Tabs activeKey={tab} onSelect={(k) => selectTab(k)}>
@@ -54,9 +48,6 @@ function StateTabs(props) {
                         districtingPreviews={props.districtingPreviews} 
                         setPlanType={props.setPlanType}
                     />
-                </Tab>
-                <Tab disabled={props.algResults == null} eventKey="alg-results" title="Results">
-
                 </Tab>
             </Tabs>
             <div hidden={stateSelected} className="instructions-container">

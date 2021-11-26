@@ -111,7 +111,7 @@ function StatGraphs(props) {
         setValue(newValue);
     };
 
-    const handleSubmit = (event) => {
+    const getBoxWhiskerData = (event) => {
         event.preventDefault();
         fetch("http://localhost:8080/api2/boxwhiskers?districtingId=0" //TODO get districting ID from StateInfo
         + "&basis=" + boxWhiskerBasis 
@@ -260,7 +260,7 @@ function StatGraphs(props) {
                     />
                 </TabPanel>
                 <TabPanel value={value} index={2} width={'100%'} className="dark-tabpanel">
-                        <Form onSubmit={handleSubmit}> 
+                        <Form onSubmit={getBoxWhiskerData}> 
                             <Row id="box-whisker-form">
                                 <Col id="box-whisker-form-left">
                                     <Form.Group>
