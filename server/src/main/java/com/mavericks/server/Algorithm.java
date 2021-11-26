@@ -40,6 +40,7 @@ public class Algorithm{
     //change later
     private PopulationMeasure populationMeasure;
     private final int REDRAW_CONST=5;
+    private Districting bestDistricting;
 
 
     public Algorithm() {
@@ -66,8 +67,8 @@ public class Algorithm{
             d2.addCensusBlock(d1,cb,inProgressPlan,neighbors,populationMeasure);
             d1.removeCensusBlock(cb,neighbors,populationMeasure);
             Measures newMeasures=inProgressPlan.computeMeasures(populationMeasure);
-            if(newMeasures.getPolsbyPopperScore()<=compactness &&
-                    newMeasures.getPopulationEqualityScore()>=populationEquality){
+            if(objFunction(newMeasures.getPolsbyPopperScore(),
+                    newMeasures.getPopulationEqualityScore())<objFunction(compactness,populationEquality)){
                 d1.addCensusBlock(d2,cb,inProgressPlan,neighbors,populationMeasure);
                 d2.removeCensusBlock(cb,neighbors,populationMeasure);
                 failedCbMoves++;
@@ -102,6 +103,11 @@ public class Algorithm{
             return Math.exp((newScore-oldScore)/temp);
         }
     }
+
+    public double objFunction(double polsby, double popEquality){
+        return (polsby+(1-popEquality))/2;
+    }
+
 
 
 
