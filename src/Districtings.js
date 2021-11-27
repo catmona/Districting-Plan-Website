@@ -27,7 +27,14 @@ function DistrictingPopover(props) {
 
 function districtings(props) {
     const [showModal, setShowModal] = useState(false);
-    const [districtingSummary, setDistrictingSummary] = useState({distictingNum: 0, summary: []});
+    const [districtingSummary, setDistrictingSummary] = useState({
+        districtingNum: -1, data: {
+            planId: 0, summary: {
+                districtPopulations: [],
+                districtElections: []
+            }
+        }
+    });
     const NUM_DISTRICTINGS = 20; //changeable to an array later, or fetched from a json or ini file
     let stateName = props.stateName;
     let previews = props.districtingPreviews;
@@ -49,7 +56,7 @@ function districtings(props) {
                                 (result) => {
                                     console.log("District Summary result = %o", result);
                                     setShowModal(true);
-                                    setDistrictingSummary({districtingNum: i+1, summary: { 'planId': planId, 'summary': result}});
+                                    setDistrictingSummary({districtingNum: i+1, data: { 'planId': planId, 'summary': result}});
                                 },
                                 (error) => {
                                     // showErrorModal("Failed to get districting plan data", error);

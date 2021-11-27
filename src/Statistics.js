@@ -19,7 +19,7 @@ const Demographic = {
 }
 
 function formatResponseToStatisticData(response) {
-    // console.log("DATA FROM SERVER: %o", response);
+    //console.log("DATA FROM SERVER: %o", response);
     var formattedDataList = [];
     for(let i = 0; i < response.districtPopulations.length; i++) {
         let districtPop = response.districtPopulations[i];

@@ -137,8 +137,8 @@ function StatGraphs(props) {
     let partyData = [['District', 'Democratic Party', 'Republican Party']]
     partyData.push(...props.stateData.map((x) => { return [x['id'] + "", x['democrat'], x['republican']] }));
 
-    let demographicData = [['District', 'African American', 'Asian']];
-    demographicData.push(...props.stateData.map((x) => { return [x['id'] + "", x['africanamerican'], x['asianamerican']] }));
+    let demographicData = [['District', 'White', 'African American', 'Asian']];
+    demographicData.push(...props.stateData.map((x) => { return [x['id'] + "", x['white'], x['africanamerican'], x['asianamerican']] }));
     
     return (
         <>

@@ -83,6 +83,7 @@ function App() {
                                 setAlgResults={setAlgResults} 
                                 getDistrictingPreviews={getDistrictingPreviews}
                                 districtingPreviews={districtingPreviews}
+                                planType={planType}
                                 setPlanType={setPlanType}
                                 setSelectedPlanId={setSelectedPlanId}
                             />

@@ -231,6 +231,7 @@ h3 {
 .districting-img {
     margin-top: 8%;
     margin-bottom: 8%;
+    cursor: pointer;
 }
 #districtings {
     background-color: $fgColor;
@@ -257,6 +258,7 @@ h3 {
 #districting-modal-stats {
     padding: 0.5%;
     margin: 0.1%;
+    display: none;
     .col {
         margin-left: 1%;
         margin-right: 1%;
@@ -281,12 +283,13 @@ h3 {
     }
 }
 .districting-modal-value {
-    width: 25% !important;
+    width: 30% !important;
     text-align: right;
-    margin-right: 10px;
     margin-top: auto;
     margin-bottom: auto;
     p {
+        width: 100%;
+        text-align: right;
         color: $accentColor5;
     }
 }

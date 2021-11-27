@@ -25,7 +25,7 @@ function StateTabs(props) {
             props.setAlgResults(null); //TODO should be done when a districting is selected too
             setStateSelected(true);
         }
-    }, [stateName]);
+    }, [props.planType]);
 
     return (
         <Container fluid id="state-tabs">
