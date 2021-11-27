@@ -51,9 +51,9 @@ function districtings(props) {
                             .then(res => res.json())
                             .then(
                                 (result) => {
-                                    console.log(`District Summary result = ${result}`);
+                                    console.log("District Summary result = %o", result);
                                     setShowModal(true);
-                                    setDistrictingSummary({districtingNum: i+1, summary: result});
+                                    setDistrictingSummary({districtingNum: i+1, summary: { 'planId': planId, 'summary': result}});
                                 },
                                 (error) => {
                                     // showErrorModal("Failed to get districting plan data", error);
@@ -108,6 +108,7 @@ function districtings(props) {
                     show = {showModal} 
                     onHide = {() => setShowModal(false)} 
                     setPlanType = {props.setPlanType}
+                    setSelectedPlanId = {props.setSelectedPlanId}
                 />
             </>
         </>

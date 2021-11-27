@@ -47,6 +47,7 @@ function StateTabs(props) {
                         stateName={stateName} 
                         districtingPreviews={props.districtingPreviews} 
                         setPlanType={props.setPlanType}
+                        setSelectedPlanId={props.setSelectedPlanId}
                     />
                 </Tab>
             </Tabs>

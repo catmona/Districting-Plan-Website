@@ -22,7 +22,10 @@ function DistrictingModal(props) {
             <Modal.Footer>
                 <Button 
                     variant="primary" 
-                    onClick = {() => props.setPlanType("Districting " + props.data.districtingNum)}
+                    onClick = {() => {
+                        props.setPlanType("Districting " + props.data.districtingNum);
+                        props.setSelectedPlanId(props.data.summary.planId);
+                    }}
                 >
                     Select
                 </Button>
