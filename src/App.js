@@ -31,9 +31,9 @@ function App() {
                 setDistrictingData(result);
             },
             (error) => {
-                setDistrictingData(null)
-                showErrorModal("Failed to get stats data", error);
-                console.log(e)
+                setDistrictingData(null);
+                showErrorModal("Failed to get state data", error);
+                console.log(error);
             }
         );
         
@@ -52,6 +52,22 @@ function App() {
         }
 
         setPlanType("Enacted");
+    }
+
+    function getDistrictingSummary(planId) {
+        fetch("http://localhost:8080/api2/d--istrictingSummary?districtingId=" + planId, { credentials: 'include' })
+        .then(res => res.json())
+        .then(
+            (result) => {
+                setSelectedPlanId(planId);
+                setDistrictingData(result);
+            },
+            (error) => {
+                setDistrictingData(null)
+                showErrorModal("Failed to get districting data", error);
+                console.log(error);
+            }
+        );
     }
 
     function getDistrictingPreviews() {
@@ -82,10 +98,10 @@ function App() {
                                 algResults={algResults} 
                                 setAlgResults={setAlgResults} 
                                 getDistrictingPreviews={getDistrictingPreviews}
+                                getDistrictingSummary={getDistrictingSummary}
                                 districtingPreviews={districtingPreviews}
                                 planType={planType}
                                 setPlanType={setPlanType}
-                                setSelectedPlanId={setSelectedPlanId}
                             />
                         </Row>
                     </Col>
