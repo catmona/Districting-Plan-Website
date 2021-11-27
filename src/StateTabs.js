@@ -38,6 +38,7 @@ function StateTabs(props) {
                             districtingData={props.districtingData} 
                             algResults={props.algResults} 
                             setAlgResults={props.setAlgResults} 
+                            selectedPlanId={props.selectedPlanId}
                         /> 
                     : ""}
                 </Tab>

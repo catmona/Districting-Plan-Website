@@ -27,7 +27,6 @@ function App() {
         .then(res => res.json())
         .then(
             (result) => {
-                setSelectedPlanId(result.enactedId);
                 setDistrictingData(result);
             },
             (error) => {
@@ -102,6 +101,8 @@ function App() {
                                 districtingPreviews={districtingPreviews}
                                 planType={planType}
                                 setPlanType={setPlanType}
+                                selectedPlanId={selectedPlanId}
+                                setSelectedPlanId={setSelectedPlanId}
                             />
                         </Row>
                     </Col>
