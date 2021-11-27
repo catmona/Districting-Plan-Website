@@ -12,9 +12,9 @@ public class PlanDTO {
 
     public PlanDTO() {}
 
-    public PlanDTO(double repPercent, double dempPercent, List<List<Integer>> districtPopulations, List<Election> districtElections) {
+    public PlanDTO(double repPercent, double demPercent, List<List<Integer>> districtPopulations, List<Election> districtElections) {
         this.repPercent = repPercent;
-        this.demPercent = dempPercent;
+        this.demPercent = demPercent;
         this.districtPopulations = districtPopulations;
         this.districtElections = districtElections;
     }

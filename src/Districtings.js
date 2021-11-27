@@ -9,8 +9,6 @@ function DistrictingPopover(props) {
     let repPercent = props.summary.repPercent;
     let demPercent = props.summary.demPercent;
 
-    console.log(`POPOVER ${props.summary}, demPercent ${demPercent}`);
-
     const pop = (
         <Popover id="popover-basic" className="custom-popover">
             <Popover.Header as="h3">Districting Plan {props.num}</Popover.Header>
@@ -40,7 +38,6 @@ function districtings(props) {
     let loading = {'polsbyPopper':0, "populationEquality":0, "repPercent":0, "demPercent":0};
 
     useEffect(() => {
-        console.log("PROP DISTRICTINGS = %o", previews);
         //right now this doesnt account for a different number of districtings per state
         //it wont delete excess images if there are any
         if(stateName || stateName != "") { 
@@ -49,12 +46,20 @@ function districtings(props) {
                 var img = col.firstChild;
                 if(img) {
                     img.onclick = (e) => {
-                        setShowModal(true);
-                        // TODO call 
-                        
-
-                        console.log(`PLAN ID IS ${e.target.getAttribute("planId")}`);
-                        setDistrictingSummary({districtingNum: i+1, summary: previews[i]})
+                        let planId = e.target.getAttribute("planId");
+                        fetch("http://localhost:8080/api2/districtingSummary?districtingId=" + planId, { credentials: 'include' })
+                            .then(res => res.json())
+                            .then(
+                                (result) => {
+                                    console.log(`District Summary result = ${result}`);
+                                    setShowModal(true);
+                                    setDistrictingSummary({districtingNum: i+1, summary: result});
+                                },
+                                (error) => {
+                                    showErrorModal("Failed to get stats data", error);
+                                    console.log(e)
+                                }
+                            );
                     };
                     img.src = require("/public/assets/thumbnails/" + stateName + "/districting-img-" + (i+1) + ".png").default;
                 }
