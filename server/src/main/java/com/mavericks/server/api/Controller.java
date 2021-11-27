@@ -63,11 +63,10 @@ public class Controller {
     public Box handleBoxWhisker(@RequestParam("districtingId")long districtingId,
                                 @RequestParam("basis") String basis,
                                 @RequestParam("enacted")boolean enacted,
-                                @RequestParam("current")boolean current,
                                 @RequestParam("postAlg")boolean postAlg, HttpSession session){
 
         // TODO implement this, i think it was meant to return a list of district BoxWhiskers for a certain basis
-        handler.getBoxWhisker(districtingId,mapBasisToEnum(basis),enacted,current,postAlg,session);
+        handler.getBoxWhisker(districtingId,mapBasisToEnum(basis),enacted,postAlg,session);
         return null;
     }
 
@@ -123,7 +122,7 @@ public class Controller {
             case "WHITE":
                 return Basis.WHITE;
             case "AFRICAN_AMERICAN":
-                return Basis.AFRICAN_AMERICAN;
+                return Basis.BLACK;
             case "ASIAN":
                 return Basis.ASIAN;
             case "HISPANIC":

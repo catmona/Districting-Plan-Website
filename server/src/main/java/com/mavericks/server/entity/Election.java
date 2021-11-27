@@ -20,6 +20,10 @@ public class Election {
     @Column(name = "democraticVotes", nullable = false)
     private int  democraticVotes;
 
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "infoId", referencedColumnName = "id")
+    private ElectionInfo info;
+
     public Election() {}
 
     public Election(long id, String regionId, int republicanVotes, int democraticVotes) {
@@ -59,5 +63,13 @@ public class Election {
 
     public void setDemocraticVotes(int democraticVotes) {
         this.democraticVotes = democraticVotes;
+    }
+
+    public ElectionInfo getInfo() {
+        return info;
+    }
+
+    public void setInfo(ElectionInfo info) {
+        this.info = info;
     }
 }

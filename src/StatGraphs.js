@@ -112,10 +112,9 @@ function StatGraphs(props) {
 
     const getBoxWhiskerData = (event) => {
         event.preventDefault();
-        fetch("http://localhost:8080/api2/boxwhiskers?districtingId=0" //TODO get districting ID from StateInfo
+        fetch("http://localhost:8080/api2/boxwhiskers?districtingId=" + selectedPlanId || selectedPlanId !== "" ? selectedPlanId : '-1'
         + "&basis=" + boxWhiskerBasis 
-        + "&enacted=" + boxWhiskerEnacted 
-        + "&current=" + boxWhiskerCurrent 
+        + "&enacted=" + boxWhiskerEnacted
         + "&postAlg=" + boxWhiskerEqualized,
         { credentials: 'include' })
         .then(res => res.json())
@@ -138,8 +137,8 @@ function StatGraphs(props) {
     let partyData = [['District', 'Democratic Party', 'Republican Party']]
     partyData.push(...props.stateData.map((x) => { return [x['id'] + "", x['democrat'], x['republican']] }));
 
-    let demographicData = [['District', 'African American', 'Asian']];
-    demographicData.push(...props.stateData.map((x) => { return [x['id'] + "", x['africanamerican'], x['asianamerican']] }));
+    let demographicData = [['District', 'White', 'African American', 'Asian']];
+    demographicData.push(...props.stateData.map((x) => { return [x['id'] + "", x['white'], x['africanamerican'], x['asianamerican']] }));
     
     return (
         <>

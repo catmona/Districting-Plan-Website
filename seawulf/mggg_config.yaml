@@ -1,0 +1,15 @@
+num_districtings: 1
+iterations: 10
+precincts_path: seawulf/arkansas/precincts.geojson
+output_path: seawulf/arkansas/
+target_metric: population
+assignment_criteria: districtId
+random_initial_partition: True
+epsilon: 0.02
+node_repeats: 2
+cut_edges_multiplier: 2
+population_deviation: 0.1
+save_on: 1
+state: AR
+profiler_path: seawulf/arkansas/profiler.csv
+

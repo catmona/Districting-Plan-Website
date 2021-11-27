@@ -1,34 +1,15 @@
-PREPROCESSING:
-  DATA:
-    NEVADA:
-      STATE_NAME: NV
-      UNPROCESSED:
-        GEOMETRY:
-          DISTRICTS: preprocessing/data/nevada/unprocessed/districts_geo
-          PRECINCTS: preprocessing/data/nevada/unprocessed/precincts_geo.geojson
-          CENSUS_BLOCKS: preprocessing/data/nevada/unprocessed/cb_geo
-        INFORMATION:
-          CENSUS_BLOCKS: preprocessing/data/nevada/unprocessed/cb_info.csv
-          COUNTY_ELECTION: preprocessing/data/nevada/unprocessed/county_election.xlsx
-          COUNTY_NAME_FIPS: preprocessing/data/nevada/unprocessed/county_name_fips.csv
-      PROCESSED:
-        ENACTED:
-          DISTRICTING_NAME: enacted
-          CENSUS_BLOCKS: preprocessing/data/nevada/processed/enacted/cb.geojson
-          CENSUS_BLOCKS_EDGES: preprocessing/data/nevada/processed/enacted/cb_edges.geojson
-          PRECINCTS: preprocessing/data/nevada/processed/enacted/precincts.geojson
-          DISTRICTS: preprocessing/data/nevada/processed/enacted/districts.geojson
-          DISTRICTING: preprocessing/data/nevada/processed/enacted/districting.geojson
-    WASHINGTON:
-      GEOMETRY:
-        DISTRICTS: preprocessing/data/washington/unprocessed/districts_geo
-        PRECINCTS: preprocessing/data/washington/unprocessed/precincts_geo.geojson
-        CENSUS_BLOCKS: preprocessing/data/washington/unprocessed/cb_geo
-      INFORMATION:
-        CENSUS_BLOCKS: preprocessing/data/washington/unprocessed/cb_info.csv
-        COUNTY_ELECTION: preprocessing/data/washington/unprocessed/county_election.xlsx
-        COUNTY_NAME_FIPS: preprocessing/data/washington/unprocessed/county_name_fips.csv
-    ARKANSAS:
+
+ARKANSAS:
+  DISTRICTS_GEO_PATH: districts_geo
+  CB_GEO_PATH: cb_geo
+  CB_INFO_PATH: cb_info.csv
+  PRECINCTS_GEO_PATH: precincts_geo.geojson
+  PRECINCTS_ELECTION_PATH: election_data.geojson
+  PRECINCTS_PATH: precincts.geojson
+  ENACTED_ID: 6
+  CB_PATH: cb.geojson
+  COUNTY_GEO: county_geo
+
 DATABASE:
   USERNAME: Mavericks
   PASSWORD: changeit
