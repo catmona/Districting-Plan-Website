@@ -4,12 +4,39 @@ import { Modal, Button, Row, Col, DropdownButton, Dropdown, ProgressBar } from '
 function DistrictingModal(props) {
     const [selectedDistrict, setSelectedDistrict] = useState(-1);
     const {setPlanType, ...rest} = props;
+    const [districtData, setDistrictData] = useState([{
+        popAll: 100, popAfricanAmerican: 25, popAsian: 25, 
+        popWhite: 50, election: 2014, demPercent: 60, repPercent: 40
+    }]);
+    let data = props.data.data;
 
     let dropdownTitle = selectedDistrict != -1 ? "District " + selectedDistrict : 'Select District ';
 
     useEffect(() => {
-        console.log("data updated")
-    }, [props.data]);
+        if(!data || !data.summary.districtPopulations || !data.summary.districtElections) return;
+
+        let list = []
+        let pop = data.summary.districtPopulations;
+        let elections = data.summary.districtElections;
+        for(let i = 0; i < pop; i++) {
+            let repVotes = elections[i].republicanVotes;
+            let demVotes = elections[i].democratVotes;
+            let total = repVotes + demVotes;
+            let repPercent = (repVotes/total) * 100;
+            let demPercent = (demVotes/total) * 100;
+            repPercent = repPercent.toFixed(2);
+            demPercent = demPercent.toFixed(2);
+
+            let data = {
+                popAll: pop[i][3], popAfricanAmerican: pop[i][1], popAsian: pop[i][0], 
+                popWhite: pop[i][2], election: 2014, demPercent: demPercent, repPercent: repPercent 
+            }
+
+            list.append(data);
+        }
+
+        setDistrictData(list);
+    }, [data]);
 
     useEffect(() => {
         let e = document.getElementById("districting-modal-stats");
@@ -31,7 +58,9 @@ function DistrictingModal(props) {
             <Modal.Body>
                 <Row>
                     <DropdownButton id="districting-modal-dropdown" menuVariant="dark" title={dropdownTitle}>
-                        <Dropdown.Item onClick={() => {setSelectedDistrict(1)}}>District 1</Dropdown.Item> {/* TODO harcoded for now */}
+                        {districtData.map(i => {
+                            <Dropdown.Item onClick={() => {setSelectedDistrict(i)}}>{"District " + i}</Dropdown.Item>
+                        })}
                     </DropdownButton>
                 </Row>
                 <Row id="districting-modal-stats">
