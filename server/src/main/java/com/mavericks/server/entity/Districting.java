@@ -38,12 +38,6 @@ public class Districting {
     })
     private Measures measures;
 
-    @Column(name = "demPercent")
-    private double demPercent;
-
-    @Column(name = "repPercent")
-    private double repPercent;
-
     @Column(name = "previewImageUrl")
     private String previewImageUrl; // used by SeaWulf districtings, is the preview image filepath
 
@@ -157,22 +151,6 @@ public class Districting {
         this.precinctGeoJSON = precinctGeoJSON;
     }
 
-    public double getDemPercent() {
-        return demPercent;
-    }
-
-    public void setDemPercent(double demPercent) {
-        this.demPercent = demPercent;
-    }
-
-    public double getRepPercent() {
-        return repPercent;
-    }
-
-    public void setRepPercent(double repPercent) {
-        this.repPercent = repPercent;
-    }
-
     public List<Population> getPopulations() {
         return populations;
     }
@@ -202,19 +180,13 @@ public class Districting {
     }
 
 
-
-
     public DistrictingDTO makeDistrictDTO(){
         return new DistrictingDTO(this.getId(), this.measures.getPolsbyPopperScore(),
-                this.measures.getPopulationEqualityScore(),
-                this.getRepPercent(),
-                this.getDemPercent());
+                this.measures.getPopulationEqualityScore());
     }
 
     public PlanDTO makePlanDTO(PopulationMeasure popType){
         PlanDTO dto = new PlanDTO();
-        dto.setDemPercent(this.getDemPercent());
-        dto.setRepPercent((this.getRepPercent()));
         List<Election> elections = new ArrayList<Election>();
         List<List<Integer>> populations = new ArrayList<>();
         for (District d : districts) {

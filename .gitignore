@@ -144,3 +144,17 @@ preprocessing/data
 .vscode/launch.json
 server/src/main/java/com/mavericks/server/WebSocketConfig.java
 server/src/main/resources/gz_2010_us_040_00_5m.json
+
+#Kosta Stuff
+preprocessing/arkansas/cb.geojson
+preprocessing/arkansas/cb_edges.csv
+preprocessing/arkansas/cb_geo
+preprocessing/arkansas/cb_info.csv
+preprocessing/arkansas/election_data.geojson
+preprocessing/arkansas/precincts.geojson
+preprocessing/arkansas/precincts_geo.geojson
+preprocessing/arkansas/districts_geo
+preprocessing/arkansas/county_geo
+preprocessing/washington/
+preprocessing/nevada/
+seawulf/arkansas/

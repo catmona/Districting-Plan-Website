@@ -7,15 +7,11 @@ public class DistrictingDTO {
     private String districtingId;
     private double polsbyPopper;
     private double populationEquality;
-    private double repPercent;
-    private double demPercent;
 
-    public DistrictingDTO(String districtingId, double polsbyPopper, double populationEquality, double repPercent, double demPercent) {
+    public DistrictingDTO(String districtingId, double polsbyPopper, double populationEquality) {
         this.districtingId = districtingId;
         this.polsbyPopper = polsbyPopper;
         this.populationEquality = populationEquality;
-        this.repPercent = repPercent;
-        this.demPercent = demPercent;
     }
 
     public String getDistrictingId() {
@@ -40,21 +36,5 @@ public class DistrictingDTO {
 
     public void setPopulationEquality(double populationEquality) {
         this.populationEquality = populationEquality;
-    }
-
-    public double getRepPercent() {
-        return repPercent;
-    }
-
-    public void setRepPercent(double repPercent) {
-        this.repPercent = repPercent;
-    }
-
-    public double getDemPercent() {
-        return demPercent;
-    }
-
-    public void setDemPercent(double demPercent) {
-        this.demPercent = demPercent;
     }
 }

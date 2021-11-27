@@ -9,7 +9,7 @@ user = config['DATABASE']['USERNAME']
 password = config['DATABASE']['PASSWORD']
 database_name = config['DATABASE']['DB']
 
-enacted_cb_path = '../' +config['PREPROCESSING']['DATA']['NEVADA']['PROCESSED']['ENACTED']['CENSUS_BLOCKS']
+enacted_cb_path = '../' +config['PREPROCESSING']['DATA']['WASHINGTON']['PROCESSED']['ENACTED']['CENSUS_BLOCKS']
 enacted_cb = geopandas.read_file(enacted_cb_path)
 # enacted_cb['geometry'] = enacted_cb['geometry'].apply(lambda x: str(x))
 enacted_cb = enacted_cb.applymap(str)
@@ -27,7 +27,7 @@ db = mysql.connector.connect(
 
 cursor = db.cursor()
 
-sql = "INSERT INTO TempCensusBlocks (blockId, precinctId, districtId, districtingId, population, white, black, asian, hispanic, geometry) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
+sql = "INSERT INTO TempCensusBlocks (blockId, districtId VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s,%s, %s, %s, %s)"
 #
 for val in values:
     cursor.execute(sql, val)

@@ -250,6 +250,89 @@ h3 {
 }
 /* #endregion */
 
+/* #region districtingModal */
+#districting-modal-dropdown {
+    margin-bottom: 10px;
+}
+#districting-modal-stats {
+    padding: 0.5%;
+    margin: 0.1%;
+    .col {
+        margin-left: 1%;
+        margin-right: 1%;
+    }
+}
+.districting-modal-table {
+    background-color: $fgColor;
+    border: 1px solid black;
+    .row {
+        display: flex;
+        justify-content: space-between;
+        height: 50px;
+    }
+    .row:not(:last-child) {
+        border-bottom: grey 1px solid;
+    }
+    p {
+        margin-top: auto;
+        margin-bottom: auto;
+        display: inline-block;
+        width: 50%;
+    }
+}
+.districting-modal-value {
+    width: 25% !important;
+    text-align: right;
+    margin-right: 10px;
+    margin-top: auto;
+    margin-bottom: auto;
+    p {
+        color: $accentColor5;
+    }
+}
+#districting-modal-congressional {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+}
+#districting-modal-election {
+    text-align: center;
+    padding: 8px;
+    margin-bottom: 10px;
+    p {
+        color: $accentColor2;
+        margin: 0;
+    }
+}
+.districting-modal-congressional-block {
+    background-color: $fgColor;
+    border: 1px solid black;
+    height: auto;
+    .row {
+        margin: auto;
+    }   
+}
+#districting-modal-dem {
+    color: $accentColor;
+}
+#districting-modal-rep {
+    color: $accentColor4;
+}
+#districting-modal-progress {
+    max-width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 5%;
+    margin-bottom: 4%;
+    background-color: $accentColor4;
+    div {
+        margin: 0;
+        max-width: 100%;
+        background-color: $accentColor4;
+    }
+}
+/* #endregion */
+
 /* #region table */
 #district-tablebody {
     min-height: 1 !important;

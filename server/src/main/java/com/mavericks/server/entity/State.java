@@ -113,6 +113,6 @@ public class State {
             populations.add(d.getPopulation(popType));
             elections.add(d.getElection());
         }
-        return new StateDTO(center, geoJSON, populations, elections);
+        return new StateDTO(e.getId(), center, geoJSON, populations, elections);
     }
 }
