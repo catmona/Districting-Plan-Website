@@ -1,0 +1,6 @@
+precincts_path: arkansas/precincts.geojson
+districts_path: arkansas/ARSW2_districts.csv
+districtings_path: arkansas/ARSW2_districtings.csv
+average_districting_id: ARaverage
+average_districts_path: ARaverage_districts.csv
+enacted_districts_path: ARenacted_districts.csv
