@@ -5,6 +5,7 @@ import com.mavericks.server.enumeration.Demographic;
 import com.mavericks.server.enumeration.PopulationMeasure;
 import com.mavericks.server.enumeration.Region;
 import org.hibernate.annotations.Where;
+import org.locationtech.jts.dissolve.LineDissolver;
 import org.locationtech.jts.geom.Geometry;
 import org.locationtech.jts.geom.GeometryCollection;
 import org.locationtech.jts.geom.GeometryFactory;
@@ -77,6 +78,9 @@ public class District {
     @Transient
     private int districtNumber;
 
+    @Transient
+    private Geometry prevGeometry;
+
     public District() {
         this.cbToRemove=new ArrayList<>();
         this.cbToAdd=new ArrayList<>();
@@ -91,7 +95,7 @@ public class District {
     }
 
 
-    public void removeCensusBlock(CensusBlock cb,List<CensusBlock>neighbors,PopulationMeasure measure){
+    public void removeCensusBlock(CensusBlock cb,List<CensusBlock>neighbors,PopulationMeasure measure, boolean revert){
         List<CensusBlock>cbBorders=neighbors.stream().filter(c->c.getDistrictId().equals(this.id))
                 .collect(Collectors.toList());
         cbBorders.forEach(c->c.setBorderBlock(true));
@@ -103,20 +107,18 @@ public class District {
         this.borderBlocks.remove(cb.getId());
         Population distPop=this.getPopulationObj(measure,Demographic.ALL);
         distPop.setValue(distPop.getValue()-cb.getPopulation(measure,Demographic.ALL));
-//        try{
-//            this.geometry=this.geometry.difference(cb.getGeometry());
-//        }catch(TopologyException e){
-//            System.out.println("district" +geometry);
-//            System.out.println("cb:"+cb.getGeometry());
-//            System.out.println(e.getMessage());
-//            System.exit(1);
-//        }
-        this.geometry=this.geometry.buffer(0).difference(cb.getGeometry());
+        if(revert){
+            this.geometry=this.prevGeometry;
+        }
+        else{
+            this.prevGeometry=this.geometry;
+            this.geometry=this.geometry.difference(cb.getGeometry());
+        }
 
     }
 
     public void addCensusBlock(CensusBlock cb,Districting plan,List<CensusBlock>neighbors
-            ,PopulationMeasure measure){
+            ,PopulationMeasure measure, boolean revert){
         List<CensusBlock>newDistrictNeighbors= neighbors.stream().
                 filter(c->c.getDistrictId().equals(this.id)).collect(Collectors.toList());
         adjNewDistNeighbors(cb,plan,newDistrictNeighbors);
@@ -124,7 +126,13 @@ public class District {
         this.borderBlocks.put(cb.getId(),cb);
         Population distPop=this.getPopulationObj(measure,Demographic.ALL);
         distPop.setValue(distPop.getValue()+cb.getPopulation(measure,Demographic.ALL));
-        this.geometry= UnaryUnionOp.union(Arrays.asList(this.geometry,cb.getGeometry()));
+        if(revert){
+            this.geometry=this.prevGeometry;
+        }
+        else{
+            this.prevGeometry=this.geometry;
+            this.geometry= this.geometry.union(cb.getGeometry());
+        }
     }
 
     private void adjNewDistNeighbors(CensusBlock cb,Districting plan,List<CensusBlock>neighbors){
@@ -286,6 +294,8 @@ public class District {
         District district = (District) o;
         return this.id.equals(district.getId());
     }
+
+
 
 
 }

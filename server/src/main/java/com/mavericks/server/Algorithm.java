@@ -8,6 +8,8 @@ import com.mavericks.server.entity.Measures;
 import com.mavericks.server.enumeration.Demographic;
 import com.mavericks.server.enumeration.PopulationMeasure;
 import com.mavericks.server.repository.CensusBlockRepository;
+import org.locationtech.jts.geom.Geometry;
+import org.locationtech.jts.operation.union.UnaryUnionOp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
@@ -54,6 +56,7 @@ public class Algorithm{
     public void run() {
         System.out.println("entered");
         populationMeasure=PopulationMeasure.TOTAL;
+
         while(iterations!=max_iterations && failedCbMoves!=maxFaildCbMoves && running
                 && (compactness<minCompactness || populationEquality>minPopulationEquality)){
             District d1=inProgressPlan.getRandDistrict();
@@ -64,13 +67,13 @@ public class Algorithm{
                 iterations++;
                 continue;
             }
-            d2.addCensusBlock(cb,inProgressPlan,neighbors,populationMeasure);
-            d1.removeCensusBlock(cb,neighbors,populationMeasure);
+            d2.addCensusBlock(cb,inProgressPlan,neighbors,populationMeasure,false);
+            d1.removeCensusBlock(cb,neighbors,populationMeasure,false);
             Measures newMeasures=inProgressPlan.computeMeasures(populationMeasure);
             if(objFunction(newMeasures.getPolsbyPopperScore(),
                     newMeasures.getPopulationEqualityScore())<objFunction(compactness,populationEquality)){
-                d1.addCensusBlock(cb,inProgressPlan,neighbors,populationMeasure);
-                d2.removeCensusBlock(cb,neighbors,populationMeasure);
+                d1.addCensusBlock(cb,inProgressPlan,neighbors,populationMeasure,true);
+                d2.removeCensusBlock(cb,neighbors,populationMeasure,true);
                 failedCbMoves++;
             }
             else {
@@ -97,14 +100,14 @@ public class Algorithm{
         return null;
     }
 
-    private double acceptanceProbability(int oldScore, int newScore, int temp){
-        if(oldScore>newScore){
-            return 1.0;
-        }
-        else{
-            return Math.exp((newScore-oldScore)/temp);
-        }
-    }
+//    private double acceptanceProbability(int oldScore, int newScore, int temp){
+//        if(oldScore>newScore){
+//            return 1.0;
+//        }
+//        else{
+//            return Math.exp((newScore-oldScore)/temp);
+//        }
+//    }
 
     public double objFunction(double polsby, double popEquality){
         return (polsby+(1-popEquality))/2;
@@ -125,7 +128,10 @@ public class Algorithm{
             Map<String,Object> properties = new HashMap<>();
             properties.put("District",d.getDistrictNumber());
             properties.put("District_Name",""+d.getDistrictNumber());
-            features.add(new Feature(((Feature)GeoJSONFactory.create(writer.write(d.getGeometry()).toString())).getGeometry(),properties));
+            Geometry geo=d.getGeometry().getBoundary();
+            features.add(new Feature(((Feature)GeoJSONFactory
+                    .create(writer.write(geo).toString()))
+                    .getGeometry(),properties));
         }
         return new AlgorithmDTO(inProgressPlan.getMeasures(),iterations,running,writer.write(features)
                 ,inProgressPlan.getPopulation());
