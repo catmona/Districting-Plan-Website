@@ -105,18 +105,9 @@ public class Handler {
         return districting.makePlanDTO(popType);
     }
 
-    /**
-     * Get box and whisker data for all of a districting's districts, by basis.
-     * @param districtingId
-     * @param basis
-     * @param enacted true if using the data for the enacted districting plan
-     * @param current alright someone help me I don't actually know what these are
-     * @param postAlg same here
-     * @param session
-     * @return
-     */
-    public Set<Box> getBoxWhisker(long districtingId, Basis basis, boolean enacted,
-                                  boolean current, boolean postAlg, HttpSession session){
+    public Set<Box> getBoxWhisker(long districtingId, Basis basis, boolean enacted, boolean postAlg,
+                                  HttpSession session){
+        // do not overlay currently selected SeaWulf plan if districtingId = -1
 
         State state = (State) session.getAttribute("state");
         Districting districting = state.getEnacted();

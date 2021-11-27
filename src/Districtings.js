@@ -6,8 +6,6 @@ function DistrictingPopover(props) {
     let planId = props.summary.districtingId;
     let polsby = props.summary.polsbyPopper;
     let popEquality = props.summary.populationEquality;
-    let repPercent = props.summary.repPercent;
-    let demPercent = props.summary.demPercent;
 
     const pop = (
         <Popover id="popover-basic" className="custom-popover">
@@ -16,8 +14,6 @@ function DistrictingPopover(props) {
                     <em style={{fontSize: 13}}>This districting was chosen for it's high political fairness.</em><br /><br />
                     <div className='districting-labels'><b>Population Equality: </b>{popEquality}<br /></div>
                     <div className='districting-labels'><b>Compactness: </b>{polsby}<br /></div>
-                    <div className='districting-labels'><b>Republican Percentage: </b>{repPercent}<br /></div>
-                    <div className='districting-labels'><b>Democratic Percentage: </b>{demPercent}<br /></div>
                 </Popover.Body>
         </Popover>
     );
@@ -35,7 +31,7 @@ function districtings(props) {
     const NUM_DISTRICTINGS = 20; //changeable to an array later, or fetched from a json or ini file
     let stateName = props.stateName;
     let previews = props.districtingPreviews;
-    let loading = {'polsbyPopper':0, "populationEquality":0, "repPercent":0, "demPercent":0};
+    let loading = {'polsbyPopper':0, "populationEquality":0};
 
     useEffect(() => {
         //right now this doesnt account for a different number of districtings per state

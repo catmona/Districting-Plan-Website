@@ -2,7 +2,7 @@ package com.mavericks.server.enumeration;
 
 public enum Basis {
     WHITE,
-    AFRICAN_AMERICAN,
+    BLACK,
     ASIAN,
     HISPANIC,
     REPUBLICAN,
