@@ -3,6 +3,7 @@ import { DropdownButton } from 'react-bootstrap';
 import { Dropdown } from 'react-bootstrap';
 import { Col } from 'react-bootstrap';
 import { Row } from 'react-bootstrap';
+import { Refresh } from '@mui/icons-material'
 
 function Topbar(props) {
     let stateName = props.stateName!=='' ? props.stateName : 'Select State';
@@ -25,15 +26,16 @@ function Topbar(props) {
                 <h2 className="topbar-text">...</h2>
             </Col>
             <Col className="topbar-item" id="topbar-status" xd={"auto"}>
-                <div>
+                <div onClick={() => window.location.reload(false)}>
+                    <Refresh />
                     <h3 className="topbar-text">{props.planType}</h3>
                 </div>
             </Col>
             <Col className="topbar-item" xs={"auto"}>
                 <DropdownButton id="state-dropdown" menuVariant="dark" title={stateName}>
-                    <Dropdown.Item onClick={() => {setState("WA");}} className='state-dropdown-option'>Washington</Dropdown.Item>
-                    <Dropdown.Item onClick={() => {setState("NV");}} className='state-dropdown-option'>Nevada</Dropdown.Item>
-                    <Dropdown.Item onClick={() => {setState("AR");}} className='state-dropdown-option'>Arkansas</Dropdown.Item>
+                    <Dropdown.Item onClick={() => setState("WA")} className='state-dropdown-option'>Washington</Dropdown.Item>
+                    <Dropdown.Item onClick={() => setState("NV")} className='state-dropdown-option'>Nevada</Dropdown.Item>
+                    <Dropdown.Item onClick={() => setState("AR")} className='state-dropdown-option'>Arkansas</Dropdown.Item>
                 </DropdownButton>
             </Col>
         </Row>
