@@ -5,6 +5,7 @@ import com.mavericks.server.dto.DistrictingDTO;
 import com.mavericks.server.dto.PlanDTO;
 import com.mavericks.server.dto.StateDTO;
 import com.mavericks.server.entity.Box;
+import com.mavericks.server.entity.Election;
 import com.mavericks.server.enumeration.Basis;
 import com.mavericks.server.enumeration.PopulationMeasure;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,12 @@ public class Controller {
     @Autowired
     public Controller(Handler handler) {
         this.handler = handler;
+    }
+
+    @GetMapping(value = "test")
+    public Election test(){
+
+        return handler.test();
     }
 
     @GetMapping(value = "getStateSummary")

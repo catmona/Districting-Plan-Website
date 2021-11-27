@@ -30,7 +30,6 @@ public class CensusBlock {
     @Column(name = "isBorderBlock", nullable = false)
     private boolean isBorderBlock;
 
-
     @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "regionId")
     @OrderBy("populationMeasureType, demographicType")
@@ -123,9 +122,6 @@ public class CensusBlock {
                 .map(p -> p.getValue())
                 .collect(Collectors.toList());
     }
-
-
-
 
     @Override
     public boolean equals(Object o) {

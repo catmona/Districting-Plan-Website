@@ -8,43 +8,56 @@ import java.util.Date;
 public class Election {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", length = 50, nullable = false)
-    private String id;
+    @Column(name = "id", nullable = false)
+    private long id;
 
-    @Column(name = "name", nullable = false)
-    private String name;
+    @Column(name = "regionId", length = 50, nullable = false)
+    private String regionId;
 
-    @Column(name = "date", nullable = false)
-    private Date date;
+    @Column(name = "republicanVotes", nullable = false)
+    private int republicanVotes;
+
+    @Column(name = "democraticVotes", nullable = false)
+    private int  democraticVotes;
 
     public Election() {}
 
-    public Election(String name, Date date) {
-        this.name = name;
-        this.date = date;
+    public Election(long id, String regionId, int republicanVotes, int democraticVotes) {
+        this.id = id;
+        this.regionId = regionId;
+        this.republicanVotes = republicanVotes;
+        this.democraticVotes = democraticVotes;
     }
 
-    public String getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(long id) {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getRegionId() {
+        return regionId;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setRegionId(String regionId) {
+        this.regionId = regionId;
     }
 
-    public Date getDate() {
-        return date;
+    public int getRepublicanVotes() {
+        return republicanVotes;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setRepublicanVotes(int republicanVotes) {
+        this.republicanVotes = republicanVotes;
+    }
+
+    public int getDemocraticVotes() {
+        return democraticVotes;
+    }
+
+    public void setDemocraticVotes(int democraticVotes) {
+        this.democraticVotes = democraticVotes;
     }
 }

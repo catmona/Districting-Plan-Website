@@ -74,9 +74,6 @@ function formatResponseToBoxWhisker(result, popType, basis) {
         case "african_american":
             yAxisLabel += " African American"
             break;
-        case "hispanic":
-            yAxisLabel += " Hispanic"
-            break;
         case "asian":
             yAxisLabel += " Asian"
             break;
@@ -142,8 +139,8 @@ function StatGraphs(props) {
     let partyData = [['District', 'Democratic Party', 'Republican Party']]
     partyData.push(...props.stateData.map((x) => { return [x['id'] + "", x['democrat'], x['republican']] }));
 
-    let demographicData = [['District', 'Hispanic or Latino', 'African American', 'Asian']];
-    demographicData.push(...props.stateData.map((x) => { return [x['id'] + "", x['hispanic'], x['africanamerican'], x['asianamerican']] }));
+    let demographicData = [['District', 'African American', 'Asian']];
+    demographicData.push(...props.stateData.map((x) => { return [x['id'] + "", x['africanamerican'], x['asianamerican']] }));
     
     return (
         <>
@@ -299,15 +296,6 @@ function StatGraphs(props) {
                                             checked = {boxWhiskerBasis == "african_american" ? true : false}
                                             onChange={ () => setBoxWhiskerBasis("african_american") }
                                             label="Compare African American Population" 
-                                        />
-                                        <Form.Check 
-                                            type="radio" 
-                                            classname="dark-checkbox" 
-                                            id="boxwhisker-basis-hispanic" 
-                                            name="boxwhisker-basis"
-                                            checked = {boxWhiskerBasis == "hispanic" ? true : false}
-                                            onChange={ () => setBoxWhiskerBasis("hispanic") }
-                                            label="Compare Hispanic Population" 
                                         />
                                         <Form.Check 
                                             type="radio" 

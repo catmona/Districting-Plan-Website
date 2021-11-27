@@ -51,12 +51,6 @@ const columns = [
     type: 'number',
     width: 200,
     editable: false,
-  },  {
-    field: 'hispanic',
-    headerName: 'Hispanic or Latino',
-    type: 'number',
-    width: 200,
-    editable: false,
   },
 ];
 

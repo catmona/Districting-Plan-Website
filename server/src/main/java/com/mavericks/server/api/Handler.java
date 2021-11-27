@@ -10,10 +10,7 @@ import com.mavericks.server.entity.*;
 import com.mavericks.server.enumeration.Basis;
 import com.mavericks.server.enumeration.Demographic;
 import com.mavericks.server.enumeration.PopulationMeasure;
-import com.mavericks.server.repository.DistrictElectionRepository;
-import com.mavericks.server.repository.DistrictingRepository;
-import com.mavericks.server.repository.PopulationRepository;
-import com.mavericks.server.repository.StateRepository;
+import com.mavericks.server.repository.*;
 import org.apache.catalina.core.ApplicationContext;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.ObjectProvider;
@@ -35,7 +32,9 @@ public class Handler {
     @Autowired
     public StateRepository stateRepo;
     @Autowired
-    public DistrictingRepository distRepo;
+    public DistrictingRepository districtingRepo;
+    @Autowired
+    public DistrictRepository distRepo;
     @Autowired
     public PopulationRepository popRepo;
     @Autowired
@@ -51,6 +50,12 @@ public class Handler {
     @Autowired
     public Handler(Map<String, Algorithm> jobs) {
         this.jobs = jobs;
+    }
+
+    public Election test(){
+        District d = distRepo.findAll().get(0);
+        Election e = d.getElection();
+        return e;
     }
 
     /**

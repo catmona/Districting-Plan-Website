@@ -183,8 +183,7 @@ public class Districting {
 
 
     public DistrictingDTO makeDistrictDTO(){
-        return null;
-//        return new DistrictingDTO(this.measures.getPolsbyPopperScore(),this.measures.getPopulationEqualityScore(),this.election);
+        return new DistrictingDTO(this.measures.getPolsbyPopperScore(),this.measures.getPopulationEqualityScore(),this.election);
     }
 
     public PlanDTO makePlanDTO(){

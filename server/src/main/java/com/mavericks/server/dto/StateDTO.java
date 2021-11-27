@@ -10,15 +10,15 @@ public class StateDTO {
 
     private Point center;
     private List<List<Integer>> districtPopulations;
-    private Election elections;
+    private List<Election> districtElections;
     private String featureCollection;
 
     public StateDTO(Point center, String collection,
-                    List<List<Integer>> districtPopulations, Election elections) {
+                    List<List<Integer>> districtPopulations, List<Election> districtElections) {
         this.center = center;
         this.featureCollection = collection;
         this.districtPopulations = districtPopulations;
-        this.elections = elections;
+        this.districtElections = districtElections;
     }
 
     public StateDTO(){}
@@ -47,11 +47,11 @@ public class StateDTO {
         this.center = center;
     }
 
-    public Election getElections() {
-        return elections;
+    public List<Election> getDistrictElections() {
+        return districtElections;
     }
 
-    public void setElections(Election elections) {
-        this.elections = elections;
+    public void setDistrictElections(List<Election> districtElections) {
+        this.districtElections = districtElections;
     }
 }
