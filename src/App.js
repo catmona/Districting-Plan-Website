@@ -54,7 +54,7 @@ function App() {
     }
 
     function getDistrictingSummary(planId) {
-        fetch("http://localhost:8080/api2/d--istrictingSummary?districtingId=" + planId, { credentials: 'include' })
+        fetch("http://localhost:8080/api2/districtingSummary?districtingId=" + planId, { credentials: 'include' })
         .then(res => res.json())
         .then(
             (result) => {
