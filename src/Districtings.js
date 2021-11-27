@@ -27,7 +27,14 @@ function DistrictingPopover(props) {
 
 function districtings(props) {
     const [showModal, setShowModal] = useState(false);
-    const [districtingSummary, setDistrictingSummary] = useState({distictingNum: 0, summary: []});
+    const [districtingSummary, setDistrictingSummary] = useState({
+        districtingNum: -1, data: {
+            planId: 0, summary: {
+                districtPopulations: [],
+                districtElections: []
+            }
+        }
+    });
     const NUM_DISTRICTINGS = 20; //changeable to an array later, or fetched from a json or ini file
     let stateName = props.stateName;
     let previews = props.districtingPreviews;
