@@ -47,9 +47,10 @@ function formatResponseToBoxWhisker(result, popType, basis) {
     var yAxisLabel = ""
 
     //format boxes
-    for(let i = 0; i < result.lowerExtreme.length; i++) {
-        var l = "District " + (i+1);
-        var box = [result.lowerExtreme[i], result.lowerQuartile[i], result.upperQuartile[i], result.upperExtreme[i], result.median[i]];
+    for(let i = 0; i < result.boxes.length; i++) {
+        var l = "District " + (i+1); 
+        let data = result.boxes[i];
+        var box = [data.upperExtreme, data.upperQuartile, data.lowerQuartile, data.lowerExtreme, data.median];
         var col = { label: l, y: box }
         boxData.push(col);
     }
@@ -120,7 +121,7 @@ function StatGraphs(props) {
         .then(res => res.json())
         .then(
             (result) => {
-                var formattedData = formatResponseToBoxWhisker(result, props.popType, boxWhiskerBasis);
+                var formattedData = formatResponseToBoxWhisker(result.boxWhisker, props.popType, boxWhiskerBasis);
                 setBoxes(formattedData.boxes);
                 setPoints(formattedData.points);
                 setLabel(formattedData.label);
