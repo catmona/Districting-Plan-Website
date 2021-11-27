@@ -33,6 +33,7 @@ h3 {
     color: transparent;
     text-align: left;
     font-style: bold;
+    padding-left: 10px;
 }
 .loading-icon {
     color: $accentColor;
@@ -150,6 +151,7 @@ h3 {
 #topbar-status {
     text-align: right;
     div {
+        cursor: pointer;
         border-radius: 5px;
         background-color: $bgColor;
         border: 1px dashed $bgColor;
@@ -158,6 +160,11 @@ h3 {
     h3 { 
         padding: 5px;
         color: $accentColor;
+    }
+    svg {
+        color: $accentColor !important;
+        margin-bottom: 7px;
+        margin-left: 5px;
     }
 }
 /* #endregion */

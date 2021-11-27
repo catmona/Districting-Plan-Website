@@ -35,7 +35,6 @@ function formatResponseToStatisticData(response) {
             'population': districtPop[Demographic.ALL]
         };
         formattedDataList.push(formattedData);
-        // console.log("Formatted data: %o", formattedDataList);
     }
     return formattedDataList;
 }

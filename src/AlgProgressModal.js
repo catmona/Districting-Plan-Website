@@ -8,7 +8,8 @@ function AlgProgressModal(props) {
     const [compactness, setCompactness] = useState(0); //this too
     const [timeRunning, setTimeRunning] = useState(0);
     const [estTimeRemaining, setEstTimeRemaining] = useState(0);
-    const [progressPercent, setProgressPrecent] = useState(100);
+    const [progressPercent, setProgressPrecent] = useState(50);
+    const [isAlgDone, setIsAlgDone] = useState(false);
     const {setAlgResults, ...rest} = props;
     const chart = useRef(null);
 
@@ -42,8 +43,14 @@ function AlgProgressModal(props) {
         props.onHide();
     }
 
+    const stopAlg = () => {
+        setIsAlgDone(true);
+    }
+
     useEffect(() => {
         //do other stuff
+
+        if(progressPercent >= 100) setIsAlgDone(true);
 
         //update chart
         if(!chart.current) return;
@@ -67,10 +74,6 @@ function AlgProgressModal(props) {
         chart.current.chart.render()
     });
 
-    //TODO Change in measures
-    //TODO num iterations
-    //TODO time has been running
-    //TODO est. time complete
     //TODO can the user pause? finish early? how do we resume?
 
     return(
@@ -117,8 +120,8 @@ function AlgProgressModal(props) {
                 </Row>
             </Modal.Body>
             <Modal.Footer className="modal-spaced-footer">    
-                <Button variant="success" disabled={progressPercent != 100} onClick = {finishAlg}>See Results</Button>
-                <Button variant="danger" onClick = {props.onHide}>Cancel</Button>
+                <Button variant="success" disabled={!isAlgDone} onClick = {finishAlg}>See Results</Button>
+                <Button variant="danger" disabled={isAlgDone} onClick = {stopAlg}>Stop</Button>
             </Modal.Footer>
         </Modal>
     );

@@ -103,6 +103,8 @@ function StatGraphs(props) {
     const [boxes, setBoxes] = React.useState(null)
     const [points, setPoints] = React.useState({ enacted: [], selected: [], equalized: [] })
     const [label, setLabel] = React.useState("Total Population")
+    const bgcolor = "#1f1f1f";
+    const bgcolor2 = "#161616";
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
@@ -132,9 +134,6 @@ function StatGraphs(props) {
             }
         );
     };
-
-    const bgcolor = "#1f1f1f";
-    const bgcolor2 = "#161616";
 
     let partyData = [['District', 'Democratic Party', 'Republican Party']]
     partyData.push(...props.stateData.map((x) => { return [x['id'] + "", x['democrat'], x['republican']] }));
@@ -345,7 +344,14 @@ function StatGraphs(props) {
                 </TabPanel>
             </Box>
             <>
-                <BoxWhiskerModal boxes = {boxes} points = {points} label = {label} bgcolor = {bgcolor} show = {showModal} onHide = {() => setShowModal(false)} />
+                <BoxWhiskerModal 
+                    boxes = {boxes} 
+                    points = {points} 
+                    label = {label} 
+                    bgcolor = {bgcolor} 
+                    show = {showModal} 
+                    onHide = {() => setShowModal(false)} 
+                />
             </>
         </>
     );
