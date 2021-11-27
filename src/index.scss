@@ -283,12 +283,13 @@ h3 {
     }
 }
 .districting-modal-value {
-    width: 25% !important;
+    width: 30% !important;
     text-align: right;
-    margin-right: 10px;
     margin-top: auto;
     margin-bottom: auto;
     p {
+        width: 100%;
+        text-align: right;
         color: $accentColor5;
     }
 }
