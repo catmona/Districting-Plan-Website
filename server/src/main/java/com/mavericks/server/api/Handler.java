@@ -89,19 +89,20 @@ public class Handler {
 
     public PlanDTO getDistrictingSummary(String districtingId, HttpSession session){
         State state = (State) session.getAttribute("state");
-        Optional<Districting> districting = state.getDistrictings()
-                .stream().filter(d -> d.getId() == districtingId).findFirst();
+        Districting districting = null;
+        for (Districting d : state.getDistrictings()) {
+            if (d.getId().equals(districtingId)) {
+                districting = d;
+                break;
+            }
+        }
 
-        if (!districting.isPresent()) {
+        if (districting == null) {
             // districting plan not found
         }
 
-        return districting.get().makePlanDTO();
-
-//        State state = (State) session.getAttribute("state");
-//        Districting districting = state.getDistrictings().get((int)districtingId);
-//        PlanDTO planDTO= districting.makePlanDTO();
-//        return planDTO;
+        PopulationMeasure popType = (PopulationMeasure) session.getAttribute("PopType");
+        return districting.makePlanDTO(popType);
     }
 
     public List<PlanDTO> getDistrictingSummaries(HttpSession session){

@@ -38,6 +38,12 @@ public class Districting {
     })
     private Measures measures;
 
+    @Column(name = "demPercent")
+    private double demPercent;
+
+    @Column(name = "repPercent")
+    private double repPercent;
+
     @Column(name = "previewImageUrl")
     private String previewImageUrl; // used by SeaWulf districtings, is the preview image filepath
 
@@ -151,6 +157,22 @@ public class Districting {
         this.precinctGeoJSON = precinctGeoJSON;
     }
 
+    public double getDemPercent() {
+        return demPercent;
+    }
+
+    public void setDemPercent(double demPercent) {
+        this.demPercent = demPercent;
+    }
+
+    public double getRepPercent() {
+        return repPercent;
+    }
+
+    public void setRepPercent(double repPercent) {
+        this.repPercent = repPercent;
+    }
+
     public List<Population> getPopulations() {
         return populations;
     }
@@ -183,17 +205,25 @@ public class Districting {
 
 
     public DistrictingDTO makeDistrictDTO(){
-        return new DistrictingDTO(this.measures.getPolsbyPopperScore(),this.measures.getPopulationEqualityScore(),this.election);
+        return new DistrictingDTO(this.getId(), this.measures.getPolsbyPopperScore(),
+                this.measures.getPopulationEqualityScore(),
+                this.getRepPercent(),
+                this.getDemPercent());
     }
 
-    public PlanDTO makePlanDTO(){
-        return null;
-//        List<Population>distPopulations = new ArrayList<>();
-//        for(District d:districts){
-//            distPopulations.add(d.getPopulation());
-//        }
-//        return new PlanDTO(districts.size(),this.measures.getPolsbyPopperScore(),
-//                this.measures.getPopulationEqualityScore(),this.election,distPopulations);
+    public PlanDTO makePlanDTO(PopulationMeasure popType){
+        PlanDTO dto = new PlanDTO();
+        dto.setDemPercent(this.getDemPercent());
+        dto.setRepPercent((this.getRepPercent()));
+        List<Election> elections = new ArrayList<Election>();
+        List<List<Integer>> populations = new ArrayList<>();
+        for (District d : districts) {
+            elections.add(d.getElection());
+            populations.add(d.getPopulation(popType));
+        }
+        dto.setDistrictElections(elections);
+        dto.setDistrictPopulations(populations);
+        return dto;
     }
 
     public double computePolsbyPopper(){

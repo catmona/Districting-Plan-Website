@@ -4,14 +4,26 @@ import com.mavericks.server.entity.Election;
 
 public class DistrictingDTO {
 
+    private String districtingId;
     private double polsbyPopper;
     private double populationEquality;
-    private Election election;
+    private double repPercent;
+    private double demPercent;
 
-    public DistrictingDTO(double polsbyPopper, double populationEquality, Election election) {
+    public DistrictingDTO(String districtingId, double polsbyPopper, double populationEquality, double repPercent, double demPercent) {
+        this.districtingId = districtingId;
         this.polsbyPopper = polsbyPopper;
         this.populationEquality = populationEquality;
-        this.election = election;
+        this.repPercent = repPercent;
+        this.demPercent = demPercent;
+    }
+
+    public String getDistrictingId() {
+        return districtingId;
+    }
+
+    public void setDistrictingId(String districtingId) {
+        this.districtingId = districtingId;
     }
 
     public double getPolsbyPopper() {
@@ -30,11 +42,19 @@ public class DistrictingDTO {
         this.populationEquality = populationEquality;
     }
 
-    public Election getElection() {
-        return election;
+    public double getRepPercent() {
+        return repPercent;
     }
 
-    public void setElection(Election election) {
-        this.election = election;
+    public void setRepPercent(double repPercent) {
+        this.repPercent = repPercent;
+    }
+
+    public double getDemPercent() {
+        return demPercent;
+    }
+
+    public void setDemPercent(double demPercent) {
+        this.demPercent = demPercent;
     }
 }

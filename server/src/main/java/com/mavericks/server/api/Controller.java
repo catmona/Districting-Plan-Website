@@ -59,11 +59,6 @@ public class Controller {
         return handler.getDistrictingSummary(districtingId,session);
     }
 
-    @GetMapping(value = "districtingSummaries")
-    public List<PlanDTO> handleDistrictingSummaries(HttpSession session){
-        return handler.getDistrictingSummaries(session);
-    }
-
     @GetMapping(value = "boxwhiskers")
     public Box handleBoxWhisker(@RequestParam("districtingId")long districtingId,
                                 @RequestParam("basis") String basis,
