@@ -56,7 +56,7 @@ function districtings(props) {
                                     setDistrictingSummary({districtingNum: i+1, summary: result});
                                 },
                                 (error) => {
-                                    showErrorModal("Failed to get stats data", error);
+                                    // showErrorModal("Failed to get districting plan data", error);
                                     console.log(e)
                                 }
                             );

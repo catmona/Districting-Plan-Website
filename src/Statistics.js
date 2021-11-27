@@ -48,9 +48,17 @@ function Statistics(props) {
     const [popType, setPopType] = useState("TOTAL");
 
     function getPopType(p) {
-        setPopType(p)
-        //fetch("http://localhost:8080/api2/setPopulationType?populationType=" + popType);
-        //TODO use this
+        fetch("http://localhost:8080/api2/setPopulationType?populationType=" + popType, { method: 'POST', credentials: 'include' })
+        .then(res => res.json())
+        .then(
+            (result) => {
+                setPopType(p)
+            },
+            (error) => {
+                // showErrorModal("Failed to set population measure type", error);
+                console.log(e)
+            }
+        );
     }
 
     useEffect(() => {
