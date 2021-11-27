@@ -9,47 +9,47 @@ import AlgLimitsModal from "./AlgLimitsModal";
 import AlgProgressModal from "./AlgProgressModal";
 
 const columns = [
-  { field: 'id', headerName: 'District', width: 150 },
+  { field: 'id', headerName: 'District', width: 20 },
   {
     field: 'population',
     headerName: 'Population',
-    width: 200,
+    width: 140,
     editable: false,
     type: 'number',
   },
   {
     field: 'democrat',
-    headerName: 'Democratic Party',
-    width: 200,
+    headerName: 'Democrat',
+    width: 140,
     editable: false,
     type: 'number',
   },
   {
     field: 'republican',
-    headerName: 'Republican Party',
+    headerName: 'Republican',
     type: 'number',
-    width: 200,
+    width: 140,
     editable: false,
   },
   {
     field: 'africanamerican',
     headerName: 'African American',
     type: 'number',
-    width: 200,
+    width: 190,
     editable: false,
   },
   {
     field: 'white',
     headerName: 'White',
     type: 'number',
-    width: 200,
+    width: 110,
     editable: false,
   },
   {
     field: 'asianamerican',
-    headerName: 'Asian American',
+    headerName: 'Asian',
     type: 'number',
-    width: 200,
+    width: 110,
     editable: false,
   },
 ];
@@ -68,6 +68,7 @@ export default function EnhancedTable(props) {
                     pageSize={10}
                     rowsPerPageOptions={[10]}
                     rowHeight={32}
+                    disableColumnMenu={true}
                     //checkboxSelection
                     disableSelectionOnClick={true}
                     hideFooter
