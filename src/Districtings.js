@@ -53,7 +53,7 @@ function districtings(props) {
                                 (result) => {
                                     console.log("District Summary result = %o", result);
                                     setShowModal(true);
-                                    setDistrictingSummary({districtingNum: i+1, summary: { 'planId': planId, 'summary': result}});
+                                    setDistrictingSummary({districtingNum: i+1, data: { 'planId': planId, 'summary': result}});
                                 },
                                 (error) => {
                                     // showErrorModal("Failed to get districting plan data", error);
