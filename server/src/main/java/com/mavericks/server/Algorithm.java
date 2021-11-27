@@ -44,8 +44,8 @@ public class Algorithm{
 
 
     public Algorithm() {
-        this.max_iterations=100000;
-        this.maxFaildCbMoves=1000;
+        this.max_iterations=1000;
+        this.maxFaildCbMoves=50;
         running=true;
     }
 
@@ -64,12 +64,12 @@ public class Algorithm{
                 iterations++;
                 continue;
             }
-            d2.addCensusBlock(d1,cb,inProgressPlan,neighbors,populationMeasure);
+            d2.addCensusBlock(cb,inProgressPlan,neighbors,populationMeasure);
             d1.removeCensusBlock(cb,neighbors,populationMeasure);
             Measures newMeasures=inProgressPlan.computeMeasures(populationMeasure);
             if(objFunction(newMeasures.getPolsbyPopperScore(),
                     newMeasures.getPopulationEqualityScore())<objFunction(compactness,populationEquality)){
-                d1.addCensusBlock(d2,cb,inProgressPlan,neighbors,populationMeasure);
+                d1.addCensusBlock(cb,inProgressPlan,neighbors,populationMeasure);
                 d2.removeCensusBlock(cb,neighbors,populationMeasure);
                 failedCbMoves++;
             }
@@ -82,8 +82,10 @@ public class Algorithm{
 
 
             iterations++;
+            System.out.println("iterations:"+iterations);
 
         }
+        System.out.println("done");
     }
 
     public District findNeighboringDistrict(List<CensusBlock>neighbors,District currentDistrict,Districting plan){
@@ -134,6 +136,8 @@ public class Algorithm{
         this.inProgressPlan = inProgressPlan;
         this.compactness=inProgressPlan.getMeasures().getPolsbyPopperScore();
         this.populationEquality=inProgressPlan.getMeasures().getPopulationEqualityScore();
+        //delete later
+        populationEquality=0.9;
     }
 
     public Districting getInProgressPlan() {
