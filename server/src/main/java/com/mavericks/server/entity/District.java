@@ -61,6 +61,10 @@ public class District {
     @OrderBy("populationMeasureType, demographicType")
     private List<Population> populations;
 
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "electionId", referencedColumnName = "id")
+    private Election election;
+
     @Transient
     @Autowired
     private List<Geometry>cbToAdd;
@@ -86,7 +90,6 @@ public class District {
     }
 
 
-
     public void removeCensusBlock(CensusBlock cb,List<CensusBlock>neighbors,PopulationMeasure measure){
         List<CensusBlock>cbBorders=neighbors.stream().filter(c->c.getDistrictId().equals(this.id))
                 .collect(Collectors.toList());
@@ -102,7 +105,6 @@ public class District {
         this.geometry=this.geometry.difference(cb.getGeometry());
 
     }
-
 
     public void addCensusBlock(District oldDistrict,CensusBlock cb,Districting plan,List<CensusBlock>neighbors
             ,PopulationMeasure measure){
@@ -213,6 +215,14 @@ public class District {
 
     public void setPopulations(List<Population> populations) {
         this.populations = populations;
+    }
+
+    public Election getElection() {
+        return election;
+    }
+
+    public void setElection(Election election) {
+        this.election = election;
     }
 
     public Region getRegion() {

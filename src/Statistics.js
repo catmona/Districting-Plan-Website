@@ -15,26 +15,24 @@ const Demographic = {
     WHITE: 0,
     AFRICAN_AMERICAN: 1,
     ASIAN: 2,
-    HISPANIC: 3,
-    ALL: 4
+    ALL: 3
 }
 
 function formatResponseToStatisticData(response) {
-    //console.log("DATA FROM SERVER: %o", response);
+    // console.log("DATA FROM SERVER: %o", response);
     var formattedDataList = [];
     for(let i = 0; i < response.districtPopulations.length; i++) {
-        let total = response.districtPopulations[i].populations[PopMeasure.TOTAL];
-        let election = response.elections.districtElections[i];
+        let districtPop = response.districtPopulations[i];
+        let election = response.districtElections[i];
         var formattedData = {
             'id': i+1,
             'popMeasure': PopMeasure.TOTAL,
-            'africanamerican': total[Demographic.AFRICAN_AMERICAN],
-            'white': total[Demographic.WHITE],
-            'asianamerican': total[Demographic.ASIAN],
-            'hispanic': total[Demographic.HISPANIC],
+            'africanamerican': districtPop[Demographic.AFRICAN_AMERICAN],
+            'white': districtPop[Demographic.WHITE],
+            'asianamerican': districtPop[Demographic.ASIAN],
             'republican': election.republicanVotes,
             'democrat': election.democraticVotes,
-            'population': total[Demographic.ALL]
+            'population': districtPop[Demographic.ALL]
         };
         formattedDataList.push(formattedData);
     }
@@ -50,9 +48,17 @@ function Statistics(props) {
     const [popType, setPopType] = useState("TOTAL");
 
     function getPopType(p) {
-        setPopType(p)
-        //fetch("http://localhost:8080/api2/setPopulationType?populationType=" + popType);
-        //TODO use this
+        fetch("http://localhost:8080/api2/setPopulationType?populationType=" + popType, { method: 'POST', credentials: 'include' })
+        .then(res => res.json())
+        .then(
+            (result) => {
+                setPopType(p)
+            },
+            (error) => {
+                // showErrorModal("Failed to set population measure type", error);
+                console.log(e)
+            }
+        );
     }
 
     useEffect(() => {

@@ -8,20 +8,30 @@ import java.util.List;
 
 public class StateDTO {
 
+    private String enactedId;
     private Point center;
     private List<List<Integer>> districtPopulations;
-    private Election elections;
+    private List<Election> districtElections;
     private String featureCollection;
 
-    public StateDTO(Point center, String collection,
-                    List<List<Integer>> districtPopulations, Election elections) {
+    public StateDTO() {}
+
+    public StateDTO(String enactedId, Point center, String collection,
+                    List<List<Integer>> districtPopulations, List<Election> districtElections) {
+        this.enactedId = enactedId;
         this.center = center;
         this.featureCollection = collection;
         this.districtPopulations = districtPopulations;
-        this.elections = elections;
+        this.districtElections = districtElections;
     }
 
-    public StateDTO(){}
+    public String getEnactedId() {
+        return enactedId;
+    }
+
+    public void setEnactedId(String enactedId) {
+        this.enactedId = enactedId;
+    }
 
     public List<List<Integer>> getDistrictPopulations() {
         return districtPopulations;
@@ -47,11 +57,11 @@ public class StateDTO {
         this.center = center;
     }
 
-    public Election getElections() {
-        return elections;
+    public List<Election> getDistrictElections() {
+        return districtElections;
     }
 
-    public void setElections(Election elections) {
-        this.elections = elections;
+    public void setDistrictElections(List<Election> districtElections) {
+        this.districtElections = districtElections;
     }
 }

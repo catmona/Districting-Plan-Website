@@ -9,56 +9,49 @@ import AlgLimitsModal from "./AlgLimitsModal";
 import AlgProgressModal from "./AlgProgressModal";
 
 const columns = [
-    { field: "id", headerName: "District", width: 150 },
-    {
-        field: "population",
-        headerName: "Population",
-        width: 200,
-        editable: false,
-        type: "number",
-    },
-    {
-        field: "democrat",
-        headerName: "Democratic Party",
-        width: 200,
-        editable: false,
-        type: "number",
-    },
-    {
-        field: "republican",
-        headerName: "Republican Party",
-        type: "number",
-        width: 200,
-        editable: false,
-    },
-    {
-        field: "africanamerican",
-        headerName: "African American",
-        type: "number",
-        width: 200,
-        editable: false,
-    },
-    {
-        field: "white",
-        headerName: "White",
-        type: "number",
-        width: 200,
-        editable: false,
-    },
-    {
-        field: "asianamerican",
-        headerName: "Asian American",
-        type: "number",
-        width: 200,
-        editable: false,
-    },
-    {
-        field: "hispanic",
-        headerName: "Hispanic or Latino",
-        type: "number",
-        width: 200,
-        editable: false,
-    },
+  { field: 'id', headerName: 'District', width: 150 },
+  {
+    field: 'population',
+    headerName: 'Population',
+    width: 200,
+    editable: false,
+    type: 'number',
+  },
+  {
+    field: 'democrat',
+    headerName: 'Democratic Party',
+    width: 200,
+    editable: false,
+    type: 'number',
+  },
+  {
+    field: 'republican',
+    headerName: 'Republican Party',
+    type: 'number',
+    width: 200,
+    editable: false,
+  },
+  {
+    field: 'africanamerican',
+    headerName: 'African American',
+    type: 'number',
+    width: 200,
+    editable: false,
+  },
+  {
+    field: 'white',
+    headerName: 'White',
+    type: 'number',
+    width: 200,
+    editable: false,
+  },
+  {
+    field: 'asianamerican',
+    headerName: 'Asian American',
+    type: 'number',
+    width: 200,
+    editable: false,
+  },
 ];
 
 export default function EnhancedTable(props) {

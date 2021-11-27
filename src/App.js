@@ -13,6 +13,7 @@ function App() {
     const [districtingPreviews, setDistrictingPreviews] = useState(""); //tooltip summaries for SeaWulf districtings 
     const [algResults, setAlgResults] = useState(null);
     const [planType, setPlanType] = useState("");
+    const [selectedPlanId, setSelectedPlanId] = useState("");
     const [showError, setShowError] = useState(false);
     const [errorText, setErrorText] = useState({header: "", error: ""});
 
@@ -26,6 +27,7 @@ function App() {
         .then(res => res.json())
         .then(
             (result) => {
+                setSelectedPlanId(result.enactedId);
                 setDistrictingData(result);
             },
             (error) => {
@@ -79,9 +81,10 @@ function App() {
                                 districtingData={districtingData} 
                                 algResults={algResults} 
                                 setAlgResults={setAlgResults} 
-                                getDistrictingPreviews={getDistrictingPreviews} 
+                                getDistrictingPreviews={getDistrictingPreviews}
                                 districtingPreviews={districtingPreviews}
                                 setPlanType={setPlanType}
+                                setSelectedPlanId={setSelectedPlanId}
                             />
                         </Row>
                     </Col>

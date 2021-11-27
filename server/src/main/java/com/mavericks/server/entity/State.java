@@ -108,9 +108,11 @@ public class State {
         Districting e = enacted;
         String geoJSON = e.getDistrictGeoJSON();
         List<List<Integer>> populations = new ArrayList<>();
+        List<Election> elections = new ArrayList<Election>();
         for (District d : e.getDistricts()) {
             populations.add(d.getPopulation(popType));
+            elections.add(d.getElection());
         }
-        return new StateDTO(center, geoJSON, populations, null); // TODO election data
+        return new StateDTO(e.getId(), center, geoJSON, populations, elections);
     }
 }

@@ -3,8 +3,11 @@ import { Container, Row, Col, Popover, OverlayTrigger } from 'react-bootstrap';
 import DistrictingModal from './DistrictingModal';
 
 function DistrictingPopover(props) {
+    let planId = props.summary.districtingId;
     let polsby = props.summary.polsbyPopper;
     let popEquality = props.summary.populationEquality;
+    let repPercent = props.summary.repPercent;
+    let demPercent = props.summary.demPercent;
 
     const pop = (
         <Popover id="popover-basic" className="custom-popover">
@@ -13,13 +16,15 @@ function DistrictingPopover(props) {
                     <em style={{fontSize: 13}}>This districting was chosen for it's high political fairness.</em><br /><br />
                     <div className='districting-labels'><b>Population Equality: </b>{popEquality}<br /></div>
                     <div className='districting-labels'><b>Compactness: </b>{polsby}<br /></div>
+                    <div className='districting-labels'><b>Republican Percentage: </b>{repPercent}<br /></div>
+                    <div className='districting-labels'><b>Democratic Percentage: </b>{demPercent}<br /></div>
                 </Popover.Body>
         </Popover>
     );
 
     return(
-       <OverlayTrigger trigger={"hover", "focus"} placement="right" overlay={pop}>
-           <img alt="alt" className = "img-thumbnail mx-auto thumbnail districting-img"></img>
+       <OverlayTrigger trigger={["hover", "focus"]} placement="right" overlay={pop}>
+           <img alt="alt" className = "img-thumbnail mx-auto thumbnail districting-img" planId={planId}></img>
        </OverlayTrigger>
     );
 }
@@ -30,7 +35,7 @@ function districtings(props) {
     const NUM_DISTRICTINGS = 20; //changeable to an array later, or fetched from a json or ini file
     let stateName = props.stateName;
     let previews = props.districtingPreviews;
-    let loading = {'polsbyPopper':0,"popEquality":0};
+    let loading = {'polsbyPopper':0, "populationEquality":0, "repPercent":0, "demPercent":0};
 
     useEffect(() => {
         //right now this doesnt account for a different number of districtings per state
@@ -40,9 +45,21 @@ function districtings(props) {
                 var col = document.getElementById("districting-img-" + (i+1));
                 var img = col.firstChild;
                 if(img) {
-                    img.onclick = () => {
-                        setShowModal(true);
-                        setDistrictingSummary({districtingNum: i+1, summary: previews[i]})
+                    img.onclick = (e) => {
+                        let planId = e.target.getAttribute("planId");
+                        fetch("http://localhost:8080/api2/districtingSummary?districtingId=" + planId, { credentials: 'include' })
+                            .then(res => res.json())
+                            .then(
+                                (result) => {
+                                    console.log("District Summary result = %o", result);
+                                    setShowModal(true);
+                                    setDistrictingSummary({districtingNum: i+1, summary: { 'planId': planId, 'summary': result}});
+                                },
+                                (error) => {
+                                    // showErrorModal("Failed to get districting plan data", error);
+                                    console.log(e)
+                                }
+                            );
                     };
                     img.src = require("/public/assets/thumbnails/" + stateName + "/districting-img-" + (i+1) + ".png").default;
                 }
@@ -91,6 +108,7 @@ function districtings(props) {
                     show = {showModal} 
                     onHide = {() => setShowModal(false)} 
                     setPlanType = {props.setPlanType}
+                    setSelectedPlanId = {props.setSelectedPlanId}
                 />
             </>
         </>

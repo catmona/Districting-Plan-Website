@@ -1,62 +1,53 @@
 package com.mavericks.server.dto;
 
 import com.mavericks.server.entity.Election;
-import com.mavericks.server.entity.Population;
 
 import java.util.List;
 
 public class PlanDTO {
-    private int numDistricts;
-    private double PolsbyPopper;
-    private double populationEquality;
-    private Election election;
-    private List<Population> districtPopulations;
+    private double repPercent;
+    private double demPercent;
+    private List<List<Integer>> districtPopulations;
+    private List<Election> districtElections;
 
-    public PlanDTO(int numDistricts, double polsbyPopper, double populationEquality, Election election, List<Population> districtPopulations) {
-        this.numDistricts = numDistricts;
-        PolsbyPopper = polsbyPopper;
-        this.populationEquality = populationEquality;
-        this.election = election;
+    public PlanDTO() {}
+
+    public PlanDTO(double repPercent, double demPercent, List<List<Integer>> districtPopulations, List<Election> districtElections) {
+        this.repPercent = repPercent;
+        this.demPercent = demPercent;
         this.districtPopulations = districtPopulations;
+        this.districtElections = districtElections;
     }
 
-    public int getNumDistricts() {
-        return numDistricts;
+    public double getRepPercent() {
+        return repPercent;
     }
 
-    public void setNumDistricts(int numDistricts) {
-        this.numDistricts = numDistricts;
+    public void setRepPercent(double repPercent) {
+        this.repPercent = repPercent;
     }
 
-    public double getPolsbyPopper() {
-        return PolsbyPopper;
+    public double getDemPercent() {
+        return demPercent;
     }
 
-    public void setPolsbyPopper(double polsbyPopper) {
-        PolsbyPopper = polsbyPopper;
+    public void setDemPercent(double demPercent) {
+        this.demPercent = demPercent;
     }
 
-    public double getPopulationEquality() {
-        return populationEquality;
-    }
-
-    public void setPopulationEquality(double populationEquality) {
-        this.populationEquality = populationEquality;
-    }
-
-    public Election getElection() {
-        return election;
-    }
-
-    public void setElection(Election election) {
-        this.election = election;
-    }
-
-    public List<Population> getDistrictPopulations() {
+    public List<List<Integer>> getDistrictPopulations() {
         return districtPopulations;
     }
 
-    public void setDistrictPopulations(List<Population> districtPopulations) {
+    public void setDistrictPopulations(List<List<Integer>> districtPopulations) {
         this.districtPopulations = districtPopulations;
+    }
+
+    public List<Election> getDistrictElections() {
+        return districtElections;
+    }
+
+    public void setDistrictElections(List<Election> districtElections) {
+        this.districtElections = districtElections;
     }
 }

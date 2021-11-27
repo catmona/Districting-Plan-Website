@@ -77,7 +77,8 @@ function Map(props) {
             let layer = map.current.getSource(stateName + "-district-source");
 
             if (!layer) { // map does not have the district boundaries
-                addDistrictGeoJSON(map.current, stateName, districtingData.featureCollection);
+                let geojson = JSON.parse(districtingData.featureCollection);
+                addDistrictGeoJSON(map.current, stateName, geojson);
             }
         }
     }

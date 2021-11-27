@@ -10,10 +10,7 @@ import com.mavericks.server.entity.*;
 import com.mavericks.server.enumeration.Basis;
 import com.mavericks.server.enumeration.Demographic;
 import com.mavericks.server.enumeration.PopulationMeasure;
-import com.mavericks.server.repository.DistrictElectionRepository;
-import com.mavericks.server.repository.DistrictingRepository;
-import com.mavericks.server.repository.PopulationRepository;
-import com.mavericks.server.repository.StateRepository;
+import com.mavericks.server.repository.*;
 import org.apache.catalina.core.ApplicationContext;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.ObjectProvider;
@@ -35,7 +32,9 @@ public class Handler {
     @Autowired
     public StateRepository stateRepo;
     @Autowired
-    public DistrictingRepository distRepo;
+    public DistrictingRepository districtingRepo;
+    @Autowired
+    public DistrictRepository distRepo;
     @Autowired
     public PopulationRepository popRepo;
     @Autowired
@@ -51,6 +50,12 @@ public class Handler {
     @Autowired
     public Handler(Map<String, Algorithm> jobs) {
         this.jobs = jobs;
+    }
+
+    public Election test(){
+        District d = distRepo.findAll().get(0);
+        Election e = d.getElection();
+        return e;
     }
 
     /**
@@ -84,32 +89,20 @@ public class Handler {
 
     public PlanDTO getDistrictingSummary(String districtingId, HttpSession session){
         State state = (State) session.getAttribute("state");
-        Optional<Districting> districting = state.getDistrictings()
-                .stream().filter(d -> d.getId() == districtingId).findFirst();
-
-        if (!districting.isPresent()) {
-            // districting plan not found
+        Districting districting = null;
+        for (Districting d : state.getDistrictings()) {
+            if (d.getId().equals(districtingId)) {
+                districting = d;
+                break;
+            }
         }
 
-        return districting.get().makePlanDTO();
+        if (districting == null) {
+            return null;
+        }
 
-//        State state = (State) session.getAttribute("state");
-//        Districting districting = state.getDistrictings().get((int)districtingId);
-//        PlanDTO planDTO= districting.makePlanDTO();
-//        return planDTO;
-    }
-
-    public List<PlanDTO> getDistrictingSummaries(HttpSession session){
-        // TODO get all districting summaries of the currently selected state
-        State state = (State) session.getAttribute("state");
-        List<Districting> districtings = state.getDistrictings();
-        List<PlanDTO> planDTOs = new ArrayList<PlanDTO>();
-        // TODO will use Set later
-//        for (int i = 0; i < districtings.size(); i++) {
-//            planDTOs.add(i, districtings.get(i).makePlanDTO());
-//        }
-
-        return planDTOs;
+        PopulationMeasure popType = (PopulationMeasure) session.getAttribute("PopType");
+        return districting.makePlanDTO(popType);
     }
 
     /**
