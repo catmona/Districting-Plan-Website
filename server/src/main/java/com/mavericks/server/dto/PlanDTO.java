@@ -5,34 +5,14 @@ import com.mavericks.server.entity.Election;
 import java.util.List;
 
 public class PlanDTO {
-    private double repPercent;
-    private double demPercent;
     private List<List<Integer>> districtPopulations;
     private List<Election> districtElections;
 
     public PlanDTO() {}
 
-    public PlanDTO(double repPercent, double demPercent, List<List<Integer>> districtPopulations, List<Election> districtElections) {
-        this.repPercent = repPercent;
-        this.demPercent = demPercent;
+    public PlanDTO(List<List<Integer>> districtPopulations, List<Election> districtElections) {
         this.districtPopulations = districtPopulations;
         this.districtElections = districtElections;
-    }
-
-    public double getRepPercent() {
-        return repPercent;
-    }
-
-    public void setRepPercent(double repPercent) {
-        this.repPercent = repPercent;
-    }
-
-    public double getDemPercent() {
-        return demPercent;
-    }
-
-    public void setDemPercent(double demPercent) {
-        this.demPercent = demPercent;
     }
 
     public List<List<Integer>> getDistrictPopulations() {

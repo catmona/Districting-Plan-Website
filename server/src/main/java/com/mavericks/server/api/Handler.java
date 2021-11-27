@@ -108,7 +108,6 @@ public class Handler {
     public Set<Box> getBoxWhisker(long districtingId, Basis basis, boolean enacted, boolean postAlg,
                                   HttpSession session){
         // do not overlay currently selected SeaWulf plan if districtingId = -1
-
         State state = (State) session.getAttribute("state");
         Districting districting = state.getEnacted();
 

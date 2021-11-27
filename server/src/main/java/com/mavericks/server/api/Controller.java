@@ -64,8 +64,6 @@ public class Controller {
                                 @RequestParam("basis") String basis,
                                 @RequestParam("enacted")boolean enacted,
                                 @RequestParam("postAlg")boolean postAlg, HttpSession session){
-
-        // TODO implement this, i think it was meant to return a list of district BoxWhiskers for a certain basis
         handler.getBoxWhisker(districtingId,mapBasisToEnum(basis),enacted,postAlg,session);
         return null;
     }
