@@ -112,7 +112,7 @@ function StatGraphs(props) {
 
     const getBoxWhiskerData = (event) => {
         event.preventDefault();
-        fetch("http://localhost:8080/api2/boxwhiskers?districtingId=" + selectedPlanId || selectedPlanId !== "" ? selectedPlanId : '-1'
+        fetch("http://localhost:8080/api2/boxwhiskers?districtingId=" + ((props.selectedPlanId || props.selectedPlanId !== "") ? props.selectedPlanId : '-1')
         + "&basis=" + boxWhiskerBasis 
         + "&enacted=" + boxWhiskerEnacted
         + "&postAlg=" + boxWhiskerEqualized,

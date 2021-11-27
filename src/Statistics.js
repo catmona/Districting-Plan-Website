@@ -83,6 +83,7 @@ function Statistics(props) {
                     stateData={state.stateData} 
                     onSelectPopType={getPopType} 
                     popType={popType}
+                    selectedPlanId={props.selectedPlanId}
                 /> 
                 <EnhancedTable 
                     stateData={state.stateData} 

@@ -2,10 +2,7 @@ package com.mavericks.server.api;
 
 //import com.mavericks.server.Algorithm;
 import com.mavericks.server.Algorithm;
-import com.mavericks.server.dto.AlgorithmDTO;
-import com.mavericks.server.dto.DistrictingDTO;
-import com.mavericks.server.dto.PlanDTO;
-import com.mavericks.server.dto.StateDTO;
+import com.mavericks.server.dto.*;
 import com.mavericks.server.entity.*;
 import com.mavericks.server.enumeration.Basis;
 import com.mavericks.server.enumeration.Demographic;
@@ -105,22 +102,13 @@ public class Handler {
         return districting.makePlanDTO(popType);
     }
 
-    public Set<Box> getBoxWhisker(long districtingId, Basis basis, boolean enacted, boolean postAlg,
+    public BoxWhiskerPlotDTO getBoxWhisker(long districtingId, Basis basis, boolean enacted, boolean postAlg,
                                   HttpSession session){
         // do not overlay currently selected SeaWulf plan if districtingId = -1
         State state = (State) session.getAttribute("state");
-        Districting districting = state.getEnacted();
-
-        // TODO iterate through Districting.districts and
-        //  use the BoxWhiskerRepository to get the box and whisker data of a certain district.
-
-        double []upperExtreme={5,5,5,5};
-        double []upperQuartile={15,15,15,25};
-        double []median={25,25,25,25};
-        double []lowerQuartile={35,35,35,35};
-        double []lowerExtreme={45,45,35,45};
-
-        return null;
+        BoxWhiskerPlotDTO dto = new BoxWhiskerPlotDTO();
+        dto.setBoxWhisker(state.getBoxWhiskerByBasis(basis));
+        return dto;
     }
 
     public void setLimits(double minPopulationEquality, double minCompactness,HttpSession session){
@@ -156,7 +144,5 @@ public class Handler {
         alg.setRunning(false);
         return alg.getProgress();
     }
-
-
 
 }
