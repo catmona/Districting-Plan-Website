@@ -5,7 +5,6 @@ function DistrictingModal(props) {
     const [selectedDistrict, setSelectedDistrict] = useState(-1);
     const {setPlanType, ...rest} = props;
 
-    console.log(selectedDistrict)
     let dropdownTitle = selectedDistrict != -1 ? "District " + selectedDistrict : 'Select District ';
 
     useEffect(() => {
@@ -13,10 +12,13 @@ function DistrictingModal(props) {
     }, [props.data]);
 
     useEffect(() => {
+        let e = document.getElementById("districting-modal-stats");
+        if(!e) return;
+
         if(selectedDistrict == -1)
-            document.getElementById("districting-modal-stats").style.display = "none";
+            e.style.display = "none";
         else 
-            document.getElementById("districting-modal-stats").style.display = "flex";
+            e.style.display = "flex";
     }, [selectedDistrict]);
 
     return (
