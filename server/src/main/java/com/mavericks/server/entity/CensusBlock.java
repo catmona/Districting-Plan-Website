@@ -41,6 +41,9 @@ public class CensusBlock {
     @Column(name = "neighborId")
     private List<String> neighborIds;
 
+    @Transient
+    private boolean moved;
+
     public CensusBlock() {}
 
     public CensusBlock(String districtId, String precinctId, boolean isBorderBlock) {
@@ -121,6 +124,15 @@ public class CensusBlock {
         return populations.stream().filter(p -> p.getPopulationMeasureType() == measure)
                 .map(p -> p.getValue())
                 .collect(Collectors.toList());
+    }
+
+
+    public boolean isMoved() {
+        return moved;
+    }
+
+    public void setMoved(boolean moved) {
+        this.moved = moved;
     }
 
     @Override
