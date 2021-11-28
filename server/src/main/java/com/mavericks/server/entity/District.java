@@ -1,6 +1,7 @@
 package com.mavericks.server.entity;
 
 import com.mavericks.server.converter.GeometryConverterString;
+import com.mavericks.server.enumeration.Basis;
 import com.mavericks.server.enumeration.Demographic;
 import com.mavericks.server.enumeration.PopulationMeasure;
 import com.mavericks.server.enumeration.Region;

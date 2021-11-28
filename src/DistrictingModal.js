@@ -125,10 +125,9 @@ function DistrictingModal(props) {
             <Modal.Footer>
                 <Button 
                     variant="primary" 
-                    disabled={selectedDistrict == -1}
                     onClick = {() => {
                         props.setPlanType("Districting " + props.data.districtingNum);
-                        props.setSelectedPlanId(props.data.data.summary.planId);
+                        props.getDistrictingSummary(props.data.data.planId);
                         props.onHide();
                     }}
                 >

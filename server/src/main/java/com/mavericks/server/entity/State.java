@@ -1,11 +1,14 @@
 package com.mavericks.server.entity;
 import com.mavericks.server.converter.PointConverterString;
 import com.mavericks.server.dto.StateDTO;
+import com.mavericks.server.enumeration.Basis;
 import com.mavericks.server.enumeration.PopulationMeasure;
+import org.hibernate.annotations.Where;
 import org.wololo.geojson.FeatureCollection;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.persistence.*;
 
@@ -34,9 +37,14 @@ public class State {
     @JoinColumn(name = "stateId")
     private List<Districting> districtings;
 
+//    @OneToMany(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "stateId")
+//    private List<BoxWhisker> boxWhiskers;
+
     @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "stateId")
-    private List<BoxWhisker> boxWhiskers;
+    @MapKey(name = "basisType")
+    private Map<Basis, BoxWhisker> boxWhisker;
 
     public State() {}
 
@@ -94,13 +102,29 @@ public class State {
         this.districtings = districtings;
     }
 
-    public List<BoxWhisker> getBoxWhiskers() {
-        return boxWhiskers;
+    public BoxWhisker getBoxWhiskerByBasis(Basis basis) {
+        return boxWhisker.get(basis);
     }
 
-    public void setBoxWhiskers(List<BoxWhisker> boxWhiskers) {
-        this.boxWhiskers = boxWhiskers;
+    public Map<Basis, BoxWhisker> getBoxWhisker() {
+        return boxWhisker;
     }
+
+    public void setBoxWhisker(Map<Basis, BoxWhisker> boxWhisker) {
+        this.boxWhisker = boxWhisker;
+    }
+
+    //    public BoxWhisker getBoxWhiskerByBasis(Basis basis) {
+//
+//    }
+
+//    public List<BoxWhisker> getBoxWhiskers() {
+//        return boxWhiskers;
+//    }
+//
+//    public void setBoxWhiskers(List<BoxWhisker> boxWhiskers) {
+//        this.boxWhiskers = boxWhiskers;
+//    }
 
     /* Other class methods below */
 

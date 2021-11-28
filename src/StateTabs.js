@@ -22,7 +22,7 @@ function StateTabs(props) {
             setStateSelected(false);
         } else {
             setTab("data-table");
-            props.setAlgResults(null); //TODO should be done when a districting is selected too
+            props.setAlgResults(null);
             setStateSelected(true);
         }
     }, [props.planType]);
@@ -38,6 +38,7 @@ function StateTabs(props) {
                             districtingData={props.districtingData} 
                             algResults={props.algResults} 
                             setAlgResults={props.setAlgResults} 
+                            selectedPlanId={props.selectedPlanId}
                         /> 
                     : ""}
                 </Tab>
@@ -47,7 +48,7 @@ function StateTabs(props) {
                         stateName={stateName} 
                         districtingPreviews={props.districtingPreviews} 
                         setPlanType={props.setPlanType}
-                        setSelectedPlanId={props.setSelectedPlanId}
+                        getDistrictingSummary={props.getDistrictingSummary}
                     />
                 </Tab>
             </Tabs>

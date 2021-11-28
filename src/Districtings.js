@@ -111,7 +111,7 @@ function districtings(props) {
                     show = {showModal} 
                     onHide = {() => setShowModal(false)} 
                     setPlanType = {props.setPlanType}
-                    setSelectedPlanId = {props.setSelectedPlanId}
+                    getDistrictingSummary={props.getDistrictingSummary}
                 />
             </>
         </>

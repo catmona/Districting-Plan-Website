@@ -1,9 +1,6 @@
 package com.mavericks.server.api;
 
-import com.mavericks.server.dto.AlgorithmDTO;
-import com.mavericks.server.dto.DistrictingDTO;
-import com.mavericks.server.dto.PlanDTO;
-import com.mavericks.server.dto.StateDTO;
+import com.mavericks.server.dto.*;
 import com.mavericks.server.entity.Box;
 import com.mavericks.server.entity.Election;
 import com.mavericks.server.enumeration.Basis;
@@ -60,12 +57,11 @@ public class Controller {
     }
 
     @GetMapping(value = "boxwhiskers")
-    public Box handleBoxWhisker(@RequestParam("districtingId")long districtingId,
-                                @RequestParam("basis") String basis,
-                                @RequestParam("enacted")boolean enacted,
-                                @RequestParam("postAlg")boolean postAlg, HttpSession session){
-        handler.getBoxWhisker(districtingId,mapBasisToEnum(basis),enacted,postAlg,session);
-        return null;
+    public BoxWhiskerPlotDTO handleBoxWhisker(@RequestParam("districtingId")long districtingId,
+                                              @RequestParam("basis") String basis,
+                                              @RequestParam("enacted")boolean enacted,
+                                              @RequestParam("postAlg")boolean postAlg, HttpSession session){
+        return handler.getBoxWhisker(districtingId,mapBasisToEnum(basis),enacted,postAlg,session);
     }
 
     @PostMapping("mapfilter")
