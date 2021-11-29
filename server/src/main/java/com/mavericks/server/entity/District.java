@@ -110,10 +110,12 @@ public class District {
         distPop.setValue(distPop.getValue()-cb.getPopulation(measure,Demographic.ALL));
         if(revert){
             this.geometry=this.prevGeometry;
+            cb.setMoved(false);
         }
         else{
             this.prevGeometry=this.geometry;
             this.geometry=this.geometry.difference(cb.getGeometry());
+            cb.setMoved(true);
         }
 
     }
@@ -129,10 +131,12 @@ public class District {
         distPop.setValue(distPop.getValue()+cb.getPopulation(measure,Demographic.ALL));
         if(revert){
             this.geometry=this.prevGeometry;
+            cb.setMoved(false);
         }
         else{
             this.prevGeometry=this.geometry;
             this.geometry= this.geometry.union(cb.getGeometry());
+            cb.setMoved(true);
         }
     }
 
