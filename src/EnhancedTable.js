@@ -113,6 +113,7 @@ export default function EnhancedTable(props) {
                     show={showAlgLimits}
                     onHide={() => setShowAlgLimits(false)}
                     showProgress={setShowAlgProgress}
+                    selectedPlanId={props.selectedPlanId}
                 />
                 <AlgProgressModal
                     show={showAlgProgress}
