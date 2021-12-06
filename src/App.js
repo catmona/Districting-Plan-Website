@@ -27,6 +27,7 @@ function App() {
         .then(res => res.json())
         .then(
             (result) => {
+                setSelectedPlanId(result.enactedId);
                 setDistrictingData(result);
             },
             (error) => {
