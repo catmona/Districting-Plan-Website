@@ -111,6 +111,14 @@ function StatGraphs(props) {
         setValue(newValue);
     };
 
+    const chartEvents = [{
+        eventName: "select",
+        callback({ chartWrapper }) {
+            console.log("Selected ", chartWrapper.getChart().getSelection());
+            }
+        }
+    ];
+
     const getBoxWhiskerData = (event) => {
         event.preventDefault();
         fetch("http://localhost:8080/api2/boxwhiskers?districtingId=" + ((props.selectedPlanId || props.selectedPlanId !== "") ? props.selectedPlanId : '-1')
@@ -153,11 +161,12 @@ function StatGraphs(props) {
                         value={value}
                         onChange={handleChange}
                         aria-label="Vertical tabs example"
+                        chartEvents={chartEvents}
                         sx={{ borderRight: 1, borderColor: 'divider', color: 'white' }}
                     >
-                        <Tab label="Population" {...a11yProps(0)} width='200px' />
-                        <Tab label="Demographics" {...a11yProps(1)} />
-                        <Tab label="Compare to Average" {...a11yProps(2)} />
+                        <Tab className = "graph-label" label="Population" {...a11yProps(0)} width='200px' />
+                        <Tab className = "graph-label" label="Demographics" {...a11yProps(1)} />
+                        <Tab className = "graph-label" label="Compare to Average" {...a11yProps(2)} />
                     </Tabs>
                     <hr />
                     <DropdownButton menuVariant="dark" size="md" title={"Population Type: " + props.popType} id="poptype-dropdown">
@@ -172,7 +181,6 @@ function StatGraphs(props) {
                         chartType="ColumnChart"
                         loader={<div>Loading Chart</div>}
                         data={partyData}
-
                         options={{
                             // Material design options
                             title: "District Populations",
@@ -197,7 +205,7 @@ function StatGraphs(props) {
                                     color: 'white'
                                 }
                             },
-                            isStacked: 'true',
+                            isStacked: 'false',
                             backgroundColor: bgcolor,
                             legend: {
                                 position: 'bottom',

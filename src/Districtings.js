@@ -22,7 +22,7 @@ function DistrictingPopover(props) {
 
     return(
        <OverlayTrigger trigger={["hover", "focus"]} placement="right" overlay={pop}>
-           <img alt="" className = "img-thumbnail mx-auto thumbnail districting-img" planId={planId}></img>
+           <img alt="Loading..." className = "img-thumbnail mx-auto thumbnail districting-img" planId={planId}></img>
        </OverlayTrigger>
     );
 }

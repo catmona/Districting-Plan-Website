@@ -31,8 +31,8 @@ function DistrictingModal(props) {
             let data = {
                 popAll: Number(pop[i][3]).toLocaleString(), 
                 popAfricanAmerican: Number(pop[i][1]).toLocaleString(), 
-                popAsian: Number(pop[i][0]).toLocaleString(), 
-                popWhite: Number(pop[i][2]).toLocaleString(), 
+                popAsian: Number(pop[i][2]).toLocaleString(), 
+                popWhite: Number(pop[i][0]).toLocaleString(), 
                 election: elections[i].info.year,
                 demPercent: demPercent, repPercent: repPercent 
             }

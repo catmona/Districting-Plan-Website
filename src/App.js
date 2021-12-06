@@ -7,6 +7,10 @@ import Topbar from './Topbar';
 import StateTabs from './StateTabs';
 import ErrorModal from './ErrorModal';
 
+window.onbeforeunload = function() {
+    return "Data will be lost if you leave the page, are you sure?";
+  };
+
 function App() {
     const [stateName, setStateName] = useState("");
     const [districtingData, setDistrictingData] = useState(""); //statistics table data, population per district of the plan
