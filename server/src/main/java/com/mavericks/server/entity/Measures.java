@@ -31,4 +31,11 @@ public class Measures {
     public void setPolsbyPopperScore(double polsbyPopperScore) {
         this.polsbyPopperScore = polsbyPopperScore;
     }
+
+    public Measures clone(){
+        Measures m = new Measures();
+        //m.setPolsbyPopperScore(this.polsbyPopperScore);
+        m.setPopulationEqualityScore(this.populationEqualityScore);
+        return m;
+    }
 }
