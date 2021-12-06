@@ -29,6 +29,15 @@ import java.util.List;
 import java.util.Map;
 
 
+/**
+ *TODO:
+ * 1.update district populations with the removal/addition of each census block(Done but test later)
+ * 2.Track which precincts have changed (Done but test later)
+ * 3. Implement a copy method for the districting class
+ *
+ *
+ */
+
 public class Algorithm{
 
     //user set flag to continue running the algorithm
@@ -48,12 +57,14 @@ public class Algorithm{
     private PopulationMeasure populationMeasure;
     private final int REDRAW_CONST=5;
     private Districting bestDistricting;
+    private List<String> precintsChanged;
 
 
     public Algorithm() {
         this.max_iterations=1000;
         this.maxFaildCbMoves=50;
         running=true;
+        precintsChanged=new ArrayList<>();
     }
 
 
@@ -66,6 +77,7 @@ public class Algorithm{
                 && (compactness<minCompactness || populationEquality>minPopulationEquality)){
             District d1=inProgressPlan.getRandDistrict();
             CensusBlock cb = d1.getRandCensusBlock();
+            String oldPrecinct=cb.getPrecinctId();
             List<CensusBlock> neighbors = inProgressPlan.getNeighbors(cb);
             District d2=findNeighboringDistrict(neighbors,d1,inProgressPlan);
             if(d2==null || cb.isMoved()){
@@ -84,6 +96,8 @@ public class Algorithm{
                 inProgressPlan.setMeasures(newMeasures);
                 compactness=newMeasures.getPolsbyPopperScore();
                 populationEquality=newMeasures.getPopulationEqualityScore();
+                precintsChanged.add(oldPrecinct);
+                precintsChanged.add(cb.getPrecinctId());
                 failedCbMoves=0;
             }
             iterations++;

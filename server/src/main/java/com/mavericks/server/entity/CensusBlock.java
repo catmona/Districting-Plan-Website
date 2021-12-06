@@ -127,6 +127,8 @@ public class CensusBlock {
     }
 
 
+
+
     public boolean isMoved() {
         return moved;
     }

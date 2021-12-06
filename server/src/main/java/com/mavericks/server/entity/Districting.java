@@ -239,4 +239,15 @@ public class Districting {
         return (Math.PI*4)*(area/Math.pow(perimeter,2));
     }
 
+    public Districting clone(){
+        Districting plan= new Districting();
+        List<District>distCopys=new ArrayList<>();
+        plan.setMeasures(this.measures.clone());
+        for(District d: this.districts){
+            distCopys.add(d.clone());
+        }
+        plan.setDistricts(distCopys);
+        return plan;
+    }
+
 }
