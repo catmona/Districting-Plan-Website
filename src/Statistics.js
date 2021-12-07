@@ -89,6 +89,7 @@ function Statistics(props) {
                     stateData={state.stateData} 
                     algResults={props.algResults} 
                     setAlgResults={props.setAlgResults} 
+                    selectedPlanId={props.selectedPlanId}
                 />
             </div> : "") : <Box className = 'loading-container'><CircularProgress className = 'loading-icon'/></Box>}
         </div>

@@ -9,6 +9,7 @@ import org.wololo.geojson.FeatureCollection;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import javax.persistence.*;
 
@@ -96,6 +97,14 @@ public class State {
 
     public List<Districting> getDistrictings() {
         return districtings;
+    }
+
+    public Districting getDistricting(String id) {
+        Optional<Districting> plan = districtings.stream().filter(d -> id.equals(d.getId())).findFirst();
+        if (!plan.isPresent()) {
+            return null;
+        }
+        return plan.get();
     }
 
     public void setDistrictings(List<Districting> districtings) {

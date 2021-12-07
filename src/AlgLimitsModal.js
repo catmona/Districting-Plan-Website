@@ -12,15 +12,34 @@ function AlgLimitsModal(props) {
         event.preventDefault();
 
         //TODO fetch
-
-        setAlgReady(true);
+        fetch("http://localhost:8080/api2/algorithmlimits?" 
+        + "minPopulationEquality=" + popEqualityLim
+        + "&minCompactness=" + compactnessLim, { method: 'POST', credentials: 'include' })
+        .then(res => {
+            if (!res.ok) {
+                console.log("Error calling setLimits: %o", res);
+                return;
+            }
+            setAlgReady(true);
+        });
     };
 
     const startAlg = () => {
         console.log("alg started")
         //TODO fetch
-        props.showProgress(true);
-        props.onHide();
+        fetch("http://localhost:8080/api2/algorithm?districingNum=" + props.selectedPlanId, { credentials: 'include' })
+        .then(res => res.json())
+        .then(
+            (result) => {
+                console.log("Start algorithm res: %o", result);
+                props.showProgress(true);
+                props.onHide();
+                //TODO start timer to pull progress from server
+            },
+            (error) => {
+                console.log(error);
+            }
+        );
     }
 
     return (

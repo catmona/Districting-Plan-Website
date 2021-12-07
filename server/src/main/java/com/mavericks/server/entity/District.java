@@ -106,14 +106,16 @@ public class District {
         }
 
         this.borderBlocks.remove(cb.getId());
-        Population distPop=this.getPopulationObj(measure,Demographic.ALL);
-        distPop.setValue(distPop.getValue()-cb.getPopulation(measure,Demographic.ALL));
+        int diffMultiplier=-1;
+        combinePops(this.getPopulations(),cb.getPopulations(),diffMultiplier);
         if(revert){
             this.geometry=this.prevGeometry;
+            cb.setMoved(false);
         }
         else{
             this.prevGeometry=this.geometry;
             this.geometry=this.geometry.difference(cb.getGeometry());
+            cb.setMoved(true);
         }
 
     }
@@ -124,17 +126,27 @@ public class District {
                 filter(c->c.getDistrictId().equals(this.id)).collect(Collectors.toList());
         adjNewDistNeighbors(cb,plan,newDistrictNeighbors);
         cb.setDistrictId(this.id);
+        cb.setPrecinctId(newDistrictNeighbors.get(0).getPrecinctId());
         this.borderBlocks.put(cb.getId(),cb);
-        Population distPop=this.getPopulationObj(measure,Demographic.ALL);
-        distPop.setValue(distPop.getValue()+cb.getPopulation(measure,Demographic.ALL));
+        int addMultiplier=1;
+        combinePops(this.getPopulations(),cb.getPopulations(),addMultiplier);
         if(revert){
             this.geometry=this.prevGeometry;
+            cb.setMoved(false);
         }
         else{
             this.prevGeometry=this.geometry;
             this.geometry= this.geometry.union(cb.getGeometry());
+            cb.setMoved(true);
         }
     }
+
+    public void combinePops(List<Population> distPops, List<Population>cbPops, int multiplier){
+        for(int i=0;i<distPops.size();i++){
+            distPops.get(i).setValue(cbPops.get(i).getValue()*multiplier);
+        }
+    }
+
 
     private void adjNewDistNeighbors(CensusBlock cb,Districting plan,List<CensusBlock>neighbors){
         for(CensusBlock neighbor: neighbors){
@@ -294,6 +306,18 @@ public class District {
         if (o == null || getClass() != o.getClass()) return false;
         District district = (District) o;
         return this.id.equals(district.getId());
+    }
+
+    public District clone(){
+        District d = new District();
+        d.setGeometry(this.geometry.copy());
+        List<Population>popCopy=new ArrayList<>();
+        for(Population p:this.populations){
+            popCopy.add(p.clone());
+        }
+        d.setId(this.id);
+        d.setDistrictingId(this.districtingId);
+        return d;
     }
 
 

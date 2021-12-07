@@ -81,7 +81,7 @@ public class Controller {
     }
 
     @GetMapping(value = "algorithm")
-    public AlgorithmDTO handleStartAlgorithm(@RequestParam("districingNum")int districtingNum, HttpSession session){
+    public AlgorithmDTO handleStartAlgorithm(@RequestParam("districingNum")String districtingNum, HttpSession session){
         return handler.startAlgorithm(districtingNum,session);
     }
 

@@ -5,6 +5,10 @@ import Topbar from './Topbar';
 import StateTabs from './StateTabs';
 import ErrorModal from './ErrorModal';
 
+window.onbeforeunload = function() {
+    return "Data will be lost if you leave the page, are you sure?";
+  };
+
 function App() {
     const [stateName, setStateName] = useState("");
     
@@ -26,6 +30,7 @@ function App() {
         .then(res => res.json())
         .then(
             (result) => {
+                setSelectedPlanId(result.enactedId);
                 setDistrictingData(result);
             },
             (error) => {

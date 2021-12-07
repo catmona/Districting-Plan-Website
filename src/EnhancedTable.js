@@ -9,7 +9,13 @@ import AlgLimitsModal from "./AlgLimitsModal";
 import AlgProgressModal from "./AlgProgressModal";
 
 const columns = [
-  { field: 'id', headerName: 'District', width: 20 },
+  { 
+      field: 'id', 
+      headerName: 'District', 
+      width: 20,
+      editable: false,
+      type: 'number',
+  },
   {
     field: 'population',
     headerName: 'Population',
@@ -69,7 +75,6 @@ export default function EnhancedTable(props) {
                     rowsPerPageOptions={[10]}
                     rowHeight={32}
                     disableColumnMenu={true}
-                    //checkboxSelection
                     disableSelectionOnClick={true}
                     hideFooter
                     className={"datagrid"}
@@ -113,6 +118,7 @@ export default function EnhancedTable(props) {
                     show={showAlgLimits}
                     onHide={() => setShowAlgLimits(false)}
                     showProgress={setShowAlgProgress}
+                    selectedPlanId={props.selectedPlanId}
                 />
                 <AlgProgressModal
                     show={showAlgProgress}

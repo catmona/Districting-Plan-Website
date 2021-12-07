@@ -9,12 +9,17 @@ import com.mavericks.server.enumeration.Demographic;
 import com.mavericks.server.enumeration.PopulationMeasure;
 import com.mavericks.server.repository.CensusBlockRepository;
 import org.locationtech.jts.geom.Geometry;
+import org.locationtech.jts.geom.GeometryFactory;
+import org.locationtech.jts.geom.Polygon;
 import org.locationtech.jts.operation.union.UnaryUnionOp;
+import org.locationtech.jts.simplify.TopologyPreservingSimplifier;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 import org.wololo.geojson.Feature;
+import org.wololo.geojson.GeoJSON;
 import org.wololo.geojson.GeoJSONFactory;
+
 import org.wololo.jts2geojson.GeoJSONReader;
 import org.wololo.jts2geojson.GeoJSONWriter;
 
@@ -23,6 +28,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+
+/**
+ *TODO:
+ * 1.update district populations with the removal/addition of each census block(Done but test later)
+ * 2.Track which precincts have changed (Done but test later)
+ * 3. Implement a copy method for the districting class
+ *
+ *
+ */
 
 public class Algorithm{
 
@@ -43,12 +57,14 @@ public class Algorithm{
     private PopulationMeasure populationMeasure;
     private final int REDRAW_CONST=5;
     private Districting bestDistricting;
+    private List<String> precintsChanged;
 
 
     public Algorithm() {
         this.max_iterations=1000;
         this.maxFaildCbMoves=50;
         running=true;
+        precintsChanged=new ArrayList<>();
     }
 
 
@@ -61,10 +77,10 @@ public class Algorithm{
                 && (compactness<minCompactness || populationEquality>minPopulationEquality)){
             District d1=inProgressPlan.getRandDistrict();
             CensusBlock cb = d1.getRandCensusBlock();
+            String oldPrecinct=cb.getPrecinctId();
             List<CensusBlock> neighbors = inProgressPlan.getNeighbors(cb);
             District d2=findNeighboringDistrict(neighbors,d1,inProgressPlan);
-            if(d2==null){
-                iterations++;
+            if(d2==null || cb.isMoved()){
                 continue;
             }
             d2.addCensusBlock(cb,inProgressPlan,neighbors,populationMeasure,false);
@@ -80,15 +96,13 @@ public class Algorithm{
                 inProgressPlan.setMeasures(newMeasures);
                 compactness=newMeasures.getPolsbyPopperScore();
                 populationEquality=newMeasures.getPopulationEqualityScore();
+                precintsChanged.add(oldPrecinct);
+                precintsChanged.add(cb.getPrecinctId());
                 failedCbMoves=0;
             }
-
-
             iterations++;
-            System.out.println("iterations:"+iterations);
-
+            System.out.println("iteration:"+iterations);
         }
-        System.out.println("done");
     }
 
     public District findNeighboringDistrict(List<CensusBlock>neighbors,District currentDistrict,Districting plan){
@@ -124,14 +138,34 @@ public class Algorithm{
     public AlgorithmDTO getResults(){
         List<Feature> features = new ArrayList<>();
         GeoJSONWriter writer = new GeoJSONWriter();
+        GeoJSONReader reader = new GeoJSONReader();
+        GeometryFactory gf = new GeometryFactory();
         for(District d:inProgressPlan.getDistricts()){
             Map<String,Object> properties = new HashMap<>();
             properties.put("District",d.getDistrictNumber());
             properties.put("District_Name",""+d.getDistrictNumber());
-            Geometry geo=d.getGeometry().getBoundary();
-            features.add(new Feature(((Feature)GeoJSONFactory
-                    .create(writer.write(geo).toString()))
-                    .getGeometry(),properties));
+            Geometry geo=d.getGeometry();
+//            if(geo instanceof Polygon){
+//                Polygon p =(Polygon)geo;
+////                p=gf.createPolygon(p.getExteriorRing().getCoordinateSequence());
+//                p.getExteriorRing().getCoordinates();
+//                polygon.getExteriorRing().getCoordinates();
+//            }
+//            else{
+//                System.out.println(geo);
+//            }
+//
+//
+////            boolean val =p.isValid();
+////            TopologyPreservingSimplifier simp = new TopologyPreservingSimplifier(p);
+////            Geometry newGeo= simp.getResultGeometry();
+////            System.out.println(newGeo.isValid());
+//
+////            GeometryFactory factory = new GeometryFactory();
+////            Polygon p =factory.createPolygon(geo.getCoordinates());
+////            GeoJSON hmm=writer.write(geo);
+            GeoJSON json = writer.write(geo);
+            features.add(new Feature((org.wololo.geojson.Geometry)json ,properties));
         }
         return new AlgorithmDTO(inProgressPlan.getMeasures(),iterations,running,writer.write(features)
                 ,inProgressPlan.getPopulation());

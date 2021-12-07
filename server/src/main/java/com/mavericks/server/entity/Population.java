@@ -76,4 +76,14 @@ public class Population {
     public void setValue(int value) {
         this.value = value;
     }
+
+    public Population clone(){
+        Population p = new Population();
+        p.setValue(this.value);
+        p.setDemographicType(this.demographicType);
+        return p;
+    }
+
+
+
 }
