@@ -10,18 +10,18 @@ function DistrictingPopover(props) {
     const pop = (
         <Popover id="popover-basic" className="custom-popover">
             <Popover.Header as="h3">Districting Plan {props.num}</Popover.Header>
-                <Popover.Body>
-                    <em style={{fontSize: 13}}>This districting was chosen for it's high political fairness.</em><br /><br />
-                    <div className='districting-labels'><b>Population Equality: </b>{popEquality}<br /></div>
-                    <div className='districting-labels'><b>Compactness: </b>{polsby}<br /></div>
-                </Popover.Body>
+            <Popover.Body>
+                <em style={{fontSize: 13}}>This districting was chosen for it's high political fairness.</em><br /><br />
+                <div className='districting-labels'><b>Population Equality: </b>{popEquality}<br /></div>
+                <div className='districting-labels'><b>Compactness: </b>{polsby}<br /></div>
+            </Popover.Body>
         </Popover>
     );
 
     return(
-       <OverlayTrigger trigger={["hover", "focus"]} placement="right" overlay={pop}>
-           <img alt="alt" className = "img-thumbnail mx-auto thumbnail districting-img" planId={planId}></img>
-       </OverlayTrigger>
+        <OverlayTrigger trigger={["hover", "focus"]} placement="right" overlay={pop}>
+            <img alt="alt" className = "img-thumbnail mx-auto thumbnail districting-img" planId={planId}></img>
+        </OverlayTrigger>
     );
 }
 
@@ -41,7 +41,7 @@ function districtings(props) {
     let loading = {'polsbyPopper':0, "populationEquality":0};
 
     useEffect(() => {
-        //right now this doesnt account for a different number of districtings per state
+        //right now this doesn't account for a different number of districtings per state
         //it wont delete excess images if there are any
         if(stateName || stateName != "") { 
             for(let i = 0; i < NUM_DISTRICTINGS; i++) {
@@ -51,18 +51,18 @@ function districtings(props) {
                     img.onclick = (e) => {
                         let planId = e.target.getAttribute("planId");
                         fetch("http://localhost:8080/api2/districtingSummary?districtingId=" + planId, { credentials: 'include' })
-                            .then(res => res.json())
-                            .then(
-                                (result) => {
-                                    console.log("District Summary result = %o", result);
-                                    setShowModal(true);
-                                    setDistrictingSummary({districtingNum: i+1, data: { 'planId': planId, 'summary': result}});
-                                },
-                                (error) => {
-                                    // showErrorModal("Failed to get districting plan data", error);
-                                    console.log(e)
-                                }
-                            );
+                        .then(res => res.json())
+                        .then(
+                            (result) => {
+                                console.log("District Summary result = %o", result);
+                                setShowModal(true);
+                                setDistrictingSummary({districtingNum: i+1, data: { 'planId': planId, 'summary': result}});
+                            },
+                            (error) => {
+                                // showErrorModal("Failed to get districting plan data", error);
+                                console.log(e)
+                            }
+                        );
                     };
                     img.src = require("/public/assets/thumbnails/" + stateName + "/districting-img-" + (i+1) + ".png").default;
                 }

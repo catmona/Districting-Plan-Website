@@ -1,7 +1,5 @@
 import React, { useRef, useEffect, useState } from 'react';
-import { Container, Tab, Tabs } from 'react-bootstrap';
-import { Col } from 'react-bootstrap';
-import { Row, Nav, Sonnet } from 'react-bootstrap';
+import { Container, Row, Col } from 'react-bootstrap';
 import Map from './Map';
 import Topbar from './Topbar';
 import StateTabs from './StateTabs';
@@ -9,6 +7,7 @@ import ErrorModal from './ErrorModal';
 
 function App() {
     const [stateName, setStateName] = useState("");
+    
     const [districtingData, setDistrictingData] = useState(""); //statistics table data, population per district of the plan
     const [districtingPreviews, setDistrictingPreviews] = useState(""); //tooltip summaries for SeaWulf districtings 
     const [algResults, setAlgResults] = useState(null);
@@ -78,7 +77,7 @@ function App() {
             },
             (error) => {
                 showErrorModal("Failed to get districting previews", error)
-                console.log(e)
+                console.log(error)
             }
         );
     }

@@ -1,7 +1,7 @@
 /* #region variables */
 $bgColor: #1f1f1f;
 $fgColor: #161616;
-$accentColor: #4285F4;
+$accentColor1: #4285F4;
 $accentColor2: #28a745;
 $accentColor3: #ffc107;
 $accentColor4: #dc3545;
@@ -36,7 +36,7 @@ h3 {
     padding-left: 10px;
 }
 .loading-icon {
-    color: $accentColor;
+    color: $accentColor1;
     margin: 0;
     height: 100px !important;
     width: 100px !important;
@@ -90,8 +90,8 @@ h3 {
     display: block;
     cursor: pointer;
     padding: 10px;
-    border-bottom: 1px solid $accentColor;
-    border-top: 1px solid $accentColor;
+    border-bottom: 1px solid $accentColor1;
+    border-top: 1px solid $accentColor1;
     background-color: $fgColor;
     color:$textColor;
     overflow: hidden;
@@ -159,10 +159,10 @@ h3 {
     }
     h3 { 
         padding: 5px;
-        color: $accentColor;
+        color: $accentColor1;
     }
     svg {
-        color: $accentColor !important;
+        color: $accentColor1 !important;
         margin-bottom: 7px;
         margin-left: 5px;
     }
@@ -213,19 +213,19 @@ h3 {
     background-color: #F5F5F5;
 }
 .scrollbar-primary {
-    scrollbar-color: $accentColor $fgColor;
+    scrollbar-color: $accentColor1 $fgColor;
 }
 .scrollbar-primary::-webkit-scrollbar-thumb {
     border-radius: 10px;
     -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
     box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
-    background-color: $accentColor;
+    background-color: $accentColor1;
 }
 /* #endregion */
 
 /* #region districtings */
 .thumbnail:hover {
-    background-color: $accentColor;
+    background-color: $accentColor1;
     opacity: 0.65;
 }
 .districting-img {
@@ -316,7 +316,7 @@ h3 {
     }   
 }
 #districting-modal-dem {
-    color: $accentColor;
+    color: $accentColor1;
 }
 #districting-modal-rep {
     color: $accentColor4;
@@ -341,7 +341,7 @@ h3 {
     min-height: 1 !important;
 }
 .MuiDataGrid-sortIcon {
-    color: $accentColor !important;
+    color: $accentColor1 !important;
 }
 .kosta-test {
     border-radius: 0;
@@ -512,7 +512,7 @@ h3 {
 
     h3 {
         display: inline;
-        color: $accentColor
+        color: $accentColor1
     }
     label {
         font-size: 20px;
@@ -544,7 +544,7 @@ h3 {
     text-align: center;
 }
 #progress-iterations {
-    color: $accentColor;
+    color: $accentColor1;
 }
 #progress-equality {
     color: $accentColor3;

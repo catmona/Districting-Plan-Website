@@ -1,6 +1,6 @@
 import { CanvasJSChart } from 'canvasjs-react-charts';
 import React, { useRef, useEffect, useState } from 'react';
-import { Modal, Button, Row, Col, ProgressBar} from 'react-bootstrap';
+import { Modal, Button, Row, Col, ProgressBar } from 'react-bootstrap';
 
 function AlgProgressModal(props) {
     const [numIterations, setNumIterations] = useState(0);
@@ -8,14 +8,14 @@ function AlgProgressModal(props) {
     const [compactness, setCompactness] = useState(0); //this too
     const [timeRunning, setTimeRunning] = useState(0);
     const [estTimeRemaining, setEstTimeRemaining] = useState(0);
-    const [progressPercent, setProgressPrecent] = useState(50);
+    const [progressPercent, setProgressPercent] = useState(50);
     const [isAlgDone, setIsAlgDone] = useState(false);
     const {setAlgResults, ...rest} = props;
     const chart = useRef(null);
 
-    var dataLength = 20;
-    var popEqualityDps = [];
-    var compactnessDps = [];
+    const dataLength = 20;
+    let popEqualityDps = [];
+    let compactnessDps = [];
 
     const options = {
         theme: "dark1",
@@ -37,7 +37,7 @@ function AlgProgressModal(props) {
             dataPoints: compactnessDps
         }]
     }
-
+    
     const finishAlg = () => {
         props.setAlgResults("h");
         props.onHide();

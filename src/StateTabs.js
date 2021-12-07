@@ -52,6 +52,7 @@ function StateTabs(props) {
                     />
                 </Tab>
             </Tabs>
+            
             <div hidden={stateSelected} className="instructions-container">
                 <img src={require("/public/assets/icons/usa.png").default} className="website-icon" />
                 <h3 className="text-center"> Select a state from the dropdown or by clicking on the map to the right!</h3>
