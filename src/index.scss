@@ -10,19 +10,11 @@ $textColor: whitesmoke;
 /* #endregion */
 
 /* #region general-stuff */
-body {
+html, body {
     background-color: $bgColor;
+    height: 100%;
 }
-p {
-    color: $textColor;
-}
-h1 {
-    color: $textColor;
-}
-h2 {
-    color: $textColor;
-}
-h3 {
+p, h1, h2, h3 {
     color: $textColor;
 }
 .rainbow-text {
@@ -343,6 +335,20 @@ h3 {
 }
 /* #endregion */
 
+/* #region statistics */
+#stats-container {
+}
+#stats-top {
+
+}
+#stats-bottom {
+    min-height: 300px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+/* #endregion */
+
 /* #region table */
 #district-tablebody {
     min-height: 1 !important;
@@ -350,13 +356,19 @@ h3 {
 .MuiDataGrid-sortIcon {
     color: $accentColor1 !important;
 }
-.kosta-test {
-    border-radius: 0;
-    width:150px;
-}
 .datagrid {
     background-color: $bgColor;
     color: white !important;
+    width: 100% !important;
+}
+.datagrid-row {
+    min-height: 100px;
+    flex: 1 1 100px;
+    display: flex;
+}
+.datagrid-container {
+    flex: 1 1 100px;
+    color: $textColor;
 }
 .hover-area {
     display: flex;
@@ -367,9 +379,11 @@ h3 {
 }
 .button-submit{
     background-color: $fgColor !important;
+    color: $textColor;
     display: flex;
     flex-direction: row;
     justify-content: center;
+    width: 100%;
 }
 .submit {
     width: 150px;
@@ -406,7 +420,7 @@ h3 {
 }
 .graph-label {
     text-transform: none !important;
-    font-size: 18px !important;
+    font-size: 16px !important;
 }
 #box-whisker-container {
     position: static;
@@ -547,12 +561,13 @@ h3 {
     margin-left: auto;
     margin-right: auto;
     margin-bottom: 2%;
-    display:flex;
+    display: flex;
     flex-direction: column;
     justify-content: space-between;
 }
 .progress-label {
     text-align: center;
+    display: inline-block;
 }
 .progress-value {
     text-align: center;
@@ -576,6 +591,18 @@ h3 {
 }
 #progress-time {
     color: $accentColor2;
+    margin: 0;
+    margin-top: -4px;
+}
+#progress-time-block {
+    background-color: $fgColor;
+    margin: auto;
+    margin-top: -5px;
+    margin-bottom: -5px;
+    width: auto;
+    height: 40px;
+    padding: 10px;
+    border: 1px solid black;
 }
 #progress-time-remaining {
     color: $accentColor4;

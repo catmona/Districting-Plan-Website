@@ -11,7 +11,6 @@ function AlgLimitsModal(props) {
     const setAlgLimits = (event) => {
         event.preventDefault();
 
-        //TODO fetch
         fetch("http://localhost:8080/api2/algorithmlimits?" 
         + "minPopulationEquality=" + popEqualityLim
         + "&minCompactness=" + compactnessLim, { method: 'POST', credentials: 'include' })
@@ -26,7 +25,6 @@ function AlgLimitsModal(props) {
 
     const startAlg = () => {
         console.log("alg started")
-        //TODO fetch
         fetch("http://localhost:8080/api2/algorithm?districingNum=" + props.selectedPlanId, { credentials: 'include' })
         .then(res => res.json())
         .then(
@@ -46,7 +44,7 @@ function AlgLimitsModal(props) {
         <Modal {...rest} size="lg" centered className="dark-modal">
             <Modal.Header closeButton>
                 <Modal.Title>
-                    Set Equalization Constraints
+                    Set Algorithm Constraints
                 </Modal.Title>
             </Modal.Header>
             <Form onSubmit={setAlgLimits}>

@@ -6,8 +6,7 @@ function AlgProgressModal(props) {
     const [numIterations, setNumIterations] = useState(0);
     const [popEquality, setPopEquality] = useState(0); //TODO should grab this from stats
     const [compactness, setCompactness] = useState(0); //this too
-    const [timeRunning, setTimeRunning] = useState(0);
-    const [estTimeRemaining, setEstTimeRemaining] = useState(0);
+    const [timeRunning, setTimeRunning] = useState("00:00");
     const [progressPercent, setProgressPercent] = useState(50);
     const [isAlgDone, setIsAlgDone] = useState(false);
     const {setAlgResults, ...rest} = props;
@@ -49,6 +48,12 @@ function AlgProgressModal(props) {
 
     useEffect(() => {
         //do other stuff
+        
+        //TODO format time
+        const totalSeconds = 0; //get from server
+        const minutes = totalSeconds / 60;
+        const seconds = totalSeconds % 60;
+        setTimeRunning(minutes.toString().padStart(2, '0') + ":" + seconds.toString().padStart(2, '0'));
 
         if(progressPercent >= 100) setIsAlgDone(true);
 
@@ -77,24 +82,24 @@ function AlgProgressModal(props) {
     //TODO can the user pause? finish early? how do we resume?
 
     return(
-        <Modal {...rest} size="lg" centered className="dark-modal">
+        <Modal {...rest} size="lg" centered backdrop="static" className="dark-modal">
             <Modal.Header>
                 <Modal.Title>
-                    Algorithm progress
+                    Current Algorithm Progress
                 </Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 <Row>
                     <div className="progress-block">
-                        <h4 className="progress-label">Num Iterations: </h4>
+                        <h4 className="progress-label">Iteration #: </h4>
                         <h4 id="progress-iterations" className="progress-value">{numIterations}</h4>
                     </div>
                     <Col className="progress-block">
-                        <h4 className="progress-label">Current Population Equality: </h4>
+                        <h4 className="progress-label">Pop. Equality: </h4>
                         <h4 id="progress-equality" className="progress-value">{popEquality}</h4>
                     </Col>
                     <Col className="progress-block">
-                        <h4 className="progress-label">Current Compactness: </h4>
+                        <h4 className="progress-label">Compactness: </h4>
                         <h4 id="progress-compactness" className="progress-value">{compactness}</h4>
                     </Col>
                 </Row>
@@ -104,18 +109,8 @@ function AlgProgressModal(props) {
                     </Col>
                 </Row>
                 <Row>
-                    <Col className="progress-block">
-                        <h4 className="progress-label">Time Spent Equalizing: </h4>
+                    <div id="progress-time-block">
                         <h4 id="progress-time" className="progress-value">{timeRunning}</h4>
-                    </Col>
-                    <Col className="progress-block">
-                        <h4 className="progress-label">Est. Time Remaining: </h4>
-                        <h4 id="progress-time-remaining" className="progress-value">{estTimeRemaining}</h4>
-                    </Col>
-                </Row>
-                <Row>
-                    <div className="progress-bar">
-                        <ProgressBar animated now={progressPercent} label={`${progressPercent}%`} variant="success" />
                     </div>
                 </Row>
             </Modal.Body>
@@ -128,3 +123,19 @@ function AlgProgressModal(props) {
 }
 
 export default AlgProgressModal;
+
+/* <Row>
+    <Col className="progress-block">
+        <h4 className="progress-label">Time Spent Equalizing: </h4>
+        <h4 id="progress-time" className="progress-value">{timeRunning}</h4>
+    </Col>
+    <Col className="progress-block">
+        <h4 className="progress-label">Est. Time Remaining: </h4>
+        <h4 id="progress-time-remaining" className="progress-value">{estTimeRemaining}</h4>
+    </Col>
+</Row>
+<Row>
+    <div className="progress-bar">
+        <ProgressBar animated now={progressPercent} label={`${progressPercent}%`} variant="success" />
+    </div>
+</Row> */

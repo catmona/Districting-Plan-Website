@@ -6,8 +6,8 @@ import Statistics from 'Statistics.js';
 function StateTabs(props) {
     const [stateSelected, setStateSelected] = useState(false);
     const [tab, setTab] = useState("none");
-    let getDistrictingPreviews = props.getDistrictingPreviews;
-    let stateName = props.stateName;
+    const {getDistrictingPreviews} = props;
+    const {stateName} = props;
 
     function selectTab(key) {
         if (key === "random-districts") {
@@ -30,7 +30,7 @@ function StateTabs(props) {
     return (
         <Container fluid id="state-tabs">
             <Tabs activeKey={tab} onSelect={(k) => selectTab(k)}>
-                <Tab disabled={!stateSelected} eventKey="data-table" title="District Data">
+                <Tab disabled={!stateSelected} eventKey="data-table" title="Statistics">
                     {(stateName) ? 
                         <Statistics 
                             showError={props.showError}

@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState } from 'react';
-import mapboxgl from '!mapbox-gl'; // eslint-disable-line import/no-webpack-loader-syntax
+import mapboxgl from '!mapbox-gl';
 import StateOverlaySource from './data/us_state_overlay.geojson';
 import { Form } from 'react-bootstrap';
 

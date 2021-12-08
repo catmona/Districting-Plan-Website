@@ -88,13 +88,12 @@ function App() {
     }
 
     return (
-        <>
-            <Container fluid>
+        <>  <Container fluid>
                 <Row>
                     <Col id="left-app">
                         <Row>
                             <Topbar stateName={stateName} setState={getStateSummary} planType={planType} />
-                            <StateTabs 
+                            <StateTabs  
                                 showError={showErrorModal}
                                 stateName={stateName} 
                                 districtingData={districtingData} 

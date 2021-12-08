@@ -1,4 +1,5 @@
 import React, { Component, useEffect, useState } from 'react';
+import { Row } from 'react-bootstrap';
 import EnhancedTable from 'EnhancedTable.js';
 import StatGraphs from './StatGraphs';
 import CustomizedTables from './StateTable';
@@ -24,7 +25,7 @@ function formatResponseToStatisticData(response) {
     for(let i = 0; i < response.districtPopulations.length; i++) {
         let districtPop = response.districtPopulations[i];
         let election = response.districtElections[i];
-        var formattedData = {
+        let formattedData = {
             'id': i+1,
             'popMeasure': PopMeasure.TOTAL,
             'africanamerican': districtPop[Demographic.AFRICAN_AMERICAN],
@@ -63,7 +64,7 @@ function Statistics(props) {
 
     useEffect(() => {
         if (props.districtingData) {
-            var formattedData = formatResponseToStatisticData(props.districtingData);
+            let formattedData = formatResponseToStatisticData(props.districtingData);
 
             setState({
                 isLoaded: true,
@@ -75,22 +76,26 @@ function Statistics(props) {
     
     //TODO popType shouldnt need to be passed, accessible in stateData
     return (
-        <div>
+        <div id="stats-container">
             {state.isLoaded ? (state.stateData ? <div>
-                <CustomizedTables /> 
-                <StatGraphs 
-                    showError={props.showError}
-                    stateData={state.stateData} 
-                    onSelectPopType={getPopType} 
-                    popType={popType}
-                    selectedPlanId={props.selectedPlanId}
-                /> 
-                <EnhancedTable 
-                    stateData={state.stateData} 
-                    algResults={props.algResults} 
-                    setAlgResults={props.setAlgResults} 
-                    selectedPlanId={props.selectedPlanId}
-                />
+                <Row id='stats-top'>
+                    <CustomizedTables /> 
+                    <StatGraphs 
+                        showError={props.showError}
+                        stateData={state.stateData} 
+                        onSelectPopType={getPopType} 
+                        popType={popType}
+                        selectedPlanId={props.selectedPlanId}
+                    /> 
+                </Row>
+                <Row id='stats-bottom'>
+                    <EnhancedTable 
+                        stateData={state.stateData} 
+                        algResults={props.algResults} 
+                        setAlgResults={props.setAlgResults} 
+                        selectedPlanId={props.selectedPlanId}
+                    />
+                </Row>
             </div> : "") : <Box className = 'loading-container'><CircularProgress className = 'loading-icon'/></Box>}
         </div>
     );
