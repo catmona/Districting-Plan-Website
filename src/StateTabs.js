@@ -20,10 +20,13 @@ function StateTabs(props) {
         if (!stateName || stateName === "") {
             setTab("none");
             setStateSelected(false);
+            document.getElementById("state-tabs").getElementsByClassName("tab-content")[0].style.display = "none";
+            
         } else {
             setTab("data-table");
             props.setAlgResults(null);
             setStateSelected(true);
+            document.getElementById("state-tabs").getElementsByClassName("tab-content")[0].style.display = "flex";
         }
     }, [props.planType]);
 

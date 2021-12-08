@@ -76,8 +76,8 @@ function Statistics(props) {
     
     //TODO popType shouldnt need to be passed, accessible in stateData
     return (
-        <div id="stats-container">
-            {state.isLoaded ? (state.stateData ? <div>
+        <div id="stats-wrapper">
+            {state.isLoaded ? (state.stateData ? <div id="stats-container">
                 <Row id='stats-top'>
                     <CustomizedTables /> 
                     <StatGraphs 

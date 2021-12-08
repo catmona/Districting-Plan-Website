@@ -88,10 +88,10 @@ function App() {
     }
 
     return (
-        <>  <Container fluid>
-                <Row>
+        <>  <Container fluid style={{height: "100%"}}>
+                <Row style={{height: "100%"}}>
                     <Col id="left-app">
-                        <Row>
+                        <Row style={{height: "100%"}}>
                             <Topbar stateName={stateName} setState={getStateSummary} planType={planType} />
                             <StateTabs  
                                 showError={showErrorModal}
