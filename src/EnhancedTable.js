@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Row, Col } from 'react-bootstrap';
 import { DataGrid } from "@mui/x-data-grid";
 import Box from "@mui/material/Box";
 import Fab from "@mui/material/Fab";
@@ -9,7 +10,13 @@ import AlgLimitsModal from "./AlgLimitsModal";
 import AlgProgressModal from "./AlgProgressModal";
 
 const columns = [
-  { field: 'id', headerName: 'District', width: 20 },
+  { 
+      field: 'id', 
+      headerName: 'District', 
+      width: 20,
+      editable: false,
+      type: 'number',
+  },
   {
     field: 'population',
     headerName: 'Population',
@@ -60,54 +67,55 @@ export default function EnhancedTable(props) {
 
     return (
         <>
-            <div style={{ height: 400, width: "100%" }} className={"datagrid"}>
-                <DataGrid
-                    //https://mui.com/api/data-grid/data-grid/
-                    rows={props.stateData}
-                    columns={columns}
-                    pageSize={10}
-                    rowsPerPageOptions={[10]}
-                    rowHeight={32}
-                    disableColumnMenu={true}
-                    //checkboxSelection
-                    disableSelectionOnClick={true}
-                    hideFooter
-                    className={"datagrid"}
-                />
-                <Box sx={{ "& > :not(style)": { m: 1 } }} className="button-submit">
-                    <Fab
-                        variant="extended"
-                        size="medium"
-                        color="primary"
-                        aria-label="add"
-                        className="submit"
-                    >
-                        <NavigationIcon sx={{ mr: 1 }} />
-                        <span className="submit" onClick={() => setShowAlgLimits(true)}>
-                            Equalize Population
-                        </span>
-                    </Fab>
-                    <Fab
-                        variant="extended"
-                        size="medium"
-                        color="primary"
-                        aria-label="add"
-                        className="submit"
-                    >
-                        <KeyboardBackspaceIcon sx={{ mr: 1 }} />
-                        <span className="submit">Go Back</span>
-                    </Fab>
-                    <Fab
-                        variant="extended"
-                        size="medium"
-                        color="primary"
-                        aria-label="add"
-                    >
-                        <SaveAltIcon sx={{ mr: 1 }} />
-                        <span className="submit">Save</span>
-                    </Fab>
-                </Box>
+            <div className='datagrid-row'>
+                <div className='datagrid-container'>
+                    <DataGrid
+                        //https://mui.com/api/data-grid/data-grid/
+                        rows={props.stateData}
+                        columns={columns}
+                        pageSize={10}
+                        rowsPerPageOptions={[10]}
+                        rowHeight={32}
+                        disableColumnMenu={true}
+                        disableSelectionOnClick={true}
+                        hideFooter
+                        className={"datagrid"}
+                    />
+                </div>
             </div>
+            <Box sx={{ "& > :not(style)": { m: 1 } }} className="button-submit">
+                <Fab
+                    variant="extended"
+                    size="medium"
+                    color="primary"
+                    aria-label="add"
+                    className="submit"
+                >
+                    <NavigationIcon sx={{ mr: 1 }} />
+                    <span className="submit" onClick={() => setShowAlgLimits(true)}>
+                        Equalize Population
+                    </span>
+                </Fab>
+                <Fab
+                    variant="extended"
+                    size="medium"
+                    color="primary"
+                    aria-label="add"
+                    className="submit"
+                >
+                    <KeyboardBackspaceIcon sx={{ mr: 1 }} />
+                    <span className="submit">Go Back</span>
+                </Fab>
+                <Fab
+                    variant="extended"
+                    size="medium"
+                    color="primary"
+                    aria-label="add"
+                >
+                    <SaveAltIcon sx={{ mr: 1 }} />
+                    <span className="submit">Save</span>
+                </Fab>
+            </Box>
             <>
                 <AlgLimitsModal
                     show={showAlgLimits}

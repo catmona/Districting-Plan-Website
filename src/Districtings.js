@@ -5,25 +5,25 @@ import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
 
 function DistrictingPopover(props) {
-    let planId = props.summary.districtingId;
-    let polsby = props.summary.polsbyPopper;
-    let popEquality = props.summary.populationEquality;
+    const planId = props.summary.districtingId;
+    const polsby = props.summary.polsbyPopper;
+    const popEquality = props.summary.populationEquality;
 
     const pop = (
         <Popover id="popover-basic" className="custom-popover">
             <Popover.Header as="h3">Districting Plan {props.num}</Popover.Header>
-                <Popover.Body>
-                    <em style={{fontSize: 13}}>This districting was chosen for it's high political fairness.</em><br /><br />
-                    <div className='districting-labels'><b>Population Equality: </b>{popEquality}<br /></div>
-                    <div className='districting-labels'><b>Compactness: </b>{polsby}<br /></div>
-                </Popover.Body>
+            <Popover.Body>
+                <em style={{fontSize: 13}}>This districting was chosen for it's high political fairness.</em><br /><br />
+                <div className='districting-labels'><b>Population Equality: </b>{popEquality}<br /></div>
+                <div className='districting-labels'><b>Compactness: </b>{polsby}<br /></div>
+            </Popover.Body>
         </Popover>
     );
 
     return(
-       <OverlayTrigger trigger={["hover", "focus"]} placement="right" overlay={pop}>
-           <img alt="" className = "img-thumbnail mx-auto thumbnail districting-img" planId={planId}></img>
-       </OverlayTrigger>
+        <OverlayTrigger trigger={["hover", "focus"]} placement="right" overlay={pop}>
+            <img alt="Loading..." className = "img-thumbnail mx-auto thumbnail districting-img" planId={planId}></img>
+        </OverlayTrigger>
     );
 }
 
@@ -37,27 +37,27 @@ function districtings(props) {
             }
         }
     });
-    let stateName = props.stateName;
-    let previews = props.districtingPreviews;
-    let NUM_DISTRICTINGS = previews.length;
-    let loading = {'polsbyPopper':0, "populationEquality":0};
+    const {stateName} = props;
+    const previews = props.districtingPreviews;
+    const NUM_DISTRICTINGS = previews.length;
+    const loading = {'polsbyPopper':0, "populationEquality":0};
 
     useEffect(() => {
-        if(stateName || stateName != "") { 
+        if(stateName || stateName !== "") { 
             for(let i = 0; i < NUM_DISTRICTINGS; i++) {
-                var col = document.getElementById("districting-img-" + (i+1));
+                const col = document.getElementById("districting-img-" + (i+1));
                 if(!col) return;
-                var img = col.firstChild;
+                const img = col.firstChild;
                 if(img) {
                     img.onclick = (e) => {
-                        let planId = e.target.getAttribute("planId");
+                        const planId = e.target.getAttribute("planId");
                         fetch("http://localhost:8080/api2/districtingSummary?districtingId=" + planId, { credentials: 'include' })
                             .then(res => res.json())
                             .then(
                                 (result) => {
                                     console.log("District Summary result = %o", result);
                                     setShowModal(true);
-                                    setDistrictingSummary({districtingNum: i+1, data: { 'planId': planId, 'summary': result}});
+                                    setDistrictingSummary({districtingNum: i+1, data: { planId, 'summary': result}});
                                 },
                                 (error) => {
                                     // showErrorModal("Failed to get districting plan data", error);

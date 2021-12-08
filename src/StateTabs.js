@@ -6,8 +6,8 @@ import Statistics from 'Statistics.js';
 function StateTabs(props) {
     const [stateSelected, setStateSelected] = useState(false);
     const [tab, setTab] = useState("none");
-    let getDistrictingPreviews = props.getDistrictingPreviews;
-    let stateName = props.stateName;
+    const {getDistrictingPreviews} = props;
+    const {stateName} = props;
 
     function selectTab(key) {
         if (key === "random-districts") {
@@ -20,17 +20,20 @@ function StateTabs(props) {
         if (!stateName || stateName === "") {
             setTab("none");
             setStateSelected(false);
+            document.getElementById("state-tabs").getElementsByClassName("tab-content")[0].style.display = "none";
+            
         } else {
             setTab("data-table");
             props.setAlgResults(null);
             setStateSelected(true);
+            document.getElementById("state-tabs").getElementsByClassName("tab-content")[0].style.display = "flex";
         }
     }, [props.planType]);
 
     return (
         <Container fluid id="state-tabs">
             <Tabs activeKey={tab} onSelect={(k) => selectTab(k)}>
-                <Tab disabled={!stateSelected} eventKey="data-table" title="District Data">
+                <Tab disabled={!stateSelected} eventKey="data-table" title="Statistics">
                     {(stateName) ? 
                         <Statistics 
                             showError={props.showError}
@@ -52,6 +55,7 @@ function StateTabs(props) {
                     />
                 </Tab>
             </Tabs>
+            
             <div hidden={stateSelected} className="instructions-container">
                 <img src={require("/public/assets/icons/usa.png").default} className="website-icon" />
                 <h3 className="text-center"> Select a state from the dropdown or by clicking on the map to the right!</h3>

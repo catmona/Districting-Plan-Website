@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState } from 'react';
-import mapboxgl from '!mapbox-gl'; // eslint-disable-line import/no-webpack-loader-syntax
+import mapboxgl from '!mapbox-gl';
 import StateOverlaySource from './data/us_state_overlay.geojson';
 import { Form } from 'react-bootstrap';
 
@@ -60,7 +60,6 @@ function Map(props) {
     function toggleBoundaries() {
         let v = "visible";
 
-        //TODO country boundaries
         //TODO state boundaries
 
         //district boundaries
@@ -184,33 +183,26 @@ function Map(props) {
             <div id="map-filter">
                 <p id="map-filter-label"><b>Filter</b></p>
                 <Form>
+                <Form.Check //state
+                        type="checkbox" 
+                        className="dark-checkbox" 
+                        id="map-filter-precincts" 
+                        label="State"
+                        disabled 
+                    />
                     <Form.Check //districts
                         type="checkbox" 
                         className="dark-checkbox" 
                         id="map-filter-districts" 
                         onChange={ (e) => setShowDistrictBoundaries(e.target.checked) }
                         checked= {showDistrictBoundaries}
-                        label="districts"
+                        label="Districts"
                     />
                     <Form.Check //counties
                         type="checkbox" 
                         className="dark-checkbox" 
                         id="map-filter-counties" 
-                        label="counties"
-                        disabled
-                    />
-                    <Form.Check //precints
-                        type="checkbox" 
-                        className="dark-checkbox" 
-                        id="map-filter-precincts" 
-                        label="precincts"
-                        disabled 
-                    />
-                    <Form.Check //census blocks
-                        type="checkbox" 
-                        className="dark-checkbox" 
-                        id="map-filter-census-blocks" 
-                        label="census blocks" 
+                        label="Counties"
                         disabled
                     />
                 </Form>

@@ -42,16 +42,16 @@ function a11yProps(index) {
 }
 
 function formatResponseToBoxWhisker(result, popType, basis) {
-    var boxData = []
-    var pointData = { enacted: [], selected: [], equalized: [] }
-    var yAxisLabel = ""
+    const boxData = []
+    const pointData = { enacted: [], selected: [], equalized: [] }
+    let yAxisLabel = ""
 
     //format boxes
     for(let i = 0; i < result.boxes.length; i++) {
-        var l = "District " + (i+1); 
-        let data = result.boxes[i];
-        var box = [data.upperExtreme, data.upperQuartile, data.lowerQuartile, data.lowerExtreme, data.median];
-        var col = { label: l, y: box }
+        const l = "District " + (i+1); 
+        const data = result.boxes[i];
+        const box = [data.upperExtreme, data.upperQuartile, data.lowerQuartile, data.lowerExtreme, data.median];
+        const col = { label: l, y: box }
         boxData.push(col);
     }
 
@@ -111,6 +111,14 @@ function StatGraphs(props) {
         setValue(newValue);
     };
 
+    const chartEvents = [{
+        eventName: "select",
+        callback({ chartWrapper }) {
+            console.log("Selected ", chartWrapper.getChart().getSelection());
+            }
+        }
+    ];
+
     const getBoxWhiskerData = (event) => {
         event.preventDefault();
         fetch("http://localhost:8080/api2/boxwhiskers?districtingId=" + ((props.selectedPlanId || props.selectedPlanId !== "") ? props.selectedPlanId : '-1')
@@ -121,7 +129,7 @@ function StatGraphs(props) {
         .then(res => res.json())
         .then(
             (result) => {
-                var formattedData = formatResponseToBoxWhisker(result.boxWhisker, props.popType, boxWhiskerBasis);
+                const formattedData = formatResponseToBoxWhisker(result.boxWhisker, props.popType, boxWhiskerBasis);
                 setBoxes(formattedData.boxes);
                 setPoints(formattedData.points);
                 setLabel(formattedData.label);
@@ -135,11 +143,11 @@ function StatGraphs(props) {
         );
     };
 
-    let partyData = [['District', 'Democratic Party', 'Republican Party']]
-    partyData.push(...props.stateData.map((x) => { return [x['id'] + "", x['democrat'], x['republican']] }));
+    const partyData = [['District', 'Democratic Party', 'Republican Party']]
+    partyData.push(...props.stateData.map((x) => { return [x.id + "", x.democrat, x.republican] }));
 
-    let demographicData = [['District', 'White', 'African American', 'Asian']];
-    demographicData.push(...props.stateData.map((x) => { return [x['id'] + "", x['white'], x['africanamerican'], x['asianamerican']] }));
+    const demographicData = [['District', 'White', 'African American', 'Asian']];
+    demographicData.push(...props.stateData.map((x) => { return [x.id + "", x.white, x.africanamerican, x.asianamerican] }));
     
     return (
         <>
@@ -153,11 +161,12 @@ function StatGraphs(props) {
                         value={value}
                         onChange={handleChange}
                         aria-label="Vertical tabs example"
+                        chartEvents={chartEvents}
                         sx={{ borderRight: 1, borderColor: 'divider', color: 'white' }}
                     >
-                        <Tab label="Population" {...a11yProps(0)} width='200px' />
-                        <Tab label="Demographics" {...a11yProps(1)} />
-                        <Tab label="Compare to Average" {...a11yProps(2)} />
+                        <Tab className = "graph-label" label="Population" {...a11yProps(0)} width='200px' />
+                        <Tab className = "graph-label" label="Demographics" {...a11yProps(1)} />
+                        <Tab className = "graph-label" label="Compare to Average" {...a11yProps(2)} />
                     </Tabs>
                     <hr />
                     <DropdownButton menuVariant="dark" size="md" title={"Population Type: " + props.popType} id="poptype-dropdown">
@@ -172,7 +181,6 @@ function StatGraphs(props) {
                         chartType="ColumnChart"
                         loader={<div>Loading Chart</div>}
                         data={partyData}
-
                         options={{
                             // Material design options
                             title: "District Populations",
@@ -197,7 +205,7 @@ function StatGraphs(props) {
                                     color: 'white'
                                 }
                             },
-                            isStacked: 'true',
+                            isStacked: 'false',
                             backgroundColor: bgcolor,
                             legend: {
                                 position: 'bottom',
@@ -292,7 +300,7 @@ function StatGraphs(props) {
                                             classname="dark-checkbox" 
                                             id="boxwhisker-basis-african" 
                                             name="boxwhisker-basis"
-                                            checked = {boxWhiskerBasis == "african_american" ? true : false}
+                                            checked = {boxWhiskerBasis === "african_american"}
                                             onChange={ () => setBoxWhiskerBasis("african_american") }
                                             label="Compare African American Population" 
                                         />
@@ -301,7 +309,7 @@ function StatGraphs(props) {
                                             classname="dark-checkbox" 
                                             id="boxwhisker-basis-white" 
                                             name="boxwhisker-basis"
-                                            checked = {boxWhiskerBasis == "asian" ? true : false}
+                                            checked = {boxWhiskerBasis === "asian"}
                                             onChange={ () => setBoxWhiskerBasis("asian") }
                                             label="Compare Asian Population" 
                                         />
@@ -310,7 +318,7 @@ function StatGraphs(props) {
                                             classname="dark-checkbox" 
                                             id="boxwhisker-basis-white" 
                                             name="boxwhisker-basis"
-                                            checked = {boxWhiskerBasis == "white" ? true : false}
+                                            checked = {boxWhiskerBasis === "white"}
                                             onChange={ () => setBoxWhiskerBasis("white") }
                                             label="Compare White Population" 
                                         />
@@ -319,7 +327,7 @@ function StatGraphs(props) {
                                             classname="dark-checkbox" 
                                             id="boxwhisker-basis-republican" 
                                             name="boxwhisker-basis"
-                                            checked = {boxWhiskerBasis == "republican" ? true : false}
+                                            checked = {boxWhiskerBasis === "republican"}
                                             onChange={ () => setBoxWhiskerBasis("republican") }
                                             label="Compare Republican Population" 
                                         />
@@ -328,7 +336,7 @@ function StatGraphs(props) {
                                             classname="dark-checkbox" 
                                             id="boxwhisker-basis-democratic" 
                                             name="boxwhisker-basis"
-                                            checked = {boxWhiskerBasis == "democrat" ? true : false}
+                                            checked = {boxWhiskerBasis === "democrat"}
                                             onChange={ () => setBoxWhiskerBasis("democrat") }
                                             label="Compare Democratic Population" 
                                         />

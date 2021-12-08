@@ -10,7 +10,7 @@ function Topbar(props) {
     let setState = props.setState;
 
     useEffect(() => {
-        if(props.planType == "")
+        if(props.planType === "")
             document.getElementById("topbar-status").firstChild.style.display="none"
         else
         document.getElementById("topbar-status").firstChild.style.display="inline-block"

@@ -1,7 +1,7 @@
 /* #region variables */
 $bgColor: #1f1f1f;
 $fgColor: #161616;
-$accentColor: #4285F4;
+$accentColor1: #4285F4;
 $accentColor2: #28a745;
 $accentColor3: #ffc107;
 $accentColor4: #dc3545;
@@ -10,23 +10,15 @@ $textColor: whitesmoke;
 /* #endregion */
 
 /* #region general-stuff */
-body {
+html, body, #root {
     background-color: $bgColor;
+    height: 100%;
 }
-p {
-    color: $textColor;
-}
-h1 {
-    color: $textColor;
-}
-h2 {
-    color: $textColor;
-}
-h3 {
+p, h1, h2, h3 {
     color: $textColor;
 }
 .rainbow-text {
-    background-image: linear-gradient(to left, violet, indigo, blue, green, yellow, orange, red);   
+    background-image: linear-gradient(to left, hotpink, aquamarine, yellow, orange, red);   
     -webkit-background-clip: text;
     background-clip: text;
     -moz-background-clip: text;
@@ -36,7 +28,7 @@ h3 {
     padding-left: 10px;
 }
 .loading-icon {
-    color: $accentColor;
+    color: $accentColor1;
     margin: 0;
     height: 100px !important;
     width: 100px !important;
@@ -50,6 +42,9 @@ h3 {
 #left-app {
     min-width: 50%;
     max-width: 50%;
+    .row {
+        align-content: flex-start;  
+    }
 }
 #right-app {
     min-width: 50%;
@@ -86,12 +81,12 @@ h3 {
     border-radius: 3px;
     width: 150px;
     height: 45px;
-    transition: height 0.5s;
+    transition: height 0.4s;
     display: block;
     cursor: pointer;
     padding: 10px;
-    border-bottom: 1px solid $accentColor;
-    border-top: 1px solid $accentColor;
+    border-bottom: 1px solid $accentColor1;
+    border-top: 1px solid $accentColor1;
     background-color: $fgColor;
     color:$textColor;
     overflow: hidden;
@@ -105,7 +100,7 @@ h3 {
     }
 }
 #map-filter:hover {
-    height: 225px !important;
+    height: 180px !important;
     .form-check {
         display: block;
     }
@@ -130,7 +125,8 @@ h3 {
     background-color: $fgColor;
     border-radius: 15px;
     width: 100%;
-    height: 50%;
+    height: auto;
+    max-height: 10%;
     margin-top: 5px;
 }
 .topbar-item {
@@ -159,10 +155,10 @@ h3 {
     }
     h3 { 
         padding: 5px;
-        color: $accentColor;
+        color: $accentColor1;
     }
     svg {
-        color: $accentColor !important;
+        color: $accentColor1 !important;
         margin-bottom: 7px;
         margin-left: 5px;
     }
@@ -171,8 +167,15 @@ h3 {
 
 /* #region statetabs */
 #state-tabs {
-    width: 105%;
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 auto;
+    position: relative;
+    width: 100%;
+    max-width: 100%;
+    height: 92%;
     padding-left: 0;
+    top: 0;
 }
 .nav-tabs {
     background-color: $bgColor;
@@ -184,7 +187,8 @@ h3 {
     color: black !important;
 }
 .instructions-container {
-    height: 50em;
+    height: 90%;
+    padding: 20px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -194,6 +198,12 @@ h3 {
     max-width: 45%;
     height: auto;
     padding-bottom: 20px;
+}
+.tab-content, .tab-pane {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    align-content: flex-end;
 }
 /* #endregion */
 
@@ -213,19 +223,19 @@ h3 {
     background-color: #F5F5F5;
 }
 .scrollbar-primary {
-    scrollbar-color: $accentColor $fgColor;
+    scrollbar-color: $accentColor1 $fgColor;
 }
 .scrollbar-primary::-webkit-scrollbar-thumb {
     border-radius: 10px;
     -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
     box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
-    background-color: $accentColor;
+    background-color: $accentColor1;
 }
 /* #endregion */
 
 /* #region districtings */
 .thumbnail:hover {
-    background-color: $accentColor;
+    background-color: $accentColor1;
     opacity: 0.65;
 }
 .districting-img {
@@ -323,7 +333,7 @@ h3 {
     }   
 }
 #districting-modal-dem {
-    color: $accentColor;
+    color: $accentColor1;
 }
 #districting-modal-rep {
     color: $accentColor4;
@@ -343,35 +353,68 @@ h3 {
 }
 /* #endregion */
 
+/* #region statistics */
+#stats-wrapper {
+    height: 100%;
+}
+#stats-container {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-content: flex-end;
+}
+#stats-top {
+    
+}
+#stats-bottom {
+    min-height: 300px;
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+}
+/* #endregion */
+
 /* #region table */
+.MuiTableContainer-root {
+    background-color: $fgColor !important;
+}
 #district-tablebody {
     min-height: 1 !important;
 }
 .MuiDataGrid-sortIcon {
-    color: $accentColor !important;
-}
-.kosta-test {
-    border-radius: 0;
-    width:150px;
+    color: $accentColor1 !important;
 }
 .datagrid {
     background-color: $bgColor;
     color: white !important;
+    width: 100% !important;
 }
-.hover-area{
+.datagrid-row {
+    padding-right: 0px;
+    min-height: 100px;
+    flex: 1 1 100px;
+    display: flex;
+}
+.datagrid-container {
+    flex: 1 1 100px;
+    color: $textColor;
+}
+.hover-area {
     display: flex;
     flex-direction: column;
 }
-.white-icon{
+.white-icon {
     color: white;
 }
 .button-submit{
     background-color: $fgColor !important;
+    color: $textColor;
     display: flex;
     flex-direction: row;
     justify-content: center;
+    width: 100%;
 }
-.submit{
+.submit {
     width: 150px;
 }
 .MuiDataGrid-iconButtonContainer {
@@ -380,8 +423,11 @@ h3 {
 .MuiSvgIcon-fontSizeSmall {
     color: white;
 }
-.MuiSvgIcon-root{
+.MuiSvgIcon-root {
     color: white;
+}
+.MuiDataGrid-columnHeaderTitle {
+    font-weight: bold !important;
 }
 /* #endregion */
 
@@ -400,6 +446,10 @@ h3 {
 .vertical-tab-bar {
     min-width: 165px;
     max-width: 165px;
+}
+.graph-label {
+    text-transform: none !important;
+    font-size: 16px !important;
 }
 #box-whisker-container {
     position: static;
@@ -519,7 +569,7 @@ h3 {
 
     h3 {
         display: inline;
-        color: $accentColor
+        color: $accentColor1
     }
     label {
         font-size: 20px;
@@ -540,18 +590,19 @@ h3 {
     margin-left: auto;
     margin-right: auto;
     margin-bottom: 2%;
-    display:flex;
+    display: flex;
     flex-direction: column;
     justify-content: space-between;
 }
 .progress-label {
     text-align: center;
+    display: inline-block;
 }
 .progress-value {
     text-align: center;
 }
 #progress-iterations {
-    color: $accentColor;
+    color: $accentColor1;
 }
 #progress-equality {
     color: $accentColor3;
@@ -569,6 +620,18 @@ h3 {
 }
 #progress-time {
     color: $accentColor2;
+    margin: 0;
+    margin-top: -4px;
+}
+#progress-time-block {
+    background-color: $fgColor;
+    margin: auto;
+    margin-top: -5px;
+    margin-bottom: -5px;
+    width: auto;
+    height: 40px;
+    padding: 10px;
+    border: 1px solid black;
 }
 #progress-time-remaining {
     color: $accentColor4;

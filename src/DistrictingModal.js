@@ -9,32 +9,32 @@ function DistrictingModal(props) {
         popWhite: 50, election: 2014, demPercent: 60, repPercent: 40
     }]);
 
-    let dropdownTitle = selectedDistrict != -1 ? "District " + (selectedDistrict+1) : 'Select District ';
+    const dropdownTitle = selectedDistrict !== -1 ? "District " + (selectedDistrict+1) : 'Select District ';
 
     useEffect(() => {
         if(!props.data) return;
         
-        let list = []
-        let summary = props.data.data.summary;
-        let pop = summary.districtPopulations;
-        let elections = summary.districtElections;
+        const list = []
+        const {summary} = props.data.data;
+        const pop = summary.districtPopulations;
+        const elections = summary.districtElections;
 
         for(let i = 0; i < pop.length; i++) {
-            let repVotes = elections[i].republicanVotes;
-            let demVotes = elections[i].democraticVotes;
-            let total = repVotes + demVotes;
+            const repVotes = elections[i].republicanVotes;
+            const demVotes = elections[i].democraticVotes;
+            const total = repVotes + demVotes;
             let repPercent = (repVotes/total) * 100;
             let demPercent = (demVotes/total) * 100;
             repPercent = parseFloat(repPercent.toFixed(2));
             demPercent = parseFloat(demPercent.toFixed(2));
 
-            let data = {
+            const data = {
                 popAll: Number(pop[i][3]).toLocaleString(), 
                 popAfricanAmerican: Number(pop[i][1]).toLocaleString(), 
-                popAsian: Number(pop[i][0]).toLocaleString(), 
-                popWhite: Number(pop[i][2]).toLocaleString(), 
+                popAsian: Number(pop[i][2]).toLocaleString(), 
+                popWhite: Number(pop[i][0]).toLocaleString(), 
                 election: elections[i].info.year,
-                demPercent: demPercent, repPercent: repPercent 
+                demPercent, repPercent 
             }
 
             list.push(data);
@@ -46,10 +46,10 @@ function DistrictingModal(props) {
     }, [props.data]);
 
     useEffect(() => {
-        let e = document.getElementById("districting-modal-stats");
+        const e = document.getElementById("districting-modal-stats");
         if(!e) return;
 
-        if(selectedDistrict == -1)
+        if(selectedDistrict === -1)
             e.style.display = "none";
         else 
             e.style.display = "flex";
@@ -106,13 +106,13 @@ function DistrictingModal(props) {
                             <Row>
                                 <p>Democrat: </p>
                                 <div className="districting-modal-value">
-                                    <p id="districting-modal-dem">{districtData[selectedDistrict] ? districtData[selectedDistrict].demPercent : ""}</p>
+                                    <p id="districting-modal-dem">{districtData[selectedDistrict] ? districtData[selectedDistrict].demPercent + "%" : ""}</p>
                                 </div>
                             </Row>
                             <Row>
                                 <p>Republican: </p>
                                 <div className="districting-modal-value">
-                                    <p id="districting-modal-rep">{districtData[selectedDistrict] ? districtData[selectedDistrict].repPercent : ""}</p>
+                                    <p id="districting-modal-rep">{districtData[selectedDistrict] ? districtData[selectedDistrict].repPercent + "%" : ""}</p>
                                 </div>
                             </Row>
                             <div>
