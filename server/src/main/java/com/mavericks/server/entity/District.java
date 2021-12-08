@@ -95,6 +95,17 @@ public class District {
         return districtNumber;
     }
 
+    public void processMovedBlocks(){
+        cbToAdd.add(this.geometry);
+        this.geometry=UnaryUnionOp.union(cbToAdd);
+        cbToAdd.clear();
+
+        for(Geometry geom:cbToRemove){
+            this.geometry=this.geometry.difference(geom);
+        }
+
+    }
+
 
     public void removeCensusBlock(CensusBlock cb,List<CensusBlock>neighbors,PopulationMeasure measure, boolean revert){
         List<CensusBlock>cbBorders=neighbors.stream().filter(c->c.getDistrictId().equals(this.id))
@@ -109,12 +120,14 @@ public class District {
         int diffMultiplier=-1;
         combinePops(this.getPopulations(),cb.getPopulations(),diffMultiplier);
         if(revert){
-            this.geometry=this.prevGeometry;
+//            this.geometry=this.prevGeometry;
+            cbToRemove.remove(cb.getGeometry());
             cb.setMoved(false);
         }
         else{
-            this.prevGeometry=this.geometry;
-            this.geometry=this.geometry.difference(cb.getGeometry());
+//            this.prevGeometry=this.geometry;
+////            this.geometry=this.geometry.difference(cb.getGeometry());
+            cbToRemove.add(cb.getGeometry());
             cb.setMoved(true);
         }
 
@@ -131,12 +144,14 @@ public class District {
         int addMultiplier=1;
         combinePops(this.getPopulations(),cb.getPopulations(),addMultiplier);
         if(revert){
-            this.geometry=this.prevGeometry;
+//            this.geometry=this.prevGeometry;
+            cbToAdd.remove(cb.getGeometry());
             cb.setMoved(false);
         }
         else{
-            this.prevGeometry=this.geometry;
-            this.geometry= this.geometry.union(cb.getGeometry());
+//            this.prevGeometry=this.geometry;
+//            this.geometry= this.geometry.union(cb.getGeometry());
+            cbToAdd.add(cb.getGeometry());
             cb.setMoved(true);
         }
     }

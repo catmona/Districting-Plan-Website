@@ -100,6 +100,11 @@ public class Algorithm{
                 precintsChanged.add(cb.getPrecinctId());
                 failedCbMoves=0;
             }
+
+            if(iterations%REDRAW_CONST==0){
+                inProgressPlan.processMovedBlocks();
+            }
+
             iterations++;
             System.out.println("iteration:"+iterations);
         }

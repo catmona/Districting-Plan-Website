@@ -58,6 +58,12 @@ public class Districting {
         this.measures = measures;
     }
 
+    public void processMovedBlocks(){
+        for(District d: districts){
+            d.processMovedBlocks();
+        }
+    }
+
     public District getRandDistrict(){
         Random rand = new Random();
         District dist = districts.get(rand.nextInt(districts.size()));
@@ -227,9 +233,9 @@ public class Districting {
 
     //stubbed
     public Measures computeMeasures(PopulationMeasure measure){
-        double polsby=computePolsbyPopper();
+        //double polsby=computePolsbyPopper();
         double popEquality =computePopulationEquality(measure);
-        return new Measures(popEquality,polsby);
+        return new Measures(popEquality,-1);
     }
 
     private double polsbyHelper(Geometry geom){
