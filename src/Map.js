@@ -66,6 +66,7 @@ function Map(props) {
         showDistrictBoundaries ? v = "visible" : v = "none";
         let distictBoundaryLayer = stateName + "-district-source-layer-outline";
         if(map.current.getSource(distictBoundaryLayer))
+            console.log("This console log is necessary to toggle the layer filter. It doesn't even print anything out, don't question why, we just need this line or this chunk of code doesn't run :')");
             map.current.setLayoutProperty(distictBoundaryLayer, 'visibility', v)
         
         //TODO county boundaries
