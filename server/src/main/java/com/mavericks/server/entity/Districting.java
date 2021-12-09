@@ -32,6 +32,9 @@ public class Districting {
     @Column(name = "precinctGeoJSON")
     private String precinctGeoJSON;
 
+    @Column(name = "previewImageUrl")
+    private String previewImageUrl; // used by SeaWulf districtings, is the preview image filepath
+
     @Embedded
     @AttributeOverrides({
             @AttributeOverride( name="populationEqualityScore", column=@Column(name = "populationEqualityScore")),
@@ -39,8 +42,50 @@ public class Districting {
     })
     private Measures measures;
 
-    @Column(name = "previewImageUrl")
-    private String previewImageUrl; // used by SeaWulf districtings, is the preview image filepath
+    @Column(name = "geometricCompactness")
+    private double geometricCompactness;
+
+    @Column(name = "majorityMinority")
+    private int majorityMinority;
+
+    @Column(name = "efficiencyGap")
+    private double efficiencyGap;
+
+    @Column(name = "devFromEnactedPopulation")
+    private double devFromEnactedPopulation;
+
+    @Column(name = "devFromEnactedWhite")
+    private double devFromEnactedWhite;
+
+    @Column(name = "devFromEnactedBlack")
+    private double devFromEnactedBlack;
+
+    @Column(name = "devFromEnactedAsian")
+    private double devFromEnactedAsian;
+
+    @Column(name = "devFromEnactedDemographics")
+    private double devFromEnactedDemographics;
+
+    @Column(name = "devFromAveragePopulation")
+    private double devFromAveragePopulation;
+
+    @Column(name = "devFromAverageWhite")
+    private double devFromAverageWhite;
+
+    @Column(name = "devFromAverageBlack")
+    private double devFromAverageBlack;
+
+    @Column(name = "devFromAverageAsian")
+    private double devFromAverageAsian;
+
+    @Column(name = "devFromAverageDemographics")
+    private double devFromAverageDemographics;
+
+    @Column(name = "splitCounty")
+    private int splitCounty;
+
+    @Column(name = "score")
+    private double score;
 
     @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "districtingId")
@@ -98,10 +143,6 @@ public class Districting {
         return neighbors;
     }
 
-
-
-
-
     public String getId() {
         return id;
     }
@@ -124,6 +165,126 @@ public class Districting {
 
     public void setMeasures(Measures measures) {
         this.measures = measures;
+    }
+
+    public double getGeometricCompactness() {
+        return geometricCompactness;
+    }
+
+    public void setGeometricCompactness(double geometricCompactness) {
+        this.geometricCompactness = geometricCompactness;
+    }
+
+    public int getMajorityMinority() {
+        return majorityMinority;
+    }
+
+    public void setMajorityMinority(int majorityMinority) {
+        this.majorityMinority = majorityMinority;
+    }
+
+    public double getEfficiencyGap() {
+        return efficiencyGap;
+    }
+
+    public void setEfficiencyGap(double efficiencyGap) {
+        this.efficiencyGap = efficiencyGap;
+    }
+
+    public double getDevFromEnactedPopulation() {
+        return devFromEnactedPopulation;
+    }
+
+    public void setDevFromEnactedPopulation(double devFromEnactedPopulation) {
+        this.devFromEnactedPopulation = devFromEnactedPopulation;
+    }
+
+    public double getDevFromEnactedWhite() {
+        return devFromEnactedWhite;
+    }
+
+    public void setDevFromEnactedWhite(double devFromEnactedWhite) {
+        this.devFromEnactedWhite = devFromEnactedWhite;
+    }
+
+    public double getDevFromEnactedBlack() {
+        return devFromEnactedBlack;
+    }
+
+    public void setDevFromEnactedBlack(double devFromEnactedBlack) {
+        this.devFromEnactedBlack = devFromEnactedBlack;
+    }
+
+    public double getDevFromEnactedAsian() {
+        return devFromEnactedAsian;
+    }
+
+    public void setDevFromEnactedAsian(double devFromEnactedAsian) {
+        this.devFromEnactedAsian = devFromEnactedAsian;
+    }
+
+    public double getDevFromEnactedDemographics() {
+        return devFromEnactedDemographics;
+    }
+
+    public void setDevFromEnactedDemographics(double devFromEnactedDemographics) {
+        this.devFromEnactedDemographics = devFromEnactedDemographics;
+    }
+
+    public double getDevFromAveragePopulation() {
+        return devFromAveragePopulation;
+    }
+
+    public void setDevFromAveragePopulation(double devFromAveragePopulation) {
+        this.devFromAveragePopulation = devFromAveragePopulation;
+    }
+
+    public double getDevFromAverageWhite() {
+        return devFromAverageWhite;
+    }
+
+    public void setDevFromAverageWhite(double devFromAverageWhite) {
+        this.devFromAverageWhite = devFromAverageWhite;
+    }
+
+    public double getDevFromAverageBlack() {
+        return devFromAverageBlack;
+    }
+
+    public void setDevFromAverageBlack(double devFromAverageBlack) {
+        this.devFromAverageBlack = devFromAverageBlack;
+    }
+
+    public double getDevFromAverageAsian() {
+        return devFromAverageAsian;
+    }
+
+    public void setDevFromAverageAsian(double devFromAverageAsian) {
+        this.devFromAverageAsian = devFromAverageAsian;
+    }
+
+    public double getDevFromAverageDemographics() {
+        return devFromAverageDemographics;
+    }
+
+    public void setDevFromAverageDemographics(double devFromAverageDemographics) {
+        this.devFromAverageDemographics = devFromAverageDemographics;
+    }
+
+    public int getSplitCounty() {
+        return splitCounty;
+    }
+
+    public void setSplitCounty(int splitCounty) {
+        this.splitCounty = splitCounty;
+    }
+
+    public double getScore() {
+        return score;
+    }
+
+    public void setScore(double score) {
+        this.score = score;
     }
 
     public String getPreviewImageUrl() {
