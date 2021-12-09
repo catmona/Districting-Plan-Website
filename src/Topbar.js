@@ -1,13 +1,10 @@
 import React, { useRef, useEffect, useState } from 'react';
-import { DropdownButton } from 'react-bootstrap';
-import { Dropdown } from 'react-bootstrap';
-import { Col } from 'react-bootstrap';
-import { Row } from 'react-bootstrap';
+import { Dropdown, DropdownButton, Col, Row } from 'react-bootstrap';
 import { Refresh } from '@mui/icons-material'
 
 function Topbar(props) {
-    let stateName = props.stateName!=='' ? props.stateName : 'Select State';
-    let setState = props.setState;
+    const stateName = props.stateName!=='' ? props.stateName : 'Select State';
+    const {setState} = props;
 
     useEffect(() => {
         if(props.planType === "")

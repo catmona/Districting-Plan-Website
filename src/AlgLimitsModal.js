@@ -44,7 +44,7 @@ function AlgLimitsModal(props) {
         <Modal {...rest} size="lg" centered className="dark-modal">
             <Modal.Header closeButton>
                 <Modal.Title>
-                    Set Algorithm Constraints
+                    Algorithm Constraints
                 </Modal.Title>
             </Modal.Header>
             <Form onSubmit={setAlgLimits}>

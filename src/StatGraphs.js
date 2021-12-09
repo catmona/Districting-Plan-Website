@@ -164,12 +164,12 @@ function StatGraphs(props) {
                         chartEvents={chartEvents}
                         sx={{ borderRight: 1, borderColor: 'divider', color: 'white' }}
                     >
-                        <Tab className = "graph-label" label="Population" {...a11yProps(0)} width='200px' />
-                        <Tab className = "graph-label" label="Demographics" {...a11yProps(1)} />
+                        <Tab className = "graph-label" label="Party Population By District" {...a11yProps(0)} width='200px' />
+                        <Tab className = "graph-label" label="Demographic Population By District" {...a11yProps(1)} />
                         <Tab className = "graph-label" label="Compare to Average" {...a11yProps(2)} />
                     </Tabs>
                     <hr />
-                    <DropdownButton menuVariant="dark" size="md" title={"Population Type: " + props.popType} id="poptype-dropdown">
+                    <DropdownButton menuVariant="dark" size="md" title={"Pop. Type: " + props.popType} id="poptype-dropdown">
                         <Dropdown.Item onClick={() => {props.onSelectPopType("TOTAL")}} className='poptype-dropdown-option'>Total</Dropdown.Item>
                         <Dropdown.Item disabled onClick={() => {props.onSelectPopType("CVAP")}} className='poptype-dropdown-option'>CVAP</Dropdown.Item>
                         <Dropdown.Item disabled onClick={() => {props.onSelectPopType("VAP")}} className='poptype-dropdown-option'>VAP</Dropdown.Item>
@@ -183,7 +183,7 @@ function StatGraphs(props) {
                         data={partyData}
                         options={{
                             // Material design options
-                            title: "District Populations",
+                            title: "Party Population By District",
 
                             titleTextStyle: {
                                 color: 'white',
@@ -228,7 +228,7 @@ function StatGraphs(props) {
 
                         options={{
                             // Material design options
-                            title: "Racial Demographics per District",
+                            title: "Demographic Population By District",
 
                             titleTextStyle: {
                                 color: 'white',

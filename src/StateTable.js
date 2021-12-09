@@ -50,7 +50,7 @@ export default function CustomizedTables() {
                 <TableHead>
                     <TableRow>
                         <StyledTableCell align='center'>Population Equality
-                            <Tooltip title={
+                            {/* <Tooltip title={
                                 <React.Fragment>
                                     <p className="formula-text">The population equality measure was computed using Mattingly's formula: </p>
                                     <img src={require("/public/assets/formulas/PopEquality.svg").default} className="formula-svg" />
@@ -59,10 +59,10 @@ export default function CustomizedTables() {
                                 <IconButton>
                                     <ContactSupportIcon className='white-icon'/>
                                 </IconButton>
-                            </Tooltip>
+                            </Tooltip> */}
                         </StyledTableCell>
                         <StyledTableCell align="center">Deviation From Average                          
-                            <Tooltip title={
+                            {/* <Tooltip title={
                                 <React.Fragment>
                                     <p className="formula-text">The deviation from average districting is computed by taking the sum of squared differences between the average and the computed districting: </p>
                                     <img src={require("/public/assets/formulas/PopEquality.svg").default} className="formula-svg" />
@@ -71,10 +71,10 @@ export default function CustomizedTables() {
                                 <IconButton>
                                     <ContactSupportIcon className='white-icon' />
                                 </IconButton>
-                            </Tooltip>
+                            </Tooltip> */}
                         </StyledTableCell>
                         <StyledTableCell align="center">Deviation From Enacted
-                            <Tooltip title={
+                            {/* <Tooltip title={
                                 <React.Fragment>
                                     <p className="formula-text">The deviation from enacted districting is computed by taking the sum of squared differences between the enacted and the computed districting: </p>
                                     <img src={require("/public/assets/formulas/PopEquality.svg").default} className="formula-svg" />
@@ -83,10 +83,10 @@ export default function CustomizedTables() {
                                 <IconButton>
                                     <ContactSupportIcon className='white-icon' />
                                 </IconButton>
-                            </Tooltip>
+                            </Tooltip> */}
                         </StyledTableCell>
                         <StyledTableCell align="center">Compactness
-                            <Tooltip title={
+                            {/* <Tooltip title={
                                 <React.Fragment>
                                     <p className="formula-text">The compactness was computed using the Polsby-Popper measure: </p>
                                     <img src={require("/public/assets/formulas/PolsbyPopper.svg").default } className="formula-svg" />
@@ -95,10 +95,10 @@ export default function CustomizedTables() {
                                 <IconButton>
                                     <ContactSupportIcon className='white-icon' />
                                 </IconButton>
-                            </Tooltip>
+                            </Tooltip> */}
                         </StyledTableCell>
                         <StyledTableCell align="center">Political Fairness                          
-                            <Tooltip title={
+                            {/* <Tooltip title={
                                 <React.Fragment>
                                     <p className="formula-text">Political fairness was computed with the Efficiency Gap measure by Stephanopoulos & McGhee: </p>
                                     <img src={require("/public/assets/formulas/PolFairness.svg").default} className="formula-svg" />
@@ -107,7 +107,7 @@ export default function CustomizedTables() {
                                 <IconButton>
                                     <ContactSupportIcon className='white-icon' />
                                 </IconButton>
-                            </Tooltip>
+                            </Tooltip> */}
                         </StyledTableCell>
                     </TableRow>
                 </TableHead>

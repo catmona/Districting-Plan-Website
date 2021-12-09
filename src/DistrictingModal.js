@@ -72,16 +72,13 @@ function DistrictingModal(props) {
                 </Row>
                 <Row id="districting-modal-stats">
                     <Col className="districting-modal-table">
-                        <Row>
-                            <p>Population: </p>
-                            <div className="districting-modal-value">
-                                <p>{districtData[selectedDistrict] ? districtData[selectedDistrict].popAll : ""}</p>
-                            </div>
+                        <Row id="districting-modal-pop-title">
+                            <h4>Population</h4>
                         </Row>
                         <Row>
-                            <p>African American: </p>
+                            <p>Total: </p>
                             <div className="districting-modal-value">
-                                <p>{districtData[selectedDistrict] ? districtData[selectedDistrict].popAfricanAmerican : ""}</p>
+                                <p>{districtData[selectedDistrict] ? districtData[selectedDistrict].popAll : ""}</p>
                             </div>
                         </Row>
                         <Row>
@@ -94,6 +91,12 @@ function DistrictingModal(props) {
                             <p>White: </p>
                             <div className="districting-modal-value">
                                 <p>{districtData[selectedDistrict] ? districtData[selectedDistrict].popWhite : ""}</p>
+                            </div>
+                        </Row>
+                        <Row>
+                            <p>African American: </p>
+                            <div className="districting-modal-value">
+                                <p>{districtData[selectedDistrict] ? districtData[selectedDistrict].popAfricanAmerican : ""}</p>
                             </div>
                         </Row>
                     </Col>
