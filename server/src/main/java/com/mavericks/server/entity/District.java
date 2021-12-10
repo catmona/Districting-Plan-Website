@@ -33,9 +33,9 @@ public class District {
     @Column(name = "geometry")
     private Geometry geometry;
 
-    @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "districtId")
-    private List<DistrictElection> electionData;
+//    @OneToMany(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "districtId")
+//    private List<DistrictElection> electionData;
 
     @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "districtId")
@@ -103,6 +103,7 @@ public class District {
         for(Geometry geom:cbToRemove){
             this.geometry=this.geometry.difference(geom);
         }
+        cbToRemove.clear();
 
     }
 
@@ -158,7 +159,7 @@ public class District {
 
     public void combinePops(List<Population> distPops, List<Population>cbPops, int multiplier){
         for(int i=0;i<distPops.size();i++){
-            distPops.get(i).setValue(cbPops.get(i).getValue()*multiplier);
+            distPops.get(i).setValue(distPops.get(i).getValue()+cbPops.get(i).getValue()*multiplier);
         }
     }
 
@@ -246,13 +247,13 @@ public class District {
         this.innerBlocks = innerBlocks;
     }
 
-    public List<DistrictElection> getElectionData() {
-        return electionData;
-    }
+//    public List<DistrictElection> getElectionData() {
+//        return electionData;
+//    }
 
-    public void setElectionData(List<DistrictElection> electionData) {
-        this.electionData = electionData;
-    }
+//    public void setElectionData(List<DistrictElection> electionData) {
+//        this.electionData = electionData;
+//    }
 
     public List<Population> getPopulations() {
         return populations;
@@ -290,10 +291,10 @@ public class District {
         return populations.get(measure.ordinal() + demg.ordinal());
     }
 
-    public DistrictElection getElectionDataByElection(String electionId) {
-        Optional<DistrictElection> data = electionData.stream().filter(e -> e.getElectionId() == electionId).findFirst();
-        return data.isPresent() ? data.get() : null;
-    }
+//    public DistrictElection getElectionDataByElection(String electionId) {
+//        Optional<DistrictElection> data = electionData.stream().filter(e -> e.getElectionId() == electionId).findFirst();
+//        return data.isPresent() ? data.get() : null;
+//    }
 
     public void setDistrictNumber(int districtNumber) {
         this.districtNumber = districtNumber;

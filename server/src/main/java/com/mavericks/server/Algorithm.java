@@ -47,8 +47,6 @@ public class Algorithm{
     private final int max_iterations;
     //measure constraints
     private double minPopulationEquality;
-    private double minCompactness;
-    private double compactness;
     private double populationEquality;
     //number of failed consecutive block moves
     private int failedCbMoves;
@@ -58,7 +56,6 @@ public class Algorithm{
     private PopulationMeasure populationMeasure;
     private final int REDRAW_CONST=5;
     private Districting bestDistricting;
-    private List<String> precintsChanged;
 
 
     public Algorithm() {
@@ -66,7 +63,6 @@ public class Algorithm{
         this.maxFaildCbMoves=50;
         running=true;
         flag=true;
-        precintsChanged=new ArrayList<>();
     }
 
 
@@ -74,9 +70,11 @@ public class Algorithm{
     public void run() {
         System.out.println("entered");
         populationMeasure=PopulationMeasure.TOTAL;
+        populationEquality=0.9;
+        double temp=10000;
 
         while(iterations!=max_iterations && failedCbMoves!=maxFaildCbMoves && flag
-                && (compactness<minCompactness || populationEquality>minPopulationEquality)){
+                && (populationEquality>minPopulationEquality)&&temp>1){
             District d1=inProgressPlan.getRandDistrict();
             CensusBlock cb = d1.getRandCensusBlock();
             String oldPrecinct=cb.getPrecinctId();
@@ -88,22 +86,28 @@ public class Algorithm{
             d2.addCensusBlock(cb,inProgressPlan,neighbors,populationMeasure,false);
             d1.removeCensusBlock(cb,neighbors,populationMeasure,false);
             Measures newMeasures=inProgressPlan.computeMeasures(populationMeasure);
-            if(objFunction(newMeasures.getPolsbyPopperScore(),
-                    newMeasures.getPopulationEqualityScore())<objFunction(compactness,populationEquality)){
+            if(acceptanceProbability(populationEquality,newMeasures.getPopulationEqualityScore(),temp)>Math.random()){
+                inProgressPlan.setMeasures(newMeasures);
+                populationEquality=newMeasures.getPopulationEqualityScore();
+                inProgressPlan.addPrecinct(oldPrecinct);
+                inProgressPlan.addPrecinct(cb.getPrecinctId());
+                failedCbMoves=0;
+
+                if(bestDistricting!=null &&
+                        bestDistricting.getMeasures().getPopulationEqualityScore()<populationEquality){
+                    bestDistricting=inProgressPlan.clone();
+                }
+
+
+            }
+            else {
+
                 d1.addCensusBlock(cb,inProgressPlan,neighbors,populationMeasure,true);
                 d2.removeCensusBlock(cb,neighbors,populationMeasure,true);
                 failedCbMoves++;
             }
-            else {
-                inProgressPlan.setMeasures(newMeasures);
-                compactness=newMeasures.getPolsbyPopperScore();
-                populationEquality=newMeasures.getPopulationEqualityScore();
-                precintsChanged.add(oldPrecinct);
-                precintsChanged.add(cb.getPrecinctId());
-                failedCbMoves=0;
-            }
 
-            if(iterations%REDRAW_CONST==0){
+            if(iterations%REDRAW_CONST==0 && iterations>0){
                 inProgressPlan.processMovedBlocks();
             }
 
@@ -123,17 +127,17 @@ public class Algorithm{
         return null;
     }
 
-//    private double acceptanceProbability(int oldScore, int newScore, int temp){
-//        if(oldScore>newScore){
-//            return 1.0;
-//        }
-//        else{
-//            return Math.exp((newScore-oldScore)/temp);
-//        }
-//    }
+    private double acceptanceProbability(double oldScore, double newScore, double temp){
+        if(oldScore>newScore){
+            return 1.0;
+        }
+        else{
+            return Math.exp((oldScore-newScore)/temp);
+        }
+    }
 
-    public double objFunction(double polsby, double popEquality){
-        return (polsby+(1-popEquality))/2;
+    public double objFunction(double popEquality){
+        return ((1-popEquality))/2;
     }
 
 
@@ -149,7 +153,7 @@ public class Algorithm{
         GeoJSONWriter writer = new GeoJSONWriter();
         GeoJSONReader reader = new GeoJSONReader();
         GeometryFactory gf = new GeometryFactory();
-        for(District d:inProgressPlan.getDistricts()){
+        for(District d:bestDistricting.getDistricts()){
             Map<String,Object> properties = new HashMap<>();
             properties.put("District",d.getDistrictNumber());
             properties.put("District_Name",""+d.getDistrictNumber());
@@ -183,10 +187,7 @@ public class Algorithm{
 
     public void setInProgressPlan(Districting inProgressPlan) {
         this.inProgressPlan = inProgressPlan;
-        this.compactness=inProgressPlan.getMeasures().getPolsbyPopperScore();
         this.populationEquality=inProgressPlan.getMeasures().getPopulationEqualityScore();
-        //delete later
-        populationEquality=0.9;
     }
 
     public Districting getInProgressPlan() {
@@ -217,13 +218,7 @@ public class Algorithm{
         this.minPopulationEquality = minPopulationEquality;
     }
 
-    public double getMinCompactness() {
-        return minCompactness;
-    }
 
-    public void setMinCompactness(double minCompactness) {
-        this.minCompactness = minCompactness;
-    }
 
     public int getFailedCbMoves() {
         return failedCbMoves;

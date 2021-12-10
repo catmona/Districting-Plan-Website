@@ -111,18 +111,17 @@ public class Handler {
         return dto;
     }
 
-    public void setLimits(double minPopulationEquality, double minCompactness,HttpSession session){
+    public void setLimits(double minPopulationEquality, HttpSession session){
 
         Algorithm alg = provider.getObject();
         alg.setMinPopulationEquality(minPopulationEquality);
-        alg.setMinCompactness(minCompactness);
         jobs.put(session.getId(),alg);
     }
 
     public AlgorithmDTO startAlgorithm(String districtingNum, HttpSession session){
         State state = (State)session.getAttribute("state");
         Algorithm alg = jobs.get(session.getId());
-        Districting plan = state.getDistricting(districtingNum);
+        Districting plan = state.getEnacted();
         alg.setInProgressPlan(plan);
         alg.setPopulationMeasure((PopulationMeasure) session.getAttribute("PopType"));
         AlgorithmDTO dto = new AlgorithmDTO(plan.getMeasures(),0,true,null,null);

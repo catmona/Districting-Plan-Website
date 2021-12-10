@@ -7,13 +7,12 @@ public class Measures {
 
     private double populationEqualityScore;
 
-    private double polsbyPopperScore;
+
 
     public  Measures() {}
 
-    public Measures(double populationEqualityScore, double polsbyPopperScore) {
+    public Measures(double populationEqualityScore) {
         this.populationEqualityScore = populationEqualityScore;
-        this.polsbyPopperScore = polsbyPopperScore;
     }
 
     public double getPopulationEqualityScore() {
@@ -22,14 +21,6 @@ public class Measures {
 
     public void setPopulationEqualityScore(double populationEqualityScore) {
         this.populationEqualityScore = populationEqualityScore;
-    }
-
-    public double getPolsbyPopperScore() {
-        return polsbyPopperScore;
-    }
-
-    public void setPolsbyPopperScore(double polsbyPopperScore) {
-        this.polsbyPopperScore = polsbyPopperScore;
     }
 
     public Measures clone(){

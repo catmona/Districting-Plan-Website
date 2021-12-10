@@ -75,8 +75,8 @@ public class Controller {
 
     @PostMapping("algorithmlimits")
     public ResponseEntity handleLimits(@RequestParam("minPopulationEquality") double minPopulationEquality,
-                             @RequestParam("minCompactness") double minCompactness, HttpSession session){
-        handler.setLimits(minPopulationEquality,minCompactness,session);
+                                       HttpSession session){
+        handler.setLimits(minPopulationEquality,session);
         return ResponseEntity.ok().build();
     }
 

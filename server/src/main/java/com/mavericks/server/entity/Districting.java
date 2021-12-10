@@ -37,8 +37,7 @@ public class Districting {
 
     @Embedded
     @AttributeOverrides({
-            @AttributeOverride( name="populationEqualityScore", column=@Column(name = "populationEqualityScore")),
-            @AttributeOverride( name="polsbyPopperScore", column=@Column(name = "polsbyPopperScore"))
+            @AttributeOverride( name="populationEqualityScore", column=@Column(name = "populationEqualityScore"))
     })
     private Measures measures;
 
@@ -96,11 +95,17 @@ public class Districting {
     @OrderBy("populationMeasureType, demographicType")
     private List<Population> populations;
 
-    public Districting() {}
+    @Transient
+    private List<String>precinctsChanged;
+
+    public Districting() {
+        precinctsChanged=new ArrayList<>();
+    }
 
     public Districting(String stateId, Measures measures) {
         this.stateId = stateId;
         this.measures = measures;
+        precinctsChanged=new ArrayList<>();
     }
 
     public void processMovedBlocks(){
@@ -349,7 +354,7 @@ public class Districting {
 
 
     public DistrictingDTO makeDistrictDTO(){
-        return new DistrictingDTO(this.getId(), this.measures.getPolsbyPopperScore(),
+        return new DistrictingDTO(this.getId(), this.geometricCompactness,
                 this.measures.getPopulationEqualityScore());
     }
 
@@ -396,7 +401,7 @@ public class Districting {
     public Measures computeMeasures(PopulationMeasure measure){
         //double polsby=computePolsbyPopper();
         double popEquality =computePopulationEquality(measure);
-        return new Measures(popEquality,-1);
+        return new Measures(popEquality);
     }
 
     private double polsbyHelper(Geometry geom){
@@ -417,4 +422,11 @@ public class Districting {
         return plan;
     }
 
+    public void addPrecinct(String precinctId){
+        precinctsChanged.add(precinctId);
+    }
+
+    public List<String> getPrecinctsChanged() {
+        return precinctsChanged;
+    }
 }
