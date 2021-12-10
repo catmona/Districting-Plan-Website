@@ -105,17 +105,17 @@ p, h1, h2, h3 {
         display: block;
     }
 }
+#map-filter-state:checked {
+    background-color: #51928d;
+}
 #map-filter-districts:checked {
-    background-color: grey;
+    background-color: black;
 }
 #map-filter-counties:checked {
-    background-color: purple;
+    background-color: #777777;
 }
 #map-filter-precincts:checked {
     background-color: green;
-}
-#map-filter-census-blocks:checked {
-    background-color: yellow;
 }
 /* #endregion */
 

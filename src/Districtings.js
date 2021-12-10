@@ -78,7 +78,7 @@ function districtings(props) {
     const {stateName} = props;
     const previews = props.districtingPreviews;
     
-    let plans = previews ? previews.map((preview, i) => {
+    const plans = previews ? previews.map((preview, i) => {
         return {preview, num: (i+1)}
     }) : []
     
