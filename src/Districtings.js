@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState } from 'react';
-import { Container, Row, Col, Popover, OverlayTrigger } from 'react-bootstrap';
+import { Container, Row, Col, Popover, OverlayTrigger, DropdownButton, Dropdown } from 'react-bootstrap';
 import DistrictingModal from './DistrictingModal';
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
@@ -66,6 +66,7 @@ function DistrictingPopover(props) {
 
 function districtings(props) {
     const [showModal, setShowModal] = useState(false);
+    const [sortFunction, setSortFunction] = useState("Plan Number");
     const [districtingSummary, setDistrictingSummary] = useState({
         districtingNum: -1, data: {
             planId: 0, summary: {
@@ -76,17 +77,73 @@ function districtings(props) {
     });
     const {stateName} = props;
     const previews = props.districtingPreviews;
-    const loading = {'polsbyPopper': 0, "populationEquality": 50};
+    
+    let plans = previews ? previews.map((preview, i) => {
+        return {preview, num: (i+1)}
+    }) : []
+    
+    function comparePopEquality(a, b) {
+        const v1 = a.preview.populationEquality;
+        const v2 = b.preview.populationEquality;
+        
+        if(v1 < v2) { return -1; }
+        if(v1 > v2) { return 1; }
+        if(v1 === v2) { return 0; }
+    }
+    
+    function compareCompactness(a, b) {
+        const v1 = a.preview.polsbyPopper;
+        const v2 = b.preview.polsbyPopper;
+        
+        if(v1 < v2) { return -1; }
+        if(v1 > v2) { return 1; }
+        if(v1 === v2) { return 0; }
+    }
+    
+    function comparePlanNumber(a, b) {
+        const v1 = a.num;
+        const v2 = b.num;
+        
+        if(v1 < v2) { return -1; }
+        if(v1 > v2) { return 1; }
+        if(v1 === v2) { return 0; }
+    }
+    
+    useEffect(() => {
+        switch(sortFunction) {
+            case "Population Equality":
+                plans.sort(comparePopEquality);
+                break;
+            
+            case "Population Compactness":
+                plans.sort(compareCompactness);
+                break;
+            default:
+                plans.sort(comparePlanNumber);
+                break;
+        }
+    }, [sortFunction, plans])
 
     return(
         <>
+            <div id="districtings-sort">
+                <h4>Districting Plans</h4>
+                <p>Sort By: </p>
+                <DropdownButton id="districtings-sort-dropdown" menuVariant="dark" title={sortFunction}>
+                    <Dropdown.Item onClick={() => setSortFunction("Population Equality")}>Population Equality</Dropdown.Item>
+                    <Dropdown.Item onClick={() => setSortFunction("Population Compactness")}>Population Compactness</Dropdown.Item>
+                    <Dropdown.Item onClick={() => setSortFunction("Plan Number")}>Plan Number</Dropdown.Item>
+                
+                </DropdownButton>
+            </div>
             <Container id="districtings" className="scrollbar scrollbar-primary fluid">
-                {previews ? previews.map((preview, i) => {
+                {plans.length > 0 ?   
+                    plans.map(plan => {
                         return (
-                            <div xs={3} className="districting-container" id={"districting-img-" + (i+1)}>
+                            <div xs={3} className="districting-container" id={"districting-img-" + plan.num}>
                                 <DistrictingPopover 
-                                    num={i+1} 
-                                    summary={previews ? preview : loading} 
+                                    num={plan.num}
+                                    summary={plan.preview} 
                                     setShowModal = {setShowModal}
                                     setDistrictingSummary = {setDistrictingSummary}
                                     stateName = {stateName || ""}
@@ -94,9 +151,9 @@ function districtings(props) {
                             </div>
                         )
                     }) : 
-                        <>
-                            <Box className = 'loading-container'><CircularProgress className = 'loading-icon'/></Box>
-                        </>}
+                    <>
+                        <Box className = 'loading-container'><CircularProgress className = 'loading-icon'/></Box>
+                    </>}
             </Container>
             <>
                 <DistrictingModal 
