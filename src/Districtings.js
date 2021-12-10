@@ -21,9 +21,9 @@ function DistrictingPopover(props) {
             <Popover.Header as="h3">Districting Plan {num}</Popover.Header>
             <Popover.Body>
                 <em style={{fontSize: 13}}>This districting was chosen for it's high political fairness.</em><br /><br />
-                <div className='districting-labels'><b>SeaWulf Score: </b>{score}<br /></div>
-                <div className='districting-labels'><b>Population Equality: </b>{popEquality}<br /></div>
-                <div className='districting-labels'><b>Compactness: </b>{polsby}<br /></div>
+                <div className='districting-labels'><b>SeaWulf Score: </b>{score.toFixed(5)}<br /></div>
+                <div className='districting-labels'><b>Population Equality: </b>{popEquality.toFixed(5)}<br /></div>
+                <div className='districting-labels'><b>Compactness: </b>{polsby.toFixed(5)}<br /></div>
                 <div className='districting-labels'><b>Majority-Minority Count: </b>{majorityMinority}<br /></div>
                 <div className='districting-labels'><b>Split County Count: </b>{splitCounty}<br /></div>
                 {/* <div className='districting-labels'><b>Deviation from Average Population: </b>{devAvgPop}<br /></div> */}
