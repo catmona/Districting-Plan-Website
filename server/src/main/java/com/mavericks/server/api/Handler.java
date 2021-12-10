@@ -75,12 +75,8 @@ public class Handler {
     public List<DistrictingDTO> getDistrictings(HttpSession session){
         State state = (State) session.getAttribute("state");
         List<DistrictingDTO> plansPreview = new ArrayList<>();
-        Districting enacted = state.getEnacted();
-        // TODO stubbed. we don't have the SeaWulf districtings yet
-        for(int i=0;i<30;i++){
-            plansPreview.add(enacted.makeDistrictDTO());
-        }
-
+        List<Districting> districtings = state.getDistrictings();
+        districtings.stream().map(d -> d.makeDistrictDTO()).forEach(dto -> plansPreview.add(dto));
         return plansPreview;
     }
 

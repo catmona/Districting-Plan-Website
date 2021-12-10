@@ -7,8 +7,13 @@ import fallback from '/public/assets/icons/usa.png'
 
 function DistrictingPopover(props) {
     const planId = props.summary.districtingId;
+    const score = props.summary.score;
     const polsby = props.summary.polsbyPopper;
     const popEquality = props.summary.populationEquality;
+    const majorityMinority = props.summary.majorityMinority;
+    const splitCounty = props.summary.splitCounty;
+    // const devAvgPop = props.summary.devFromAveragePopulation;
+    // const devEnactedPop = props.summary.devFromEnactedPopulation;
     const {num, stateName, setDistrictingSummary, setShowModal} = props;
 
     const pop = (
@@ -16,8 +21,13 @@ function DistrictingPopover(props) {
             <Popover.Header as="h3">Districting Plan {num}</Popover.Header>
             <Popover.Body>
                 <em style={{fontSize: 13}}>This districting was chosen for it's high political fairness.</em><br /><br />
+                <div className='districting-labels'><b>SeaWulf Score: </b>{score}<br /></div>
                 <div className='districting-labels'><b>Population Equality: </b>{popEquality}<br /></div>
                 <div className='districting-labels'><b>Compactness: </b>{polsby}<br /></div>
+                <div className='districting-labels'><b>Majority-Minority Count: </b>{majorityMinority}<br /></div>
+                <div className='districting-labels'><b>Split County Count: </b>{splitCounty}<br /></div>
+                {/* <div className='districting-labels'><b>Deviation from Average Population: </b>{devAvgPop}<br /></div> */}
+                {/* <div className='districting-labels'><b>Deviation from Enacted Population: </b>{devEnactedPop}<br /></div> */}
             </Popover.Body>
         </Popover>
     );

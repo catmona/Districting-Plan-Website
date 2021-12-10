@@ -38,12 +38,9 @@ public class Districting {
     @Embedded
     @AttributeOverrides({
             @AttributeOverride( name="populationEqualityScore", column=@Column(name = "populationEqualityScore")),
-            @AttributeOverride( name="polsbyPopperScore", column=@Column(name = "polsbyPopperScore"))
+            @AttributeOverride( name="polsbyPopperScore", column=@Column(name = "geometricCompactness"))
     })
     private Measures measures;
-
-    @Column(name = "geometricCompactness")
-    private double geometricCompactness;
 
     @Column(name = "majorityMinority")
     private int majorityMinority;
@@ -165,14 +162,6 @@ public class Districting {
 
     public void setMeasures(Measures measures) {
         this.measures = measures;
-    }
-
-    public double getGeometricCompactness() {
-        return geometricCompactness;
-    }
-
-    public void setGeometricCompactness(double geometricCompactness) {
-        this.geometricCompactness = geometricCompactness;
     }
 
     public int getMajorityMinority() {
@@ -349,8 +338,9 @@ public class Districting {
 
 
     public DistrictingDTO makeDistrictDTO(){
-        return new DistrictingDTO(this.getId(), this.measures.getPolsbyPopperScore(),
-                this.measures.getPopulationEqualityScore());
+        return new DistrictingDTO(this.getId(), this.score, this.measures.getPolsbyPopperScore(),
+                this.measures.getPopulationEqualityScore(), this.majorityMinority, this.splitCounty,
+                this.devFromAveragePopulation, this.devFromEnactedPopulation);
     }
 
     public PlanDTO makePlanDTO(PopulationMeasure popType){
