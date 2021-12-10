@@ -121,14 +121,26 @@ public class District {
         int diffMultiplier=-1;
         combinePops(this.getPopulations(),cb.getPopulations(),diffMultiplier);
         if(revert){
-//            this.geometry=this.prevGeometry;
-            cbToRemove.remove(cb.getGeometry());
+            this.geometry=this.prevGeometry;
+//            cbToRemove.remove(cb.getGeometry());
             cb.setMoved(false);
         }
         else{
-//            this.prevGeometry=this.geometry;
-////            this.geometry=this.geometry.difference(cb.getGeometry());
-            cbToRemove.add(cb.getGeometry());
+            this.prevGeometry=this.geometry;
+            System.out.println(this.id);
+//            try{
+//                this.geometry=this.geometry.difference(cb.getGeometry());
+//            }
+//            catch(IllegalArgumentException e){
+//                int i=0;
+//                Geometry g =cb.getGeometry();
+//            }
+//            catch(TopologyException e){
+//                int i=0;
+//                Geometry g =cb.getGeometry();
+//            }
+            this.geometry=this.geometry.difference(cb.getGeometry());
+//            cbToRemove.add(cb.getGeometry());
             cb.setMoved(true);
         }
 
@@ -145,14 +157,15 @@ public class District {
         int addMultiplier=1;
         combinePops(this.getPopulations(),cb.getPopulations(),addMultiplier);
         if(revert){
-//            this.geometry=this.prevGeometry;
-            cbToAdd.remove(cb.getGeometry());
+            this.geometry=this.prevGeometry;
+//            cbToAdd.remove(cb.getGeometry());
             cb.setMoved(false);
         }
         else{
-//            this.prevGeometry=this.geometry;
-//            this.geometry= this.geometry.union(cb.getGeometry());
-            cbToAdd.add(cb.getGeometry());
+            this.prevGeometry=this.geometry;
+            System.out.println(this.id);
+            this.geometry= this.geometry.union(cb.getGeometry());
+//            cbToAdd.add(cb.getGeometry());
             cb.setMoved(true);
         }
     }

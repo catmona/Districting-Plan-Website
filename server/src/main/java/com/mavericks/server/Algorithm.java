@@ -68,11 +68,10 @@ public class Algorithm{
 
     @Async
     public void run() {
-        System.out.println("entered");
         populationMeasure=PopulationMeasure.TOTAL;
         populationEquality=0.9;
         double temp=10000;
-
+        double coolingRate=0.003;
         while(iterations!=max_iterations && failedCbMoves!=maxFaildCbMoves && flag
                 && (populationEquality>minPopulationEquality)&&temp>1){
             District d1=inProgressPlan.getRandDistrict();
@@ -83,6 +82,7 @@ public class Algorithm{
             if(d2==null || cb.isMoved()){
                 continue;
             }
+            System.out.println(cb.getDistrictId()+" "+cb.isMoved());
             d2.addCensusBlock(cb,inProgressPlan,neighbors,populationMeasure,false);
             d1.removeCensusBlock(cb,neighbors,populationMeasure,false);
             Measures newMeasures=inProgressPlan.computeMeasures(populationMeasure);
@@ -93,8 +93,8 @@ public class Algorithm{
                 inProgressPlan.addPrecinct(cb.getPrecinctId());
                 failedCbMoves=0;
 
-                if(bestDistricting!=null &&
-                        bestDistricting.getMeasures().getPopulationEqualityScore()<populationEquality){
+                if(bestDistricting==null ||
+                        bestDistricting.getMeasures().getPopulationEqualityScore()>populationEquality){
                     bestDistricting=inProgressPlan.clone();
                 }
 
@@ -107,14 +107,15 @@ public class Algorithm{
                 failedCbMoves++;
             }
 
-            if(iterations%REDRAW_CONST==0 && iterations>0){
-                inProgressPlan.processMovedBlocks();
-            }
-
+//            if(iterations%REDRAW_CONST==0 && iterations>0){
+//                inProgressPlan.processMovedBlocks();
+//            }
+            temp*=1-coolingRate;
             iterations++;
-            System.out.println("iteration:"+iterations);
+            System.out.println("iteration:"+iterations+" temp:"+temp);
         }
         inProgressPlan.processMovedBlocks();
+        System.out.println("final population equ:"+bestDistricting.getMeasures().getPopulationEqualityScore());
         running=false;
     }
 
