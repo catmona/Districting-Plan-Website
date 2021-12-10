@@ -2,7 +2,7 @@
 
 _our team name is **Mavericks**_
 
-_our states are **Washington**, **Nevada**, and **Arkanasas**_
+_our states are **Washington**, **Nevada**, and **Arkansas**_
 
 
 ## member roles

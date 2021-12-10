@@ -66,7 +66,7 @@ function DistrictingModal(props) {
                 <Row>
                     <DropdownButton id="districting-modal-dropdown" menuVariant="dark" title={dropdownTitle}>
                         {districtData.map((item, i) => {
-                            return <Dropdown.Item onClick={() => {setSelectedDistrict(i)}}>{"District " + (i+1)}</Dropdown.Item>
+                            return <Dropdown.Item key={i} onClick={() => {setSelectedDistrict(i)}}>{"District " + (i+1)}</Dropdown.Item>
                         })}
                     </DropdownButton>
                 </Row>

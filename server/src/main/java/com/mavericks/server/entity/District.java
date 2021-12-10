@@ -39,16 +39,6 @@ public class District {
 
     @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "districtId")
-    @MapKey(name = "id")
-    private Map<String, Precinct> precincts;
-
-//    @OneToMany(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "districtId")
-//    @MapKey(name = "id")
-//    private Map<String, CensusBlock> censusBlocks;
-
-    @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "districtId")
     @Where(clause = "isBorderBlock = '1'")
     @MapKey(name = "id")
     private Map<String, CensusBlock> borderBlocks;
@@ -234,14 +224,6 @@ public class District {
 
     public void setDistrictingId(String districtingId) {
         this.districtingId = districtingId;
-    }
-
-    public Map<String, Precinct> getPrecincts() {
-        return precincts;
-    }
-
-    public void setPrecincts(Map<String, Precinct> precincts) {
-        this.precincts = precincts;
     }
 
     public Map<String, CensusBlock> getBorderBlocks() {

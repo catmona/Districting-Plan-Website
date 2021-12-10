@@ -20,7 +20,7 @@ const columns = [
   {
     field: 'population',
     headerName: 'Population',
-    width: 140,
+    width: 150,
     editable: false,
     type: 'number',
   },
@@ -35,14 +35,14 @@ const columns = [
     field: 'republican',
     headerName: 'Republican',
     type: 'number',
-    width: 140,
+    width: 150,
     editable: false,
   },
   {
     field: 'africanamerican',
     headerName: 'African American',
     type: 'number',
-    width: 190,
+    width: 200,
     editable: false,
   },
   {

@@ -1,6 +1,10 @@
 import React, { useRef, useEffect, useState } from 'react';
 import mapboxgl from '!mapbox-gl';
 import StateOverlaySource from './data/us_state_overlay.geojson';
+import StateBoundarySource from './data/us_state_boundaries.geojson';
+import WACountyBoundarySource from './data/WA/washington_county_boundaries.geojson';
+import NVCountyBoundarySource from './data/NV/nevada_county_boundaries.geojson';
+import ARCountyBoundarySource from './data/AR/arkansas_county_boundaries.geojson';
 import { Form } from 'react-bootstrap';
 
 mapboxgl.accessToken = 'pk.eyJ1IjoiZ29sZHlmbGFrZXMiLCJhIjoiY2t0ZGtrNHhiMDB5MjJxcWN6bWZ5ZGx3byJ9.IMzQecUSVBFlT4rUycdG3Q';
@@ -8,6 +12,8 @@ mapboxgl.accessToken = 'pk.eyJ1IjoiZ29sZHlmbGFrZXMiLCJhIjoiY2t0ZGtrNHhiMDB5MjJxc
 // constants for styling districts on map
 const districtColors = ["#00ff73", "#00ffed", "#0024ff", "#ac00ff", "#ff0056", "#d0ff00", "#ff9700", "#f3ccf2", "#90f1c9", "#d1f190"]
 const white = '#FFFFFF';
+const stateBoundaryColor = '#c5e0e2';
+const countyBoundaryColor = '#9e9e9e';
 const zoomThreshold = 4;       
 let hoveredStateId = null;
 
@@ -19,66 +25,82 @@ function Map(props) {
     const [zoom, setZoom] = useState(3.6);
     const [bounds, setBounds] = useState([[-138.42, 12.22], [-56.80, 57.27]])
     const [showDistrictBoundaries, setShowDistrictBoundaries] = useState(true)
-    let stateName = props.stateName;
-    let districtingData = props.districtingData;
-    let setState = props.setState;
+    const [showStateBoundaries, setShowStateBoundaries] = useState(true)
+    const [showCountyBoundaries, setShowCountyBoundaries] = useState(true)
+    const {stateName, districtingData, setState} = props;
 
     useEffect(() => {
-        if (map.current) {
-            try {
-                getStateGeoJSON();
-
-                focusState(stateName);
-
-                toggleBoundaries(stateName);
-            } catch(e) {
-                props.showError("Failed to update map", e)
-                console.log(e)
-            }
-
-        } // initialize map only once
-        else {
+        if (map.current) return; 
             try {
                 map.current = new mapboxgl.Map({
                     container: mapContainer.current,
                     style: 'mapbox://styles/goldyflakes/cktdkm1j51fmq18qj54fippsz',
                     center: [lng, lat],
-                    zoom: zoom,
+                    zoom,
                     maxBounds: bounds,
                     });
 
-                map.current.on("load", function() {
-                    getStateOverlay()
+                map.current.on("load", () => {
+                    addStateOverlay()
+                    addStateBoundaries()
                 });
             } catch (e) {
                 props.showError("Failed to start map", e)
                 console.log(e)
             }
         }
-    });
+    );
+    
+    useEffect(() => {
+        if(!map.current || !stateName) return;
+        
+        if(districtingData) { getStateGeoJSON(); }
+        focusState(stateName);
+        toggleBoundaries(stateName); //yes this needs to be in both useEffects
+    })
+    
+    useEffect(() => {
+        if(!map.current) return;
+        
+        toggleBoundaries(stateName);
+    }, [showCountyBoundaries, showDistrictBoundaries, showStateBoundaries])
 
     function toggleBoundaries() {
+        const stateBoundaryLayer = "State-Boundary-Layer";
+        const districtBoundaryLayer = stateName + "-district-source-layer-outline";
+        const countyBoundaryLayer = stateName + "-county-boundary-layer";
+        const sLayer = map.current.getLayer(stateBoundaryLayer);
+        const dLayer = map.current.getLayer(districtBoundaryLayer);
+        const cLayer = map.current.getLayer(countyBoundaryLayer);
         let v = "visible";
-
-        //TODO state boundaries
+        
+        //state boundaries
+        showStateBoundaries ? v = "visible" : v = "none";
+        if(typeof sLayer !== 'undefined') {
+            map.current.setLayoutProperty(stateBoundaryLayer, 'visibility', v)
+        }
 
         //district boundaries
         showDistrictBoundaries ? v = "visible" : v = "none";
-        let distictBoundaryLayer = stateName + "-district-source-layer-outline";
-        if(map.current.getSource(distictBoundaryLayer))
-            console.log("This console log is necessary to toggle the layer filter. It doesn't even print anything out, don't question why, we just need this line or this chunk of code doesn't run :')");
-            map.current.setLayoutProperty(distictBoundaryLayer, 'visibility', v)
+        if(typeof dLayer !== 'undefined') {
+            map.current.setLayoutProperty(districtBoundaryLayer, 'visibility', v)
+        }
         
-        //TODO county boundaries
+        //county boundaries
+        showCountyBoundaries ? v = "visible" : v = "none";
+        if(typeof cLayer !== 'undefined') {
+            map.current.setLayoutProperty(countyBoundaryLayer, 'visibility', v)
+        }
     }
     
     function getStateGeoJSON() {
         if (districtingData && districtingData.featureCollection) { // user selected a state
-            let layer = map.current.getSource(stateName + "-district-source");
+            const layer = map.current.getSource(stateName + "-district-source");
 
             if (!layer) { // map does not have the district boundaries
-                let geojson = JSON.parse(districtingData.featureCollection);
+                const geojson = JSON.parse(districtingData.featureCollection);
                 addDistrictGeoJSON(map.current, stateName, geojson);
+                addCountyGeoJSON(map.current, stateName);
             }
         }
     }
@@ -91,7 +113,7 @@ function Map(props) {
                 setZoom(6);
                 map.current.flyTo({
                     center: [lng, lat],
-                    zoom: zoom
+                    zoom
                 });
                 break;
     
@@ -101,25 +123,40 @@ function Map(props) {
                 setZoom(6);
                 map.current.flyTo({
                     center: [lng, lat],
-                    zoom: zoom
+                    zoom
                 });
                 break;
     
             case "Arkansas": 
                 setLat(35.20);
                 setLng(-91.83);
-                //setBounds([-96.83, 30.20], [-86.83, 40.20])
                 setZoom(6);
                 map.current.flyTo({
                     center: [lng, lat],
-                    zoom: zoom,
+                    zoom,
                 });
                 break;
         }
     
     }
+    
+    function addStateBoundaries() {
+        map.current.addSource("State-Boundary-Source", {
+            "type": "geojson",
+            "data": StateBoundarySource
+        });
+        map.current.addLayer({
+            "id": "State-Boundary-Layer", 
+            'type': 'line',
+            'source': "State-Boundary-Source",
+            'paint': {
+                'line-color': stateBoundaryColor,
+                'line-width': 1
+            }
+        });
+    }
 
-    function getStateOverlay() {
+    function addStateOverlay() {
         map.current.addSource("State-Overlay-Source", {
             "type": "geojson",
             "data": StateOverlaySource
@@ -187,15 +224,16 @@ function Map(props) {
                 <Form.Check //state
                         type="checkbox" 
                         className="dark-checkbox" 
-                        id="map-filter-precincts" 
+                        id="map-filter-state" 
+                        onChange={(e) => setShowStateBoundaries(e.target.checked)}
+                        checked= {showStateBoundaries}
                         label="State"
-                        disabled 
                     />
                     <Form.Check //districts
                         type="checkbox" 
                         className="dark-checkbox" 
                         id="map-filter-districts" 
-                        onChange={ (e) => setShowDistrictBoundaries(e.target.checked) }
+                        onChange={(e) => setShowDistrictBoundaries(e.target.checked)}
                         checked= {showDistrictBoundaries}
                         label="Districts"
                     />
@@ -203,8 +241,9 @@ function Map(props) {
                         type="checkbox" 
                         className="dark-checkbox" 
                         id="map-filter-counties" 
+                        onChange={(e) => setShowCountyBoundaries(e.target.checked)}
+                        checked= {showCountyBoundaries}
                         label="Counties"
-                        disabled
                     />
                 </Form>
             </div>
@@ -213,15 +252,48 @@ function Map(props) {
     );
 }
 
+function addCountyGeoJSON(map, stateName) {
+    let source = "";
+    switch (stateName) {
+        case "Washington": 
+            source = WACountyBoundarySource;
+            break;
+
+        case "Nevada": 
+            source = NVCountyBoundarySource;
+            break;
+
+        case "Arkansas": 
+            source = ARCountyBoundarySource;
+            break;
+    }
+    
+    const sourceName = stateName + "-county-boundary-source";
+    map.addSource(sourceName, {
+        "type": "geojson",
+        "data": source
+    });
+    
+    map.addLayer({
+        "id": stateName + "-county-boundary-layer", 
+        'type': 'line',
+        'source': stateName + "-county-boundary-source",
+        'paint': {
+            'line-color': countyBoundaryColor,
+            'line-width': 0.8
+        }
+    });
+}
+
 function addDistrictGeoJSON(map, sourceId, source) {
-    let sourceName = sourceId + "-district-source";
+    const sourceName = sourceId + "-district-source";
     map.addSource(sourceName, {
         "type": "geojson",
         "data": source
     });
     console.log("[Mapbox] Added %s", sourceName);
     
-    addDistrictStyleLayer(map, sourceName);
+    addDistrictStyleLayer(map, sourceName); 
     return sourceName;
 }
 
@@ -231,7 +303,7 @@ function addDistrictStyleLayer(map, sourceId) {
         return;
     }
 
-    let layerName = sourceId + "-layer";
+    const layerName = sourceId + "-layer";
     map.addLayer({
         "id": layerName,
         "type": "fill",
@@ -267,7 +339,8 @@ function addDistrictStyleLayer(map, sourceId) {
             "fill-opacity": 0.5,
         }
     });
-
+    
+    //TODO add state/county/precinct layers
     // adds district outlines with adjustable width
     map.addLayer({
         'id': layerName + '-outline',
@@ -294,6 +367,9 @@ function addDistrictStyleLayer(map, sourceId) {
                 'Arial Unicode MS Bold'
             ],
             'text-anchor': 'center'
+        },
+        'paint': {
+            'text-color': white
         }
     });
 
