@@ -141,7 +141,7 @@ public class Handler {
 
     public AlgorithmDTO stopAlgorithm(HttpSession session){
         Algorithm alg = jobs.get(session.getId());
-        alg.setRunning(false);
+        alg.setFlag(false);
         return alg.getProgress();
     }
 

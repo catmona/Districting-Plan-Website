@@ -42,6 +42,7 @@ public class Algorithm{
 
     //user set flag to continue running the algorithm
     private boolean running;
+    private boolean flag;
     private int iterations;
     private final int max_iterations;
     //measure constraints
@@ -64,6 +65,7 @@ public class Algorithm{
         this.max_iterations=1000;
         this.maxFaildCbMoves=50;
         running=true;
+        flag=true;
         precintsChanged=new ArrayList<>();
     }
 
@@ -73,7 +75,7 @@ public class Algorithm{
         System.out.println("entered");
         populationMeasure=PopulationMeasure.TOTAL;
 
-        while(iterations!=max_iterations && failedCbMoves!=maxFaildCbMoves && running
+        while(iterations!=max_iterations && failedCbMoves!=maxFaildCbMoves && flag
                 && (compactness<minCompactness || populationEquality>minPopulationEquality)){
             District d1=inProgressPlan.getRandDistrict();
             CensusBlock cb = d1.getRandCensusBlock();
@@ -108,6 +110,8 @@ public class Algorithm{
             iterations++;
             System.out.println("iteration:"+iterations);
         }
+        inProgressPlan.processMovedBlocks();
+        running=false;
     }
 
     public District findNeighboringDistrict(List<CensusBlock>neighbors,District currentDistrict,Districting plan){
@@ -193,8 +197,8 @@ public class Algorithm{
         return running;
     }
 
-    public void setRunning(boolean running) {
-        this.running = running;
+    public void setFlag(boolean flag) {
+        this.flag = flag;
     }
 
     public int getIterations() {
