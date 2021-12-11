@@ -75,11 +75,14 @@ public class Algorithm{
                 && (populationEquality>minPopulationEquality)&&temp>1){
             District d1=inProgressPlan.getRandDistrict();
             CensusBlock cb = d1.getRandCensusBlock();
+            if(cb.isMoved() ||cb.getPopulation().get(0).getPopulationTotal()==0 ){
+                iterations++;
+                continue;
+            }
             String oldPrecinct=cb.getPrecinctId();
             List<CensusBlock> neighbors = inProgressPlan.getNeighbors(cb);
             District d2=findNeighboringDistrict(neighbors,d1,inProgressPlan);
-            if(d2==null || cb.isMoved() || cb.getPopulation().get(0).getPopulationTotal()!=0||
-                    !(d1.equals(inProgressPlan.getMaxPop())||d2.equals(inProgressPlan.getMinPop()))){
+            if(d2==null){
                 iterations++;
                 continue;
             }

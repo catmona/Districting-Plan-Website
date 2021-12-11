@@ -121,24 +121,24 @@ public class Districting {
     public District getRandDistrict(){
         maxPop=districts.get(0);
         minPop=districts.get(0);
-
+        District dist=districts.get(0);
         for(District d:districts){
             if(d.getPopulation(PopulationMeasure.TOTAL,Demographic.ALL)>
-                    maxPop.getPopulation(PopulationMeasure.TOTAL,Demographic.ALL)){
-                maxPop=d;
+                    dist.getPopulation(PopulationMeasure.TOTAL,Demographic.ALL)){
+                dist=d;
             }
-            else if (d.getPopulation(PopulationMeasure.TOTAL,Demographic.ALL)>
-                    minPop.getPopulation(PopulationMeasure.TOTAL,Demographic.ALL)){
-                minPop=d;
-            }
+//            else if (d.getPopulation(PopulationMeasure.TOTAL,Demographic.ALL)>
+//                    minPop.getPopulation(PopulationMeasure.TOTAL,Demographic.ALL)){
+//                minPop=d;
+//            }
 
         }
 
-        Random rand = new Random();
-        District dist = districts.get(rand.nextInt(districts.size()));
-        while(dist.getBorderBlocks().size()==0){
-            dist = districts.get(rand.nextInt(districts.size()));
-        }
+//        Random rand = new Random();
+//        District dist = districts.get(rand.nextInt(districts.size()));
+//        while(dist.getBorderBlocks().size()==0){
+//            dist = districts.get(rand.nextInt(districts.size()));
+//        }
         return dist;
     }
 
@@ -416,7 +416,7 @@ public class Districting {
         double max=0;
         double min=Double.MAX_VALUE;
         for(District d:districts){
-            int value=d.getPopulation(measure,Demographic.ALL);
+            int value=d.getPopulation().get(0).getPopulationTotal();
             min=Math.min(value,min);
             max=Math.max(max,value);
         }

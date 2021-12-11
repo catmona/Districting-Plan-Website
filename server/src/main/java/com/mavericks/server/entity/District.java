@@ -164,16 +164,16 @@ public class District {
 //            distPops.get(i).setValue(distPops.get(i).getValue()+cbPops.get(i).getValue()*multiplier);
 //        }
 
-        distPop.setAsian(distPop.getAsian()+cbPop.getAsian());
-        distPop.setBlack(distPop.getBlack()+cbPop.getBlack());
-        distPop.setWhite(distPop.getWhite()+cbPop.getWhite());
+        distPop.setAsian(distPop.getAsian()+cbPop.getAsian()*multiplier);
+        distPop.setBlack(distPop.getBlack()+cbPop.getBlack()*multiplier);
+        distPop.setWhite(distPop.getWhite()+cbPop.getWhite()*multiplier);
         double repVotes=distPop.getPopulationTotal()*distPop.getRepublicanVotes()+
-                cbPop.getPopulationTotal()*cbPop.getRepublicanVotes();
+                cbPop.getPopulationTotal()*cbPop.getRepublicanVotes()*multiplier;
         double demVotes=distPop.getPopulationTotal()*distPop.getDemocraticVotes()+
-                cbPop.getPopulationTotal()*cbPop.getDemocraticVotes();
+                cbPop.getPopulationTotal()*cbPop.getDemocraticVotes()*multiplier;
         distPop.setDemocraticVotes((demVotes)/(repVotes+demVotes));
         distPop.setRepublicanVotes((repVotes)/(repVotes+demVotes));
-        distPop.setPopulationTotal(distPop.getPopulationTotal()+cbPop.getPopulationTotal());
+        distPop.setPopulationTotal(distPop.getPopulationTotal()+cbPop.getPopulationTotal()*multiplier);
     }
 
 
