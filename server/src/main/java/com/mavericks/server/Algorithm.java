@@ -56,10 +56,11 @@ public class Algorithm{
     private PopulationMeasure populationMeasure;
     private final int REDRAW_CONST=5;
     private Districting bestDistricting;
+    private int movesMade;
 
 
     public Algorithm() {
-        this.max_iterations=500;
+        this.max_iterations=1000;
         this.maxFaildCbMoves=50;
         running=true;
         flag=true;
@@ -77,7 +78,9 @@ public class Algorithm{
             String oldPrecinct=cb.getPrecinctId();
             List<CensusBlock> neighbors = inProgressPlan.getNeighbors(cb);
             District d2=findNeighboringDistrict(neighbors,d1,inProgressPlan);
-            if(d2==null || cb.isMoved()){
+            if(d2==null || cb.isMoved() || cb.getPopulation().get(0).getPopulationTotal()!=0||
+                    !(d1.equals(inProgressPlan.getMaxPop())||d2.equals(inProgressPlan.getMinPop()))){
+                iterations++;
                 continue;
             }
             boolean added=d2.addCensusBlock(cb,inProgressPlan,neighbors,populationMeasure,false);
@@ -86,9 +89,12 @@ public class Algorithm{
             if(added&&removed&&newMeasures.getPopulationEqualityScore()<populationEquality/*acceptanceProbability(populationEquality,newMeasures.getPopulationEqualityScore(),temp)>Math.random()*/){
                 inProgressPlan.setMeasures(newMeasures);
                 populationEquality=newMeasures.getPopulationEqualityScore();
-                inProgressPlan.addPrecinct(oldPrecinct);
-                inProgressPlan.addPrecinct(cb.getPrecinctId());
+                if(!oldPrecinct.equals(cb.getPrecinctId())){
+                    inProgressPlan.addPrecinct(oldPrecinct);
+                    inProgressPlan.addPrecinct(cb.getPrecinctId());
+                }
                 failedCbMoves=0;
+                movesMade++;
             }
             else {
 

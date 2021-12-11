@@ -96,6 +96,12 @@ public class Districting {
     @Transient
     private List<String>precinctsChanged;
 
+    @Transient
+    private District maxPop;
+
+    @Transient
+    private District minPop;
+
     public Districting() {
         precinctsChanged=new ArrayList<>();
     }
@@ -113,20 +119,26 @@ public class Districting {
 //    }
 
     public District getRandDistrict(){
-        District dist=districts.get(0);
+        maxPop=districts.get(0);
+        minPop=districts.get(0);
 
         for(District d:districts){
-            if(d.getBorderBlocks().size()>0 &&d.getPopulation(PopulationMeasure.TOTAL,Demographic.ALL)>
-                    dist.getPopulation(PopulationMeasure.TOTAL,Demographic.ALL)){
-                dist=d;
+            if(d.getPopulation(PopulationMeasure.TOTAL,Demographic.ALL)>
+                    maxPop.getPopulation(PopulationMeasure.TOTAL,Demographic.ALL)){
+                maxPop=d;
             }
+            else if (d.getPopulation(PopulationMeasure.TOTAL,Demographic.ALL)>
+                    minPop.getPopulation(PopulationMeasure.TOTAL,Demographic.ALL)){
+                minPop=d;
+            }
+
         }
 
-        /*Random rand = new Random();
+        Random rand = new Random();
         District dist = districts.get(rand.nextInt(districts.size()));
         while(dist.getBorderBlocks().size()==0){
             dist = districts.get(rand.nextInt(districts.size()));
-        }*/
+        }
         return dist;
     }
 
@@ -443,5 +455,25 @@ public class Districting {
 
     public List<String> getPrecinctsChanged() {
         return precinctsChanged;
+    }
+
+    public void setPrecinctsChanged(List<String> precinctsChanged) {
+        this.precinctsChanged = precinctsChanged;
+    }
+
+    public District getMaxPop() {
+        return maxPop;
+    }
+
+    public void setMaxPop(District maxPop) {
+        this.maxPop = maxPop;
+    }
+
+    public District getMinPop() {
+        return minPop;
+    }
+
+    public void setMinPop(District minPop) {
+        this.minPop = minPop;
     }
 }
