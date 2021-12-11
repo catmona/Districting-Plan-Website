@@ -2,19 +2,20 @@ package com.mavericks.server.dto;
 
 import com.mavericks.server.entity.BoxWhisker;
 import com.mavericks.server.entity.Population;
+import com.mavericks.server.entity.PopulationCopy;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class BoxWhiskerPlotDTO {
     private BoxWhisker boxWhisker;
-    private List<Integer> enactedPoints = new ArrayList<>();
-    private List<Integer> selectedPoints = new ArrayList<>();
-    private List<Integer> equalizedPoints = new ArrayList<>();
+    private List<PopulationCopy> enactedPoints = new ArrayList<>();
+    private List<PopulationCopy> selectedPoints = new ArrayList<>();
+    private List<PopulationCopy> equalizedPoints = new ArrayList<>();
 
     public BoxWhiskerPlotDTO() {}
 
-    public BoxWhiskerPlotDTO(BoxWhisker boxWhisker, List<Integer> enactedPoints, List<Integer> selectedPoints, List<Integer> equalizedPoints) {
+    public BoxWhiskerPlotDTO(BoxWhisker boxWhisker, List<PopulationCopy> enactedPoints, List<PopulationCopy> selectedPoints, List<PopulationCopy> equalizedPoints) {
         this.boxWhisker = boxWhisker;
         this.enactedPoints = enactedPoints;
         this.selectedPoints = selectedPoints;
@@ -29,27 +30,27 @@ public class BoxWhiskerPlotDTO {
         this.boxWhisker = boxWhisker;
     }
 
-    public List<Integer> getEnactedPoints() {
+    public List<PopulationCopy> getEnactedPoints() {
         return enactedPoints;
     }
 
-    public void setEnactedPoints(List<Integer> enactedPoints) {
+    public void setEnactedPoints(List<PopulationCopy> enactedPoints) {
         this.enactedPoints = enactedPoints;
     }
 
-    public List<Integer> getSelectedPoints() {
+    public List<PopulationCopy> getSelectedPoints() {
         return selectedPoints;
     }
 
-    public void setSelectedPoints(List<Integer> selectedPoints) {
+    public void setSelectedPoints(List<PopulationCopy> selectedPoints) {
         this.selectedPoints = selectedPoints;
     }
 
-    public List<Integer> getEqualizedPoints() {
+    public List<PopulationCopy> getEqualizedPoints() {
         return equalizedPoints;
     }
 
-    public void setEqualizedPoints(List<Integer> equalizedPoints) {
+    public void setEqualizedPoints(List<PopulationCopy> equalizedPoints) {
         this.equalizedPoints = equalizedPoints;
     }
 }

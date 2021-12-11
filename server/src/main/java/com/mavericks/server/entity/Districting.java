@@ -382,6 +382,11 @@ public class Districting {
             i++;
         }
         dto.setFeatureCollection(writer.write(features));
+        dto.setPopulationEquality(measures.getPopulationEqualityScore());
+        dto.setPolsbyPopper(geometricCompactness);
+        dto.setMajorityMinority(majorityMinority);
+        dto.setSplitCounty(splitCounty);
+        dto.setEfficiencyGap(efficiencyGap);
 
         return dto;
     }

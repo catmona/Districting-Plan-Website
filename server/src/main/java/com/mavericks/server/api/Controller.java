@@ -58,7 +58,7 @@ public class Controller {
     }
 
     @GetMapping(value = "boxwhiskers")
-    public BoxWhiskerPlotDTO handleBoxWhisker(@RequestParam("districtingId")long districtingId,
+    public BoxWhiskerPlotDTO handleBoxWhisker(@RequestParam("districtingId")String districtingId,
                                               @RequestParam("basis") String basis,
                                               @RequestParam("enacted")boolean enacted,
                                               @RequestParam("postAlg")boolean postAlg, HttpSession session){

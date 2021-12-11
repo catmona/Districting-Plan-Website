@@ -12,16 +12,24 @@ public class StateDTO {
     private Point center;
     private List<PopulationCopy> districtPopulations;
     private FeatureCollection featureCollection;
+    private double populationEquality;
+    private double polsbyPopper;
+    private int majorityMinority;
+    private int splitCounty;
+    private double efficiencyGap;
 
     public StateDTO() {}
 
-    public StateDTO(String enactedId, Point center,
-                    List<PopulationCopy> districtPopulations, FeatureCollection
-                            featureCollection) {
+    public StateDTO(String enactedId, Point center, List<PopulationCopy> districtPopulations, FeatureCollection featureCollection, double populationEquality, double polsbyPopper, int majorityMinority, int splitCounty, double efficiencyGap) {
         this.enactedId = enactedId;
         this.center = center;
         this.districtPopulations = districtPopulations;
         this.featureCollection = featureCollection;
+        this.populationEquality = populationEquality;
+        this.polsbyPopper = polsbyPopper;
+        this.majorityMinority = majorityMinority;
+        this.splitCounty = splitCounty;
+        this.efficiencyGap = efficiencyGap;
     }
 
     public String getEnactedId() {
@@ -54,5 +62,45 @@ public class StateDTO {
 
     public void setFeatureCollection(FeatureCollection featureCollection) {
         this.featureCollection = featureCollection;
+    }
+
+    public double getPopulationEquality() {
+        return populationEquality;
+    }
+
+    public void setPopulationEquality(double populationEquality) {
+        this.populationEquality = populationEquality;
+    }
+
+    public double getPolsbyPopper() {
+        return polsbyPopper;
+    }
+
+    public void setPolsbyPopper(double polsbyPopper) {
+        this.polsbyPopper = polsbyPopper;
+    }
+
+    public int getMajorityMinority() {
+        return majorityMinority;
+    }
+
+    public void setMajorityMinority(int majorityMinority) {
+        this.majorityMinority = majorityMinority;
+    }
+
+    public int getSplitCounty() {
+        return splitCounty;
+    }
+
+    public void setSplitCounty(int splitCounty) {
+        this.splitCounty = splitCounty;
+    }
+
+    public double getEfficiencyGap() {
+        return efficiencyGap;
+    }
+
+    public void setEfficiencyGap(double efficiencyGap) {
+        this.efficiencyGap = efficiencyGap;
     }
 }
