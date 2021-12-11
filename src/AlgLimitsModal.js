@@ -12,7 +12,7 @@ function AlgLimitsModal(props) {
         event.preventDefault();
 
         fetch("http://localhost:8080/api2/algorithmlimits?" 
-        + "minPopulationEquality=" + popEqualityLim
+        + "minPopulationEquality=" + popEqualityLim //TODO this needs to be changed
         + "&minCompactness=" + compactnessLim, { method: 'POST', credentials: 'include' })
         .then(res => {
             if (!res.ok) {
@@ -30,6 +30,7 @@ function AlgLimitsModal(props) {
         .then(
             (result) => {
                 console.log("Start algorithm res: %o", result);
+                props.setStartTime(Date.now());
                 props.showProgress(true);
                 props.onHide();
                 //TODO start timer to pull progress from server
@@ -62,7 +63,7 @@ function AlgLimitsModal(props) {
                                 setAlgReady(false);
                             } } 
                             size="lg"
-                            max={1} 
+                            max={1} //plans current
                             min={0} 
                             step={0.01} 
                         />

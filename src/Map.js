@@ -348,7 +348,6 @@ function addDistrictStyleLayer(map, sourceId) {
         }
     });
     
-    //TODO add state/county/precinct layers
     // adds district outlines with adjustable width
     map.addLayer({
         'id': layerName + '-outline',

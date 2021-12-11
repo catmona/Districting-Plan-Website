@@ -1,5 +1,5 @@
-import { CanvasJSChart } from 'canvasjs-react-charts';
 import React, { useRef, useEffect, useState } from 'react';
+import { CanvasJSChart } from 'canvasjs-react-charts';
 import { Modal, Button, Row, Col, ProgressBar } from 'react-bootstrap';
 
 function AlgProgressModal(props) {
@@ -9,7 +9,9 @@ function AlgProgressModal(props) {
     const [timeRunning, setTimeRunning] = useState("00:00");
     const [progressPercent, setProgressPercent] = useState(50);
     const [precinctsChanged, setPrecinctsChanged] = useState(0);
-    const {setAlgResults, setIsAlgDone, isAlgDone, ...rest} = props;
+    const [timerIntervalId, setTimerIntervalId] = useState(null);
+    const [progressIntervalId, setProgressIntervalId] = useState(null);
+    const {setAlgResults, setIsAlgDone, isAlgDone, startTime, ...rest} = props;
     const chart = useRef(null);
 
     const dataLength = 20;
@@ -38,27 +40,66 @@ function AlgProgressModal(props) {
     }
     
     const finishAlg = () => {
+        if(timerIntervalId) clearInterval(timerIntervalId);
+        if(progressIntervalId) clearInterval(progressIntervalId);
         props.setAlgResults("h"); //TODO lol
         props.setPlanType("Equalized " + props.planType);
         props.onHide();
     }
 
     const stopAlg = () => {
-        setIsAlgDone(true);
+        console.log(timerIntervalId)
+        if(timerIntervalId) clearInterval(timerIntervalId);
+        if(progressIntervalId) clearInterval(progressIntervalId);
     }
-
-    useEffect(() => {
-        //do other stuff
-        //console.log(precinctsChanged)
-        
-        //TODO format time
-        const totalSeconds = 0; //get from server or something
-        const minutes = totalSeconds / 60;
+    
+    function updateTimer() {
+        const elapsedTime = Date.now() - startTime;
+        const totalSeconds = Math.trunc(elapsedTime/1000);
+        const minutes = Math.trunc(totalSeconds / 60);
         const seconds = totalSeconds % 60;
+        
         setTimeRunning(minutes.toString().padStart(2, '0') + ":" + seconds.toString().padStart(2, '0'));
+    }
+    
+    function updateProgress() {
+        fetch("http://localhost:8080/api2/algorithmProgress", { credentials: 'include' })
+        .then(res => res.json())
+        .then((result) => {
+            console.log(result);
+            setPopEquality((result.measures.populationEqualityScore).toFixed(6));
+            setNumIterations(result.iterations);
+            
+            if(!result.running) {
+                setIsAlgDone(true);
+            }
+        }, (error) => {
+            console.log(error);
+        })
+    }
+    
+    useEffect(() => {
+        if(!isAlgDone) return;
+        
+        stopAlg();
+        
+    }, [isAlgDone]);
+    
+    useEffect(() => {
+        if(startTime === 0) return;
+        
+        //reset
+        setPopEquality(0);
+        setNumIterations(0);
+        setTimeRunning("00:00");
+        
+        //start timed stuff
+        setTimerIntervalId(setInterval(updateTimer, 1000));
+        setProgressIntervalId(setInterval(updateProgress, 2000));
+        
+    }, [startTime]);
 
-        if(progressPercent >= 100) setIsAlgDone(true);
-
+    useEffect(() => {        
         //update chart
         if(!chart.current) return;
 
@@ -66,10 +107,10 @@ function AlgProgressModal(props) {
             x: numIterations,
             y: popEquality
         });
-        compactnessDps.push({
-            x: numIterations,
-            y: compactness
-        });
+        // compactnessDps.push({
+        //     x: numIterations,
+        //     y: compactness
+        // });
 
         if(popEqualityDps.length > dataLength) {
             popEqualityDps.shift();
@@ -79,7 +120,7 @@ function AlgProgressModal(props) {
         }
 
         chart.current.chart.render()
-    });
+    }, [numIterations]);
 
     //TODO can the user pause? finish early? how do we resume?
 
@@ -126,7 +167,7 @@ function AlgProgressModal(props) {
             </Modal.Body>
             <Modal.Footer className="modal-spaced-footer">    
                 <Button variant="success" disabled={!isAlgDone} onClick = {finishAlg}>See Results</Button>
-                <Button variant="danger" disabled={isAlgDone} onClick = {stopAlg}>Stop</Button>
+                <Button variant="danger" disabled={isAlgDone} onClick = {() => setIsAlgDone(true)}>Stop</Button>
             </Modal.Footer>
         </Modal>
     );
