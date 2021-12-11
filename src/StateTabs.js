@@ -6,8 +6,7 @@ import Statistics from 'Statistics.js';
 function StateTabs(props) {
     const [stateSelected, setStateSelected] = useState(false);
     const [tab, setTab] = useState("none");
-    const {getDistrictingPreviews} = props;
-    const {stateName} = props;
+    const {getDistrictingPreviews, stateName} = props;
 
     function selectTab(key) {
         if (key === "random-districts") {
@@ -42,10 +41,13 @@ function StateTabs(props) {
                             algResults={props.algResults} 
                             setAlgResults={props.setAlgResults} 
                             selectedPlanId={props.selectedPlanId}
+                            planType={props.planType}
+                            setPlanType={props.setPlanType}
+                            getDistrictingSummary={props.getDistrictingSummary}
                         /> 
                     : ""}
                 </Tab>
-                <Tab disabled={!stateSelected} eventKey="random-districts" title="Districtings">
+                <Tab disabled={!stateSelected || !props.districtingData} eventKey="random-districts" title="Districtings">
                     <Districtings 
                         showError={props.showError}
                         stateName={stateName} 

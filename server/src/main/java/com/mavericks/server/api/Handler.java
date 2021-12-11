@@ -49,10 +49,15 @@ public class Handler {
         this.jobs = jobs;
     }
 
-    public Election test(){
-        District d = distRepo.findAll().get(0);
-        Election e = d.getElection();
-        return e;
+    public List<PopulationCopy> test(){
+        Districting d = districtingRepo.getById("NVSW2488");
+        List<District> dists = d.getDistricts();
+        List<PopulationCopy> copy = new ArrayList<>();
+        for (District dist : dists) {
+            copy.add(dist.getPopulation().get(0));
+        }
+        int a  = 1+1;
+        return copy;
     }
 
     /**

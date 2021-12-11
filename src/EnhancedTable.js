@@ -1,13 +1,8 @@
 import React, { useState } from "react";
-import { Row, Col } from 'react-bootstrap';
 import { DataGrid } from "@mui/x-data-grid";
-import Box from "@mui/material/Box";
-import Fab from "@mui/material/Fab";
-import NavigationIcon from "@mui/icons-material/Navigation";
-import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
-import SaveAltIcon from "@mui/icons-material/SaveAlt";
 import AlgLimitsModal from "./AlgLimitsModal";
 import AlgProgressModal from "./AlgProgressModal";
+import TableButtons from "./TableButtons";
 
 const columns = [
   { 
@@ -64,6 +59,7 @@ const columns = [
 export default function EnhancedTable(props) {
     const [showAlgLimits, setShowAlgLimits] = useState(false);
     const [showAlgProgress, setShowAlgProgress] = useState(false);
+    const [isAlgDone, setIsAlgDone] = useState(false);
 
     return (
         <>
@@ -83,39 +79,13 @@ export default function EnhancedTable(props) {
                     />
                 </div>
             </div>
-            <Box sx={{ "& > :not(style)": { m: 1 } }} className="button-submit">
-                <Fab
-                    variant="extended"
-                    size="medium"
-                    color="primary"
-                    aria-label="add"
-                    className="submit"
-                >
-                    <NavigationIcon sx={{ mr: 1 }} />
-                    <span className="submit" onClick={() => setShowAlgLimits(true)}>
-                        Equalize Population
-                    </span>
-                </Fab>
-                <Fab
-                    variant="extended"
-                    size="medium"
-                    color="primary"
-                    aria-label="add"
-                    className="submit"
-                >
-                    <KeyboardBackspaceIcon sx={{ mr: 1 }} />
-                    <span className="submit">Go Back</span>
-                </Fab>
-                <Fab
-                    variant="extended"
-                    size="medium"
-                    color="primary"
-                    aria-label="add"
-                >
-                    <SaveAltIcon sx={{ mr: 1 }} />
-                    <span className="submit">Save</span>
-                </Fab>
-            </Box>
+            <TableButtons 
+                setShowAlgLimits={setShowAlgLimits}
+                isAlgDone={isAlgDone}
+                setIsAlgDone={setIsAlgDone}
+                getDistrictingSummary={props.getDistrictingSummary}
+                districtingData={props.districtingData} 
+            />
             <>
                 <AlgLimitsModal
                     show={showAlgLimits}
@@ -127,6 +97,10 @@ export default function EnhancedTable(props) {
                     show={showAlgProgress}
                     onHide={() => setShowAlgProgress(false)}
                     setAlgResults={props.setAlgResults}
+                    setPlanType={props.setPlanType}
+                    planType={props.planType}
+                    setIsAlgDone={setIsAlgDone}
+                    isAlgDone={isAlgDone}
                 />
             </>
         </>
