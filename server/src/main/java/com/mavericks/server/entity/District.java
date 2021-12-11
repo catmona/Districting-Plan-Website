@@ -109,7 +109,7 @@ public class District {
 
         this.borderBlocks.remove(cb.getId());
         int diffMultiplier=-1;
-        combinePops(this.getPopulations(),cb.getPopulations(),diffMultiplier);
+        combinePops(this.population.get(0),cb.getPopulation().get(0),diffMultiplier);
         if(revert){
             this.geometry=this.prevGeometry;
 //            cbToRemove.remove(cb.getGeometry());
@@ -141,7 +141,7 @@ public class District {
         cb.setDistrictId(this.id);
         this.borderBlocks.put(cb.getId(),cb);
         int addMultiplier=1;
-        combinePops(this.getPopulations(),cb.getPopulations(),addMultiplier);
+        combinePops(this.population.get(0),cb.getPopulation().get(0),addMultiplier);
         if(revert){
             this.geometry=this.prevGeometry;
             cb.setMoved(false);
@@ -159,10 +159,21 @@ public class District {
         return true;
     }
 
-    public void combinePops(List<Population> distPops, List<Population>cbPops, int multiplier){
-        for(int i=0;i<distPops.size();i++){
-            distPops.get(i).setValue(distPops.get(i).getValue()+cbPops.get(i).getValue()*multiplier);
-        }
+    public void combinePops(PopulationCopy distPop, PopulationCopy cbPop, int multiplier){
+//        for(int i=0;i<distPops.size();i++){
+//            distPops.get(i).setValue(distPops.get(i).getValue()+cbPops.get(i).getValue()*multiplier);
+//        }
+
+        distPop.setAsian(distPop.getAsian()+cbPop.getAsian());
+        distPop.setBlack(distPop.getBlack()+cbPop.getBlack());
+        distPop.setWhite(distPop.getWhite()+cbPop.getWhite());
+        double repVotes=distPop.getPopulationTotal()*distPop.getRepublicanVotes()+
+                cbPop.getPopulationTotal()*cbPop.getRepublicanVotes();
+        double demVotes=distPop.getPopulationTotal()*distPop.getDemocraticVotes()+
+                cbPop.getPopulationTotal()*cbPop.getDemocraticVotes();
+        distPop.setDemocraticVotes((demVotes)/(repVotes+demVotes));
+        distPop.setRepublicanVotes((repVotes)/(repVotes+demVotes));
+        distPop.setPopulationTotal(distPop.getPopulationTotal()+cbPop.getPopulationTotal());
     }
 
 

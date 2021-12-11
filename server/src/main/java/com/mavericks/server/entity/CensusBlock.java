@@ -35,6 +35,10 @@ public class CensusBlock {
     @OrderBy("populationMeasureType, demographicType")
     private List<Population> populations;
 
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "regionId")
+    private List<PopulationCopy> population;
+
     @ElementCollection(fetch = FetchType.LAZY)
     @CollectionTable(name = "CensusBlockNeighbors",
             joinColumns = @JoinColumn(name = "censusBlockId", referencedColumnName = "id"))
@@ -145,4 +149,11 @@ public class CensusBlock {
         return that.getId().equals(id);
     }
 
+    public List<PopulationCopy> getPopulation() {
+        return population;
+    }
+
+    public void setPopulation(List<PopulationCopy> population) {
+        this.population = population;
+    }
 }
