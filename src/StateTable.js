@@ -33,14 +33,15 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 }));
 
 //TODO get data from server
-export default function CustomizedTables() {
+export default function CustomizedTables(props) {
 
     useEffect(() => {
-        document.getElementById("cellPopEquality").textContent = 0.05;
-        document.getElementById("cellDevAverage").textContent = 0.5;
-        document.getElementById("cellDevEnacted").textContent = 0.5;
-        document.getElementById("cellCompactness").textContent = 0.5;
-        document.getElementById("cellFairness").textContent = 0.5;
+        document.getElementById("cellPopEquality").textContent = props.measures.populationEquality;
+        document.getElementById("cellPolsbyPopper").textContent = props.measures.polsbyPopper;
+        document.getElementById("cellEffciencyGap").textContent = props.measures.efficiencyGap;
+        document.getElementById("cellMajorityMinority").textContent = props.measures.majorityMinority;
+        document.getElementById("SplitCounty").textContent = props.measures.splitCounty;
+        
     });
 
     //TODO insert formulas 
@@ -61,7 +62,7 @@ export default function CustomizedTables() {
                                 </IconButton>
                             </Tooltip> */}
                         </StyledTableCell>
-                        <StyledTableCell align="center">Deviation From Average                          
+                        <StyledTableCell align="center">Polsby Popper                         
                             {/* <Tooltip title={
                                 <React.Fragment>
                                     <p className="formula-text">The deviation from average districting is computed by taking the sum of squared differences between the average and the computed districting: </p>
@@ -73,7 +74,7 @@ export default function CustomizedTables() {
                                 </IconButton>
                             </Tooltip> */}
                         </StyledTableCell>
-                        <StyledTableCell align="center">Deviation From Enacted
+                        <StyledTableCell align="center">Efficiency Gap
                             {/* <Tooltip title={
                                 <React.Fragment>
                                     <p className="formula-text">The deviation from enacted districting is computed by taking the sum of squared differences between the enacted and the computed districting: </p>
@@ -85,7 +86,7 @@ export default function CustomizedTables() {
                                 </IconButton>
                             </Tooltip> */}
                         </StyledTableCell>
-                        <StyledTableCell align="center">Compactness
+                        <StyledTableCell align="center">Majority-Minority
                             {/* <Tooltip title={
                                 <React.Fragment>
                                     <p className="formula-text">The compactness was computed using the Polsby-Popper measure: </p>
@@ -97,7 +98,7 @@ export default function CustomizedTables() {
                                 </IconButton>
                             </Tooltip> */}
                         </StyledTableCell>
-                        <StyledTableCell align="center">Political Fairness                          
+                        <StyledTableCell align="center">Split County                 
                             {/* <Tooltip title={
                                 <React.Fragment>
                                     <p className="formula-text">Political fairness was computed with the Efficiency Gap measure by Stephanopoulos & McGhee: </p>
@@ -114,12 +115,12 @@ export default function CustomizedTables() {
                 <TableBody id="district-tablebody">
                         <StyledTableRow>
                             <StyledTableCell id="cellPopEquality" align='center' component="th" scope="row">
-                                {0.2}
+                                {props.measures.populationEquality}
                             </StyledTableCell>
-                            <StyledTableCell id="cellDevAverage" align="center">{0.05}</StyledTableCell>
-                            <StyledTableCell id="cellDevEnacted" align="center">{0.1}</StyledTableCell>
-                            <StyledTableCell id="cellCompactness" align="center">{0.8}</StyledTableCell>
-                            <StyledTableCell id="cellFairness" align="center">{0.5}</StyledTableCell>
+                            <StyledTableCell id="cellPolsbyPopper" align="center">{props.measures.populationEquality}</StyledTableCell>
+                            <StyledTableCell id="cellEffciencyGap" align="center">{10}</StyledTableCell>
+                            <StyledTableCell id="cellMajorityMinority" align="center">{10}</StyledTableCell>
+                            <StyledTableCell id="SplitCounty" align="center">{10}</StyledTableCell>
                         </StyledTableRow>
                     </TableBody>
             </Table>

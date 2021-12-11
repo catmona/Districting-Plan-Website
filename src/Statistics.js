@@ -20,7 +20,7 @@ const Demographic = {
 }
 
 function formatResponseToStatisticData(response) {
-    // console.log("DATA FROM SERVER: %o", response);
+    console.log("DATA FROM SERVER: %o", response);
     const formattedDataList = [];
     for(let i = 0; i < response.districtPopulations.length; i++) {
         const districtPop = response.districtPopulations[i];
@@ -78,7 +78,9 @@ function Statistics(props) {
         <div id="stats-wrapper">
             {state.isLoaded ? (state.stateData ? <div id="stats-container">
                 <Row id='stats-top'>
-                    <CustomizedTables /> 
+                    <CustomizedTables 
+                    measures = {props.districtingData}
+                    /> 
                     <StatGraphs 
                         showError={props.showError}
                         stateData={state.stateData} 
