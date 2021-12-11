@@ -10,19 +10,18 @@ public class StateDTO {
 
     private String enactedId;
     private Point center;
-    private List<List<Integer>> districtPopulations;
-    private List<Election> districtElections;
-    private String featureCollection;
+    private List<PopulationCopy> districtPopulations;
+    private FeatureCollection featureCollection;
 
     public StateDTO() {}
 
-    public StateDTO(String enactedId, Point center, String collection,
-                    List<List<Integer>> districtPopulations, List<Election> districtElections) {
+    public StateDTO(String enactedId, Point center,
+                    List<PopulationCopy> districtPopulations, FeatureCollection
+                            featureCollection) {
         this.enactedId = enactedId;
         this.center = center;
-        this.featureCollection = collection;
         this.districtPopulations = districtPopulations;
-        this.districtElections = districtElections;
+        this.featureCollection = featureCollection;
     }
 
     public String getEnactedId() {
@@ -33,20 +32,12 @@ public class StateDTO {
         this.enactedId = enactedId;
     }
 
-    public List<List<Integer>> getDistrictPopulations() {
+    public List<PopulationCopy> getDistrictPopulations() {
         return districtPopulations;
     }
 
-    public void setDistrictPopulations(List<List<Integer>> districtPopulations) {
+    public void setDistrictPopulations(List<PopulationCopy> districtPopulations) {
         this.districtPopulations = districtPopulations;
-    }
-
-    public String getFeatureCollection() {
-        return featureCollection;
-    }
-
-    public void setFeatureCollection(String featureCollection) {
-        this.featureCollection = featureCollection;
     }
 
     public Point getCenter() {
@@ -57,11 +48,11 @@ public class StateDTO {
         this.center = center;
     }
 
-    public List<Election> getDistrictElections() {
-        return districtElections;
+    public FeatureCollection getFeatureCollection() {
+        return featureCollection;
     }
 
-    public void setDistrictElections(List<Election> districtElections) {
-        this.districtElections = districtElections;
+    public void setFeatureCollection(FeatureCollection featureCollection) {
+        this.featureCollection = featureCollection;
     }
 }

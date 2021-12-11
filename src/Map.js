@@ -98,7 +98,7 @@ function Map(props) {
             const layer = map.current.getSource(stateName + "-district-source");
 
             if (!layer) { // map does not have the district boundaries
-                const geojson = JSON.parse(districtingData.featureCollection);
+                const geojson = districtingData.featureCollection;
                 addDistrictGeoJSON(map.current, stateName, geojson);
                 addCountyGeoJSON(map.current, stateName);
             }

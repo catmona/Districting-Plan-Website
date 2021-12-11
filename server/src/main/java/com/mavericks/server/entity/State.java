@@ -4,12 +4,20 @@ import com.mavericks.server.dto.StateDTO;
 import com.mavericks.server.enumeration.Basis;
 import com.mavericks.server.enumeration.PopulationMeasure;
 import org.hibernate.annotations.Where;
+import org.locationtech.jts.geom.Geometry;
+import org.locationtech.jts.geom.GeometryFactory;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.util.StreamUtils;
+import org.wololo.geojson.Feature;
 import org.wololo.geojson.FeatureCollection;
+import org.wololo.geojson.GeoJSON;
+import org.wololo.jts2geojson.GeoJSONReader;
+import org.wololo.jts2geojson.GeoJSONWriter;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.Charset;
+import java.util.*;
 
 import javax.persistence.*;
 
@@ -139,13 +147,22 @@ public class State {
 
     public StateDTO makeDTO(PopulationMeasure popType){
         Districting e = enacted;
-        String geoJSON = e.getDistrictGeoJSON();
-        List<List<Integer>> populations = new ArrayList<>();
-        List<Election> elections = new ArrayList<Election>();
-        for (District d : e.getDistricts()) {
-            populations.add(d.getPopulation(popType));
-           elections.add(d.getElection().get(0));
+        List<Feature> features = new ArrayList<>();
+        GeoJSONWriter writer = new GeoJSONWriter();
+        int i = 1;
+        for(District d:e.getDistricts()){
+            Map<String,Object> properties = new HashMap<>();
+            properties.put("District", i);
+            properties.put("District_Name","" + i);
+            Geometry geo=d.getGeometry();
+            GeoJSON json = writer.write(geo);
+            features.add(new Feature((org.wololo.geojson.Geometry)json ,properties));
+            i++;
         }
-        return new StateDTO(e.getId(), center, geoJSON, populations, elections);
+        List<PopulationCopy> populations = new ArrayList<>();
+        for (District d : e.getDistricts()) {
+            populations.add(d.getPopulation().get(0));
+        }
+        return new StateDTO(e.getId(), center, populations, writer.write(features));
     }
 }

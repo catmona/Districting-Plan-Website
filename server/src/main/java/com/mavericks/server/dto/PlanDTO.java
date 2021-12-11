@@ -1,33 +1,35 @@
 package com.mavericks.server.dto;
 
 import com.mavericks.server.entity.Election;
+import com.mavericks.server.entity.PopulationCopy;
+import org.wololo.geojson.FeatureCollection;
 
 import java.util.List;
 
 public class PlanDTO {
-    private List<List<Integer>> districtPopulations;
-    private List<Election> districtElections;
+    private List<PopulationCopy> districtPopulations;
+    private FeatureCollection featureCollection;
 
     public PlanDTO() {}
 
-    public PlanDTO(List<List<Integer>> districtPopulations, List<Election> districtElections) {
+    public PlanDTO(List<PopulationCopy> districtPopulations, FeatureCollection featureCollection) {
         this.districtPopulations = districtPopulations;
-        this.districtElections = districtElections;
+        this.featureCollection = featureCollection;
     }
 
-    public List<List<Integer>> getDistrictPopulations() {
+    public List<PopulationCopy> getDistrictPopulations() {
         return districtPopulations;
     }
 
-    public void setDistrictPopulations(List<List<Integer>> districtPopulations) {
+    public void setDistrictPopulations(List<PopulationCopy> districtPopulations) {
         this.districtPopulations = districtPopulations;
     }
 
-    public List<Election> getDistrictElections() {
-        return districtElections;
+    public FeatureCollection getFeatureCollection() {
+        return featureCollection;
     }
 
-    public void setDistrictElections(List<Election> districtElections) {
-        this.districtElections = districtElections;
+    public void setFeatureCollection(FeatureCollection featureCollection) {
+        this.featureCollection = featureCollection;
     }
 }

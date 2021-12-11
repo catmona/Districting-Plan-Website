@@ -20,20 +20,19 @@ const Demographic = {
 }
 
 function formatResponseToStatisticData(response) {
-    //console.log("DATA FROM SERVER: %o", response);
+    // console.log("DATA FROM SERVER: %o", response);
     const formattedDataList = [];
     for(let i = 0; i < response.districtPopulations.length; i++) {
         const districtPop = response.districtPopulations[i];
-        const election = response.districtElections[i];
         const formattedData = {
             'id': i+1,
             'popMeasure': PopMeasure.TOTAL,
-            'africanamerican': districtPop[Demographic.AFRICAN_AMERICAN],
-            'white': districtPop[Demographic.WHITE],
-            'asianamerican': districtPop[Demographic.ASIAN],
-            'republican': election.republicanVotes,
-            'democrat': election.democraticVotes,
-            'population': districtPop[Demographic.ALL]
+            'africanamerican': districtPop.black,
+            'white': districtPop.white,
+            'asianamerican': districtPop.asian,
+            'republican': districtPop.republicanVotes,
+            'democrat': districtPop.democraticVotes,
+            'population': districtPop.populationTotal
         };
         formattedDataList.push(formattedData);
     }

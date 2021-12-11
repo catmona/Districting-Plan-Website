@@ -9,11 +9,12 @@ import com.mavericks.server.enumeration.PopulationMeasure;
 import com.mavericks.server.enumeration.Region;
 import org.locationtech.jts.geom.Geometry;
 import org.locationtech.jts.operation.union.UnaryUnionOp;
+import org.wololo.geojson.Feature;
+import org.wololo.geojson.GeoJSON;
+import org.wololo.jts2geojson.GeoJSONWriter;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Entity
@@ -28,9 +29,6 @@ public class Districting {
 
     @Column(name = "districtGeoJSON")
     private String districtGeoJSON;
-
-    @Column(name = "precinctGeoJSON")
-    private String precinctGeoJSON;
 
     @Column(name = "previewImageUrl")
     private String previewImageUrl; // used by SeaWulf districtings, is the preview image filepath
@@ -317,22 +315,6 @@ public class Districting {
         this.districts = districts;
     }
 
-    public String getDistrictGeoJSON() {
-        return districtGeoJSON;
-    }
-
-    public void setDistrictGeoJSON(String districtGeoJSON) {
-        this.districtGeoJSON = districtGeoJSON;
-    }
-
-    public String getPrecinctGeoJSON() {
-        return precinctGeoJSON;
-    }
-
-    public void setPrecinctGeoJSON(String precinctGeoJSON) {
-        this.precinctGeoJSON = precinctGeoJSON;
-    }
-
     public List<Population> getPopulations() {
         return populations;
     }
@@ -343,6 +325,14 @@ public class Districting {
 
     public Region getRegion() {
         return Region.DISTRICTING;
+    }
+
+    public String getDistrictGeoJSON() {
+        return districtGeoJSON;
+    }
+
+    public void setDistrictGeoJSON(String districtGeoJSON) {
+        this.districtGeoJSON = districtGeoJSON;
     }
 
     /* Other class methods below */
@@ -372,14 +362,27 @@ public class Districting {
 
     public PlanDTO makePlanDTO(PopulationMeasure popType){
         PlanDTO dto = new PlanDTO();
-        List<Election> elections = new ArrayList<Election>();
-        List<List<Integer>> populations = new ArrayList<>();
+
+        List<PopulationCopy> populations = new ArrayList<>();
         for (District d : districts) {
-//            elections.add(d.getElection().get(0));
-            populations.add(d.getPopulation(popType));
+            populations.add(d.getPopulation().get(0));
         }
-        dto.setDistrictElections(elections);
         dto.setDistrictPopulations(populations);
+
+        List<Feature> features = new ArrayList<>();
+        GeoJSONWriter writer = new GeoJSONWriter();
+        int i = 1;
+        for(District d:this.getDistricts()){
+            Map<String,Object> properties = new HashMap<>();
+            properties.put("District", i);
+            properties.put("District_Name","" + i);
+            Geometry geo=d.getGeometry();
+            GeoJSON json = writer.write(geo);
+            features.add(new Feature((org.wololo.geojson.Geometry)json ,properties));
+            i++;
+        }
+        dto.setFeatureCollection(writer.write(features));
+
         return dto;
     }
 
