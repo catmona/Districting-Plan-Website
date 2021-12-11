@@ -64,7 +64,6 @@ function Map(props) {
     );
     
     useEffect(() => {
-        console.log("Map useEffect %s", stateName);
         if(!map.current || !stateName) return;
         
         if(districtingData) { getStateGeoJSON(); }
@@ -107,7 +106,6 @@ function Map(props) {
     }
     
     function getStateGeoJSON() {
-        console.log("In getStateGeoJSON")
         if (districtingData && districtingData.featureCollection) { // user selected a state
             const layer = map.current.getSource(stateName + "-district-source");
 
@@ -120,7 +118,6 @@ function Map(props) {
             addDistrictGeoJSON(map.current, stateName, geojson);
             addCountyGeoJSON(map.current, stateName);
         }
-        console.log("Leaving getStateGeoJSON")
     }
 
     function focusState(stateName) {
