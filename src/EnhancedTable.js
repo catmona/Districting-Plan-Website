@@ -82,6 +82,7 @@ export default function EnhancedTable(props) {
             <TableButtons 
                 setShowAlgLimits={setShowAlgLimits}
                 isAlgDone={isAlgDone}
+                setIsAlgDone={setIsAlgDone}
                 getDistrictingSummary={props.getDistrictingSummary}
                 districtingData={props.districtingData} 
             />
