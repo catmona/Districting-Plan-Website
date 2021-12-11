@@ -9,7 +9,9 @@ function TableButtons(props) {
     const {districtingData} = props;
     
     function goBack() {
+        props.setIsAlgDone(false);
         props.getDistrictingSummary(); //TODO I think this works but idk
+        
     }
     
     function saveGeoJSON() {

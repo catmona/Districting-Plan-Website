@@ -47,7 +47,7 @@ function StateTabs(props) {
                         /> 
                     : ""}
                 </Tab>
-                <Tab disabled={!stateSelected} eventKey="random-districts" title="Districtings">
+                <Tab disabled={!stateSelected || !props.districtingData} eventKey="random-districts" title="Districtings">
                     <Districtings 
                         showError={props.showError}
                         stateName={stateName} 
