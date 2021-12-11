@@ -57,4 +57,20 @@ public class AlgorithmDTO {
     public void setGeometry(FeatureCollection geometry) {
         this.geometry = geometry;
     }
+
+    public List<Population> getPopulation() {
+        return population;
+    }
+
+    public void setPopulation(List<Population> population) {
+        this.population = population;
+    }
+
+    public int getPrecinctsChanged() {
+        return precinctsChanged;
+    }
+
+    public void setPrecinctsChanged(int precinctsChanged) {
+        this.precinctsChanged = precinctsChanged;
+    }
 }
