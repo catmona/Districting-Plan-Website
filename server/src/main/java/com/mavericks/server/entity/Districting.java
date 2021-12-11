@@ -359,7 +359,7 @@ public class Districting {
         List<Election> elections = new ArrayList<Election>();
         List<List<Integer>> populations = new ArrayList<>();
         for (District d : districts) {
-            elections.add(d.getElection());
+//            elections.add(d.getElection().get(0));
             populations.add(d.getPopulation(popType));
         }
         dto.setDistrictElections(elections);

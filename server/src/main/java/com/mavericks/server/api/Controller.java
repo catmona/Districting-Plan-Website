@@ -2,7 +2,9 @@ package com.mavericks.server.api;
 
 import com.mavericks.server.dto.*;
 import com.mavericks.server.entity.Box;
+import com.mavericks.server.entity.District;
 import com.mavericks.server.entity.Election;
+import com.mavericks.server.entity.PopulationCopy;
 import com.mavericks.server.enumeration.Basis;
 import com.mavericks.server.enumeration.PopulationMeasure;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,8 +29,7 @@ public class Controller {
     }
 
     @GetMapping(value = "test")
-    public Election test(){
-
+    public List<PopulationCopy> test(){
         return handler.test();
     }
 

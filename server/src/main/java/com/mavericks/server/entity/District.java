@@ -56,7 +56,7 @@ public class District {
 
     @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "regionId")
-    private List<Election> election;
+    private List<PopulationCopy> population;
 
     @Transient
     @Autowired
@@ -236,21 +236,29 @@ public class District {
         this.electionData = electionData;
     }
 
-    public List<Population> getPopulations() {
-        return populations;
+//    public List<Population> getPopulations() {
+//        return populations;
+//    }
+
+//    public void setPopulations(List<Population> populations) {
+//        this.populations = populations;
+//    }
+
+    public List<PopulationCopy> getPopulation() {
+        return population;
     }
 
-    public void setPopulations(List<Population> populations) {
-        this.populations = populations;
+    public void setPopulation(List<PopulationCopy> population) {
+        this.population = population;
     }
 
-    public Election getElection() {
-        return election.get(0);
-    }
-
-    public void setElection(Election election) {
-        this.election.add(0, election);
-    }
+    //    public List<Election> getElection() {
+//        return election;
+//    }
+//
+//    public void setElection(List<Election> election) {
+//        this.election = election;
+//    }
 
     public Region getRegion() {
         return Region.DISTRICT;

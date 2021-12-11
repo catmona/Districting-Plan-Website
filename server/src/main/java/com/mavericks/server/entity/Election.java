@@ -20,9 +20,14 @@ public class Election {
     @Column(name = "democraticVotes", nullable = false)
     private double democraticVotes;
 
-    @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "infoId", referencedColumnName = "id")
-    private ElectionInfo info;
+//    @OneToOne(fetch = FetchType.EAGER)
+//    @JoinColumn(name = "infoId", referencedColumnName = "id")
+//    private ElectionInfo info;
+//
+//    @OneToOne
+//    @MapsId
+//    @JoinColumn(name = "regionId")
+//    private  info;
 
     public Election() {}
 
@@ -65,11 +70,11 @@ public class Election {
         this.democraticVotes = democraticVotes;
     }
 
-    public ElectionInfo getInfo() {
-        return info;
-    }
-
-    public void setInfo(ElectionInfo info) {
-        this.info = info;
-    }
+//    public ElectionInfo getInfo() {
+//        return info;
+//    }
+//
+//    public void setInfo(ElectionInfo info) {
+//        this.info = info;
+//    }
 }

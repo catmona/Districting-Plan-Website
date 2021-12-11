@@ -144,7 +144,7 @@ public class State {
         List<Election> elections = new ArrayList<Election>();
         for (District d : e.getDistricts()) {
             populations.add(d.getPopulation(popType));
-            elections.add(d.getElection());
+           elections.add(d.getElection().get(0));
         }
         return new StateDTO(e.getId(), center, geoJSON, populations, elections);
     }
