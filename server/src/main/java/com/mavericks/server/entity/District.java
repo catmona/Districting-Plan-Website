@@ -54,9 +54,9 @@ public class District {
     @OrderBy("populationMeasureType, demographicType")
     private List<Population> populations;
 
-    @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "electionId", referencedColumnName = "id")
-    private Election election;
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "regionId")
+    private List<Election> election;
 
     @Transient
     @Autowired
@@ -245,11 +245,11 @@ public class District {
     }
 
     public Election getElection() {
-        return election;
+        return election.get(0);
     }
 
     public void setElection(Election election) {
-        this.election = election;
+        this.election.add(0, election);
     }
 
     public Region getRegion() {

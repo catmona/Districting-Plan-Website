@@ -15,10 +15,10 @@ public class Election {
     private String regionId;
 
     @Column(name = "republicanVotes", nullable = false)
-    private int republicanVotes;
+    private double republicanVotes;
 
     @Column(name = "democraticVotes", nullable = false)
-    private int  democraticVotes;
+    private double democraticVotes;
 
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "infoId", referencedColumnName = "id")
@@ -26,7 +26,7 @@ public class Election {
 
     public Election() {}
 
-    public Election(long id, String regionId, int republicanVotes, int democraticVotes) {
+    public Election(long id, String regionId, double republicanVotes, double democraticVotes) {
         this.id = id;
         this.regionId = regionId;
         this.republicanVotes = republicanVotes;
@@ -49,19 +49,19 @@ public class Election {
         this.regionId = regionId;
     }
 
-    public int getRepublicanVotes() {
+    public double getRepublicanVotes() {
         return republicanVotes;
     }
 
-    public void setRepublicanVotes(int republicanVotes) {
+    public void setRepublicanVotes(double republicanVotes) {
         this.republicanVotes = republicanVotes;
     }
 
-    public int getDemocraticVotes() {
+    public double getDemocraticVotes() {
         return democraticVotes;
     }
 
-    public void setDemocraticVotes(int democraticVotes) {
+    public void setDemocraticVotes(double democraticVotes) {
         this.democraticVotes = democraticVotes;
     }
 
