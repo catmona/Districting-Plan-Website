@@ -81,7 +81,8 @@ public class Handler {
         State state = (State) session.getAttribute("state");
         List<DistrictingDTO> plansPreview = new ArrayList<>();
         List<Districting> districtings = state.getDistrictings();
-        districtings.stream().map(d -> d.makeDistrictDTO()).forEach(dto -> plansPreview.add(dto));
+        String enactedId = state.getEnacted().getId();
+        districtings.stream().filter(d -> !d.getId().equals(enactedId)).map(d -> d.makeDistrictDTO()).forEach(dto -> plansPreview.add(dto));
         return plansPreview;
     }
 
