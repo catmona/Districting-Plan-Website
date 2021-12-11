@@ -10,7 +10,7 @@ function TableButtons(props) {
     
     function goBack() {
         props.setIsAlgDone(false);
-        props.getDistrictingSummary(); //TODO I think this works but idk
+        props.getDistrictingSummary(); //TODO this doesnt work
         
     }
     

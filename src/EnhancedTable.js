@@ -60,6 +60,7 @@ export default function EnhancedTable(props) {
     const [showAlgLimits, setShowAlgLimits] = useState(false);
     const [showAlgProgress, setShowAlgProgress] = useState(false);
     const [isAlgDone, setIsAlgDone] = useState(false);
+    const [startTime, setStartTime] = useState(0);
 
     return (
         <>
@@ -92,6 +93,7 @@ export default function EnhancedTable(props) {
                     onHide={() => setShowAlgLimits(false)}
                     showProgress={setShowAlgProgress}
                     selectedPlanId={props.selectedPlanId}
+                    setStartTime={setStartTime}
                 />
                 <AlgProgressModal
                     show={showAlgProgress}
@@ -101,6 +103,7 @@ export default function EnhancedTable(props) {
                     planType={props.planType}
                     setIsAlgDone={setIsAlgDone}
                     isAlgDone={isAlgDone}
+                    startTime={startTime}
                 />
             </>
         </>
