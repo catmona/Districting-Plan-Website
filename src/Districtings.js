@@ -15,7 +15,7 @@ function DistrictingPopover(props) {
             <Popover.Header as="h3">Districting Plan {num}</Popover.Header>
             <Popover.Body>
                 <em style={{fontSize: 13}}>This districting was chosen for it's high political fairness.</em><br /><br />
-                <div className='districting-labels'><b>SeaWulf Score: </b>{score.toFixed(5)}<br /></div>
+                <div className='districting-labels'><b>Obj. Function Score: </b>{score.toFixed(5)}<br /></div>
                 <div className='districting-labels'><b>Population Equality: </b>{populationEquality.toFixed(5)}<br /></div>
                 <div className='districting-labels'><b>Compactness: </b>{polsbyPopper.toFixed(5)}<br /></div>
                 <div className='districting-labels'><b>Majority-Minority Count: </b>{majorityMinority}<br /></div>
@@ -109,6 +109,10 @@ function districtings(props) {
         return a.preview.splitCounty - b.preview.splitCounty;
     }
     
+    function compareScore(a, b) {
+        return a.preview.score - b.preview.score;
+    }
+    
     function sortSelector() {
         switch(sortFunction) {
             case "Population Equality":
@@ -119,6 +123,8 @@ function districtings(props) {
                 return compareMajorityMinority;
             case "Split Counties":
                 return compareSplitCounty;
+            case "Objective Function Score":
+                return compareScore;
             default:
                 return comparePlanNumber;
         }
@@ -152,12 +158,12 @@ function districtings(props) {
                 <h4>Districting Plans</h4>
                 <p>Sort By: </p>
                 <DropdownButton id="districtings-sort-dropdown" menuVariant="dark" title={sortFunction}>
+                    <Dropdown.Item onClick={() => setSortFunction("Plan Number")}>Plan Number</Dropdown.Item>
+                    <Dropdown.Item onClick={() => setSortFunction("Objective Function Score")}>Objective Function Score</Dropdown.Item>
                     <Dropdown.Item onClick={() => setSortFunction("Population Equality")}>Population Equality</Dropdown.Item>
                     <Dropdown.Item onClick={() => setSortFunction("Population Compactness")}>Population Compactness</Dropdown.Item>
                     <Dropdown.Item onClick={() => setSortFunction("Majority Minority")}>Majority Minority Districts</Dropdown.Item>
                     <Dropdown.Item onClick={() => setSortFunction("Split Counties")}>Split Counties</Dropdown.Item>
-                    <Dropdown.Item onClick={() => setSortFunction("Plan Number")}>Plan Number</Dropdown.Item>
-                
                 </DropdownButton>
             </div>
             <Container id="districtings" className="scrollbar scrollbar-primary fluid">

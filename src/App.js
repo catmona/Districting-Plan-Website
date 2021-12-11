@@ -11,7 +11,6 @@ window.onbeforeunload = function() {
 
 function App() {
     const [stateName, setStateName] = useState("");
-    
     const [districtingData, setDistrictingData] = useState(""); //statistics table data, population per district of the plan
     const [districtingPreviews, setDistrictingPreviews] = useState(""); //tooltip summaries for SeaWulf districtings 
     const [algResults, setAlgResults] = useState(null);
@@ -64,6 +63,9 @@ function App() {
             (result) => {
                 setSelectedPlanId(planId);
                 setDistrictingData(result);
+                if(planType.includes("Equalized ")) {
+                    setPlanType(planType.replace("Equalized ", ""));
+                }
             },
             (error) => {
                 setDistrictingData(null)

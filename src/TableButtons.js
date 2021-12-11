@@ -36,13 +36,14 @@ function TableButtons(props) {
                 onClick={() => goBack()}
             >
                 <KeyboardBackspaceIcon sx={{ mr: 1 }} />
-                <span className="submit">Go Back</span>
+                <span className="submit">Undo Algorithm</span>
             </Fab>
             <Fab
                 variant="extended"
                 size="medium"
                 color="primary"
                 aria-label="add"
+                disabled={props.isAlgDone}
                 className="submit"
             >
                 <NavigationIcon sx={{ mr: 1 }} />
@@ -58,7 +59,7 @@ function TableButtons(props) {
                 onClick={() => saveGeoJSON()}
             >
                 <SaveAltIcon sx={{ mr: 1 }} />
-                <span className="submit">Save</span>
+                <span className="submit">Save Geo Data</span>
             </Fab>
         </Box>  
     );

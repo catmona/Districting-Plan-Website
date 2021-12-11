@@ -658,20 +658,49 @@ p, h1, h2, h3 {
     margin-right: auto;
     margin-bottom: 2%;
 }
+#progress-bottom-row {
+    display: flex;
+    justify-content: end;
+    margin-top: -5px;
+    margin-bottom: -5px;
+    :first-child {
+        width: 50%;
+    }
+}
+#progress-time-block {
+    background-color: $fgColor;
+    margin-left: auto;
+    width: 100px !important;
+    height: 40px;
+    padding: 10px;
+    border: 1px solid black;
+}
 #progress-time {
     color: $accentColor2;
     margin: 0;
     margin-top: -4px;
+    width: auto !important;
 }
-#progress-time-block {
+#progress-precincts-block {
+    display: flex;
+    width: 40%;
     background-color: $fgColor;
-    margin: auto;
-    margin-top: -5px;
-    margin-bottom: -5px;
-    width: auto;
-    height: 40px;
-    padding: 10px;
     border: 1px solid black;
+    p {
+        margin-top: auto;
+        margin-bottom: auto;
+        white-space: nowrap;
+        width: 50%;
+        font-size: 17px;
+    }
+    h4 {
+        margin-top: auto;
+        margin-bottom: auto;
+        color: $accentColor2;
+        text-align: right;
+        width: 50%;
+        font-size: 21px;
+    }
 }
 #progress-time-remaining {
     color: $accentColor4;

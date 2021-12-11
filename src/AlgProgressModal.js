@@ -8,6 +8,7 @@ function AlgProgressModal(props) {
     const [compactness, setCompactness] = useState(0); //this too
     const [timeRunning, setTimeRunning] = useState("00:00");
     const [progressPercent, setProgressPercent] = useState(50);
+    const [precinctsChanged, setPrecinctsChanged] = useState(0);
     const {setAlgResults, setIsAlgDone, isAlgDone, ...rest} = props;
     const chart = useRef(null);
 
@@ -37,7 +38,7 @@ function AlgProgressModal(props) {
     }
     
     const finishAlg = () => {
-        props.setAlgResults("h");
+        props.setAlgResults("h"); //TODO lol
         props.setPlanType("Equalized " + props.planType);
         props.onHide();
     }
@@ -48,6 +49,7 @@ function AlgProgressModal(props) {
 
     useEffect(() => {
         //do other stuff
+        //console.log(precinctsChanged)
         
         //TODO format time
         const totalSeconds = 0; //get from server or something
@@ -109,9 +111,17 @@ function AlgProgressModal(props) {
                     </Col>
                 </Row>
                 <Row>
-                    <div id="progress-time-block">
-                        <h4 id="progress-time" className="progress-value">{timeRunning}</h4>
-                    </div>
+                    <Row id="progress-bottom-row">
+                        <div>
+                            <div id="progress-time-block">
+                                <h4 id="progress-time" className="progress-value">{timeRunning}</h4>
+                            </div>
+                        </div>
+                        <div id="progress-precincts-block">
+                            <p>Precincts Changed: </p>
+                            <h4>{precinctsChanged.toLocaleString()}</h4>
+                        </div>
+                    </Row>
                 </Row>
             </Modal.Body>
             <Modal.Footer className="modal-spaced-footer">    
@@ -123,19 +133,3 @@ function AlgProgressModal(props) {
 }
 
 export default AlgProgressModal;
-
-/* <Row>
-    <Col className="progress-block">
-        <h4 className="progress-label">Time Spent Equalizing: </h4>
-        <h4 id="progress-time" className="progress-value">{timeRunning}</h4>
-    </Col>
-    <Col className="progress-block">
-        <h4 className="progress-label">Est. Time Remaining: </h4>
-        <h4 id="progress-time-remaining" className="progress-value">{estTimeRemaining}</h4>
-    </Col>
-</Row>
-<Row>
-    <div className="progress-bar">
-        <ProgressBar animated now={progressPercent} label={`${progressPercent}%`} variant="success" />
-    </div>
-</Row> */

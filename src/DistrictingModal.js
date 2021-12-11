@@ -33,7 +33,7 @@ function DistrictingModal(props) {
                 popAfricanAmerican: Number(pop.black).toLocaleString(), 
                 popAsian: Number(pop.asian).toLocaleString(), 
                 popWhite: Number(pop.white).toLocaleString(), 
-                election: "2020",
+                election: "2020", //TODO
                 demPercent, repPercent 
             }
 
