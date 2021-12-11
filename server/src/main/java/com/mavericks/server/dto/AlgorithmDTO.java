@@ -14,14 +14,16 @@ public class AlgorithmDTO {
     private boolean isRunning;
     private FeatureCollection geometry;
     private List<Population> population;
+    private int precinctsChanged;
 
     public AlgorithmDTO(Measures measures, int iterations, boolean isRunning, FeatureCollection geometry,
-                        List<Population> population) {
+                        List<Population> population,int precinctsChanged) {
         this.measures = measures;
         this.iterations = iterations;
         this.isRunning = isRunning;
         this.geometry=geometry;
         this.population=population;
+        this.precinctsChanged=precinctsChanged;
     }
 
     public Measures getMeasures() {
