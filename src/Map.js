@@ -14,8 +14,20 @@ const districtColors = ["#00ff73", "#00ffed", "#0024ff", "#ac00ff", "#ff0056", "
 const white = '#FFFFFF';
 const stateBoundaryColor = '#c5e0e2';
 const countyBoundaryColor = '#9e9e9e';
-const zoomThreshold = 4;       
+const zoomThreshold = 4; 
 let hoveredStateId = null;
+
+/**
+ * Mapbox source and layer style names
+ **/
+// district
+const districtSourcePostFix = '-district-source'
+const districtLayerPostFix = '-layer'
+const districtOutlinePostFix = '-outline'
+const districtLabelPostFix = '-label'
+// county
+const countySourcePostFix = '-county-boundary-source'
+const countyLayerPostFix = '-county-boundary-layer'
 
 function Map(props) {
     const mapContainer = useRef(null);
@@ -52,6 +64,7 @@ function Map(props) {
     );
     
     useEffect(() => {
+        console.log("Map useEffect %s", stateName);
         if(!map.current || !stateName) return;
         
         if(districtingData) { getStateGeoJSON(); }
@@ -94,15 +107,20 @@ function Map(props) {
     }
     
     function getStateGeoJSON() {
+        console.log("In getStateGeoJSON")
         if (districtingData && districtingData.featureCollection) { // user selected a state
             const layer = map.current.getSource(stateName + "-district-source");
 
-            if (!layer) { // map does not have the district boundaries
-                const geojson = districtingData.featureCollection;
-                addDistrictGeoJSON(map.current, stateName, geojson);
-                addCountyGeoJSON(map.current, stateName);
+            if (layer) { // map has source and layers, remove it before adding it
+                removeDistrictGeoJSON(map.current, stateName);
+                removeCountyGeoJSON(map.current, stateName);
             }
+
+            const geojson = districtingData.featureCollection;
+            addDistrictGeoJSON(map.current, stateName, geojson);
+            addCountyGeoJSON(map.current, stateName);
         }
+        console.log("Leaving getStateGeoJSON")
     }
 
     function focusState(stateName) {
@@ -276,16 +294,16 @@ function addCountyGeoJSON(map, stateName) {
             break;
     }
     
-    const sourceName = stateName + "-county-boundary-source";
+    const sourceName = stateName + countySourcePostFix;
     map.addSource(sourceName, {
         "type": "geojson",
         "data": source
     });
     
     map.addLayer({
-        "id": stateName + "-county-boundary-layer", 
+        "id": stateName + countyLayerPostFix, 
         'type': 'line',
-        'source': stateName + "-county-boundary-source",
+        'source': sourceName,
         'paint': {
             'line-color': countyBoundaryColor,
             'line-width': 0.8
@@ -294,7 +312,7 @@ function addCountyGeoJSON(map, stateName) {
 }
 
 function addDistrictGeoJSON(map, sourceId, source) {
-    const sourceName = sourceId + "-district-source";
+    const sourceName = sourceId + districtSourcePostFix;
     map.addSource(sourceName, {
         "type": "geojson",
         "data": source
@@ -311,7 +329,7 @@ function addDistrictStyleLayer(map, sourceId) {
         return;
     }
 
-    const layerName = sourceId + "-layer";
+    const layerName = sourceId + districtLayerPostFix;
     map.addLayer({
         "id": layerName,
         "type": "fill",
@@ -350,7 +368,7 @@ function addDistrictStyleLayer(map, sourceId) {
     
     // adds district outlines with adjustable width
     map.addLayer({
-        'id': layerName + '-outline',
+        'id': layerName + districtOutlinePostFix,
         'type': 'line',
         "minzoom": zoomThreshold,
         'source': sourceId,
@@ -362,7 +380,7 @@ function addDistrictStyleLayer(map, sourceId) {
 
     // Add district names
     map.addLayer({
-        'id': layerName + '-label',
+        'id': layerName + districtLabelPostFix,
         'type': 'symbol',
         "minzoom": zoomThreshold,
         'source': sourceId,
@@ -381,6 +399,41 @@ function addDistrictStyleLayer(map, sourceId) {
     });
 
     return layerName;
+}
+
+function removeDistrictGeoJSON(map, stateName) {
+    const sourceName = stateName + districtSourcePostFix;
+    const layerName = sourceName + districtLayerPostFix;
+    // layers are dependent on sources, need to remove layers first
+    if (map.getLayer(layerName + districtLabelPostFix)) {
+        map.removeLayer(layerName + districtLabelPostFix);
+    }
+    if (map.getLayer(layerName + districtOutlinePostFix)) {
+        map.removeLayer(layerName + districtOutlinePostFix);
+    }
+    if (map.getLayer(layerName)) {
+        map.removeLayer(layerName);
+    }
+    if (map.getLayer(layerName)) {
+        map.removeLayer(layerName);
+    }
+
+    if (map.getSource(sourceName)) {
+        map.removeSource(sourceName);
+    }
+}
+
+function removeCountyGeoJSON(map, stateName) {
+    const sourceName = stateName + countySourcePostFix;
+    const layerName = stateName + countyLayerPostFix;
+    // layers are dependent on sources, need to remove layers first
+    if (map.getLayer(layerName)) {
+        map.removeLayer(layerName);
+    }
+
+    if (map.getSource(sourceName)) {
+        map.removeSource(sourceName);
+    }
 }
 
 export default Map;
