@@ -115,11 +115,20 @@ public class Districting {
 //    }
 
     public District getRandDistrict(){
-        Random rand = new Random();
+        District dist=districts.get(0);
+
+        for(District d:districts){
+            if(d.getBorderBlocks().size()>0 &&d.getPopulation(PopulationMeasure.TOTAL,Demographic.ALL)>
+                    dist.getPopulation(PopulationMeasure.TOTAL,Demographic.ALL)){
+                dist=d;
+            }
+        }
+
+        /*Random rand = new Random();
         District dist = districts.get(rand.nextInt(districts.size()));
         while(dist.getBorderBlocks().size()==0){
             dist = districts.get(rand.nextInt(districts.size()));
-        }
+        }*/
         return dist;
     }
 

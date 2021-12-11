@@ -68,8 +68,6 @@ public class Algorithm{
 
     @Async
     public void run() {
-        populationMeasure=PopulationMeasure.TOTAL;
-        populationEquality=0.9;
         double temp=10000;
         double coolingRate=0.003;
         while(iterations!=max_iterations && failedCbMoves!=maxFaildCbMoves && flag
@@ -160,6 +158,7 @@ public class Algorithm{
 
     public void setInProgressPlan(Districting inProgressPlan) {
         this.inProgressPlan = inProgressPlan;
+        this.inProgressPlan.setMeasures(this.inProgressPlan.computeMeasures(populationMeasure));
         this.populationEquality=inProgressPlan.getMeasures().getPopulationEqualityScore();
     }
 
