@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useState, useEffect } from 'react';
 import { Dropdown, DropdownButton, Row, Col, Form, Button } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import Tabs from '@mui/material/Tabs';
@@ -95,18 +96,35 @@ function formatResponseToBoxWhisker(result, popType, basis) {
 }
 
 function StatGraphs(props) {
-    const [value, setValue] = React.useState(0);
-    const [boxWhiskerBasis, setBoxWhiskerBasis] = React.useState("african_american")
-    const [boxWhiskerEnacted, setBoxWhiskerEnacted] = React.useState(false)
-    const [boxWhiskerCurrent, setBoxWhiskerCurrent] = React.useState(false)
-    const [boxWhiskerEqualized, setBoxWhiskerEqualized] = React.useState(false)
-    const [showModal, setShowModal] = React.useState(false)
-    const [boxes, setBoxes] = React.useState(null)
-    const [points, setPoints] = React.useState({ enacted: [], selected: [], equalized: [] })
-    const [label, setLabel] = React.useState("Total Population")
+    const [value, setValue] = useState(0);
+    const [boxWhiskerBasis, setBoxWhiskerBasis] = useState("african_american")
+    const [boxWhiskerEnacted, setBoxWhiskerEnacted] = useState(false)
+    const [boxWhiskerCurrent, setBoxWhiskerCurrent] = useState(false)
+    const [boxWhiskerEqualized, setBoxWhiskerEqualized] = useState(false)
+    const [showModal, setShowModal] = useState(false)
+    const [boxes, setBoxes] = useState(null)
+    const [points, setPoints] = useState({ enacted: [], selected: [], equalized: [] })
+    const [label, setLabel] = useState("Total Population")
+    const [currentAvailable, setCurrentAvailable] = useState(false);
+    const [algAvailable, setAlgAvailable] = useState(false);
+    const {planType} = props;
     const bgcolor = "#1f1f1f";
     const bgcolor2 = "#161616";
 
+    useEffect(() => {
+        if(planType.includes("Districting")) {
+            setCurrentAvailable(true);
+        }
+        if(planType.includes("Equalized")) {
+            setAlgAvailable(true);
+        }
+        if(planType.includes("Enacted")) {
+            setCurrentAvailable(false);
+            setAlgAvailable(false);
+        }
+        
+    }, [planType])
+    
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
@@ -281,7 +299,7 @@ function StatGraphs(props) {
                                             id="boxwhisker-districting" 
                                             onChange={ (e) => setBoxWhiskerCurrent(e.target.checked) }
                                             label="Show selected redistricting plan?" 
-                                            disabled //Enabled when a plan other than the enacted plan is selected
+                                            disabled={!currentAvailable}
                                         />
                                         <Form.Check 
                                             type="checkbox" 
@@ -289,7 +307,7 @@ function StatGraphs(props) {
                                             id="boxwhisker-equalized" 
                                             onChange={ (e) => setBoxWhiskerEqualized(e.target.checked) }
                                             label="Show equalized plan?" 
-                                            disabled //Enabled when the user has run the equalize algorithm on current districting plan
+                                            disabled={!algAvailable}
                                         />
                                     </Form.Group>
                                 </Col>

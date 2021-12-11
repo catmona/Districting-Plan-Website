@@ -21,11 +21,11 @@ const Demographic = {
 
 function formatResponseToStatisticData(response) {
     //console.log("DATA FROM SERVER: %o", response);
-    var formattedDataList = [];
+    const formattedDataList = [];
     for(let i = 0; i < response.districtPopulations.length; i++) {
-        let districtPop = response.districtPopulations[i];
-        let election = response.districtElections[i];
-        let formattedData = {
+        const districtPop = response.districtPopulations[i];
+        const election = response.districtElections[i];
+        const formattedData = {
             'id': i+1,
             'popMeasure': PopMeasure.TOTAL,
             'africanamerican': districtPop[Demographic.AFRICAN_AMERICAN],
@@ -57,14 +57,14 @@ function Statistics(props) {
             },
             (error) => {
                 // showErrorModal("Failed to set population measure type", error);
-                console.log(e)
+                console.log(error)
             }
         );
     }
 
     useEffect(() => {
         if (props.districtingData) {
-            let formattedData = formatResponseToStatisticData(props.districtingData);
+            const formattedData = formatResponseToStatisticData(props.districtingData);
 
             setState({
                 isLoaded: true,
@@ -74,7 +74,7 @@ function Statistics(props) {
         }
     }, [props.districtingData]);
     
-    //TODO popType shouldnt need to be passed, accessible in stateData
+    //TODO popType shouldn't need to be passed, accessible in stateData
     return (
         <div id="stats-wrapper">
             {state.isLoaded ? (state.stateData ? <div id="stats-container">
@@ -86,6 +86,7 @@ function Statistics(props) {
                         onSelectPopType={getPopType} 
                         popType={popType}
                         selectedPlanId={props.selectedPlanId}
+                        planType={props.planType}
                     /> 
                 </Row>
                 <Row id='stats-bottom'>
@@ -94,6 +95,10 @@ function Statistics(props) {
                         algResults={props.algResults} 
                         setAlgResults={props.setAlgResults} 
                         selectedPlanId={props.selectedPlanId}
+                        setPlanType={props.setPlanType}
+                        planType={props.planType}
+                        getDistrictingSummary={props.getDistrictingSummary}
+                        districtingData={props.districtingData} 
                     />
                 </Row>
             </div> : "") : <Box className = 'loading-container'><CircularProgress className = 'loading-icon'/></Box>}

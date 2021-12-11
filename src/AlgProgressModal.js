@@ -8,8 +8,7 @@ function AlgProgressModal(props) {
     const [compactness, setCompactness] = useState(0); //this too
     const [timeRunning, setTimeRunning] = useState("00:00");
     const [progressPercent, setProgressPercent] = useState(50);
-    const [isAlgDone, setIsAlgDone] = useState(false);
-    const {setAlgResults, ...rest} = props;
+    const {setAlgResults, setIsAlgDone, isAlgDone, ...rest} = props;
     const chart = useRef(null);
 
     const dataLength = 20;
@@ -39,6 +38,7 @@ function AlgProgressModal(props) {
     
     const finishAlg = () => {
         props.setAlgResults("h");
+        props.setPlanType("Equalized " + props.planType);
         props.onHide();
     }
 
@@ -50,7 +50,7 @@ function AlgProgressModal(props) {
         //do other stuff
         
         //TODO format time
-        const totalSeconds = 0; //get from server
+        const totalSeconds = 0; //get from server or something
         const minutes = totalSeconds / 60;
         const seconds = totalSeconds % 60;
         setTimeRunning(minutes.toString().padStart(2, '0') + ":" + seconds.toString().padStart(2, '0'));
