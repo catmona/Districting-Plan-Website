@@ -108,11 +108,11 @@ public class Districting {
         precinctsChanged=new ArrayList<>();
     }
 
-    public void processMovedBlocks(){
-        for(District d: districts){
-            d.processMovedBlocks();
-        }
-    }
+//    public void processMovedBlocks(){
+//        for(District d: districts){
+//            d.processMovedBlocks();
+//        }
+//    }
 
     public District getRandDistrict(){
         Random rand = new Random();

@@ -59,7 +59,7 @@ public class Algorithm{
 
 
     public Algorithm() {
-        this.max_iterations=1000;
+        this.max_iterations=500;
         this.maxFaildCbMoves=50;
         running=true;
         flag=true;
@@ -82,23 +82,15 @@ public class Algorithm{
             if(d2==null || cb.isMoved()){
                 continue;
             }
-            System.out.println(cb.getDistrictId()+" "+cb.isMoved());
-            d2.addCensusBlock(cb,inProgressPlan,neighbors,populationMeasure,false);
-            d1.removeCensusBlock(cb,neighbors,populationMeasure,false);
+            boolean added=d2.addCensusBlock(cb,inProgressPlan,neighbors,populationMeasure,false);
+            boolean removed=d1.removeCensusBlock(cb,neighbors,populationMeasure,false);
             Measures newMeasures=inProgressPlan.computeMeasures(populationMeasure);
-            if(acceptanceProbability(populationEquality,newMeasures.getPopulationEqualityScore(),temp)>Math.random()){
+            if(added&&removed&&newMeasures.getPopulationEqualityScore()<populationEquality/*acceptanceProbability(populationEquality,newMeasures.getPopulationEqualityScore(),temp)>Math.random()*/){
                 inProgressPlan.setMeasures(newMeasures);
                 populationEquality=newMeasures.getPopulationEqualityScore();
                 inProgressPlan.addPrecinct(oldPrecinct);
                 inProgressPlan.addPrecinct(cb.getPrecinctId());
                 failedCbMoves=0;
-
-                if(bestDistricting==null ||
-                        bestDistricting.getMeasures().getPopulationEqualityScore()>populationEquality){
-                    bestDistricting=inProgressPlan.clone();
-                }
-
-
             }
             else {
 
@@ -112,10 +104,9 @@ public class Algorithm{
 //            }
             temp*=1-coolingRate;
             iterations++;
-            System.out.println("iteration:"+iterations+" temp:"+temp);
+            System.out.println("iteration:"+iterations+"popEqu:"+populationEquality);
         }
-        inProgressPlan.processMovedBlocks();
-        System.out.println("final population equ:"+bestDistricting.getMeasures().getPopulationEqualityScore());
+        System.out.println("final population equ:"+populationEquality);
         running=false;
     }
 
@@ -159,25 +150,6 @@ public class Algorithm{
             properties.put("District",d.getDistrictNumber());
             properties.put("District_Name",""+d.getDistrictNumber());
             Geometry geo=d.getGeometry();
-//            if(geo instanceof Polygon){
-//                Polygon p =(Polygon)geo;
-////                p=gf.createPolygon(p.getExteriorRing().getCoordinateSequence());
-//                p.getExteriorRing().getCoordinates();
-//                polygon.getExteriorRing().getCoordinates();
-//            }
-//            else{
-//                System.out.println(geo);
-//            }
-//
-//
-////            boolean val =p.isValid();
-////            TopologyPreservingSimplifier simp = new TopologyPreservingSimplifier(p);
-////            Geometry newGeo= simp.getResultGeometry();
-////            System.out.println(newGeo.isValid());
-//
-////            GeometryFactory factory = new GeometryFactory();
-////            Polygon p =factory.createPolygon(geo.getCoordinates());
-////            GeoJSON hmm=writer.write(geo);
             GeoJSON json = writer.write(geo);
             features.add(new Feature((org.wololo.geojson.Geometry)json ,properties));
         }

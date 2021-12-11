@@ -98,7 +98,7 @@ public class District {
     }
 
 
-    public void removeCensusBlock(CensusBlock cb,List<CensusBlock>neighbors,PopulationMeasure measure, boolean revert){
+    public boolean removeCensusBlock(CensusBlock cb,List<CensusBlock>neighbors,PopulationMeasure measure, boolean revert){
         List<CensusBlock>cbBorders=neighbors.stream().filter(c->c.getDistrictId().equals(this.id))
                 .collect(Collectors.toList());
         cbBorders.forEach(c->c.setBorderBlock(true));
@@ -117,47 +117,46 @@ public class District {
         }
         else{
             this.prevGeometry=this.geometry;
-            System.out.println(this.id);
-//            try{
-//                this.geometry=this.geometry.difference(cb.getGeometry());
-//            }
-//            catch(IllegalArgumentException e){
-//                int i=0;
-//                Geometry g =cb.getGeometry();
-//            }
-//            catch(TopologyException e){
-//                int i=0;
-//                Geometry g =cb.getGeometry();
-//            }
-            this.geometry=this.geometry.difference(cb.getGeometry());
+            try{
+                this.geometry=this.geometry.difference(cb.getGeometry());
+            }catch (Exception e){
+                return false;
+            }
 //            cbToRemove.add(cb.getGeometry());
             cb.setMoved(true);
         }
 
+        return true;
+
     }
 
-    public void addCensusBlock(CensusBlock cb,Districting plan,List<CensusBlock>neighbors
+    public boolean addCensusBlock(CensusBlock cb,Districting plan,List<CensusBlock>neighbors
             ,PopulationMeasure measure, boolean revert){
         List<CensusBlock>newDistrictNeighbors= neighbors.stream().
                 filter(c->c.getDistrictId().equals(this.id)).collect(Collectors.toList());
+        if(newDistrictNeighbors.size()!=0){
+            cb.setPrecinctId(newDistrictNeighbors.get(0).getPrecinctId());
+        }
         adjNewDistNeighbors(cb,plan,newDistrictNeighbors);
         cb.setDistrictId(this.id);
-        cb.setPrecinctId(newDistrictNeighbors.get(0).getPrecinctId());
         this.borderBlocks.put(cb.getId(),cb);
         int addMultiplier=1;
         combinePops(this.getPopulations(),cb.getPopulations(),addMultiplier);
         if(revert){
             this.geometry=this.prevGeometry;
-//            cbToAdd.remove(cb.getGeometry());
             cb.setMoved(false);
         }
         else{
             this.prevGeometry=this.geometry;
-            System.out.println(this.id);
-            this.geometry= this.geometry.union(cb.getGeometry());
-//            cbToAdd.add(cb.getGeometry());
+            try{
+                this.geometry= this.geometry.union(cb.getGeometry());
+            }catch(Exception e){
+                return false;
+            }
             cb.setMoved(true);
         }
+
+        return true;
     }
 
     public void combinePops(List<Population> distPops, List<Population>cbPops, int multiplier){
