@@ -2,10 +2,9 @@ import React, { useRef, useEffect, useState } from 'react';
 import { Modal, Button, Form} from 'react-bootstrap';
 
 function AlgLimitsModal(props) {
-    const [popEqualityLim, setPopEqualityLim] = useState(1)
-    const [compactnessLim, setCompactnessLim] = useState(1)
-    const [algReady, setAlgReady] = useState(false)
-
+    const [popEqualityLim, setPopEqualityLim] = useState(0.2);
+    const [compactnessLim, setCompactnessLim] = useState(1);
+    const [algReady, setAlgReady] = useState(false);
     const {showProgress, ...rest} = props;
 
     const setAlgLimits = (event) => {
@@ -33,7 +32,6 @@ function AlgLimitsModal(props) {
                 props.setStartTime(Date.now());
                 props.showProgress(true);
                 props.onHide();
-                //TODO start timer to pull progress from server
             },
             (error) => {
                 console.log(error);
@@ -52,7 +50,7 @@ function AlgLimitsModal(props) {
                 <Modal.Body>
                     <Form.Group className="constraint-group">
                         <div className="constraint-label">
-                            <Form.Label>Minimum Population Equality Score: </Form.Label>
+                            <Form.Label>Population Equality Goal: </Form.Label>
                             <h3>{popEqualityLim}</h3>
                         </div>
                         <Form.Range 
@@ -63,12 +61,12 @@ function AlgLimitsModal(props) {
                                 setAlgReady(false);
                             } } 
                             size="lg"
-                            max={1} //plans current
+                            max={0.2} //plans current
                             min={0} 
-                            step={0.01} 
+                            step={0.001} 
                         />
                     </Form.Group>
-                    <Form.Group className="constraint-group">
+                    {/* <Form.Group className="constraint-group">
                         <div className="constraint-label">
                             <Form.Label>Minimum Compactness Score: </Form.Label>
                             <h3>{compactnessLim}</h3>
@@ -85,7 +83,7 @@ function AlgLimitsModal(props) {
                             min={0} 
                             step={0.01} 
                         />
-                    </Form.Group>
+                    </Form.Group> */}
                 </Modal.Body>
                 <Modal.Footer className="modal-spaced-footer">
                     <Button variant="primary" type="submit">Set Limits</Button>

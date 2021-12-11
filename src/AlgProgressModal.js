@@ -11,17 +11,25 @@ function AlgProgressModal(props) {
     const [precinctsChanged, setPrecinctsChanged] = useState(0);
     const [timerIntervalId, setTimerIntervalId] = useState(null);
     const [progressIntervalId, setProgressIntervalId] = useState(null);
+    const [popEqualityDps, setPopEqualityDps] = useState([{x: 0, y: props.initialPopEquality}])
     const {setAlgResults, setIsAlgDone, isAlgDone, startTime, ...rest} = props;
     const chart = useRef(null);
 
-    const dataLength = 20;
-    let popEqualityDps = [];
-    let compactnessDps = [];
+    const dataLength = 10;
+    //const popEqualityDps = [{x: 0, y: 0}]; //TODO initial pop equality
 
     const options = {
         theme: "dark1",
         animationEnabled: true,
-        axisX: { title: "Iteration" },
+        axisX: { 
+            title: "Iteration",
+            interval: 1
+        },
+        // axisY: {
+        //     minimum: 0,
+        //     maximum: 0.2,
+        //     interval: 0.01
+        // },
         dataPointWidth: 20,
         data: [{
             type: "line",
@@ -29,13 +37,6 @@ function AlgProgressModal(props) {
             showInLegend: true,
             name: "Population Equality Score",
             dataPoints: popEqualityDps
-        },
-        {
-            type: "line",
-            color: "#17a2b8",
-            showInLegend: true,
-            name: "Compactness Score",
-            dataPoints: compactnessDps
         }]
     }
     
@@ -65,9 +66,9 @@ function AlgProgressModal(props) {
         fetch("http://localhost:8080/api2/algorithmProgress", { credentials: 'include' })
         .then(res => res.json())
         .then((result) => {
-            console.log(result);
             setPopEquality((result.measures.populationEqualityScore).toFixed(6));
             setNumIterations(result.iterations);
+            
             
             if(!result.running) {
                 setIsAlgDone(true);
@@ -99,26 +100,15 @@ function AlgProgressModal(props) {
     }, [startTime]);
 
     useEffect(() => {        
-        //update chart
         if(!chart.current) return;
 
-        popEqualityDps.push({
-            x: numIterations,
-            y: popEquality
-        });
-        // compactnessDps.push({
-        //     x: numIterations,
-        //     y: compactness
-        // });
-
+        setPopEqualityDps(old => [...old, {x: numIterations, y: Number(popEquality)}])
+        
         if(popEqualityDps.length > dataLength) {
             popEqualityDps.shift();
         }
-        if(compactnessDps.length > dataLength) {
-            compactnessDps.shift();
-        }
 
-        chart.current.chart.render()
+        chart.current.render()
     }, [numIterations]);
 
     return(
@@ -145,7 +135,12 @@ function AlgProgressModal(props) {
                 </Row>
                 <Row>
                     <Col className="progress-graph"> {/* Pop Equality Graph */}
-                    <CanvasJSChart options = {options} id="progress-chart" ref={chart} height="900px" />   
+                    <CanvasJSChart 
+                        options = {options} 
+                        id="progress-chart" 
+                        onRef={ref => (chart.current = ref)} 
+                        height="900px" 
+                    />   
                     </Col>
                 </Row>
                 <Row>

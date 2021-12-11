@@ -79,7 +79,7 @@ function Statistics(props) {
             {state.isLoaded ? (state.stateData ? <div id="stats-container">
                 <Row id='stats-top'>
                     <CustomizedTables 
-                    measures = {props.districtingData}
+                        measures = {props.districtingData}
                     /> 
                     <StatGraphs 
                         showError={props.showError}
