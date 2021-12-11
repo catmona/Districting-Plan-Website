@@ -57,7 +57,7 @@ function App() {
         setPlanType("Enacted");
     }
 
-    function getDistrictingSummary(planId) {
+    function getDistrictingSummary(planId = selectedPlanId) {
         fetch("http://localhost:8080/api2/districtingSummary?districtingId=" + planId, { credentials: 'include' })
         .then(res => res.json())
         .then(
