@@ -245,6 +245,14 @@ function Map(props) {
                         checked= {showCountyBoundaries}
                         label="Counties"
                     />
+                    <Form.Check //precincts
+                        type="checkbox" 
+                        className="dark-checkbox" 
+                        id="map-filter-precincts" 
+                        checked={false}
+                        label="Precincts"
+                        disabled
+                    />
                 </Form>
             </div>
             <div ref={mapContainer} className = "map-container" />
