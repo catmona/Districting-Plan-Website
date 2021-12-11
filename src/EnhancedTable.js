@@ -94,6 +94,7 @@ export default function EnhancedTable(props) {
                     showProgress={setShowAlgProgress}
                     selectedPlanId={props.selectedPlanId}
                     setStartTime={setStartTime}
+                    initialPopEquality={props.districtingData.populationEquality}
                 />
                 <AlgProgressModal
                     show={showAlgProgress}
@@ -104,6 +105,7 @@ export default function EnhancedTable(props) {
                     setIsAlgDone={setIsAlgDone}
                     isAlgDone={isAlgDone}
                     startTime={startTime}
+                    initialPopEquality={props.districtingData.populationEquality}
                 />
             </>
         </>
