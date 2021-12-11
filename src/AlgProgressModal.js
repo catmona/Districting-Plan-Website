@@ -48,7 +48,6 @@ function AlgProgressModal(props) {
     }
 
     const stopAlg = () => {
-        console.log(timerIntervalId)
         if(timerIntervalId) clearInterval(timerIntervalId);
         if(progressIntervalId) clearInterval(progressIntervalId);
     }
@@ -121,8 +120,6 @@ function AlgProgressModal(props) {
 
         chart.current.chart.render()
     }, [numIterations]);
-
-    //TODO can the user pause? finish early? how do we resume?
 
     return(
         <Modal {...rest} size="lg" centered backdrop="static" className="dark-modal">
