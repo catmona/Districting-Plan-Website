@@ -2,8 +2,7 @@ import React, { useRef, useEffect, useState } from 'react';
 import { Modal, Button, Form} from 'react-bootstrap';
 
 function AlgLimitsModal(props) {
-    const [popEqualityLim, setPopEqualityLim] = useState(0.2);
-    const [compactnessLim, setCompactnessLim] = useState(1);
+    const [popEqualityLim, setPopEqualityLim] = useState(props.initialPopEquality.toFixed(3));
     const [algReady, setAlgReady] = useState(false);
     const {showProgress, ...rest} = props;
 
@@ -11,8 +10,7 @@ function AlgLimitsModal(props) {
         event.preventDefault();
 
         fetch("http://localhost:8080/api2/algorithmlimits?" 
-        + "minPopulationEquality=" + popEqualityLim //TODO this needs to be changed
-        + "&minCompactness=" + compactnessLim, { method: 'POST', credentials: 'include' })
+        + "minPopulationEquality=" + popEqualityLim, { method: 'POST', credentials: 'include' })
         .then(res => {
             if (!res.ok) {
                 console.log("Error calling setLimits: %o", res);
@@ -38,6 +36,10 @@ function AlgLimitsModal(props) {
             }
         );
     }
+    
+    useEffect(() => {
+        setPopEqualityLim(props.initialPopEquality.toFixed(3));
+    }, [props.initialPopEquality])
 
     return (
         <Modal {...rest} size="lg" centered className="dark-modal">
@@ -61,29 +63,11 @@ function AlgLimitsModal(props) {
                                 setAlgReady(false);
                             } } 
                             size="lg"
-                            max={0.2} //plans current
+                            max={props.initialPopEquality.toFixed(3)}
                             min={0} 
                             step={0.001} 
                         />
                     </Form.Group>
-                    {/* <Form.Group className="constraint-group">
-                        <div className="constraint-label">
-                            <Form.Label>Minimum Compactness Score: </Form.Label>
-                            <h3>{compactnessLim}</h3>
-                        </div>
-                        <Form.Range 
-                            className="constraint-slider"
-                            value={compactnessLim} 
-                            onChange={ (e) => {
-                                setCompactnessLim(e.target.value);
-                                setAlgReady(false)
-                            } } 
-                            size="lg"
-                            max={1} 
-                            min={0} 
-                            step={0.01} 
-                        />
-                    </Form.Group> */}
                 </Modal.Body>
                 <Modal.Footer className="modal-spaced-footer">
                     <Button variant="primary" type="submit">Set Limits</Button>

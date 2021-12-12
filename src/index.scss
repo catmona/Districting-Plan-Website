@@ -38,6 +38,9 @@ p, h1, h2, h3 {
     display: flex;
     align-items: center;
     justify-content: center;
+    align-self: center;
+    justify-self: center;
+    margin: auto;
 }
 #left-app {
     min-width: 50%;
@@ -684,9 +687,10 @@ p, h1, h2, h3 {
 #progress-precincts-block {
     display: flex;
     width: 40%;
-    background-color: $fgColor;
-    border: 1px solid black;
+    //background-color: $fgColor;
+    //border: 1px solid black;
     p {
+        display: none;
         margin-top: auto;
         margin-bottom: auto;
         white-space: nowrap;
@@ -694,6 +698,7 @@ p, h1, h2, h3 {
         font-size: 17px;
     }
     h4 {
+        display: none;
         margin-top: auto;
         margin-bottom: auto;
         color: $accentColor2;
