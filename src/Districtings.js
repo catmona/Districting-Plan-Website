@@ -15,13 +15,12 @@ function DistrictingPopover(props) {
         <Popover id="popover-basic" className="custom-popover">
             <Popover.Header as="h3">Districting Plan {num}</Popover.Header>
             <Popover.Body>
-                <em style={{fontSize: 13}}>This districting was chosen for it's high political fairness.</em><br /><br />
                 <div className='pop-label'><b>Obj. Function Score: </b>{score.toFixed(3)}<br /></div>
                 <div className='pop-label'><b>Population Equality: </b>{populationEquality.toFixed(3)}<br /></div>
                 <div className='pop-label'><b>Polsby Popper: </b>{polsbyPopper.toFixed(3)}<br /></div>
                 <div className='pop-label'><b>Efficiency Gap: </b>{efficiencyGap.toFixed(3)}<br /></div>
-                <div className='pop-label'><b>Majority-Minority Count: </b>{majorityMinority}<br /></div>
                 <div className='pop-label'><b>Split County Count: </b>{splitCounty}<br /></div>
+                <div className='pop-label'><b>Majority-Minority Count: </b>{majorityMinority}<br /></div>
             </Popover.Body>
         </Popover>
     );
@@ -220,8 +219,8 @@ function districtings(props) {
                     <Dropdown.Item onClick={() => setSortFunction("Population Equality")}>Population Equality</Dropdown.Item>
                     <Dropdown.Item onClick={() => setSortFunction("Polsby Popper")}>Polsby Popper</Dropdown.Item>
                     <Dropdown.Item onClick={() => setSortFunction("Efficiency Gap")}>Efficiency Gap</Dropdown.Item>
-                    <Dropdown.Item onClick={() => setSortFunction("Majority Minority")}>Majority Minority Districts</Dropdown.Item>
                     <Dropdown.Item onClick={() => setSortFunction("Split Counties")}>Split Counties</Dropdown.Item>
+                    <Dropdown.Item onClick={() => setSortFunction("Majority Minority")}>Majority Minority Districts</Dropdown.Item>
                 </DropdownButton>
                 <Button 
                     variant='info' 
