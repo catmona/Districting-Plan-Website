@@ -35,7 +35,7 @@ public class Districting {
 
     @Embedded
     @AttributeOverrides({
-            @AttributeOverride( name="populationEqualityScore", column=@Column(name = "populationEqualityScore"))
+            @AttributeOverride( name="populationEquality", column=@Column(name = "populationEqualityScore"))
     })
     private Measures measures;
 
