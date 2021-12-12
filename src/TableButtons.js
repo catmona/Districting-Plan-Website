@@ -9,7 +9,6 @@ function TableButtons(props) {
     const {districtingData} = props;
     
     function goBack() {
-        props.setIsAlgDone(false);
         props.getDistrictingSummary();
         
     }
@@ -43,7 +42,7 @@ function TableButtons(props) {
                 size="medium"
                 color="primary"
                 aria-label="add"
-                disabled={props.isAlgDone}
+                disabled={props.isAlgDone || props.planType.includes("Enacted")}
                 className="submit"
             >
                 <NavigationIcon sx={{ mr: 1 }} />

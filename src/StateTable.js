@@ -57,64 +57,14 @@ export default function CustomizedTables(props) {
                 <TableHead>
                     <TableRow>
                         <StyledTableCell align='center'>Population Equality
-                            {/* <Tooltip title={
-                                <React.Fragment>
-                                    <p className="formula-text">The population equality measure was computed using Mattingly's formula: </p>
-                                    <img src={require("/public/assets/formulas/PopEquality.svg").default} className="formula-svg" />
-                                </React.Fragment>}
-                                >
-                                <IconButton>
-                                    <ContactSupportIcon className='white-icon'/>
-                                </IconButton>
-                            </Tooltip> */}
                         </StyledTableCell>
                         <StyledTableCell align="center">Polsby Popper                         
-                            {/* <Tooltip title={
-                                <React.Fragment>
-                                    <p className="formula-text">The deviation from average districting is computed by taking the sum of squared differences between the average and the computed districting: </p>
-                                    <img src={require("/public/assets/formulas/PopEquality.svg").default} className="formula-svg" />
-                                </React.Fragment>}
-                                >
-                                <IconButton>
-                                    <ContactSupportIcon className='white-icon' />
-                                </IconButton>
-                            </Tooltip> */}
                         </StyledTableCell>
                         <StyledTableCell align="center">Efficiency Gap
-                            {/* <Tooltip title={
-                                <React.Fragment>
-                                    <p className="formula-text">The deviation from enacted districting is computed by taking the sum of squared differences between the enacted and the computed districting: </p>
-                                    <img src={require("/public/assets/formulas/PopEquality.svg").default} className="formula-svg" />
-                                </React.Fragment>}
-                                >
-                                <IconButton>
-                                    <ContactSupportIcon className='white-icon' />
-                                </IconButton>
-                            </Tooltip> */}
                         </StyledTableCell>
                         <StyledTableCell align="center">Majority-Minority
-                            {/* <Tooltip title={
-                                <React.Fragment>
-                                    <p className="formula-text">The compactness was computed using the Polsby-Popper measure: </p>
-                                    <img src={require("/public/assets/formulas/PolsbyPopper.svg").default } className="formula-svg" />
-                                </React.Fragment>}
-                                >
-                                <IconButton>
-                                    <ContactSupportIcon className='white-icon' />
-                                </IconButton>
-                            </Tooltip> */}
                         </StyledTableCell>
                         <StyledTableCell align="center">Split County                 
-                            {/* <Tooltip title={
-                                <React.Fragment>
-                                    <p className="formula-text">Political fairness was computed with the Efficiency Gap measure by Stephanopoulos & McGhee: </p>
-                                    <img src={require("/public/assets/formulas/PolFairness.svg").default} className="formula-svg" />
-                                </React.Fragment>}
-                                >
-                                <IconButton>
-                                    <ContactSupportIcon className='white-icon' />
-                                </IconButton>
-                            </Tooltip> */}
                         </StyledTableCell>
                     </TableRow>
                 </TableHead>
