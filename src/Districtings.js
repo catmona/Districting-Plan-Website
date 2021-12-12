@@ -7,7 +7,7 @@ import Box from '@mui/material/Box';
 import fallback from '/public/assets/icons/usa.png'
 
 function DistrictingPopover(props) {
-    const {score, polsbyPopper, populationEquality, majorityMinority, splitCounty} = props.summary;
+    const {score, polsbyPopper, populationEquality, efficiencyGap, majorityMinority, splitCounty} = props.summary;
     const {num, stateName, setDistrictingSummary, setShowModal} = props;
     const planId = props.summary.districtingId;
 
@@ -16,9 +16,10 @@ function DistrictingPopover(props) {
             <Popover.Header as="h3">Districting Plan {num}</Popover.Header>
             <Popover.Body>
                 <em style={{fontSize: 13}}>This districting was chosen for it's high political fairness.</em><br /><br />
-                <div className='pop-label'><b>Obj. Function Score: </b>{score.toFixed(5)}<br /></div>
+                <div className='pop-label'><b>Obj. Function Score: </b>{score.toFixed(3)}<br /></div>
                 <div className='pop-label'><b>Population Equality: </b>{populationEquality.toFixed(3)}<br /></div>
                 <div className='pop-label'><b>Polsby Popper: </b>{polsbyPopper.toFixed(3)}<br /></div>
+                <div className='pop-label'><b>Efficiency Gap: </b>{efficiencyGap.toFixed(3)}<br /></div>
                 <div className='pop-label'><b>Majority-Minority Count: </b>{majorityMinority}<br /></div>
                 <div className='pop-label'><b>Split County Count: </b>{splitCounty}<br /></div>
             </Popover.Body>
@@ -132,6 +133,13 @@ function districtings(props) {
         return a.preview.score - b.preview.score;
     }
     
+    function compareEffGap(a, b, descending) {
+        if(descending) {
+            return b.preview.efficiencyGap - a.preview.efficiencyGap;
+        }
+        return a.preview.efficiencyGap - b.preview.efficiencyGap;
+    }
+    
     function sortSelector() {
         switch(sortFunction) {
             case "Population Equality":
@@ -144,6 +152,8 @@ function districtings(props) {
                 return compareSplitCounty;
             case "Objective Function Score":
                 return compareScore;
+            case "Efficiency Gap":
+                return compareEffGap;
             case "Plan Number":
                 return comparePlanNumber;
             default:
@@ -209,6 +219,7 @@ function districtings(props) {
                     <Dropdown.Item onClick={() => setSortFunction("Objective Function Score")}>Objective Function Score</Dropdown.Item>
                     <Dropdown.Item onClick={() => setSortFunction("Population Equality")}>Population Equality</Dropdown.Item>
                     <Dropdown.Item onClick={() => setSortFunction("Polsby Popper")}>Polsby Popper</Dropdown.Item>
+                    <Dropdown.Item onClick={() => setSortFunction("Efficiency Gap")}>Efficiency Gap</Dropdown.Item>
                     <Dropdown.Item onClick={() => setSortFunction("Majority Minority")}>Majority Minority Districts</Dropdown.Item>
                     <Dropdown.Item onClick={() => setSortFunction("Split Counties")}>Split Counties</Dropdown.Item>
                 </DropdownButton>

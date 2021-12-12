@@ -64,7 +64,6 @@ function Map(props) {
     );
     
     useEffect(() => {
-        console.log("dhuahufa", props.selectedPlanId)
         if(!map.current || !stateName) return;
         
         if(districtingData) { getStateGeoJSON(); }

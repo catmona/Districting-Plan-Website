@@ -12,11 +12,11 @@ public class DistrictingDTO {
     private int splitCounty;
     private double devFromAveragePopulation;
     private double devFromEnactedPopulation;
-    private double efficencyGap;
+    private double efficiencyGap;
 
     public DistrictingDTO(String districtingId, double score, double polsbyPopper, double populationEquality,
                           int majorityMinority, int splitCounty,
-                          double devFromAveragePopulation, double devFromEnactedPopulation,double efficencyGap) {
+                          double devFromAveragePopulation, double devFromEnactedPopulation,double efficiencyGap) {
         this.districtingId = districtingId;
         this.score = score;
         this.polsbyPopper = polsbyPopper;
@@ -25,7 +25,7 @@ public class DistrictingDTO {
         this.splitCounty = splitCounty;
         this.devFromAveragePopulation = devFromAveragePopulation;
         this.devFromEnactedPopulation = devFromEnactedPopulation;
-        this.efficencyGap=efficencyGap;
+        this.efficiencyGap=efficiencyGap;
     }
 
     public String getDistrictingId() {
@@ -92,11 +92,11 @@ public class DistrictingDTO {
         this.devFromEnactedPopulation = devFromEnactedPopulation;
     }
 
-    public double getEfficencyGap() {
-        return efficencyGap;
+    public double getEfficiencyGap() {
+        return efficiencyGap;
     }
 
-    public void setEfficencyGap(double efficencyGap) {
-        this.efficencyGap = efficencyGap;
+    public void setEfficiencyGap(double efficiencyGap) {
+        this.efficiencyGap = efficiencyGap;
     }
 }
