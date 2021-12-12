@@ -39,6 +39,7 @@ function Map(props) {
     const [showDistrictBoundaries, setShowDistrictBoundaries] = useState(true)
     const [showStateBoundaries, setShowStateBoundaries] = useState(true)
     const [showCountyBoundaries, setShowCountyBoundaries] = useState(true)
+    const [newData, setNewData] = useState(false);
     const {stateName, districtingData, setState} = props;
 
     useEffect(() => {
@@ -64,11 +65,16 @@ function Map(props) {
     );
     
     useEffect(() => {
-        if(!map.current || !stateName) return;
+        setNewData(true);    
+    }, [districtingData, stateName]);
+    
+    useEffect(() => {
+        if(!map.current || !stateName || !newData) return;
         
         if(districtingData) { getStateGeoJSON(); }
         toggleBoundaries(stateName); //yes this needs to be in both useEffects
-    }, [props.selectedPlanId]);
+        setNewData(false);
+    });
     
     useEffect(() => {
         if(!stateName) return;

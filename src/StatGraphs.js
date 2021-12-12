@@ -106,7 +106,7 @@ function formatResponseToBoxWhisker(result, popType, basis, wantEnacted, equaliz
     }
 
     // postAlg
-    if (!!equalizedResult) {
+    if (equalizedResult) {
         for(let i = 0; i < equalizedResult.districtPopulations.length; i++) {
             const l = "District " + (i+1);
             const districtPoints = equalizedResult.districtPopulations[i];
@@ -219,7 +219,7 @@ function StatGraphs(props) {
     };
 
     const partyData = [['District', 'Democratic Party', 'Republican Party']]
-    partyData.push(...props.stateData.map((x) => { return [x.id + "", x.democrat, x.republican] }));
+    partyData.push(...props.stateData.map((x) => { return [x.id + "", x.democrat * 100, x.republican * 100] }));
 
     const demographicData = [['District', 'White', 'African American', 'Asian']];
     demographicData.push(...props.stateData.map((x) => { return [x.id + "", x.white, x.africanamerican, x.asianamerican] }));
@@ -278,7 +278,10 @@ function StatGraphs(props) {
                                 },
                                 titleTextStyle: {
                                     color: 'white'
-                                }
+                                },
+                                format: '#\'%\'',
+                                minValue: 0,
+                                maxValue: 100
                             },
                             isStacked: 'false',
                             backgroundColor: bgcolor,

@@ -10,6 +10,7 @@ function AlgProgressModal(props) {
     const [timerIntervalId, setTimerIntervalId] = useState(null);
     const [progressIntervalId, setProgressIntervalId] = useState(null);
     const [popEqualityDps, setPopEqualityDps] = useState([])
+    const [init, setInit] = useState(0);
     const {setIsAlgDone, setDistrictingData, planType, setPlanType, isAlgDone, startTime, initialPopEquality, ...rest} = props;
     const chart = useRef(null);
     const dataLength = 10;
@@ -107,6 +108,7 @@ function AlgProgressModal(props) {
         setPopEquality(init);
         setPopEqualityDps([{x: 0, y: Number(init)}])
         setTimeRunning("00:00");
+        setInit(initialPopEquality);
         
         //start timed stuff
         setTimerIntervalId(setInterval(updateTimer, 1000));
@@ -144,8 +146,8 @@ function AlgProgressModal(props) {
                         <h4 id="progress-equality" className="progress-value">{popEquality}</h4>
                     </Col>
                     <Col className="progress-block">
-                        <h4 className="progress-label">Initial: </h4>
-                        <h4 id="progress-compactness" className="progress-value">{initialPopEquality.toFixed(3)}</h4>
+                        <h4 className="progress-label">Initial Pop. Equality: </h4>
+                        <h4 id="progress-compactness" className="progress-value">{init.toFixed(3)}</h4>
                     </Col>
                 </Row>
                 <Row>
