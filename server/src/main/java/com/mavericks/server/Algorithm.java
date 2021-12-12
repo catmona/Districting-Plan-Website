@@ -154,7 +154,7 @@ public class Algorithm{
         AlgorithmDTO dto=new AlgorithmDTO(inProgressPlan.getMeasures().getPopulationEquality(),iterations,running,writer.write(features)
                 ,pops,inProgressPlan.getPrecinctsChanged().size());
         dto.setMajorityMinority(inProgressPlan.majorityMinority());
-        dto.setEfficencyGap(inProgressPlan.efficiencyGap());
+        dto.setEfficiencyGap(inProgressPlan.efficiencyGap());
         dto.setPolsbyPopper(inProgressPlan.computePolsbyPopper());
         dto.setSplitCounty(inProgressPlan.getSplitCounty());
         return dto;

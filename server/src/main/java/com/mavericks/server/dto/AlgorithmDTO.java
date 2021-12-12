@@ -17,7 +17,7 @@ public class AlgorithmDTO {
     private List<PopulationCopy> districtPopulations;
     private int precinctsChanged;
     private double polsbyPopper;
-    private double efficencyGap;
+    private double efficiencyGap;
     private double majorityMinority;
     private double splitCounty;
 
@@ -87,12 +87,12 @@ public class AlgorithmDTO {
         this.polsbyPopper = polsbyPopper;
     }
 
-    public double getEfficencyGap() {
-        return efficencyGap;
+    public double getEfficiencyGap() {
+        return efficiencyGap;
     }
 
-    public void setEfficencyGap(double efficencyGap) {
-        this.efficencyGap = efficencyGap;
+    public void setEfficiencyGap(double efficiencyGap) {
+        this.efficiencyGap = efficiencyGap;
     }
 
     public double getMajorityMinority() {
