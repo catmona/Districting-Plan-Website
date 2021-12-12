@@ -51,10 +51,17 @@ function formatResponseToBoxWhisker(result, popType, basis) {
     for(let i = 0; i < result.boxes.length; i++) {
         const l = "District " + (i+1); 
         const data = result.boxes[i];
-        const box = [data.upperExtreme, data.upperQuartile, data.lowerQuartile, data.lowerExtreme, data.median];
+        const box = [data.lowerExtreme, data.lowerQuartile, data.upperQuartile, data.upperExtreme, data.median];
+        if (basis == 'republican' || basis == 'democrat') {
+            // change to percent
+            box = box.map(x => x * 100);
+        }
         const col = { label: l, y: box }
         boxData.push(col);
     }
+
+    // order boxes in ascending height
+    boxData.sort((a,b) => a.y[0] - b.y[0]);
 
     //format optional points
     //TODO

@@ -20,25 +20,26 @@ public class Box {
     private int districtNumber;
 
     @Column(name = "upperExtreme", nullable = false)
-    private int upperExtreme;
+    private double upperExtreme;
 
     @Column(name = "upperQuartile", nullable = false)
-    private int upperQuartile;
+    private double upperQuartile;
 
     @Column(name = "median", nullable = false)
-    private int median;
+    private double median;
 
     @Column(name = "lowerQuartile", nullable = false)
-    private int lowerQuartile;
+    private double lowerQuartile;
 
     @Column(name = "lowerExtreme", nullable = false)
-    private int lowerExtreme;
+    private double lowerExtreme;
 
     public Box() {}
 
-    public Box(String boxWhiskerId, int districtNumber, int upperExtreme, int upperQuartile, int median, int lowerQuartile, int lowerExtreme) {
+    public Box(long id, String boxWhiskerId, int districtNumber, double upperExtreme, double upperQuartile, double median, double lowerQuartile, double lowerExtreme) {
+        this.id = id;
         this.boxWhiskerId = boxWhiskerId;
-        this.districtNumber= districtNumber;
+        this.districtNumber = districtNumber;
         this.upperExtreme = upperExtreme;
         this.upperQuartile = upperQuartile;
         this.median = median;
@@ -70,43 +71,43 @@ public class Box {
         this.districtNumber = districtNumber;
     }
 
-    public int getUpperExtreme() {
+    public double getUpperExtreme() {
         return upperExtreme;
     }
 
-    public void setUpperExtreme(int upperExtreme) {
+    public void setUpperExtreme(double upperExtreme) {
         this.upperExtreme = upperExtreme;
     }
 
-    public int getUpperQuartile() {
+    public double getUpperQuartile() {
         return upperQuartile;
     }
 
-    public void setUpperQuartile(int upperQuartile) {
+    public void setUpperQuartile(double upperQuartile) {
         this.upperQuartile = upperQuartile;
     }
 
-    public int getMedian() {
+    public double getMedian() {
         return median;
     }
 
-    public void setMedian(int median) {
+    public void setMedian(double median) {
         this.median = median;
     }
 
-    public int getLowerQuartile() {
+    public double getLowerQuartile() {
         return lowerQuartile;
     }
 
-    public void setLowerQuartile(int lowerQuartile) {
+    public void setLowerQuartile(double lowerQuartile) {
         this.lowerQuartile = lowerQuartile;
     }
 
-    public int getLowerExtreme() {
+    public double getLowerExtreme() {
         return lowerExtreme;
     }
 
-    public void setLowerExtreme(int lowerExtreme) {
+    public void setLowerExtreme(double lowerExtreme) {
         this.lowerExtreme = lowerExtreme;
     }
 }
