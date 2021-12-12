@@ -153,7 +153,7 @@ public class Handler {
         plan.getMeasures().setPopulationEquality(1-plan.getMeasures().getPopulationEquality());
         alg.setPopulationMeasure((PopulationMeasure) session.getAttribute("PopType"));
         alg.setInProgressPlan(plan);
-        AlgorithmDTO dto = new AlgorithmDTO(plan.getMeasures(),0,true,null,null, -1);
+        AlgorithmDTO dto = new AlgorithmDTO(plan.getMeasures().getPopulationEquality(),0,true,null,null, -1);
         alg.run();
         return dto;
     }

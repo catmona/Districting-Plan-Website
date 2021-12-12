@@ -140,7 +140,7 @@ public class Algorithm{
 
 
     public AlgorithmDTO getProgress(){
-        return new AlgorithmDTO(inProgressPlan.getMeasures(),iterations,running,null,null,-1);
+        return new AlgorithmDTO(inProgressPlan.getMeasures().getPopulationEquality(),iterations,running,null,null,-1);
     }
 
 
@@ -159,7 +159,7 @@ public class Algorithm{
             features.add(new Feature((org.wololo.geojson.Geometry)json ,properties));
             pops.add(d.getPopulation().get(0));
         }
-        return new AlgorithmDTO(inProgressPlan.getMeasures(),iterations,running,writer.write(features)
+        return new AlgorithmDTO(inProgressPlan.getMeasures().getPopulationEquality(),iterations,running,writer.write(features)
                 ,pops,inProgressPlan.getPrecinctsChanged().size());
     }
 

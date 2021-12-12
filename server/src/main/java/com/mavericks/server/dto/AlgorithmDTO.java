@@ -10,16 +10,16 @@ import org.wololo.geojson.GeoJSON;
 import java.util.List;
 
 public class AlgorithmDTO {
-    private Measures measures;
+    private double populationEquality;
     private int iterations;
     private boolean isRunning;
     private FeatureCollection featureCollection;
     private List<PopulationCopy> districtPopulations;
     private int precinctsChanged;
 
-    public AlgorithmDTO(Measures measures, int iterations, boolean isRunning, FeatureCollection geometry,
+    public AlgorithmDTO(double populationEquality, int iterations, boolean isRunning, FeatureCollection geometry,
                         List<PopulationCopy> population,int precinctsChanged) {
-        this.measures =measures;
+        this.populationEquality =populationEquality;
         this.iterations = iterations;
         this.isRunning = isRunning;
         this.featureCollection=geometry;
@@ -27,12 +27,12 @@ public class AlgorithmDTO {
         this.precinctsChanged=precinctsChanged;
     }
 
-    public Measures getMeasures() {
-        return measures;
+    public double getPopulationEquality() {
+        return populationEquality;
     }
 
-    public void setMeasures(Measures measures) {
-        this.measures = measures;
+    public void setPopulationEquality(double populationEquality) {
+        this.populationEquality = populationEquality;
     }
 
     public int getIterations() {
