@@ -27,12 +27,12 @@ public class AlgorithmDTO {
         this.precinctsChanged=precinctsChanged;
     }
 
-    public Measures getMeasures() {
-        return measures;
+    public double getPopulationEquality() {
+        return populationEquality;
     }
 
-    public void setMeasures(Measures measures) {
-        this.measures = measures;
+    public void setPopulationEquality(double populationEquality) {
+        this.populationEquality = populationEquality;
     }
 
     public int getIterations() {
@@ -51,20 +51,20 @@ public class AlgorithmDTO {
         isRunning = running;
     }
 
-    public FeatureCollection getGeometry() {
-        return geometry;
+    public FeatureCollection getFeatureCollection() {
+        return featureCollection;
     }
 
-    public void setGeometry(FeatureCollection geometry) {
-        this.geometry = geometry;
+    public void setFeatureCollection(FeatureCollection featureCollection) {
+        this.featureCollection = featureCollection;
     }
 
-    public List<PopulationCopy> getPopulation() {
-        return population;
+    public List<PopulationCopy> getDistrictPopulations() {
+        return districtPopulations;
     }
 
-    public void setPopulation(List<PopulationCopy> population) {
-        this.population = population;
+    public void setDistrictPopulations(List<PopulationCopy> districtPopulations) {
+        this.districtPopulations = districtPopulations;
     }
 
     public int getPrecinctsChanged() {
