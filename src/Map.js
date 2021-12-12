@@ -10,7 +10,7 @@ import { Form } from 'react-bootstrap';
 mapboxgl.accessToken = 'pk.eyJ1IjoiZ29sZHlmbGFrZXMiLCJhIjoiY2t0ZGtrNHhiMDB5MjJxcWN6bWZ5ZGx3byJ9.IMzQecUSVBFlT4rUycdG3Q';
 
 // constants for styling districts on map
-const districtColors = ["#00ff73", "#00ffed", "#0024ff", "#FF8624", "#ac00ff", "#EE4B2B", "#d0ff00", "#fdfdfa", "#FF00BD", "#B96C67"];
+const districtColors = ["#00ff73", "#00fff5", "#0024ff", "#ff9e00", "#ac00ff", "#ed1d1d", "#ffe861", "#8f927d", "#FF00BD", "#276b24"];
 const white = '#FFFFFF';
 const stateBoundaryColor = '#c5e0e2';
 const countyBoundaryColor = '#9e9e9e';
