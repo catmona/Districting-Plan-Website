@@ -156,6 +156,7 @@ public class Algorithm{
         dto.setMajorityMinority(inProgressPlan.majorityMinority());
         dto.setEfficencyGap(inProgressPlan.efficiencyGap());
         dto.setPolsbyPopper(inProgressPlan.computePolsbyPopper());
+        dto.setSplitCounty(inProgressPlan.getSplitCounty());
         return dto;
     }
 
