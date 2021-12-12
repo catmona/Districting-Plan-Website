@@ -36,9 +36,9 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 export default function CustomizedTables(props) {
 
     useEffect(() => {
-        document.getElementById("cellPopEquality").textContent = props.measures.populationEquality;
-        document.getElementById("cellPolsbyPopper").textContent = props.measures.polsbyPopper;
-        document.getElementById("cellEffciencyGap").textContent = props.measures.efficiencyGap;
+        document.getElementById("cellPopEquality").textContent = props.measures.populationEquality.toFixed(3);
+        document.getElementById("cellPolsbyPopper").textContent = props.measures.polsbyPopper.toFixed(3);
+        document.getElementById("cellEfficiencyGap").textContent = props.measures.efficiencyGap.toFixed(3);
         document.getElementById("cellMajorityMinority").textContent = props.measures.majorityMinority;
         document.getElementById("SplitCounty").textContent = props.measures.splitCounty;
         
@@ -118,7 +118,7 @@ export default function CustomizedTables(props) {
                                 {props.measures.populationEquality}
                             </StyledTableCell>
                             <StyledTableCell id="cellPolsbyPopper" align="center">{props.measures.populationEquality}</StyledTableCell>
-                            <StyledTableCell id="cellEffciencyGap" align="center">{10}</StyledTableCell>
+                            <StyledTableCell id="cellEfficiencyGap" align="center">{10}</StyledTableCell>
                             <StyledTableCell id="cellMajorityMinority" align="center">{10}</StyledTableCell>
                             <StyledTableCell id="SplitCounty" align="center">{10}</StyledTableCell>
                         </StyledTableRow>

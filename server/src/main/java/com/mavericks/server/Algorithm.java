@@ -149,7 +149,7 @@ public class Algorithm{
         GeoJSONWriter writer = new GeoJSONWriter();
         GeoJSONReader reader = new GeoJSONReader();
         GeometryFactory gf = new GeometryFactory();
-        for(District d:bestDistricting.getDistricts()){
+        for(District d:inProgressPlan.getDistricts()){
             Map<String,Object> properties = new HashMap<>();
             properties.put("District",d.getDistrictNumber());
             properties.put("District_Name",""+d.getDistrictNumber());
