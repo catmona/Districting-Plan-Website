@@ -13,7 +13,7 @@ function DistrictingPopover(props) {
 
     const pop = (
         <Popover id="popover-basic" className="custom-popover">
-            <Popover.Header as="h3">Districting Plan {num}</Popover.Header>
+            <Popover.Header as="h3">Districting Plan {num} : {planId}</Popover.Header>
             <Popover.Body>
                 <div className='pop-label'><b>Obj. Function Score: </b>{score.toFixed(3)}<br /></div>
                 <div className='pop-label'><b>Population Equality: </b>{populationEquality.toFixed(3)}<br /></div>
