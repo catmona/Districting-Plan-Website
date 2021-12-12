@@ -29,7 +29,7 @@ function Topbar(props) {
                 </div>
             </Col>
             <Col className="topbar-item" xs={"auto"}>
-                <DropdownButton id="state-dropdown" menuVariant="dark" title={stateName}>
+                <DropdownButton id="state-dropdown" menuVariant="dark" title={stateName} disabled={props.waitData}>
                     <Dropdown.Item onClick={() => setState("WA")} className='state-dropdown-option'>Washington</Dropdown.Item>
                     <Dropdown.Item onClick={() => setState("NV")} className='state-dropdown-option'>Nevada</Dropdown.Item>
                     <Dropdown.Item onClick={() => setState("AR")} className='state-dropdown-option'>Arkansas</Dropdown.Item>

@@ -26,12 +26,12 @@ function StateTabs(props) {
             setStateSelected(true);
             document.getElementById("state-tabs").getElementsByClassName("tab-content")[0].style.display = "flex";
         }
-    }, [props.planType]);
+    }, [props.planType, stateName]);
 
     return (
         <Container fluid id="state-tabs">
             <Tabs activeKey={tab} onSelect={(k) => selectTab(k)}>
-                <Tab disabled={!stateSelected} eventKey="data-table" title="Statistics">
+                <Tab disabled={!stateSelected || props.waitData} eventKey="data-table" title="Statistics">
                     {(stateName) ? 
                         <Statistics 
                             showError={props.showError}
@@ -44,10 +44,11 @@ function StateTabs(props) {
                             getDistrictingSummary={props.getDistrictingSummary}
                             isAlgDone={props.isAlgDone}
                             setIsAlgDone={props.setIsAlgDone}
+                            waitData={props.waitData}
                         /> 
                     : ""}
                 </Tab>
-                <Tab disabled={!stateSelected || !props.districtingData} eventKey="random-districts" title="Districtings">
+                <Tab disabled={!stateSelected || !props.districtingData || props.waitData} eventKey="random-districts" title="Districtings">
                     <Districtings 
                         showError={props.showError}
                         stateName={stateName} 

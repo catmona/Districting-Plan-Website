@@ -47,7 +47,7 @@ function DistrictingPopover(props) {
         try {
             src = require("/public/assets/preview_images/" + stateName + "/" + planId + ".jpg").default;
         } catch(error) {
-            console.log("/public/assets/preview_images/" + stateName + "/" + planId + ".jpg")
+            //console.log("/public/assets/preview_images/" + stateName + "/" + planId + ".jpg")
             src = fallback;
         }
         

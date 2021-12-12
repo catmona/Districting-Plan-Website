@@ -93,6 +93,7 @@ export default function EnhancedTable(props) {
                 getDistrictingSummary={props.getDistrictingSummary}
                 districtingData={props.districtingData} 
                 planType={props.planType}
+                waitData={props.waitData}
             />
             <>
                 <AlgLimitsModal
