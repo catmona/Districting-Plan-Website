@@ -166,7 +166,6 @@ public class Algorithm{
 
     public void setInProgressPlan(Districting inProgressPlan) {
         this.inProgressPlan = inProgressPlan;
-        this.inProgressPlan.setMeasures(this.inProgressPlan.computeMeasures(populationMeasure));
         this.populationEquality=inProgressPlan.getMeasures().getPopulationEqualityScore();
     }
 
