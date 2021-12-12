@@ -367,7 +367,7 @@ public class Districting {
     public DistrictingDTO makeDistrictDTO(){
         return new DistrictingDTO(this.getId(), this.score, this.geometricCompactness,
                 this.measures.getPopulationEquality(), this.majorityMinority, this.splitCounty,
-                this.devFromAveragePopulation, this.devFromEnactedPopulation);
+                this.devFromAveragePopulation, this.devFromEnactedPopulation,this.efficiencyGap);
     }
 
     public PlanDTO makePlanDTO(PopulationMeasure popType){

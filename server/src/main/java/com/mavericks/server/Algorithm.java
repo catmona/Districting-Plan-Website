@@ -66,10 +66,8 @@ public class Algorithm{
 
     @Async
     public void run() {
-        double temp=10000;
-        double coolingRate=0.003;
         while(iterations!=max_iterations && failedCbMoves!=maxFaildCbMoves && flag
-                && (populationEquality>minPopulationEquality)&&temp>1){
+                && (populationEquality>minPopulationEquality)){
             District d1=inProgressPlan.getRandDistrict();
             CensusBlock cb = d1.getRandCensusBlock();
             if(cb.isMoved() ||cb.getPopulation().get(0).getPopulationTotal()==0 ){
@@ -106,11 +104,10 @@ public class Algorithm{
 //            if(iterations%REDRAW_CONST==0 && iterations>0){
 //                inProgressPlan.processMovedBlocks();
 //            }
-            temp*=1-coolingRate;
             iterations++;
             System.out.println("iteration:"+iterations+"popEqu:"+populationEquality);
         }
-        System.out.println("final population equ:"+populationEquality);
+        System.out.println("final population equ:"+populationEquality+"cbMovesfailed"+failedCbMoves);
         running=false;
     }
 

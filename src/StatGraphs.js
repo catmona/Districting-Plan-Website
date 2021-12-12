@@ -56,10 +56,10 @@ function getBasisPoint(basis, districtPoints) {
             point = districtPoints.white;
             break;
         case "republican":
-            point = districtPoints.republican * 100;
+            point = districtPoints.republicanVotes * 100;
             break;
         case "democrat":
-            point = districtPoints.democrat  * 100;
+            point = districtPoints.democraticVotes  * 100;
             break;
     }
     return point;
@@ -113,8 +113,6 @@ function formatResponseToBoxWhisker(result, popType, basis, wantEnacted, equaliz
         const col = { label: l, y: point }
         pointData.equalized.push(col);
     }
-
-    console.log("Point Data: %o", pointData);
 
     //format y-axis label
     switch(popType) {

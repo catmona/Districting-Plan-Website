@@ -162,4 +162,8 @@ public class Handler {
         return alg.getProgress();
     }
 
+    public void removeAlg(HttpSession session){
+        jobs.remove(session.getId());
+    }
+
 }
