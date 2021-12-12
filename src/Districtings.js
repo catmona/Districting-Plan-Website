@@ -193,12 +193,13 @@ function districtings(props) {
         <Popover className="custom-popover">
             <Popover.Header as="h3">Objective Function Weights</Popover.Header>
             <Popover.Body>
-                <em style={{fontSize: 13}}>The districting plans were chosen based on the following normalized weights.</em><br /><br />
-                <div className='pop-label'><b>Population Equality: </b>{9}<br /></div>
-                <div className='pop-label'><b>Majority Minority: </b>{3}<br /></div>
-                <div className='pop-label'><b>Polsby Popper: </b>{3}<br /></div>
-                <div className='pop-label'><b>Deviation from Enacted: </b>{1}<br /></div>
-                <div className='pop-label'><b>Deviation from Average: </b>{1}<br /></div>
+                <h4 style={{fontSize: 13}}>The districting plans were chosen based on the following weights.</h4>
+                <div className='pop-label'><b>Population Equality: </b>{0.52}<br /></div>
+                <div className='pop-label'><b>Majority Minority: </b>{0.18}<br /></div>
+                <div className='pop-label'><b>Polsby Popper: </b>{0.18}<br /></div>
+                <div className='pop-label'><b>Deviation from Enacted: </b>{0.06}<br /></div>
+                <div className='pop-label'><b>Deviation from Average: </b>{0.06}<br /><br /></div>
+                <em style={{fontSize: 13}}>The measures used were normalized and scaled.</em>
             </Popover.Body>
         </Popover>
     );
