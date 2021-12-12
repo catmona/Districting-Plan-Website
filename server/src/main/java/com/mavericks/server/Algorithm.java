@@ -57,8 +57,8 @@ public class Algorithm{
 
 
     public Algorithm() {
-        this.max_iterations=1000;
-        this.maxFaildCbMoves=50;
+        this.max_iterations=3000;
+        this.maxFaildCbMoves=300;
         running=true;
         flag=true;
     }
