@@ -413,17 +413,7 @@ public class Districting {
         return (max-min)/((min+max)/2);
     }
 
-    //work in progress
-    public double computePopulationEquality(PopulationMeasure measure) {
-        double max = 0;
-        double min = Double.MAX_VALUE;
-        for (District d : districts) {
-            int value = d.getPopulation().get(0).getPopulationTotal();
-            min = Math.min(value, min);
-            max = Math.max(max, value);
-        }
-        return (max - min) / ((min + max) / 2);
-    }
+
 
     public double computePolsbyPopper() {
         double districting_pp = 0;
