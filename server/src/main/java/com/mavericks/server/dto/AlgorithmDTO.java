@@ -2,6 +2,7 @@ package com.mavericks.server.dto;
 
 import com.mavericks.server.entity.Measures;
 import com.mavericks.server.entity.Population;
+import com.mavericks.server.entity.PopulationCopy;
 import org.locationtech.jts.geom.Geometry;
 import org.wololo.geojson.FeatureCollection;
 import org.wololo.geojson.GeoJSON;
@@ -13,11 +14,11 @@ public class AlgorithmDTO {
     private int iterations;
     private boolean isRunning;
     private FeatureCollection geometry;
-    private List<Population> population;
+    private List<PopulationCopy> population;
     private int precinctsChanged;
 
     public AlgorithmDTO(Measures measures, int iterations, boolean isRunning, FeatureCollection geometry,
-                        List<Population> population,int precinctsChanged) {
+                        List<PopulationCopy> population,int precinctsChanged) {
         this.measures = measures;
         this.iterations = iterations;
         this.isRunning = isRunning;
@@ -58,11 +59,11 @@ public class AlgorithmDTO {
         this.geometry = geometry;
     }
 
-    public List<Population> getPopulation() {
+    public List<PopulationCopy> getPopulation() {
         return population;
     }
 
-    public void setPopulation(List<Population> population) {
+    public void setPopulation(List<PopulationCopy> population) {
         this.population = population;
     }
 

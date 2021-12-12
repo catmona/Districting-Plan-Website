@@ -1,10 +1,7 @@
 package com.mavericks.server;
 
 import com.mavericks.server.dto.AlgorithmDTO;
-import com.mavericks.server.entity.CensusBlock;
-import com.mavericks.server.entity.District;
-import com.mavericks.server.entity.Districting;
-import com.mavericks.server.entity.Measures;
+import com.mavericks.server.entity.*;
 import com.mavericks.server.enumeration.Demographic;
 import com.mavericks.server.enumeration.PopulationMeasure;
 import com.mavericks.server.repository.CensusBlockRepository;
@@ -152,6 +149,7 @@ public class Algorithm{
         GeoJSONWriter writer = new GeoJSONWriter();
         GeoJSONReader reader = new GeoJSONReader();
         GeometryFactory gf = new GeometryFactory();
+        List<PopulationCopy>pops=new ArrayList<>();
         for(District d:inProgressPlan.getDistricts()){
             Map<String,Object> properties = new HashMap<>();
             properties.put("District",d.getDistrictNumber());
@@ -159,9 +157,10 @@ public class Algorithm{
             Geometry geo=d.getGeometry();
             GeoJSON json = writer.write(geo);
             features.add(new Feature((org.wololo.geojson.Geometry)json ,properties));
+            pops.add(d.getPopulation().get(0));
         }
         return new AlgorithmDTO(inProgressPlan.getMeasures(),iterations,running,writer.write(features)
-                ,inProgressPlan.getPopulation(),inProgressPlan.getPrecinctsChanged().size());
+                ,pops,inProgressPlan.getPrecinctsChanged().size());
     }
 
 
