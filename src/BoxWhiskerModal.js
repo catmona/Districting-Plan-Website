@@ -8,7 +8,12 @@ function BoxWhiskerModal(props) {
     let boxes = props.boxes;
     let label = props.label;
 
-    let suffix = (label.includes('Republican') || label.includes('Democrat')) ? '%' : '';
+    function isPercent(label) {
+        return label.includes('Republican') || label.includes('Democrat');
+    }
+
+    let suffix = isPercent(label) ? '%' : '';
+    let tooltip = isPercent(label) ? '%' : ' people';
 
     const options = {
         theme: "dark1",
@@ -26,7 +31,7 @@ function BoxWhiskerModal(props) {
         {
             type: "scatter",
             name: "Enacted Plan",
-            toolTipContent: "<span style=\"color:{color}\">{name}</span>: {y} people",
+            toolTipContent: "<span style=\"color:{color}\">{name}</span>: {y}" + tooltip,
             showInLegend: true,
             color: "#00ff00",
             dataPoints: points.enacted
@@ -34,7 +39,7 @@ function BoxWhiskerModal(props) {
         {
             type: "scatter",
             name: "Selected Redistricting: ",
-            toolTipContent: "<span style=\"color:{color}\">{name}</span>: {y} people",
+            toolTipContent: "<span style=\"color:{color}\">{name}</span>: {y}" + tooltip,
             showInLegend: true,
             color: "#ff0000",
             dataPoints: points.selected
@@ -42,7 +47,7 @@ function BoxWhiskerModal(props) {
         {
             type: "scatter",
             name: "Equalized Plan",
-            toolTipContent: "<span style=\"color:{color}\">{name}</span>: {y} people",
+            toolTipContent: "<span style=\"color:{color}\">{name}</span>: {y}" + tooltip,
             showInLegend: true,
             color: "#0000ff",
             dataPoints: points.equalized

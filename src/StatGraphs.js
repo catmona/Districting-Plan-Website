@@ -56,10 +56,10 @@ function getBasisPoint(basis, districtPoints) {
             point = districtPoints.white;
             break;
         case "republican":
-            point = districtPoints.republican * 100;
+            point = districtPoints.republicanVotes * 100;
             break;
         case "democrat":
-            point = districtPoints.democrat  * 100;
+            point = districtPoints.democraticVotes  * 100;
             break;
     }
     return point;
@@ -108,16 +108,14 @@ function formatResponseToBoxWhisker(result, popType, basis, wantEnacted, equaliz
     }
 
     // postAlg
-        for(let i = 0; i < result.equalizedPoints.length; i++) {
-            const l = "District " + (i+1);
-            const districtPoints = result.equalizedPoints[i];
-            let point;
-            point = getBasisPoint(basis, districtPoints);
-            const col = { label: l, y: point }
-            pointData.equalized.push(col);
-        }
-
-    console.log("Point Data: %o", pointData);
+    for(let i = 0; i < result.equalizedPoints.length; i++) {
+        const l = "District " + (i+1);
+        const districtPoints = result.equalizedPoints[i];
+        let point;
+        point = getBasisPoint(basis, districtPoints);
+        const col = { label: l, y: point }
+        pointData.equalized.push(col);
+    }
 
     //format y-axis label
     switch(popType) {
