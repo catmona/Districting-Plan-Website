@@ -18,6 +18,7 @@ function App() {
     const [showError, setShowError] = useState(false);
     const [errorText, setErrorText] = useState({header: "", error: ""});
     const [isAlgDone, setIsAlgDone] = useState(false);
+    const [waitData, setWaitData] = useState(false);
 
     function showErrorModal(h, e) {
         setErrorText({header: h, error: e});
@@ -25,6 +26,9 @@ function App() {
     }
 
     function getStateSummary(stateAbbr) {
+        if(waitData) return; //for user clicking on map while loading case
+        
+        setWaitData(true);
         fetch("http://localhost:8080/api2/getStateSummary?state=" + stateAbbr, { credentials: 'include' })
         .then(res => res.json())
         .then(
@@ -32,6 +36,7 @@ function App() {
                 setSelectedPlanId(result.enactedId);
                 setIsAlgDone(false);
                 setDistrictingData(result);
+                setWaitData(false);
             },
             (error) => {
                 setDistrictingData(null);
@@ -58,13 +63,15 @@ function App() {
     }
 
     function getDistrictingSummary(planId = selectedPlanId) {
+        setWaitData(true);
         fetch("http://localhost:8080/api2/districtingSummary?districtingId=" + planId, { credentials: 'include' })
         .then(res => res.json())
         .then(
             (result) => {
                 setSelectedPlanId(planId);
-                setDistrictingData(result);
                 setIsAlgDone(false);
+                setDistrictingData(result);
+                setWaitData(false);
                 if(planType.includes("Equalized ")) {
                     setPlanType(planType.replace("Equalized ", ""));
                 }
@@ -78,11 +85,13 @@ function App() {
     }
 
     function getDistrictingPreviews() {
+        setWaitData(true);
         fetch("http://localhost:8080/api2/districtings", { credentials: 'include' })
         .then(res => res.json())
         .then(
             (result) => {
                 setDistrictingPreviews(result);
+                setWaitData(false);
             },
             (error) => {
                 showErrorModal("Failed to get districting previews", error)
@@ -92,11 +101,17 @@ function App() {
     }
 
     return (
-        <>  <Container fluid style={{height: "100%"}}>
+        <>  
+            <Container fluid style={{height: "100%"}}>
                 <Row style={{height: "100%"}}>
                     <Col id="left-app">
                         <Row style={{height: "100%"}}>
-                            <Topbar stateName={stateName} setState={getStateSummary} planType={planType} />
+                            <Topbar 
+                                stateName={stateName} 
+                                setState={getStateSummary} 
+                                planType={planType} 
+                                waitData={waitData}
+                            />
                             <StateTabs  
                                 showError={showErrorModal}
                                 stateName={stateName} 
@@ -111,6 +126,7 @@ function App() {
                                 setSelectedPlanId={setSelectedPlanId}
                                 isAlgDone={isAlgDone}
                                 setIsAlgDone={setIsAlgDone}
+                                waitData={waitData}
                             />
                         </Row>
                     </Col>

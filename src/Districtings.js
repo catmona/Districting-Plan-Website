@@ -1,5 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react';
-import { Container, Row, Col, Popover, OverlayTrigger, DropdownButton, Dropdown } from 'react-bootstrap';
+import { Container, Popover, OverlayTrigger, DropdownButton, Dropdown, Button } from 'react-bootstrap';
+import { QuestionCircle } from 'react-bootstrap-icons';
 import DistrictingModal from './DistrictingModal';
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
@@ -15,13 +16,11 @@ function DistrictingPopover(props) {
             <Popover.Header as="h3">Districting Plan {num}</Popover.Header>
             <Popover.Body>
                 <em style={{fontSize: 13}}>This districting was chosen for it's high political fairness.</em><br /><br />
-                <div className='districting-labels'><b>Obj. Function Score: </b>{score.toFixed(5)}<br /></div>
-                <div className='districting-labels'><b>Population Equality: </b>{populationEquality.toFixed(5)}<br /></div>
-                <div className='districting-labels'><b>Compactness: </b>{polsbyPopper.toFixed(5)}<br /></div>
-                <div className='districting-labels'><b>Majority-Minority Count: </b>{majorityMinority}<br /></div>
-                <div className='districting-labels'><b>Split County Count: </b>{splitCounty}<br /></div>
-                {/* <div className='districting-labels'><b>Deviation from Average Population: </b>{devAvgPop}<br /></div> */}
-                {/* <div className='districting-labels'><b>Deviation from Enacted Population: </b>{devEnactedPop}<br /></div> */}
+                <div className='pop-label'><b>Obj. Function Score: </b>{score.toFixed(5)}<br /></div>
+                <div className='pop-label'><b>Population Equality: </b>{populationEquality.toFixed(3)}<br /></div>
+                <div className='pop-label'><b>Polsby Popper: </b>{polsbyPopper.toFixed(3)}<br /></div>
+                <div className='pop-label'><b>Majority-Minority Count: </b>{majorityMinority}<br /></div>
+                <div className='pop-label'><b>Split County Count: </b>{splitCounty}<br /></div>
             </Popover.Body>
         </Popover>
     );
@@ -47,7 +46,7 @@ function DistrictingPopover(props) {
         try {
             src = require("/public/assets/preview_images/" + stateName + "/" + planId + ".jpg").default;
         } catch(error) {
-            console.log("/public/assets/preview_images/" + stateName + "/" + planId + ".jpg")
+            //console.log("/public/assets/preview_images/" + stateName + "/" + planId + ".jpg")
             src = fallback;
         }
         
@@ -72,6 +71,7 @@ function DistrictingPopover(props) {
 function districtings(props) {
     const [showModal, setShowModal] = useState(false);
     const [sortFunction, setSortFunction] = useState("Plan Number");
+    const [sortDescending, setSortDescending] = useState(false);
     const [districtingSummary, setDistrictingSummary] = useState({
         districtingNum: -1, data: {
             planId: 0, summary: {
@@ -90,27 +90,45 @@ function districtings(props) {
         })
     }
     
-    function comparePopEquality(a, b) {
+    function comparePopEquality(a, b, descending) {
+        if(descending) {
+            return b.preview.populationEquality - a.preview.populationEquality;
+        }
         return a.preview.populationEquality - b.preview.populationEquality;
     }
     
-    function compareCompactness(a, b) {
+    function compareCompactness(a, b, descending) {
+        if(descending) {
+            return b.preview.polsbyPopper - a.preview.polsbyPopper;
+        }
         return a.preview.polsbyPopper - b.preview.polsbyPopper;
     }
     
-    function comparePlanNumber(a, b) {
-        return a.preview.num - b.preview.num;
+    function comparePlanNumber(a, b, descending) {
+        if(descending) {
+            return b.num - a.num;
+        }
+        return a.num - b.num;
     }
     
-    function compareMajorityMinority(a, b) {
+    function compareMajorityMinority(a, b, descending) {
+        if(descending) {
+            return b.preview.majorityMinority - a.preview.majorityMinority;
+        }
         return a.preview.majorityMinority - b.preview.majorityMinority;
     }
     
-    function compareSplitCounty(a, b) {
+    function compareSplitCounty(a, b, descending) {
+        if(descending) {
+            return b.preview.splitCounty - a.preview.splitCounty;
+        }
         return a.preview.splitCounty - b.preview.splitCounty;
     }
     
-    function compareScore(a, b) {
+    function compareScore(a, b, descending) {
+        if(descending) {
+            return b.preview.score - a.preview.score;
+        }
         return a.preview.score - b.preview.score;
     }
     
@@ -118,7 +136,7 @@ function districtings(props) {
         switch(sortFunction) {
             case "Population Equality":
                 return comparePopEquality;
-            case "Population Compactness":
+            case "Polsby Popper":
                 return compareCompactness;
             case "Majority Minority":
                 return compareMajorityMinority;
@@ -126,6 +144,8 @@ function districtings(props) {
                 return compareSplitCounty;
             case "Objective Function Score":
                 return compareScore;
+            case "Plan Number":
+                return comparePlanNumber;
             default:
                 return comparePlanNumber;
         }
@@ -135,10 +155,10 @@ function districtings(props) {
         const sortingFunction = sortSelector();
         
         const data = [].concat(plans)
-        .sort((a, b) => sortingFunction(a, b))
+        .sort((a, b) => sortingFunction(a, b, sortDescending))
         .map(plan => {
             return (
-                <div xs={3} className="districting-container" id={"districting-img-" + plan.num}>
+                <div xs={3} className="districting-container" id={"districting-img-" + plan.num} key={plan.num}>
                     <DistrictingPopover 
                         num={plan.num}
                         summary={plan.preview} 
@@ -149,23 +169,56 @@ function districtings(props) {
                 </div>
             )
         });
-        
+
         return data;
     }
+    
+    useEffect(() => {
+        const e = document.getElementById("districtings-sort-button");
+        if(!e) return;
+        
+        sortDescending ? e.innerHTML = '↑' : e.innerHTML = '↓';
+    }, [sortDescending])
+    
+    const infoPopover = (
+        <Popover className="custom-popover">
+            <Popover.Header as="h3">Objective Function Weights</Popover.Header>
+            <Popover.Body>
+                <em style={{fontSize: 13}}>The districting plans were chosen based on the following normalized weights.</em><br /><br />
+                <div className='pop-label'><b>Population Equality: </b>{9}<br /></div>
+                <div className='pop-label'><b>Majority Minority: </b>{3}<br /></div>
+                <div className='pop-label'><b>Polsby Popper: </b>{3}<br /></div>
+                <div className='pop-label'><b>Deviation from Enacted: </b>{1}<br /></div>
+                <div className='pop-label'><b>Deviation from Average: </b>{1}<br /></div>
+            </Popover.Body>
+        </Popover>
+    );
 
     return(
         <>
             <div id="districtings-sort">
-                <h4>Districting Plans</h4>
+                <div id="districtings-sort-left">
+                    <h4>Districting Plans</h4>
+                    <OverlayTrigger trigger={["hover", "focus"]} placement='right' overlay={infoPopover}>
+                        <QuestionCircle />
+                    </OverlayTrigger>
+                </div>
                 <p>Sort By: </p>
-                <DropdownButton id="districtings-sort-dropdown" menuVariant="dark" title={sortFunction}>
+                <DropdownButton id="districtings-sort-dropdown" menuVariant="dark" title={sortFunction} disabled={props.waitData}>
                     <Dropdown.Item onClick={() => setSortFunction("Plan Number")}>Plan Number</Dropdown.Item>
                     <Dropdown.Item onClick={() => setSortFunction("Objective Function Score")}>Objective Function Score</Dropdown.Item>
                     <Dropdown.Item onClick={() => setSortFunction("Population Equality")}>Population Equality</Dropdown.Item>
-                    <Dropdown.Item onClick={() => setSortFunction("Population Compactness")}>Population Compactness</Dropdown.Item>
+                    <Dropdown.Item onClick={() => setSortFunction("Polsby Popper")}>Polsby Popper</Dropdown.Item>
                     <Dropdown.Item onClick={() => setSortFunction("Majority Minority")}>Majority Minority Districts</Dropdown.Item>
                     <Dropdown.Item onClick={() => setSortFunction("Split Counties")}>Split Counties</Dropdown.Item>
                 </DropdownButton>
+                <Button 
+                    variant='info' 
+                    size='sm' 
+                    onClick={() => setSortDescending(!sortDescending)} 
+                    disabled={props.waitData} 
+                    id='districtings-sort-button'
+                />
             </div>
             <Container id="districtings" className="scrollbar scrollbar-primary fluid">
                 {plans.length > 0 ? renderPlans() : 

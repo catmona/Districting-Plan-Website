@@ -42,15 +42,38 @@ function a11yProps(index) {
     };
 }
 
-function formatResponseToBoxWhisker(result, popType, basis) {
+function getBasisPoint(basis, districtPoints) {
+    let point = 0.0;
+    console.log("districtPoints: %o", districtPoints);
+    switch(basis) {
+        case "african_american":
+            point = districtPoints.black;
+            break;
+        case "asian":
+            point = districtPoints.asian;
+            break;
+        case "white":
+            point = districtPoints.white;
+            break;
+        case "republican":
+            point = districtPoints.republicanVotes * 100;
+            break;
+        case "democrat":
+            point = districtPoints.democraticVotes  * 100;
+            break;
+    }
+    return point;
+}
+
+function formatResponseToBoxWhisker(result, popType, basis, wantEnacted, equalizedResult, wantEqualized) {
     const boxData = []
     const pointData = { enacted: [], selected: [], equalized: [] }
     let yAxisLabel = ""
 
     //format boxes
-    for(let i = 0; i < result.boxes.length; i++) {
+    for(let i = 0; i < result.boxWhisker.boxes.length; i++) {
         const l = "District " + (i+1); 
-        const data = result.boxes[i];
+        const data = result.boxWhisker.boxes[i];
         const box = [data.lowerExtreme, data.lowerQuartile, data.upperQuartile, data.upperExtreme, data.median];
         if (basis == 'republican' || basis == 'democrat') {
             // change to percent
@@ -59,12 +82,40 @@ function formatResponseToBoxWhisker(result, popType, basis) {
         const col = { label: l, y: box }
         boxData.push(col);
     }
-
     // order boxes in ascending height
     boxData.sort((a,b) => a.y[0] - b.y[0]);
 
     //format optional points
-    //TODO
+    // enacted
+    for(let i = 0; i < result.enactedPoints.length; i++) {
+        console.log("in enacted")
+        const l = "District " + (i+1);
+        const districtPoints = result.enactedPoints[i];
+        let point;
+        point = getBasisPoint(basis, districtPoints);
+        const col = { label: l, y: point }
+        pointData.enacted.push(col);
+    }
+
+    // selected
+    for(let i = 0; i < result.selectedPoints.length; i++) {
+        const l = "District " + (i+1);
+        const districtPoints = result.selectedPoints[i];
+        let point;
+        point = getBasisPoint(basis, districtPoints);
+        const col = { label: l, y: point }
+        pointData.selected.push(col);
+    }
+
+    // postAlg
+    for(let i = 0; i < result.equalizedPoints.length; i++) {
+        const l = "District " + (i+1);
+        const districtPoints = result.equalizedPoints[i];
+        let point;
+        point = getBasisPoint(basis, districtPoints);
+        const col = { label: l, y: point }
+        pointData.equalized.push(col);
+    }
 
     //format y-axis label
     switch(popType) {
@@ -146,15 +197,15 @@ function StatGraphs(props) {
 
     const getBoxWhiskerData = (event) => {
         event.preventDefault();
-        fetch("http://localhost:8080/api2/boxwhiskers?districtingId=" + ((props.selectedPlanId || props.selectedPlanId !== "") ? props.selectedPlanId : '-1')
+        fetch("http://localhost:8080/api2/boxwhiskers?districtingId=" + props.selectedPlanId
         + "&basis=" + boxWhiskerBasis 
-        + "&enacted=" + boxWhiskerEnacted
-        + "&postAlg=" + boxWhiskerEqualized,
+        + "&selected=" + boxWhiskerCurrent
+        + "&enacted=" + boxWhiskerEnacted,
         { credentials: 'include' })
         .then(res => res.json())
         .then(
             (result) => {
-                const formattedData = formatResponseToBoxWhisker(result.boxWhisker, props.popType, boxWhiskerBasis);
+                const formattedData = formatResponseToBoxWhisker(result, props.popType, boxWhiskerBasis, boxWhiskerEnacted, props.districtingData, boxWhiskerEqualized);
                 setBoxes(formattedData.boxes);
                 setPoints(formattedData.points);
                 setLabel(formattedData.label);
@@ -189,12 +240,12 @@ function StatGraphs(props) {
                         chartEvents={chartEvents}
                         sx={{ borderRight: 1, borderColor: 'divider', color: 'white' }}
                     >
-                        <Tab className = "graph-label" label="Party Population By District" {...a11yProps(0)} width='200px' />
-                        <Tab className = "graph-label" label="Demographic Population By District" {...a11yProps(1)} />
-                        <Tab className = "graph-label" label="Compare to Average" {...a11yProps(2)} />
+                        <Tab disabled={props.waitData} className="graph-label" label="Party Population By District" {...a11yProps(0)} />
+                        <Tab disabled={props.waitData} className="graph-label" label="Demographic Population By District" {...a11yProps(1)} />
+                        <Tab disabled={props.waitData} className="graph-label" label="Compare to Average" {...a11yProps(2)} />
                     </Tabs>
                     <hr />
-                    <DropdownButton menuVariant="dark" size="md" title={"Pop. Type: " + props.popType} id="poptype-dropdown">
+                    <DropdownButton disabled={props.waitData} menuVariant="dark" size="md" title={"Pop. Type: " + props.popType} id="poptype-dropdown">
                         <Dropdown.Item onClick={() => {props.onSelectPopType("TOTAL")}} className='poptype-dropdown-option'>Total</Dropdown.Item>
                         <Dropdown.Item disabled onClick={() => {props.onSelectPopType("CVAP")}} className='poptype-dropdown-option'>CVAP</Dropdown.Item>
                         <Dropdown.Item disabled onClick={() => {props.onSelectPopType("VAP")}} className='poptype-dropdown-option'>VAP</Dropdown.Item>
