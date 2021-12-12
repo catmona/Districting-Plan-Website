@@ -80,7 +80,6 @@ function AlgProgressModal(props) {
         fetch("http://localhost:8080/api2/algorithmProgress", { credentials: 'include' })
         .then(res => res.json())
         .then((result) => {
-            console.log(result);
             setPopEquality((result.populationEquality).toFixed(3));
             setNumIterations(result.iterations);
             
@@ -106,7 +105,7 @@ function AlgProgressModal(props) {
         const init = initialPopEquality.toFixed(3);
         setNumIterations(0);
         setPopEquality(init);
-        setPopEqualityDps(old => [...old, {x: numIterations, y: Number(init)}])
+        setPopEqualityDps([{x: 0, y: Number(init)}])
         setTimeRunning("00:00");
         
         //start timed stuff

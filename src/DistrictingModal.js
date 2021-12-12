@@ -17,11 +17,10 @@ function DistrictingModal(props) {
         const list = []
         const {summary} = props.data.data;
         const pop = summary.districtPopulations;
-        const elections = summary.districtElections;
 
         for(let i = 0; i < pop.length; i++) {
-            const repVotes = pop.republicanVotes;
-            const demVotes = pop.democraticVotes;
+            const repVotes = pop[i].republicanVotes;
+            const demVotes = pop[i].democraticVotes;
             const total = repVotes + demVotes;
             let repPercent = (repVotes/total) * 100;
             let demPercent = (demVotes/total) * 100;
@@ -29,11 +28,11 @@ function DistrictingModal(props) {
             demPercent = parseFloat(demPercent.toFixed(2));
 
             const data = {
-                popAll: Number(pop.populationTotal).toLocaleString(), 
-                popAfricanAmerican: Number(pop.black).toLocaleString(), 
-                popAsian: Number(pop.asian).toLocaleString(), 
-                popWhite: Number(pop.white).toLocaleString(), 
-                election: "2020", //TODO
+                popAll: Number(pop[i].populationTotal).toLocaleString(), 
+                popAfricanAmerican: Number(pop[i].black).toLocaleString(), 
+                popAsian: Number(pop[i].asian).toLocaleString(), 
+                popWhite: Number(pop[i].white).toLocaleString(), 
+                election: "Presidential 2020", //TODO
                 demPercent, repPercent 
             }
 

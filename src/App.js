@@ -17,6 +17,7 @@ function App() {
     const [selectedPlanId, setSelectedPlanId] = useState("");
     const [showError, setShowError] = useState(false);
     const [errorText, setErrorText] = useState({header: "", error: ""});
+    const [isAlgDone, setIsAlgDone] = useState(false);
 
     function showErrorModal(h, e) {
         setErrorText({header: h, error: e});
@@ -29,6 +30,7 @@ function App() {
         .then(
             (result) => {
                 setSelectedPlanId(result.enactedId);
+                setIsAlgDone(false);
                 setDistrictingData(result);
             },
             (error) => {
@@ -62,6 +64,7 @@ function App() {
             (result) => {
                 setSelectedPlanId(planId);
                 setDistrictingData(result);
+                setIsAlgDone(false);
                 if(planType.includes("Equalized ")) {
                     setPlanType(planType.replace("Equalized ", ""));
                 }
@@ -106,6 +109,8 @@ function App() {
                                 setPlanType={setPlanType}
                                 selectedPlanId={selectedPlanId}
                                 setSelectedPlanId={setSelectedPlanId}
+                                isAlgDone={isAlgDone}
+                                setIsAlgDone={setIsAlgDone}
                             />
                         </Row>
                     </Col>
