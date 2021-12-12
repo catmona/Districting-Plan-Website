@@ -4,32 +4,25 @@ import { Modal, Button, Row, Col, ProgressBar } from 'react-bootstrap';
 
 function AlgProgressModal(props) {
     const [numIterations, setNumIterations] = useState(0);
-    const [popEquality, setPopEquality] = useState(0); //TODO should grab this from stats
-    const [compactness, setCompactness] = useState(0); //this too
+    const [popEquality, setPopEquality] = useState(0);
     const [timeRunning, setTimeRunning] = useState("00:00");
-    const [progressPercent, setProgressPercent] = useState(50);
     const [precinctsChanged, setPrecinctsChanged] = useState(0);
     const [timerIntervalId, setTimerIntervalId] = useState(null);
     const [progressIntervalId, setProgressIntervalId] = useState(null);
-    const [popEqualityDps, setPopEqualityDps] = useState([{x: 0, y: props.initialPopEquality}])
+    const [popEqualityDps, setPopEqualityDps] = useState([])
     const {setAlgResults, setIsAlgDone, isAlgDone, startTime, ...rest} = props;
     const chart = useRef(null);
-
     const dataLength = 10;
-    //const popEqualityDps = [{x: 0, y: 0}]; //TODO initial pop equality
 
     const options = {
         theme: "dark1",
         animationEnabled: true,
         axisX: { 
             title: "Iteration",
-            interval: 1
         },
-        // axisY: {
-        //     minimum: 0,
-        //     maximum: 0.2,
-        //     interval: 0.01
-        // },
+        axisY: {
+            minimum: 0,  
+        },
         dataPointWidth: 20,
         data: [{
             type: "line",
@@ -51,6 +44,27 @@ function AlgProgressModal(props) {
     const stopAlg = () => {
         if(timerIntervalId) clearInterval(timerIntervalId);
         if(progressIntervalId) clearInterval(progressIntervalId);
+        
+        fetch("http://localhost:8080/api2/stopAlgorithm", { credentials: 'include' })
+        .then(res => res.json())
+        .then((result) => {
+            fetch("http://localhost:8080/api2/algorithmResults", { credentials: 'include' })
+            .then(res => res.json())
+            .then((result) => {
+                console.log(result)
+                setPrecinctsChanged(result.precinctsChanged);
+                
+                const precinctElement = document.getElementById("progress-precincts-block");
+                precinctElement.style.backgroundColor = "#161616";
+                precinctElement.style.border = "1px solid #000000"
+                precinctElement.children[0].style.display = "inline";
+                precinctElement.children[1].style.display = "inline";
+            }, (error) => {
+                console.log(error);
+            }); 
+        }, (error) => {
+            console.log(error);
+        });
     }
     
     function updateTimer() {
@@ -66,9 +80,8 @@ function AlgProgressModal(props) {
         fetch("http://localhost:8080/api2/algorithmProgress", { credentials: 'include' })
         .then(res => res.json())
         .then((result) => {
-            setPopEquality((result.measures.populationEqualityScore).toFixed(6));
+            setPopEquality((result.measures.populationEqualityScore).toFixed(3));
             setNumIterations(result.iterations);
-            
             
             if(!result.running) {
                 setIsAlgDone(true);
@@ -88,9 +101,11 @@ function AlgProgressModal(props) {
     useEffect(() => {
         if(startTime === 0) return;
         
-        //reset
-        setPopEquality(0);
+        //reset        
+        const init = props.initialPopEquality.toFixed(3);
         setNumIterations(0);
+        setPopEquality(init);
+        setPopEqualityDps(old => [...old, {x: numIterations, y: Number(init)}])
         setTimeRunning("00:00");
         
         //start timed stuff
@@ -129,8 +144,8 @@ function AlgProgressModal(props) {
                         <h4 id="progress-equality" className="progress-value">{popEquality}</h4>
                     </Col>
                     <Col className="progress-block">
-                        <h4 className="progress-label">Compactness: </h4>
-                        <h4 id="progress-compactness" className="progress-value">{compactness}</h4>
+                        <h4 className="progress-label">Initial: </h4>
+                        <h4 id="progress-compactness" className="progress-value">{props.initialPopEquality.toFixed(3)}</h4>
                     </Col>
                 </Row>
                 <Row>
