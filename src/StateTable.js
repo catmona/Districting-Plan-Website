@@ -7,9 +7,6 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import IconButton from '@mui/material/IconButton';
-import ContactSupportIcon from '@mui/icons-material/ContactSupport';
-import Tooltip from '@mui/material/Tooltip';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -36,11 +33,19 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 export default function CustomizedTables(props) {
 
     useEffect(() => {
-        const popEquality = props.measures.populationEquality ? props.measures.populationEquality.toFixed(3) : "-";
-        const polsbyPopper = props.measures.polsbyPopper ? props.measures.polsbyPopper.toFixed(3) : "-";
-        const effGap = props.measures.efficiencyGap ? props.measures.efficiencyGap.toFixed(3) : "-";
-        const majMin = props.measures.majorityMinority ? props.measures.majorityMinority : "-";
-        const split = props.measures.splitCounty ? props.measures.splitCounty : "-";
+        let popEquality = typeof props.measures.populationEquality != "undefined" ? props.measures.populationEquality.toFixed(3) : "-";
+        let polsbyPopper = typeof props.measures.polsbyPopper != "undefined" ? props.measures.polsbyPopper.toFixed(3) : "-";
+        let effGap = typeof props.measures.efficiencyGap != "undefined" ? props.measures.efficiencyGap.toFixed(3) : "-";
+        let majMin = typeof props.measures.majorityMinority != "undefined" ? props.measures.majorityMinority : "-";
+        let split = typeof props.measures.splitCounty != "undefined" ? props.measures.splitCounty : "-";
+        
+        if(props.planType.includes("Enacted")) {
+            popEquality = "-";
+            polsbyPopper = "-";
+            effGap = "-";
+            majMin = "-";
+            split = "-";
+        }
         
         document.getElementById("cellPopEquality").textContent = popEquality;
         document.getElementById("cellPolsbyPopper").textContent = polsbyPopper;

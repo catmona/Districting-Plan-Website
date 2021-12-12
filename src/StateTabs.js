@@ -55,6 +55,7 @@ function StateTabs(props) {
                         districtingPreviews={props.districtingPreviews} 
                         setPlanType={props.setPlanType}
                         getDistrictingSummary={props.getDistrictingSummary}
+                        waitData={props.waitData}
                     />
                 </Tab>
             </Tabs>
