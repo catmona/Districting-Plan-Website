@@ -132,13 +132,6 @@ public class Algorithm{
         }
     }
 
-    public double objFunction(double popEquality){
-        return ((1-popEquality))/2;
-    }
-
-
-
-
     public AlgorithmDTO getProgress(){
         return new AlgorithmDTO(inProgressPlan.getMeasures().getPopulationEquality(),iterations,running,null,null,-1);
     }
@@ -168,7 +161,7 @@ public class Algorithm{
 
     public void setInProgressPlan(Districting inProgressPlan) {
         this.inProgressPlan = inProgressPlan;
-        this.populationEquality=inProgressPlan.getMeasures().getPopulationEquality();
+        this.populationEquality = inProgressPlan.getMeasures().getPopulationEquality();
     }
 
     public Districting getInProgressPlan() {
