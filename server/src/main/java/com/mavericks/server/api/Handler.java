@@ -104,37 +104,27 @@ public class Handler {
         return districting.makePlanDTO(popType);
     }
 
-    public BoxWhiskerPlotDTO getBoxWhisker(String districtingId, Basis basis, boolean enacted, boolean postAlg,
-                                  HttpSession session){
-        // do not overlay currently selected SeaWulf plan if districtingId = -1
+    public BoxWhiskerPlotDTO getBoxWhisker(String districtingId, Basis basis, boolean selected, boolean enacted,
+                                           HttpSession session){
         State state = (State) session.getAttribute("state");
         BoxWhiskerPlotDTO dto = new BoxWhiskerPlotDTO();
         dto.setBoxWhisker(state.getBoxWhiskerByBasis(basis));
         List<PopulationCopy> districtPoints = new ArrayList<>();
-        if (!districtingId.equals("-1")) {
-            Districting selected = state.getDistricting(districtingId);
+        // user wants selected points and selected is not enacted
+        if (!districtingId.equals(state.getEnacted().getId()) && selected) {
+            Districting selectedPlan = state.getDistricting(districtingId);
             districtPoints = new ArrayList<>();
-            for (District d: selected.getDistricts()) {
+            for (District d: selectedPlan.getDistricts()) {
                 districtPoints.add(d.getPopulation().get(0));
             }
             dto.setSelectedPoints(districtPoints);
         }
-
         if (enacted) {
             districtPoints = new ArrayList<>();
             for (District d: state.getEnacted().getDistricts()) {
                 districtPoints.add(d.getPopulation().get(0));
             }
             dto.setEnactedPoints(districtPoints);
-        }
-
-        if (postAlg) { // TODO ????
-//            Algorithm alg = jobs.get(session.getId());
-//            districtPoints = new ArrayList<>();
-//            for (District d: state.getEnacted().getDistricts()) {
-//                districtPoints.add(d.getPopulation().get(0));
-//            }
-//            dto.setEnactedPoints(districtPoints);
         }
         return dto;
     }
