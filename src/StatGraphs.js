@@ -74,8 +74,8 @@ function formatResponseToBoxWhisker(result, popType, basis, wantEnacted, equaliz
     for(let i = 0; i < result.boxWhisker.boxes.length; i++) {
         const l = "District " + (i+1); 
         const data = result.boxWhisker.boxes[i];
-        const box = [data.lowerExtreme, data.lowerQuartile, data.upperQuartile, data.upperExtreme, data.median];
-        if (basis == 'republican' || basis == 'democrat') {
+        let box = [data.lowerExtreme, data.lowerQuartile, data.upperQuartile, data.upperExtreme, data.median];
+        if (basis === 'republican' || basis === 'democrat') {
             // change to percent
             box = box.map(x => x * 100);
         }
@@ -91,8 +91,7 @@ function formatResponseToBoxWhisker(result, popType, basis, wantEnacted, equaliz
         console.log("in enacted")
         const l = "District " + (i+1);
         const districtPoints = result.enactedPoints[i];
-        let point;
-        point = getBasisPoint(basis, districtPoints);
+        const point = getBasisPoint(basis, districtPoints);
         const col = { label: l, y: point }
         pointData.enacted.push(col);
     }
@@ -101,21 +100,19 @@ function formatResponseToBoxWhisker(result, popType, basis, wantEnacted, equaliz
     for(let i = 0; i < result.selectedPoints.length; i++) {
         const l = "District " + (i+1);
         const districtPoints = result.selectedPoints[i];
-        let point;
-        point = getBasisPoint(basis, districtPoints);
+        const point = getBasisPoint(basis, districtPoints);
         const col = { label: l, y: point }
         pointData.selected.push(col);
     }
 
     // postAlg
-        for(let i = 0; i < result.equalizedPoints.length; i++) {
-            const l = "District " + (i+1);
-            const districtPoints = result.equalizedPoints[i];
-            let point;
-            point = getBasisPoint(basis, districtPoints);
-            const col = { label: l, y: point }
-            pointData.equalized.push(col);
-        }
+    for(let i = 0; i < result.equalizedPoints.length; i++) {
+        const l = "District " + (i+1);
+        const districtPoints = result.equalizedPoints[i];
+        const point = getBasisPoint(basis, districtPoints);
+        const col = { label: l, y: point }
+        pointData.equalized.push(col);
+    }
 
     console.log("Point Data: %o", pointData);
 
@@ -422,7 +419,7 @@ function StatGraphs(props) {
                                 </Col>
                             </Row>
                             <Row id="box-whisker-button-container">
-                                <Button id="box-whisker-submit" size="md" variant="primary" type="submit">
+                                <Button id="box-whisker-submit" size="md" variant="primary" type="submit" disabled={props.waitData}>
                                     Show Chart
                                 </Button>
                             </Row>
