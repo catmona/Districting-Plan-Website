@@ -80,7 +80,8 @@ function AlgProgressModal(props) {
         fetch("http://localhost:8080/api2/algorithmProgress", { credentials: 'include' })
         .then(res => res.json())
         .then((result) => {
-            setPopEquality((result.measures.populationEqualityScore).toFixed(3));
+            console.log(result);
+            setPopEquality((result.populationEquality).toFixed(3));
             setNumIterations(result.iterations);
             
             if(!result.running) {
