@@ -59,7 +59,6 @@ const columns = [
 export default function EnhancedTable(props) {
     const [showAlgLimits, setShowAlgLimits] = useState(false);
     const [showAlgProgress, setShowAlgProgress] = useState(false);
-    const [isAlgDone, setIsAlgDone] = useState(false);
     const [startTime, setStartTime] = useState(0);
 
     return (
@@ -82,10 +81,10 @@ export default function EnhancedTable(props) {
             </div>
             <TableButtons 
                 setShowAlgLimits={setShowAlgLimits}
-                isAlgDone={isAlgDone}
-                setIsAlgDone={setIsAlgDone}
+                isAlgDone={props.isAlgDone}
                 getDistrictingSummary={props.getDistrictingSummary}
                 districtingData={props.districtingData} 
+                planType={props.planType}
             />
             <>
                 <AlgLimitsModal
@@ -102,8 +101,8 @@ export default function EnhancedTable(props) {
                     setDistrictingData={props.setDistrictingData}
                     setPlanType={props.setPlanType}
                     planType={props.planType}
-                    setIsAlgDone={setIsAlgDone}
-                    isAlgDone={isAlgDone}
+                    setIsAlgDone={props.setIsAlgDone}
+                    isAlgDone={props.isAlgDone}
                     startTime={startTime}
                     initialPopEquality={props.districtingData.populationEquality}
                 />

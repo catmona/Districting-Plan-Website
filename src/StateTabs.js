@@ -42,6 +42,8 @@ function StateTabs(props) {
                             planType={props.planType}
                             setPlanType={props.setPlanType}
                             getDistrictingSummary={props.getDistrictingSummary}
+                            isAlgDone={props.isAlgDone}
+                            setIsAlgDone={props.setIsAlgDone}
                         /> 
                     : ""}
                 </Tab>

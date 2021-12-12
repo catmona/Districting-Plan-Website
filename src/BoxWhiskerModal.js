@@ -8,10 +8,12 @@ function BoxWhiskerModal(props) {
     let boxes = props.boxes;
     let label = props.label;
 
+    let suffix = (label.includes('Republican') || label.includes('Democrat')) ? '%' : '';
+
     const options = {
         theme: "dark1",
         animationEnabled: true,
-        axisY: { title: label }, //TODO make this whatever the selected pop measure was
+        axisY: { title: label, suffix: suffix }, //TODO make this whatever the selected pop measure was
         dataPointWidth: 20,
         data: [{
             type: "boxAndWhisker",

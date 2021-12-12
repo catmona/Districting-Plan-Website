@@ -73,7 +73,6 @@ function Statistics(props) {
         }
     }, [props.districtingData]);
     
-    //TODO popType shouldn't need to be passed, accessible in stateData
     return (
         <div id="stats-wrapper">
             {state.isLoaded ? (state.stateData ? <div id="stats-container">
@@ -99,6 +98,8 @@ function Statistics(props) {
                         getDistrictingSummary={props.getDistrictingSummary}
                         districtingData={props.districtingData} 
                         setDistrictingData={props.setDistrictingData}
+                        isAlgDone={props.isAlgDone}
+                        setIsAlgDone={props.setIsAlgDone}
                     />
                 </Row>
             </div> : "") : <Box className = 'loading-container'><CircularProgress className = 'loading-icon'/></Box>}
