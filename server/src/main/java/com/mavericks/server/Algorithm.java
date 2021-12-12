@@ -150,14 +150,16 @@ public class Algorithm{
         GeoJSONReader reader = new GeoJSONReader();
         GeometryFactory gf = new GeometryFactory();
         List<PopulationCopy>pops=new ArrayList<>();
+        int index =1;
         for(District d:inProgressPlan.getDistricts()){
             Map<String,Object> properties = new HashMap<>();
-            properties.put("District",d.getDistrictNumber());
-            properties.put("District_Name",""+d.getDistrictNumber());
+            properties.put("District",index);
+            properties.put("District_Name",""+index);
             Geometry geo=d.getGeometry();
             GeoJSON json = writer.write(geo);
             features.add(new Feature((org.wololo.geojson.Geometry)json ,properties));
             pops.add(d.getPopulation().get(0));
+            index++;
         }
         return new AlgorithmDTO(inProgressPlan.getMeasures().getPopulationEquality(),iterations,running,writer.write(features)
                 ,pops,inProgressPlan.getPrecinctsChanged().size());
