@@ -106,12 +106,14 @@ function formatResponseToBoxWhisker(result, popType, basis, wantEnacted, equaliz
     }
 
     // postAlg
-    for(let i = 0; i < result.equalizedPoints.length; i++) {
-        const l = "District " + (i+1);
-        const districtPoints = result.equalizedPoints[i];
-        const point = getBasisPoint(basis, districtPoints);
-        const col = { label: l, y: point }
-        pointData.equalized.push(col);
+    if (!!equalizedResult) {
+        for(let i = 0; i < equalizedResult.districtPopulations.length; i++) {
+            const l = "District " + (i+1);
+            const districtPoints = equalizedResult.districtPopulations[i];
+            const point = getBasisPoint(basis, districtPoints);
+            const col = { label: l, y: point }
+            pointData.equalized.push(col);
+        }
     }
 
     //format y-axis label
