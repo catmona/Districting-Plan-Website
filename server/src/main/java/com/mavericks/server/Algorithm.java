@@ -1,10 +1,7 @@
 package com.mavericks.server;
 
 import com.mavericks.server.dto.AlgorithmDTO;
-import com.mavericks.server.entity.CensusBlock;
-import com.mavericks.server.entity.District;
-import com.mavericks.server.entity.Districting;
-import com.mavericks.server.entity.Measures;
+import com.mavericks.server.entity.*;
 import com.mavericks.server.enumeration.Demographic;
 import com.mavericks.server.enumeration.PopulationMeasure;
 import com.mavericks.server.repository.CensusBlockRepository;
