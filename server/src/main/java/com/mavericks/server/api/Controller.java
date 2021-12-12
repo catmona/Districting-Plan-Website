@@ -101,6 +101,12 @@ public class Controller {
         return handler.stopAlgorithm(session);
     }
 
+    @GetMapping(value = "removeAlgorithm")
+    public ResponseEntity removeAlgorithm(HttpSession session){
+        handler.removeAlg(session);
+        return ResponseEntity.ok().build();
+    }
+
     private PopulationMeasure mapPopToEnum(String s){
         switch (s.toUpperCase()){
             case "TOTAL":
