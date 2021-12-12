@@ -240,12 +240,12 @@ function StatGraphs(props) {
                         chartEvents={chartEvents}
                         sx={{ borderRight: 1, borderColor: 'divider', color: 'white' }}
                     >
-                        <Tab className = "graph-label" label="Party Population By District" {...a11yProps(0)} width='200px' />
-                        <Tab className = "graph-label" label="Demographic Population By District" {...a11yProps(1)} />
-                        <Tab className = "graph-label" label="Compare to Average" {...a11yProps(2)} />
+                        <Tab disabled={props.waitData} className="graph-label" label="Party Population By District" {...a11yProps(0)} />
+                        <Tab disabled={props.waitData} className="graph-label" label="Demographic Population By District" {...a11yProps(1)} />
+                        <Tab disabled={props.waitData} className="graph-label" label="Compare to Average" {...a11yProps(2)} />
                     </Tabs>
                     <hr />
-                    <DropdownButton menuVariant="dark" size="md" title={"Pop. Type: " + props.popType} id="poptype-dropdown">
+                    <DropdownButton disabled={props.waitData} menuVariant="dark" size="md" title={"Pop. Type: " + props.popType} id="poptype-dropdown">
                         <Dropdown.Item onClick={() => {props.onSelectPopType("TOTAL")}} className='poptype-dropdown-option'>Total</Dropdown.Item>
                         <Dropdown.Item disabled onClick={() => {props.onSelectPopType("CVAP")}} className='poptype-dropdown-option'>CVAP</Dropdown.Item>
                         <Dropdown.Item disabled onClick={() => {props.onSelectPopType("VAP")}} className='poptype-dropdown-option'>VAP</Dropdown.Item>
