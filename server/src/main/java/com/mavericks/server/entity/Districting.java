@@ -413,6 +413,56 @@ public class Districting {
         return (max-min)/((min+max)/2);
     }
 
+    //work in progress
+    public double computePopulationEquality(PopulationMeasure measure) {
+        double max = 0;
+        double min = Double.MAX_VALUE;
+        for (District d : districts) {
+            int value = d.getPopulation().get(0).getPopulationTotal();
+            min = Math.min(value, min);
+            max = Math.max(max, value);
+        }
+        return (max - min) / ((min + max) / 2);
+    }
+
+    public double computePolsbyPopper() {
+        double districting_pp = 0;
+        for (District d : districts) {
+            double area = d.getGeometry().getArea();
+            double length = d.getGeometry().getLength();
+            double district_pp = 4 * Math.PI * area / (length * length);
+            districting_pp += district_pp;
+        }
+        districting_pp = districting_pp / districts.size();
+
+        return districting_pp;
+    }
+
+    public double efficiencyGap() {
+        double districting_eg = 0;
+        for (District d : districts) {
+            double majority = Math.max(d.getPopulation().get(0).getDemocraticVotes(), d.getPopulation().get(0).getRepublicanVotes());
+            double minority = 1 - majority;
+            double district_eg = Math.abs(majority - minority - 0.5);
+            districting_eg += district_eg;
+        }
+        districting_eg = districting_eg / districts.size();
+        return districting_eg;
+    }
+
+    public int majorityMinority() {
+        int mm = 0;
+        for (District d : districts) {
+            int total = d.getPopulation().get(0).getPopulationTotal();
+            int black = d.getPopulation().get(0).getBlack();
+            int asian = d.getPopulation().get(0).getAsian();
+            if (black / total > 0.5 || asian / total > 0.5) {
+                mm += 1;
+            }
+        }
+        return mm;
+    }
+
     //stubbed
     public Measures computeMeasures(PopulationMeasure measure){
         //double polsby=computePolsbyPopper();
