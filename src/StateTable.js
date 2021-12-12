@@ -36,11 +36,17 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 export default function CustomizedTables(props) {
 
     useEffect(() => {
-        document.getElementById("cellPopEquality").textContent = props.measures.populationEquality.toFixed(3);
-        document.getElementById("cellPolsbyPopper").textContent = props.measures.polsbyPopper.toFixed(3);
-        document.getElementById("cellEfficiencyGap").textContent = props.measures.efficiencyGap.toFixed(3);
-        document.getElementById("cellMajorityMinority").textContent = props.measures.majorityMinority;
-        document.getElementById("SplitCounty").textContent = props.measures.splitCounty;
+        const popEquality = props.measures.populationEquality ? props.measures.populationEquality.toFixed(3) : "-";
+        const polsbyPopper = props.measures.polsbyPopper ? props.measures.polsbyPopper.toFixed(3) : "-";
+        const effGap = props.measures.efficiencyGap ? props.measures.efficiencyGap.toFixed(3) : "-";
+        const majMin = props.measures.majorityMinority ? props.measures.majorityMinority : "-";
+        const split = props.measures.splitCounty ? props.measures.splitCounty : "-";
+        
+        document.getElementById("cellPopEquality").textContent = popEquality;
+        document.getElementById("cellPolsbyPopper").textContent = polsbyPopper;
+        document.getElementById("cellEfficiencyGap").textContent = effGap;
+        document.getElementById("cellMajorityMinority").textContent = majMin;
+        document.getElementById("SplitCounty").textContent = split;
         
     });
 

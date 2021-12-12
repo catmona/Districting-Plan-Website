@@ -10,7 +10,7 @@ function AlgProgressModal(props) {
     const [timerIntervalId, setTimerIntervalId] = useState(null);
     const [progressIntervalId, setProgressIntervalId] = useState(null);
     const [popEqualityDps, setPopEqualityDps] = useState([])
-    const {setAlgResults, setIsAlgDone, isAlgDone, startTime, ...rest} = props;
+    const {setIsAlgDone, setDistrictingData, planType, setPlanType, isAlgDone, startTime, initialPopEquality, ...rest} = props;
     const chart = useRef(null);
     const dataLength = 10;
 
@@ -36,8 +36,7 @@ function AlgProgressModal(props) {
     const finishAlg = () => {
         if(timerIntervalId) clearInterval(timerIntervalId);
         if(progressIntervalId) clearInterval(progressIntervalId);
-        props.setAlgResults("h"); //TODO lol
-        props.setPlanType("Equalized " + props.planType);
+        setPlanType("Equalized " + planType);
         props.onHide();
     }
 
@@ -53,6 +52,7 @@ function AlgProgressModal(props) {
             .then((result) => {
                 console.log(result)
                 setPrecinctsChanged(result.precinctsChanged);
+                setDistrictingData(result);
                 
                 const precinctElement = document.getElementById("progress-precincts-block");
                 precinctElement.style.backgroundColor = "#161616";
@@ -102,7 +102,7 @@ function AlgProgressModal(props) {
         if(startTime === 0) return;
         
         //reset        
-        const init = props.initialPopEquality.toFixed(3);
+        const init = initialPopEquality.toFixed(3);
         setNumIterations(0);
         setPopEquality(init);
         setPopEqualityDps(old => [...old, {x: numIterations, y: Number(init)}])
@@ -145,7 +145,7 @@ function AlgProgressModal(props) {
                     </Col>
                     <Col className="progress-block">
                         <h4 className="progress-label">Initial: </h4>
-                        <h4 id="progress-compactness" className="progress-value">{props.initialPopEquality.toFixed(3)}</h4>
+                        <h4 id="progress-compactness" className="progress-value">{initialPopEquality.toFixed(3)}</h4>
                     </Col>
                 </Row>
                 <Row>

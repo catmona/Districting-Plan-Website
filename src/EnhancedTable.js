@@ -99,7 +99,7 @@ export default function EnhancedTable(props) {
                 <AlgProgressModal
                     show={showAlgProgress}
                     onHide={() => setShowAlgProgress(false)}
-                    setAlgResults={props.setAlgResults}
+                    setDistrictingData={props.setDistrictingData}
                     setPlanType={props.setPlanType}
                     planType={props.planType}
                     setIsAlgDone={setIsAlgDone}

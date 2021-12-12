@@ -23,7 +23,6 @@ function StateTabs(props) {
             
         } else {
             setTab("data-table");
-            props.setAlgResults(null);
             setStateSelected(true);
             document.getElementById("state-tabs").getElementsByClassName("tab-content")[0].style.display = "flex";
         }
@@ -38,8 +37,7 @@ function StateTabs(props) {
                             showError={props.showError}
                             stateName={stateName} 
                             districtingData={props.districtingData} 
-                            algResults={props.algResults} 
-                            setAlgResults={props.setAlgResults} 
+                            setDistrictingData={props.setDistrictingData}
                             selectedPlanId={props.selectedPlanId}
                             planType={props.planType}
                             setPlanType={props.setPlanType}

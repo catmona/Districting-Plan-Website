@@ -13,7 +13,6 @@ function App() {
     const [stateName, setStateName] = useState("");
     const [districtingData, setDistrictingData] = useState(""); //statistics table data, population per district of the plan
     const [districtingPreviews, setDistrictingPreviews] = useState(""); //tooltip summaries for SeaWulf districtings 
-    const [algResults, setAlgResults] = useState(null);
     const [planType, setPlanType] = useState("");
     const [selectedPlanId, setSelectedPlanId] = useState("");
     const [showError, setShowError] = useState(false);
@@ -99,8 +98,7 @@ function App() {
                                 showError={showErrorModal}
                                 stateName={stateName} 
                                 districtingData={districtingData} 
-                                algResults={algResults} 
-                                setAlgResults={setAlgResults} 
+                                setDistrictingData={setDistrictingData}
                                 getDistrictingPreviews={getDistrictingPreviews}
                                 getDistrictingSummary={getDistrictingSummary}
                                 districtingPreviews={districtingPreviews}
