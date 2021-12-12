@@ -82,7 +82,8 @@ function Statistics(props) {
                     /> 
                     <StatGraphs 
                         showError={props.showError}
-                        stateData={state.stateData} 
+                        stateData={state.stateData}
+                        districtingData={props.districtingData} 
                         onSelectPopType={getPopType} 
                         popType={popType}
                         selectedPlanId={props.selectedPlanId}
