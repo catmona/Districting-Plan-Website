@@ -151,8 +151,13 @@ public class Algorithm{
             pops.add(d.getPopulation().get(0));
             index++;
         }
-        return new AlgorithmDTO(inProgressPlan.getMeasures().getPopulationEquality(),iterations,running,writer.write(features)
+        AlgorithmDTO dto=new AlgorithmDTO(inProgressPlan.getMeasures().getPopulationEquality(),iterations,running,writer.write(features)
                 ,pops,inProgressPlan.getPrecinctsChanged().size());
+        dto.setMajorityMinority(inProgressPlan.majorityMinority());
+        dto.setEfficiencyGap(inProgressPlan.efficiencyGap());
+        dto.setPolsbyPopper(inProgressPlan.computePolsbyPopper());
+        dto.setSplitCounty(inProgressPlan.getSplitCounty());
+        return dto;
     }
 
 

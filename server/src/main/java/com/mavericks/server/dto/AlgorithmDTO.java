@@ -16,6 +16,10 @@ public class AlgorithmDTO {
     private FeatureCollection featureCollection;
     private List<PopulationCopy> districtPopulations;
     private int precinctsChanged;
+    private double polsbyPopper;
+    private double efficiencyGap;
+    private double majorityMinority;
+    private double splitCounty;
 
     public AlgorithmDTO(double populationEquality, int iterations, boolean isRunning, FeatureCollection geometry,
                         List<PopulationCopy> population,int precinctsChanged) {
@@ -73,5 +77,37 @@ public class AlgorithmDTO {
 
     public void setPrecinctsChanged(int precinctsChanged) {
         this.precinctsChanged = precinctsChanged;
+    }
+
+    public double getPolsbyPopper() {
+        return polsbyPopper;
+    }
+
+    public void setPolsbyPopper(double polsbyPopper) {
+        this.polsbyPopper = polsbyPopper;
+    }
+
+    public double getEfficiencyGap() {
+        return efficiencyGap;
+    }
+
+    public void setEfficiencyGap(double efficiencyGap) {
+        this.efficiencyGap = efficiencyGap;
+    }
+
+    public double getMajorityMinority() {
+        return majorityMinority;
+    }
+
+    public void setMajorityMinority(double majorityMinority) {
+        this.majorityMinority = majorityMinority;
+    }
+
+    public double getSplitCounty() {
+        return splitCounty;
+    }
+
+    public void setSplitCounty(double splitCounty) {
+        this.splitCounty = splitCounty;
     }
 }
