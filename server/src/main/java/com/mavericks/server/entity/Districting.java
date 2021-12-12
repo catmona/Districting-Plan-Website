@@ -403,19 +403,6 @@ public class Districting {
         return dto;
     }
 
-    public double computePolsbyPopper(){
-//        List<District> otherDistricts = districts.stream().filter(d->!d.equals(removedDistrict)
-//                && !d.equals(addedDistrict)).collect(Collectors.toList());
-//        double removedPolsby=polsbyHelper(removedDistrict.getGeometry().difference(block.getGeometry()));
-//        double addedPolsby=polsbyHelper(addedDistrict.getGeometry().union(block.getGeometry()));
-        double polsbySum=0;
-        for(District d:districts){
-            polsbySum+=polsbyHelper(d.getGeometry());
-        }
-        return polsbySum/districts.size();
-
-    }
-
     //work in progress
     public double computePopulationEquality(PopulationMeasure measure){
         double max=0;
@@ -426,13 +413,12 @@ public class Districting {
             max=Math.max(max,value);
         }
         return (max-min)/((min+max)/2);
-
     }
 
     //stubbed
     public Measures computeMeasures(PopulationMeasure measure){
         //double polsby=computePolsbyPopper();
-        double popEquality =computePopulationEquality(measure);
+        double popEquality = computePopulationEquality(measure);
         return new Measures(popEquality);
     }
 
