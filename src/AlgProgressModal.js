@@ -144,7 +144,7 @@ function AlgProgressModal(props) {
                         <h4 id="progress-equality" className="progress-value">{popEquality}</h4>
                     </Col>
                     <Col className="progress-block">
-                        <h4 className="progress-label">Initial: </h4>
+                        <h4 className="progress-label">Initial Pop. Equality: </h4>
                         <h4 id="progress-compactness" className="progress-value">{initialPopEquality.toFixed(3)}</h4>
                     </Col>
                 </Row>

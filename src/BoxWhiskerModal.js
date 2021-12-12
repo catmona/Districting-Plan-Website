@@ -4,42 +4,47 @@ import { CanvasJSChart } from 'canvasjs-react-charts'
 
 function BoxWhiskerModal(props) {
     const chart = useRef(null);
-    let points = props.points;
-    let boxes = props.boxes;
-    let label = props.label;
+    const {points} = props;
+    const {boxes} = props;
+    const {label} = props;
 
     function isPercent(label) {
         return label.includes('Republican') || label.includes('Democrat');
     }
 
-    let suffix = isPercent(label) ? '%' : '';
-    let tooltip = isPercent(label) ? '%' : ' people';
+    const suffix = isPercent(label) ? '%' : '';
+    const tooltip = isPercent(label) ? '%' : ' people';
 
     const options = {
         theme: "dark1",
         animationEnabled: true,
-        axisY: { title: label, suffix: suffix }, //TODO make this whatever the selected pop measure was
+        axisY: { title: label, suffix },
         dataPointWidth: 20,
         data: [{
             type: "boxAndWhisker",
             //yValueFormatString: "#,##0.# \"kcal/100g\"",
-            color: "#4285F4",
             stemThickness: 2,
             whickerThickness: 8,
-            dataPoints: boxes
+            dataPoints: boxes,
+            toolTipContent: "<div class=\"bw-label\"><span>Maximum:</span> {y[3]}</div><br>" +
+                            "<div class=\"bw-label\"><span>Q3:</span>      {y[2]}</div><br>" +
+                            "<div class=\"bw-label\"><span>Median:</span>  {y[4]}</div><br>" + 
+                            "<div class=\"bw-label\"><span>Q1:</span>      {y[1]}</div><br>" +
+                            "<div class=\"bw-label\"><span>Minimum:</span> {y[0]}</div>",
+            color: "#4285F4",
         },
         {
             type: "scatter",
             name: "Enacted Plan",
-            toolTipContent: "<span style=\"color:{color}\">{name}</span>: {y}" + tooltip,
+            toolTipContent: "<span style=\"color:#00ff00\">{name}</span>: {y}" + tooltip,
             showInLegend: true,
             color: "#00ff00",
             dataPoints: points.enacted
         },
         {
             type: "scatter",
-            name: "Selected Redistricting: ",
-            toolTipContent: "<span style=\"color:{color}\">{name}</span>: {y}" + tooltip,
+            name: "Selected Redistricting",
+            toolTipContent: "<span style=\"color:#ff0000\">{name}</span>: {y}" + tooltip,
             showInLegend: true,
             color: "#ff0000",
             dataPoints: points.selected
@@ -47,7 +52,7 @@ function BoxWhiskerModal(props) {
         {
             type: "scatter",
             name: "Equalized Plan",
-            toolTipContent: "<span style=\"color:{color}\">{name}</span>: {y}" + tooltip,
+            toolTipContent: "<span style=\"color:#0000ff\">{name}</span>: {y}" + tooltip,
             showInLegend: true,
             color: "#0000ff",
             dataPoints: points.equalized
