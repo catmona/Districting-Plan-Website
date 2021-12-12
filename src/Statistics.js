@@ -93,13 +93,12 @@ function Statistics(props) {
                 <Row id='stats-bottom'>
                     <EnhancedTable 
                         stateData={state.stateData} 
-                        algResults={props.algResults} 
-                        setAlgResults={props.setAlgResults} 
                         selectedPlanId={props.selectedPlanId}
                         setPlanType={props.setPlanType}
                         planType={props.planType}
                         getDistrictingSummary={props.getDistrictingSummary}
                         districtingData={props.districtingData} 
+                        setDistrictingData={props.setDistrictingData}
                     />
                 </Row>
             </div> : "") : <Box className = 'loading-container'><CircularProgress className = 'loading-icon'/></Box>}
