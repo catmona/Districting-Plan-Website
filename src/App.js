@@ -26,6 +26,8 @@ function App() {
     }
 
     function getStateSummary(stateAbbr) {
+        if(waitData) return; //for user clicking on map while loading case
+        
         setWaitData(true);
         fetch("http://localhost:8080/api2/getStateSummary?state=" + stateAbbr, { credentials: 'include' })
         .then(res => res.json())

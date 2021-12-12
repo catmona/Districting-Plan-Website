@@ -60,9 +60,10 @@ public class Controller {
     @GetMapping(value = "boxwhiskers")
     public BoxWhiskerPlotDTO handleBoxWhisker(@RequestParam("districtingId")String districtingId,
                                               @RequestParam("basis") String basis,
+                                              @RequestParam("enacted")boolean selected,
                                               @RequestParam("enacted")boolean enacted,
-                                              @RequestParam("postAlg")boolean postAlg, HttpSession session){
-        return handler.getBoxWhisker(districtingId,mapBasisToEnum(basis),enacted,postAlg,session);
+                                              HttpSession session){
+        return handler.getBoxWhisker(districtingId,mapBasisToEnum(basis),selected,enacted,session);
     }
 
     @PostMapping("mapfilter")
@@ -99,6 +100,12 @@ public class Controller {
     @GetMapping(value = "stopAlgorithm")
     public AlgorithmDTO handleStopAlgorithm(HttpSession session){
         return handler.stopAlgorithm(session);
+    }
+
+    @GetMapping(value = "removeAlgorithm")
+    public ResponseEntity removeAlgorithm(HttpSession session){
+        handler.removeAlg(session);
+        return ResponseEntity.ok().build();
     }
 
     private PopulationMeasure mapPopToEnum(String s){

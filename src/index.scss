@@ -262,11 +262,6 @@ p, h1, h2, h3 {
     padding-top: 10px;
     padding-bottom: 10px;
     padding-right: 10px;
-    h4 {
-        color: $textColor;
-        margin: auto;
-        margin-left: 10px;
-    }
     p {
         text-align: center;
         margin-top: auto;
@@ -276,8 +271,28 @@ p, h1, h2, h3 {
         color: $accentColor1
     }
 }
+#districtings-sort-left {
+    display: flex;
+    margin: auto;
+    margin-left: 10px;
+    gap: 10px;
+    h4 {
+        color: $textColor;
+        margin: auto;
+    }
+    svg {
+        color: $accentColor1;
+        margin: auto;
+        height: 20px;
+        width: 20px;
+    }
+}
 #districtings-sort-dropdown {
     width: 250px;
+}
+#districtings-sort-button {
+    font-size: large;
+    margin-left: 5px;
 }
 .custom-popover {
     z-index: 10;
@@ -286,7 +301,7 @@ p, h1, h2, h3 {
         color: black !important;
     }
 }
-.districting-labels {
+.pop-label {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -723,8 +738,4 @@ p, h1, h2, h3 {
         background-color: $fgColor;
     }
 }
-/* #endregion */
-
-/* #region algResults */
-
 /* #endregion */

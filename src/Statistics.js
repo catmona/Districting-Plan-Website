@@ -78,15 +78,18 @@ function Statistics(props) {
             {state.isLoaded ? (state.stateData ? <div id="stats-container">
                 <Row id='stats-top'>
                     <CustomizedTables 
-                        measures = {props.districtingData}
+                        measures={props.districtingData}
+                        planType={props.planType}
                     /> 
                     <StatGraphs 
                         showError={props.showError}
-                        stateData={state.stateData} 
+                        stateData={state.stateData}
+                        districtingData={props.districtingData} 
                         onSelectPopType={getPopType} 
                         popType={popType}
                         selectedPlanId={props.selectedPlanId}
                         planType={props.planType}
+                        waitData={props.waitData}
                     /> 
                 </Row>
                 <Row id='stats-bottom'>
