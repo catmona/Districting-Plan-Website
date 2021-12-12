@@ -5,28 +5,28 @@ import javax.persistence.Embeddable;
 @Embeddable
 public class Measures {
 
-    private double populationEqualityScore;
+    private double populationEquality;
 
 
 
     public  Measures() {}
 
-    public Measures(double populationEqualityScore) {
-        this.populationEqualityScore = populationEqualityScore;
+    public Measures(double populationEquality) {
+        this.populationEquality = populationEquality;
     }
 
-    public double getPopulationEqualityScore() {
-        return populationEqualityScore;
+    public double getPopulationEquality() {
+        return populationEquality;
     }
 
-    public void setPopulationEqualityScore(double populationEqualityScore) {
-        this.populationEqualityScore = populationEqualityScore;
+    public void setPopulationEquality(double populationEquality) {
+        this.populationEquality = populationEquality;
     }
 
     public Measures clone(){
         Measures m = new Measures();
         //m.setPolsbyPopperScore(this.polsbyPopperScore);
-        m.setPopulationEqualityScore(this.populationEqualityScore);
+        m.setPopulationEquality(this.populationEquality);
         return m;
     }
 }

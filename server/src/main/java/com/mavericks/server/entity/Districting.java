@@ -366,7 +366,7 @@ public class Districting {
 
     public DistrictingDTO makeDistrictDTO(){
         return new DistrictingDTO(this.getId(), this.score, this.geometricCompactness,
-                this.measures.getPopulationEqualityScore(), this.majorityMinority, this.splitCounty,
+                this.measures.getPopulationEquality(), this.majorityMinority, this.splitCounty,
                 this.devFromAveragePopulation, this.devFromEnactedPopulation);
     }
 
@@ -392,7 +392,7 @@ public class Districting {
             i++;
         }
         dto.setFeatureCollection(writer.write(features));
-        dto.setPopulationEquality(measures.getPopulationEqualityScore());
+        dto.setPopulationEquality(measures.getPopulationEquality());
         dto.setPolsbyPopper(geometricCompactness);
         dto.setMajorityMinority(majorityMinority);
         dto.setSplitCounty(splitCounty);

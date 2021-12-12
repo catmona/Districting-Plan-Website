@@ -164,7 +164,7 @@ public class State {
             populations.add(d.getPopulation().get(0));
         }
         return new StateDTO(e.getId(), center, populations, writer.write(features),
-                e.getMeasures().getPopulationEqualityScore(), e.getGeometricCompactness(),
+                e.getMeasures().getPopulationEquality(), e.getGeometricCompactness(),
                 e.getMajorityMinority(), e.getSplitCounty(), e.getEfficiencyGap());
     }
 }

@@ -86,9 +86,9 @@ public class Algorithm{
             boolean added=d2.addCensusBlock(cb,inProgressPlan,neighbors,populationMeasure,false);
             boolean removed=d1.removeCensusBlock(cb,neighbors,populationMeasure,false);
             Measures newMeasures=inProgressPlan.computeMeasures(populationMeasure);
-            if(added&&removed&&newMeasures.getPopulationEqualityScore()<populationEquality/*acceptanceProbability(populationEquality,newMeasures.getPopulationEqualityScore(),temp)>Math.random()*/){
+            if(added&&removed&&newMeasures.getPopulationEquality()<populationEquality){
                 inProgressPlan.setMeasures(newMeasures);
-                populationEquality=newMeasures.getPopulationEqualityScore();
+                populationEquality=newMeasures.getPopulationEquality();
                 if(!oldPrecinct.equals(cb.getPrecinctId())){
                     inProgressPlan.addPrecinct(oldPrecinct);
                     inProgressPlan.addPrecinct(cb.getPrecinctId());
@@ -166,7 +166,7 @@ public class Algorithm{
 
     public void setInProgressPlan(Districting inProgressPlan) {
         this.inProgressPlan = inProgressPlan;
-        this.populationEquality=inProgressPlan.getMeasures().getPopulationEqualityScore();
+        this.populationEquality=inProgressPlan.getMeasures().getPopulationEquality();
     }
 
     public Districting getInProgressPlan() {
