@@ -64,12 +64,18 @@ function Map(props) {
     );
     
     useEffect(() => {
+        console.log("dhuahufa", props.selectedPlanId)
         if(!map.current || !stateName) return;
         
         if(districtingData) { getStateGeoJSON(); }
-        focusState(stateName);
         toggleBoundaries(stateName); //yes this needs to be in both useEffects
-    })
+    }, [props.selectedPlanId]);
+    
+    useEffect(() => {
+        if(!stateName) return;
+        focusState(stateName);
+        
+    }, [stateName])
     
     useEffect(() => {
         if(!map.current) return;
@@ -121,38 +127,37 @@ function Map(props) {
     }
 
     function focusState(stateName) {
+        let lat1 = 0;
+        let lng1 = 0;
+        let zoom1 = 6;
+        
         switch(stateName) {
             case "Washington": 
-                setLat(47.75);
-                setLng(-120.74);
-                setZoom(6);
-                map.current.flyTo({
-                    center: [lng, lat],
-                    zoom
-                });
+                lat1 = (47.75);
+                lng1 = (-120.74);
+                zoom1 = (6);
                 break;
     
             case "Nevada": 
-                setLat(38.80);
-                setLng(-116.42);
-                setZoom(6);
-                map.current.flyTo({
-                    center: [lng, lat],
-                    zoom
-                });
+                lat1 = (38.80);
+                lng1 = (-116.42);
+                zoom1 = (6);
                 break;
     
             case "Arkansas": 
-                setLat(35.20);
-                setLng(-91.83);
-                setZoom(6);
-                map.current.flyTo({
-                    center: [lng, lat],
-                    zoom,
-                });
+                lat1 = (35.20);
+                lng1 = (-91.83);
+                zoom1 = (6);
                 break;
         }
-    
+        setLat(lat1);
+        setLng(lng1);
+        setZoom(zoom1);
+        
+        map.current.flyTo({
+            center: [lng1, lat1],
+            zoom: zoom1
+        }); 
     }
     
     function addStateBoundaries() {

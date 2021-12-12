@@ -33,9 +33,9 @@ function App() {
         .then(res => res.json())
         .then(
             (result) => {
+                setDistrictingData(result);
                 setSelectedPlanId(result.enactedId);
                 setIsAlgDone(false);
-                setDistrictingData(result);
                 setWaitData(false);
             },
             (error) => {
@@ -136,6 +136,7 @@ function App() {
                             stateName={stateName} 
                             districtingData={districtingData} 
                             setState={getStateSummary} 
+                            selectedPlanId={selectedPlanId}
                         />
                     </Col>
                 </Row>
