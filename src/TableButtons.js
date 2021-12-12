@@ -31,7 +31,7 @@ function TableButtons(props) {
                 color="primary"
                 aria-label="add"
                 className="submit"
-                disabled={!props.isAlgDone}
+                disabled={!props.isAlgDone || props.waitData}
                 onClick={() => goBack()}
             >
                 <KeyboardBackspaceIcon sx={{ mr: 1 }} />
@@ -42,7 +42,7 @@ function TableButtons(props) {
                 size="medium"
                 color="primary"
                 aria-label="add"
-                disabled={props.isAlgDone || props.planType.includes("Enacted")}
+                disabled={props.isAlgDone || props.planType.includes("Enacted") || props.waitData}
                 className="submit"
             >
                 <NavigationIcon sx={{ mr: 1 }} />
@@ -55,6 +55,7 @@ function TableButtons(props) {
                 size="medium"
                 color="primary"
                 aria-label="add"
+                disabled={props.waitData}
                 onClick={() => saveGeoJSON()}
             >
                 <SaveAltIcon sx={{ mr: 1 }} />

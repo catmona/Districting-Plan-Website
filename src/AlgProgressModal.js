@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { CanvasJSChart } from 'canvasjs-react-charts';
-import { Modal, Button, Row, Col, ProgressBar } from 'react-bootstrap';
+import { Modal, Button, Row, Col } from 'react-bootstrap';
 
 function AlgProgressModal(props) {
     const [numIterations, setNumIterations] = useState(0);

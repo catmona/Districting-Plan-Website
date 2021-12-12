@@ -25,6 +25,10 @@ const columns = [
     width: 140,
     editable: false,
     type: 'number',
+    valueFormatter: (params) => {
+        const valueFormatted = Number(params.value * 100).toFixed(2).toLocaleString();
+        return valueFormatted + '%';
+    }
   },
   {
     field: 'republican',
@@ -32,6 +36,10 @@ const columns = [
     type: 'number',
     width: 150,
     editable: false,
+    valueFormatter: (params) => {
+        const valueFormatted = Number(params.value * 100).toFixed(2).toLocaleString();
+        return valueFormatted + '%';
+    }
   },
   {
     field: 'africanamerican',
@@ -85,6 +93,7 @@ export default function EnhancedTable(props) {
                 getDistrictingSummary={props.getDistrictingSummary}
                 districtingData={props.districtingData} 
                 planType={props.planType}
+                waitData={props.waitData}
             />
             <>
                 <AlgLimitsModal

@@ -101,6 +101,7 @@ function Statistics(props) {
                         setDistrictingData={props.setDistrictingData}
                         isAlgDone={props.isAlgDone}
                         setIsAlgDone={props.setIsAlgDone}
+                        waitData={props.waitData}
                     />
                 </Row>
             </div> : "") : <Box className = 'loading-container'><CircularProgress className = 'loading-icon'/></Box>}
