@@ -65,7 +65,7 @@ function getBasisPoint(basis, districtPoints) {
     return point;
 }
 
-function formatResponseToBoxWhisker(result, popType, basis, wantEnacted, equalizedResult, wantEqualized) {
+function formatResponseToBoxWhisker(result, popType, basis, wantEnacted, wantCurrent, equalizedResult, wantEqualized) {
     const boxData = []
     const pointData = { enacted: [], selected: [], equalized: [] }
     let yAxisLabel = ""
@@ -87,26 +87,30 @@ function formatResponseToBoxWhisker(result, popType, basis, wantEnacted, equaliz
 
     //format optional points
     // enacted
-    for(let i = 0; i < result.enactedPoints.length; i++) {
-        console.log("in enacted")
-        const l = "District " + (i+1);
-        const districtPoints = result.enactedPoints[i];
-        const point = getBasisPoint(basis, districtPoints);
-        const col = { label: l, y: point }
-        pointData.enacted.push(col);
+    if (wantEnacted) {
+        for(let i = 0; i < result.enactedPoints.length; i++) {
+            console.log("in enacted")
+            const l = "District " + (i+1);
+            const districtPoints = result.enactedPoints[i];
+            const point = getBasisPoint(basis, districtPoints);
+            const col = { label: l, y: point }
+            pointData.enacted.push(col);
+        }
     }
 
     // selected
-    for(let i = 0; i < result.selectedPoints.length; i++) {
-        const l = "District " + (i+1);
-        const districtPoints = result.selectedPoints[i];
-        const point = getBasisPoint(basis, districtPoints);
-        const col = { label: l, y: point }
-        pointData.selected.push(col);
+    if (wantCurrent) {
+        for(let i = 0; i < result.selectedPoints.length; i++) {
+            const l = "District " + (i+1);
+            const districtPoints = result.selectedPoints[i];
+            const point = getBasisPoint(basis, districtPoints);
+            const col = { label: l, y: point }
+            pointData.selected.push(col);
+        }
     }
 
     // postAlg
-    if (equalizedResult) {
+    if (wantEqualized && equalizedResult) {
         for(let i = 0; i < equalizedResult.districtPopulations.length; i++) {
             const l = "District " + (i+1);
             const districtPoints = equalizedResult.districtPopulations[i];
@@ -204,7 +208,7 @@ function StatGraphs(props) {
         .then(res => res.json())
         .then(
             (result) => {
-                const formattedData = formatResponseToBoxWhisker(result, props.popType, boxWhiskerBasis, boxWhiskerEnacted, props.districtingData, boxWhiskerEqualized);
+                const formattedData = formatResponseToBoxWhisker(result, props.popType, boxWhiskerBasis, boxWhiskerEnacted, boxWhiskerCurrent, props.districtingData, boxWhiskerEqualized);
                 setBoxes(formattedData.boxes);
                 setPoints(formattedData.points);
                 setLabel(formattedData.label);

@@ -56,7 +56,7 @@ public class Controller {
     @GetMapping(value = "boxwhiskers")
     public BoxWhiskerPlotDTO handleBoxWhisker(@RequestParam("districtingId")String districtingId,
                                               @RequestParam("basis") String basis,
-                                              @RequestParam("enacted")boolean selected,
+                                              @RequestParam("selected")boolean selected,
                                               @RequestParam("enacted")boolean enacted,
                                               HttpSession session){
         return handler.getBoxWhisker(districtingId,mapBasisToEnum(basis),selected,enacted,session);
