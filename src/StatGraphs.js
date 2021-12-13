@@ -243,9 +243,9 @@ function StatGraphs(props) {
                         chartEvents={chartEvents}
                         sx={{ borderRight: 1, borderColor: 'divider', color: 'white' }}
                     >
-                        <Tab disabled={props.waitData} className="graph-label" label="Party Population By District" {...a11yProps(0)} />
-                        <Tab disabled={props.waitData} className="graph-label" label="Demographic Population By District" {...a11yProps(1)} />
-                        <Tab disabled={props.waitData} className="graph-label" label="Compare to Average" {...a11yProps(2)} />
+                        <Tab disabled={props.waitData} className="graph-label" label="Political Party" {...a11yProps(0)} />
+                        <Tab disabled={props.waitData} className="graph-label" label="Demographics" {...a11yProps(1)} />
+                        <Tab disabled={props.waitData} className="graph-label" label="Comparisons" {...a11yProps(2)} />
                     </Tabs>
                     <hr />
                     <DropdownButton disabled={props.waitData} menuVariant="dark" size="md" title={"Pop. Type: " + props.popType} id="poptype-dropdown">
@@ -262,7 +262,7 @@ function StatGraphs(props) {
                         data={partyData}
                         options={{
                             // Material design options
-                            title: "Party Population By District",
+                            title: "Political Party",
 
                             titleTextStyle: {
                                 color: 'white',
@@ -310,7 +310,7 @@ function StatGraphs(props) {
 
                         options={{
                             // Material design options
-                            title: "Demographic Population By District",
+                            title: "Demographics",
 
                             titleTextStyle: {
                                 color: 'white',
@@ -355,14 +355,14 @@ function StatGraphs(props) {
                                             classname="dark-checkbox" 
                                             id="boxwhisker-enacted" 
                                             onChange={ (e) => setBoxWhiskerEnacted(e.target.checked) }
-                                            label="Show enacted plan?" 
+                                            label="Enacted Plan"
                                         />
                                         <Form.Check 
                                             type="checkbox" 
                                             classname="dark-checkbox" 
                                             id="boxwhisker-districting" 
                                             onChange={ (e) => setBoxWhiskerCurrent(e.target.checked) }
-                                            label="Show selected redistricting plan?" 
+                                            label="Districting Plan"
                                             disabled={!currentAvailable}
                                         />
                                         <Form.Check 
@@ -370,7 +370,7 @@ function StatGraphs(props) {
                                             classname="dark-checkbox" 
                                             id="boxwhisker-equalized" 
                                             onChange={ (e) => setBoxWhiskerEqualized(e.target.checked) }
-                                            label="Show equalized plan?" 
+                                            label="Equalized Plan"
                                             disabled={!algAvailable}
                                         />
                                     </Form.Group>
@@ -384,7 +384,7 @@ function StatGraphs(props) {
                                             name="boxwhisker-basis"
                                             checked = {boxWhiskerBasis === "african_american"}
                                             onChange={ () => setBoxWhiskerBasis("african_american") }
-                                            label="Compare African American Population" 
+                                            label="By African American Population"
                                         />
                                         <Form.Check 
                                             type="radio" 
@@ -393,7 +393,7 @@ function StatGraphs(props) {
                                             name="boxwhisker-basis"
                                             checked = {boxWhiskerBasis === "asian"}
                                             onChange={ () => setBoxWhiskerBasis("asian") }
-                                            label="Compare Asian Population" 
+                                            label="By Asian Population"
                                         />
                                         <Form.Check 
                                             type="radio" 
@@ -402,7 +402,7 @@ function StatGraphs(props) {
                                             name="boxwhisker-basis"
                                             checked = {boxWhiskerBasis === "white"}
                                             onChange={ () => setBoxWhiskerBasis("white") }
-                                            label="Compare White Population" 
+                                            label="By White Population"
                                         />
                                         <Form.Check 
                                             type="radio" 
@@ -411,7 +411,7 @@ function StatGraphs(props) {
                                             name="boxwhisker-basis"
                                             checked = {boxWhiskerBasis === "republican"}
                                             onChange={ () => setBoxWhiskerBasis("republican") }
-                                            label="Compare Republican Population" 
+                                            label="By Republican Voters"
                                         />
                                         <Form.Check 
                                             type="radio" 
@@ -420,7 +420,7 @@ function StatGraphs(props) {
                                             name="boxwhisker-basis"
                                             checked = {boxWhiskerBasis === "democrat"}
                                             onChange={ () => setBoxWhiskerBasis("democrat") }
-                                            label="Compare Democratic Population" 
+                                            label="By Democratic Voters"
                                         />
                                     </Form.Group>
                                 </Col>

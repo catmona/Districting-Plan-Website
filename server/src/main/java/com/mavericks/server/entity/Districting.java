@@ -35,7 +35,7 @@ public class Districting {
 
     @Embedded
     @AttributeOverrides({
-            @AttributeOverride( name="populationEquality", column=@Column(name = "populationEqualityScore"))
+            @AttributeOverride(name = "populationEquality", column = @Column(name = "populationEqualityScore"))
     })
     private Measures measures;
 
@@ -94,7 +94,7 @@ public class Districting {
     private List<Population> populations;
 
     @Transient
-    private List<String>precinctsChanged;
+    private List<String> precinctsChanged;
 
     @Transient
     private District maxPop;
@@ -103,13 +103,13 @@ public class Districting {
     private District minPop;
 
     public Districting() {
-        precinctsChanged=new ArrayList<>();
+        precinctsChanged = new ArrayList<>();
     }
 
     public Districting(String stateId, Measures measures) {
         this.stateId = stateId;
         this.measures = measures;
-        precinctsChanged=new ArrayList<>();
+        precinctsChanged = new ArrayList<>();
     }
 
 //    public void processMovedBlocks(){
@@ -118,19 +118,56 @@ public class Districting {
 //        }
 //    }
 
-    public District getRandDistrict(){
-        District dist = districts.get(0);
-        for(District d:districts){
-            if(d.getPopulation().get(0).getPopulationTotal()>
-                    dist.getPopulation().get(0).getPopulationTotal()){
-                dist=d;
+    public District getRandDistrict() {
+        Collections.sort(districts);
+//        Random rand = new Random();
+        double[] probabilityDistribution = new double[districts.size()];
+        if (districts.size() == 4) {
+            probabilityDistribution[0] = 0.9;
+            probabilityDistribution[1] = 0.95;
+            probabilityDistribution[2] = 1;
+            probabilityDistribution[3] = 1;
+
+        } else if (districts.size() == 10) {
+            probabilityDistribution[0] = 0.75;
+            probabilityDistribution[1] = 0.79;
+            probabilityDistribution[2] = 0.83;
+            probabilityDistribution[3] = 0.87;
+            probabilityDistribution[4] = 0.9;
+            probabilityDistribution[5] = 0.93;
+            probabilityDistribution[6] = 0.96;
+            probabilityDistribution[7] = 0.99;
+            probabilityDistribution[8] = 1;
+            probabilityDistribution[9] = 1;
+        } else {
+            for (int i = 0; i < districts.size(); i++) {
+                probabilityDistribution[i] = 1;
             }
+        }
+        double rand = Math.random();
+        int choice = 0;
+        for (int i = 0; i < probabilityDistribution.length; i++) {
+            if (rand < probabilityDistribution[i]) {
+                choice = i;
+                break;
+            }
+        }
+        District dist = districts.get(choice);
+
+
+//        District dist = districts.get(rand.nextInt(districts.size()));
+        //District dist = districts.get(0);
+//        for (District d : districts) {
+//            if (d.getPopulation().get(0).getPopulationTotal() >
+//                    dist.getPopulation().get(0).getPopulationTotal()) {
+//                dist = d;
+//            }
 //            else if (d.getPopulation(PopulationMeasure.TOTAL,Demographic.ALL)>
 //                    minPop.getPopulation(PopulationMeasure.TOTAL,Demographic.ALL)){
 //                minPop=d;
 //            }
 
-        }
+//    }
 
 //        Random rand = new Random();
 //        District dist = districts.get(rand.nextInt(districts.size()));
@@ -140,9 +177,9 @@ public class Districting {
         return dist;
     }
 
-    public District getDistrict(String id){
-        for(District d:districts){
-            if(id.equals(d.getId())){
+    public District getDistrict(String id) {
+        for (District d : districts) {
+            if (id.equals(d.getId())) {
                 return d;
             }
         }
@@ -150,12 +187,12 @@ public class Districting {
     }
 
 
-    public List<CensusBlock> getNeighbors(CensusBlock cb){
-        List<CensusBlock> neighbors=new ArrayList<>();
-        for(String id:cb.getNeighborIds()){
-            for(District d:this.getDistricts()){
-                CensusBlock neighbor=d.getCb(id);
-                if(neighbor!=null){
+    public List<CensusBlock> getNeighbors(CensusBlock cb) {
+        List<CensusBlock> neighbors = new ArrayList<>();
+        for (String id : cb.getNeighborIds()) {
+            for (District d : this.getDistricts()) {
+                CensusBlock neighbor = d.getCb(id);
+                if (neighbor != null) {
                     neighbors.add(d.getCb(id));
                     break;
                 }
@@ -357,18 +394,18 @@ public class Districting {
                 .collect(Collectors.toList());
     }
 
-    public List<Population>getPopulation(){
+    public List<Population> getPopulation() {
         return populations;
     }
 
 
-    public DistrictingDTO makeDistrictDTO(){
+    public DistrictingDTO makeDistrictDTO() {
         return new DistrictingDTO(this.getId(), this.score, this.geometricCompactness,
                 this.measures.getPopulationEquality(), this.majorityMinority, this.splitCounty,
-                this.devFromAveragePopulation, this.devFromEnactedPopulation,this.efficiencyGap);
+                this.devFromAveragePopulation, this.devFromEnactedPopulation, this.efficiencyGap);
     }
 
-    public PlanDTO makePlanDTO(PopulationMeasure popType){
+    public PlanDTO makePlanDTO(PopulationMeasure popType) {
         PlanDTO dto = new PlanDTO();
 
         List<PopulationCopy> populations = new ArrayList<>();
@@ -380,13 +417,13 @@ public class Districting {
         List<Feature> features = new ArrayList<>();
         GeoJSONWriter writer = new GeoJSONWriter();
         int i = 1;
-        for(District d:this.getDistricts()){
-            Map<String,Object> properties = new HashMap<>();
+        for (District d : this.getDistricts()) {
+            Map<String, Object> properties = new HashMap<>();
             properties.put("District", i);
-            properties.put("District_Name","" + i);
-            Geometry geo=d.getGeometry();
+            properties.put("District_Name", "" + i);
+            Geometry geo = d.getGeometry();
             GeoJSON json = writer.write(geo);
-            features.add(new Feature((org.wololo.geojson.Geometry)json ,properties));
+            features.add(new Feature((org.wololo.geojson.Geometry) json, properties));
             i++;
         }
         dto.setFeatureCollection(writer.write(features));
@@ -400,17 +437,16 @@ public class Districting {
     }
 
     //work in progress
-    public double computePopulationEquality(PopulationMeasure measure){
-        double max=0;
-        double min=Double.MAX_VALUE;
-        for(District d:districts){
-            int value=d.getPopulation().get(0).getPopulationTotal();
-            min=Math.min(value,min);
-            max=Math.max(max,value);
+    public double computePopulationEquality(PopulationMeasure measure) {
+        double max = 0;
+        double min = Double.MAX_VALUE;
+        for (District d : districts) {
+            int value = d.getPopulation().get(0).getPopulationTotal();
+            min = Math.min(value, min);
+            max = Math.max(max, value);
         }
-        return (max-min)/((min+max)/2);
+        return (max - min) / ((min + max) / 2);
     }
-
 
 
     public double computePolsbyPopper() {
@@ -452,31 +488,31 @@ public class Districting {
     }
 
     //stubbed
-    public Measures computeMeasures(PopulationMeasure measure){
+    public Measures computeMeasures(PopulationMeasure measure) {
         //double polsby=computePolsbyPopper();
         double popEquality = computePopulationEquality(measure);
         return new Measures(popEquality);
     }
 
-    private double polsbyHelper(Geometry geom){
+    private double polsbyHelper(Geometry geom) {
         double area = geom.getArea();
         double perimeter = geom.getLength();
 
-        return (Math.PI*4)*(area/Math.pow(perimeter,2));
+        return (Math.PI * 4) * (area / Math.pow(perimeter, 2));
     }
 
-    public Districting clone(){
-        Districting plan= new Districting();
-        List<District>distCopys=new ArrayList<>();
+    public Districting clone() {
+        Districting plan = new Districting();
+        List<District> distCopys = new ArrayList<>();
         plan.setMeasures(this.measures.clone());
-        for(District d: this.districts){
+        for (District d : this.districts) {
             distCopys.add(d.clone());
         }
         plan.setDistricts(distCopys);
         return plan;
     }
 
-    public void addPrecinct(String precinctId){
+    public void addPrecinct(String precinctId) {
         precinctsChanged.add(precinctId);
     }
 

@@ -47,7 +47,7 @@ function TableButtons(props) {
             >
                 <NavigationIcon sx={{ mr: 1 }} />
                 <span className="submit" onClick={() => props.setShowAlgLimits(true)}>
-                    Equalize Population
+                    Algorithm
                 </span>
             </Fab>
             <Fab
@@ -59,7 +59,7 @@ function TableButtons(props) {
                 onClick={() => saveGeoJSON()}
             >
                 <SaveAltIcon sx={{ mr: 1 }} />
-                <span className="submit">Save Geo Data</span>
+                <span className="submit">Export GeoJSON</span>
             </Fab>
         </Box>  
     );

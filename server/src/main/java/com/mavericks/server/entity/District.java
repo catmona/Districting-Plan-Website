@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "Districts")
-public class District {
+public class District implements Comparable {
     @Id
     @Column(name = "id", length = 50, nullable = false)
     private String id;
@@ -60,11 +60,11 @@ public class District {
 
     @Transient
     @Autowired
-    private List<Geometry>cbToAdd;
+    private List<Geometry> cbToAdd;
 
     @Transient
     @Autowired
-    private List<Geometry>cbToRemove;
+    private List<Geometry> cbToRemove;
 
     @Transient
     private int districtNumber;
@@ -73,53 +73,52 @@ public class District {
     private Geometry prevGeometry;
 
     public District() {
-        this.cbToRemove=new ArrayList<>();
-        this.cbToAdd=new ArrayList<>();
+        this.cbToRemove = new ArrayList<>();
+        this.cbToAdd = new ArrayList<>();
     }
 
     public District(String districtingId) {
         this.districtingId = districtingId;
     }
 
-    public int getDistrictNumber(){
+    public int getDistrictNumber() {
         return districtNumber;
     }
 
-    public void processMovedBlocks(){
+    public void processMovedBlocks() {
         cbToAdd.add(this.geometry);
-        this.geometry=UnaryUnionOp.union(cbToAdd);
+        this.geometry = UnaryUnionOp.union(cbToAdd);
         cbToAdd.clear();
 
-        for(Geometry geom:cbToRemove){
-            this.geometry=this.geometry.difference(geom);
+        for (Geometry geom : cbToRemove) {
+            this.geometry = this.geometry.difference(geom);
         }
         cbToRemove.clear();
 
     }
 
 
-    public boolean removeCensusBlock(CensusBlock cb,List<CensusBlock>neighbors,PopulationMeasure measure, boolean revert){
-        List<CensusBlock>cbBorders=neighbors.stream().filter(c->c.getDistrictId().equals(this.id))
+    public boolean removeCensusBlock(CensusBlock cb, List<CensusBlock> neighbors, PopulationMeasure measure, boolean revert) {
+        List<CensusBlock> cbBorders = neighbors.stream().filter(c -> c.getDistrictId().equals(this.id))
                 .collect(Collectors.toList());
-        cbBorders.forEach(c->c.setBorderBlock(true));
-        for(CensusBlock block:cbBorders){
-            borderBlocks.putIfAbsent(block.getId(),block);
+        cbBorders.forEach(c -> c.setBorderBlock(true));
+        for (CensusBlock block : cbBorders) {
+            borderBlocks.putIfAbsent(block.getId(), block);
             innerBlocks.remove(block.getId());
         }
 
         this.borderBlocks.remove(cb.getId());
-        int diffMultiplier=-1;
-        combinePops(this.population.get(0),cb.getPopulation().get(0),diffMultiplier);
-        if(revert){
-            this.geometry=this.prevGeometry;
+        int diffMultiplier = -1;
+        combinePops(this.population.get(0), cb.getPopulation().get(0), diffMultiplier);
+        if (revert) {
+            this.geometry = this.prevGeometry;
 //            cbToRemove.remove(cb.getGeometry());
             cb.setMoved(false);
-        }
-        else{
-            this.prevGeometry=this.geometry;
-            try{
-                this.geometry=this.geometry.difference(cb.getGeometry());
-            }catch (Exception e){
+        } else {
+            this.prevGeometry = this.geometry;
+            try {
+                this.geometry = this.geometry.difference(cb.getGeometry());
+            } catch (Exception e) {
                 return false;
             }
 //            cbToRemove.add(cb.getGeometry());
@@ -130,27 +129,26 @@ public class District {
 
     }
 
-    public boolean addCensusBlock(CensusBlock cb,Districting plan,List<CensusBlock>neighbors
-            ,PopulationMeasure measure, boolean revert){
-        List<CensusBlock>newDistrictNeighbors= neighbors.stream().
-                filter(c->c.getDistrictId().equals(this.id)).collect(Collectors.toList());
-        if(newDistrictNeighbors.size()!=0){
+    public boolean addCensusBlock(CensusBlock cb, Districting plan, List<CensusBlock> neighbors
+            , PopulationMeasure measure, boolean revert) {
+        List<CensusBlock> newDistrictNeighbors = neighbors.stream().
+                filter(c -> c.getDistrictId().equals(this.id)).collect(Collectors.toList());
+        if (newDistrictNeighbors.size() != 0) {
             cb.setPrecinctId(newDistrictNeighbors.get(0).getPrecinctId());
         }
-        adjNewDistNeighbors(cb,plan,newDistrictNeighbors);
+        adjNewDistNeighbors(cb, plan, newDistrictNeighbors);
         cb.setDistrictId(this.id);
-        this.borderBlocks.put(cb.getId(),cb);
-        int addMultiplier=1;
-        combinePops(this.population.get(0),cb.getPopulation().get(0),addMultiplier);
-        if(revert){
-            this.geometry=this.prevGeometry;
+        this.borderBlocks.put(cb.getId(), cb);
+        int addMultiplier = 1;
+        combinePops(this.population.get(0), cb.getPopulation().get(0), addMultiplier);
+        if (revert) {
+            this.geometry = this.prevGeometry;
             cb.setMoved(false);
-        }
-        else{
-            this.prevGeometry=this.geometry;
-            try{
-                this.geometry= this.geometry.union(cb.getGeometry());
-            }catch(Exception e){
+        } else {
+            this.prevGeometry = this.geometry;
+            try {
+                this.geometry = this.geometry.union(cb.getGeometry());
+            } catch (Exception e) {
                 return false;
             }
             cb.setMoved(true);
@@ -159,57 +157,56 @@ public class District {
         return true;
     }
 
-    public void combinePops(PopulationCopy distPop, PopulationCopy cbPop, int multiplier){
+    public void combinePops(PopulationCopy distPop, PopulationCopy cbPop, int multiplier) {
 //        for(int i=0;i<distPops.size();i++){
 //            distPops.get(i).setValue(distPops.get(i).getValue()+cbPops.get(i).getValue()*multiplier);
 //        }
 
-        distPop.setAsian(distPop.getAsian()+cbPop.getAsian()*multiplier);
-        distPop.setBlack(distPop.getBlack()+cbPop.getBlack()*multiplier);
-        distPop.setWhite(distPop.getWhite()+cbPop.getWhite()*multiplier);
-        double repVotes=distPop.getPopulationTotal()*distPop.getRepublicanVotes()+
-                cbPop.getPopulationTotal()*cbPop.getRepublicanVotes()*multiplier;
-        double demVotes=distPop.getPopulationTotal()*distPop.getDemocraticVotes()+
-                cbPop.getPopulationTotal()*cbPop.getDemocraticVotes()*multiplier;
-        distPop.setDemocraticVotes((demVotes)/(repVotes+demVotes));
-        distPop.setRepublicanVotes((repVotes)/(repVotes+demVotes));
-        distPop.setPopulationTotal(distPop.getPopulationTotal()+cbPop.getPopulationTotal()*multiplier);
+        distPop.setAsian(distPop.getAsian() + cbPop.getAsian() * multiplier);
+        distPop.setBlack(distPop.getBlack() + cbPop.getBlack() * multiplier);
+        distPop.setWhite(distPop.getWhite() + cbPop.getWhite() * multiplier);
+        double repVotes = distPop.getPopulationTotal() * distPop.getRepublicanVotes() +
+                cbPop.getPopulationTotal() * cbPop.getRepublicanVotes() * multiplier;
+        double demVotes = distPop.getPopulationTotal() * distPop.getDemocraticVotes() +
+                cbPop.getPopulationTotal() * cbPop.getDemocraticVotes() * multiplier;
+        distPop.setDemocraticVotes((demVotes) / (repVotes + demVotes));
+        distPop.setRepublicanVotes((repVotes) / (repVotes + demVotes));
+        distPop.setPopulationTotal(distPop.getPopulationTotal() + cbPop.getPopulationTotal() * multiplier);
     }
 
 
-    private void adjNewDistNeighbors(CensusBlock cb,Districting plan,List<CensusBlock>neighbors){
-        for(CensusBlock neighbor: neighbors){
-            List<CensusBlock>otherNeighbors=plan.getNeighbors(neighbor);
-            boolean borderBlock=false;
-            for(CensusBlock block:otherNeighbors){
-                if(!block.getDistrictId().equals(neighbor.getDistrictId())
-                        && !block.equals(cb)){
-                    borderBlock=true;
+    private void adjNewDistNeighbors(CensusBlock cb, Districting plan, List<CensusBlock> neighbors) {
+        for (CensusBlock neighbor : neighbors) {
+            List<CensusBlock> otherNeighbors = plan.getNeighbors(neighbor);
+            boolean borderBlock = false;
+            for (CensusBlock block : otherNeighbors) {
+                if (!block.getDistrictId().equals(neighbor.getDistrictId())
+                        && !block.equals(cb)) {
+                    borderBlock = true;
                     break;
                 }
             }
             neighbor.setBorderBlock(borderBlock);
-            if(!borderBlock){
-                this.innerBlocks.put(neighbor.getId(),neighbor);
+            if (!borderBlock) {
+                this.innerBlocks.put(neighbor.getId(), neighbor);
                 this.borderBlocks.remove(neighbor.getId());
             }
         }
     }
 
-    public CensusBlock getCb(String id){
-        if(borderBlocks.get(id)==null){
+    public CensusBlock getCb(String id) {
+        if (borderBlocks.get(id) == null) {
             return innerBlocks.get(id);
-        }
-        else{
+        } else {
             return borderBlocks.get(id);
         }
     }
 
 
-    public CensusBlock getRandCensusBlock(){
-        Object[]blocks =borderBlocks.values().toArray();
+    public CensusBlock getRandCensusBlock() {
+        Object[] blocks = borderBlocks.values().toArray();
         Random rand = new Random();
-        return (CensusBlock)blocks[rand.nextInt(blocks.length)];
+        return (CensusBlock) blocks[rand.nextInt(blocks.length)];
     }
 
     public String getId() {
@@ -300,7 +297,7 @@ public class District {
                 .collect(Collectors.toList());
     }
 
-    public Population getPopulationObj(PopulationMeasure measure, Demographic demg){
+    public Population getPopulationObj(PopulationMeasure measure, Demographic demg) {
         return populations.get(measure.ordinal() + demg.ordinal());
     }
 
@@ -337,20 +334,20 @@ public class District {
         return this.id.equals(district.getId());
     }
 
-    public District clone(){
+    public District clone() {
         District d = new District();
         d.setGeometry(this.geometry.copy());
-        List<PopulationCopy>popCopy=new ArrayList<>();
+        List<PopulationCopy> popCopy = new ArrayList<>();
         popCopy.add(population.get(0).clone());
         d.setId(this.id);
         d.setDistrictingId(this.districtingId);
-        Map<String,CensusBlock>border = new HashMap<>();
-        Map<String,CensusBlock>inner = new HashMap<>();
-        for(Map.Entry<String,CensusBlock>mapEntry:borderBlocks.entrySet()){
-            border.put(mapEntry.getKey(),mapEntry.getValue().clone());
+        Map<String, CensusBlock> border = new HashMap<>();
+        Map<String, CensusBlock> inner = new HashMap<>();
+        for (Map.Entry<String, CensusBlock> mapEntry : borderBlocks.entrySet()) {
+            border.put(mapEntry.getKey(), mapEntry.getValue().clone());
         }
-        for(Map.Entry<String,CensusBlock>mapEntry:innerBlocks.entrySet()){
-            inner.put(mapEntry.getKey(),mapEntry.getValue().clone());
+        for (Map.Entry<String, CensusBlock> mapEntry : innerBlocks.entrySet()) {
+            inner.put(mapEntry.getKey(), mapEntry.getValue().clone());
         }
         d.setBorderBlocks(border);
         d.setInnerBlocks(inner);
@@ -361,6 +358,10 @@ public class District {
     }
 
 
-
-
+    @Override
+    public int compareTo(Object other) {
+        int thisPopulation = this.population.get(0).getPopulationTotal();
+        int otherPopulation = ((District) other).population.get(0).getPopulationTotal();
+        return otherPopulation-thisPopulation;
+    }
 }
