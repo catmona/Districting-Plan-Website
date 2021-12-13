@@ -340,10 +340,8 @@ public class District {
     public District clone(){
         District d = new District();
         d.setGeometry(this.geometry.copy());
-        List<Population>popCopy=new ArrayList<>();
-        for(Population p:this.populations){
-            popCopy.add(p.clone());
-        }
+        List<PopulationCopy>popCopy=new ArrayList<>();
+        popCopy.add(population.get(0).clone());
         d.setId(this.id);
         d.setDistrictingId(this.districtingId);
         return d;

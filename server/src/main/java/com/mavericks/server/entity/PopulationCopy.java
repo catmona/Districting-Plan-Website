@@ -99,4 +99,10 @@ public class PopulationCopy {
     public void setAsian(int asian) {
         this.asian = asian;
     }
+
+    public PopulationCopy clone(){
+        PopulationCopy clone = new PopulationCopy(regionId,republicanVotes,democraticVotes,
+                populationTotal,white,black,asian);
+        return clone;
+    }
 }
