@@ -71,10 +71,7 @@ public class Algorithm{
 
     @Async
     public void run() {
-        inProgressPlan = districtingRepo.getById(inProgressPlanId);
-        if (inProgressPlan == null) return;
-
-        setInProgressPlan(inProgressPlan);
+        setInProgressPlan(inProgressPlan.clone());
 
         while(iterations!=max_iterations && failedCbMoves!=maxFaildCbMoves && flag
                 && (populationEquality>minPopulationEquality)){

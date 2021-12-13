@@ -344,8 +344,18 @@ public class District {
         popCopy.add(population.get(0).clone());
         d.setId(this.id);
         d.setDistrictingId(this.districtingId);
-        List<CensusBlock> borderCBCopy = new ArrayList<>();
-        
+        Map<String,CensusBlock>border = new HashMap<>();
+        Map<String,CensusBlock>inner = new HashMap<>();
+        for(Map.Entry<String,CensusBlock>mapEntry:borderBlocks.entrySet()){
+            border.put(mapEntry.getKey(),mapEntry.getValue().clone());
+        }
+        for(Map.Entry<String,CensusBlock>mapEntry:innerBlocks.entrySet()){
+            inner.put(mapEntry.getKey(),mapEntry.getValue().clone());
+        }
+        d.setBorderBlocks(border);
+        d.setInnerBlocks(inner);
+        d.setPopulation(popCopy);
+
 
         return d;
     }

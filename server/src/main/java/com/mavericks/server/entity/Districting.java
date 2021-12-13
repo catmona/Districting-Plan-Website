@@ -121,8 +121,8 @@ public class Districting {
     public District getRandDistrict(){
         District dist = districts.get(0);
         for(District d:districts){
-            if(d.getPopulation(PopulationMeasure.TOTAL,Demographic.ALL)>
-                    dist.getPopulation(PopulationMeasure.TOTAL,Demographic.ALL)){
+            if(d.getPopulation().get(0).getPopulationTotal()>
+                    dist.getPopulation().get(0).getPopulationTotal()){
                 dist=d;
             }
 //            else if (d.getPopulation(PopulationMeasure.TOTAL,Demographic.ALL)>
@@ -503,4 +503,6 @@ public class Districting {
     public void setMinPop(District minPop) {
         this.minPop = minPop;
     }
+
+
 }
