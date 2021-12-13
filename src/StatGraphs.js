@@ -183,8 +183,17 @@ function StatGraphs(props) {
             setCurrentAvailable(false);
             setAlgAvailable(false);
         }
+        resetBoxWhisker();
         
     }, [planType])
+
+    const resetBoxWhisker = () => {
+        setBoxes(null);
+        setPoints({ enacted: [], selected: [], equalized: [] });
+        setBoxWhiskerEnacted(false);
+        setBoxWhiskerCurrent(false);
+        setBoxWhiskerEqualized(false);
+    }
     
     const handleChange = (event, newValue) => {
         setValue(newValue);
@@ -355,6 +364,7 @@ function StatGraphs(props) {
                                             classname="dark-checkbox" 
                                             id="boxwhisker-enacted" 
                                             onChange={ (e) => setBoxWhiskerEnacted(e.target.checked) }
+                                            checked={boxWhiskerEnacted}
                                             label="Enacted Plan"
                                         />
                                         <Form.Check 
@@ -362,6 +372,7 @@ function StatGraphs(props) {
                                             classname="dark-checkbox" 
                                             id="boxwhisker-districting" 
                                             onChange={ (e) => setBoxWhiskerCurrent(e.target.checked) }
+                                            checked={boxWhiskerCurrent}
                                             label="Districting Plan"
                                             disabled={!currentAvailable}
                                         />
@@ -370,6 +381,7 @@ function StatGraphs(props) {
                                             classname="dark-checkbox" 
                                             id="boxwhisker-equalized" 
                                             onChange={ (e) => setBoxWhiskerEqualized(e.target.checked) }
+                                            checked={boxWhiskerEqualized}
                                             label="Equalized Plan"
                                             disabled={!algAvailable}
                                         />
