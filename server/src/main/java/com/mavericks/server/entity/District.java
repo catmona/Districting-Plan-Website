@@ -344,6 +344,9 @@ public class District {
         popCopy.add(population.get(0).clone());
         d.setId(this.id);
         d.setDistrictingId(this.districtingId);
+        List<CensusBlock> borderCBCopy = new ArrayList<>();
+        
+
         return d;
     }
 

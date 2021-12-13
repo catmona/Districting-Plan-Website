@@ -139,7 +139,8 @@ public class Handler {
     public AlgorithmDTO startAlgorithm(String districtingNum, HttpSession session){
         State state = (State)session.getAttribute("state");
         Algorithm alg = jobs.get(session.getId());
-        Districting plan = districtingRepo.findById(districtingNum).get();
+        Districting plan = districtingRepo.getById(districtingNum);
+//        Districting plan = districtingRepo.findById(districtingNum).get();
         alg.setPopulationMeasure((PopulationMeasure) session.getAttribute("PopType"));
         alg.setInProgressPlan(plan);
         AlgorithmDTO dto = new AlgorithmDTO(plan.getMeasures().getPopulationEquality(),0,true,null,null, -1);

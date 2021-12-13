@@ -130,9 +130,6 @@ public class CensusBlock {
                 .collect(Collectors.toList());
     }
 
-
-
-
     public boolean isMoved() {
         return moved;
     }
@@ -155,5 +152,18 @@ public class CensusBlock {
 
     public void setPopulation(List<PopulationCopy> population) {
         this.population = population;
+    }
+
+    public CensusBlock clone() {
+        CensusBlock copy = new CensusBlock();
+        copy.setMoved(moved);
+        copy.setBorderBlock(isBorderBlock);
+        copy.setDistrictId(districtId);
+        copy.setId(id);
+        copy.setPrecinctId(precinctId);
+        copy.setCbGeometry(cbGeometry);
+        copy.setNeighborIds(neighborIds);
+        copy.setPopulation(population);
+        return copy;
     }
 }

@@ -119,9 +119,7 @@ public class Districting {
 //    }
 
     public District getRandDistrict(){
-        maxPop=districts.get(0);
-        minPop=districts.get(0);
-        District dist=districts.get(0);
+        District dist = districts.get(0);
         for(District d:districts){
             if(d.getPopulation(PopulationMeasure.TOTAL,Demographic.ALL)>
                     dist.getPopulation(PopulationMeasure.TOTAL,Demographic.ALL)){
