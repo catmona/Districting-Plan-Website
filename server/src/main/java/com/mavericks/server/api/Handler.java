@@ -29,8 +29,6 @@ public class Handler {
     @Autowired
     public StateRepository stateRepo;
     @Autowired
-    public DistrictingRepository districtingRepo;
-    @Autowired
     public DistrictRepository distRepo;
     @Autowired
     public PopulationRepository popRepo;
@@ -48,18 +46,6 @@ public class Handler {
     public Handler(Map<String, Algorithm> jobs) {
         this.jobs = jobs;
     }
-
-    public List<PopulationCopy> test(){
-        Districting d = districtingRepo.getById("NVSW2488");
-        List<District> dists = d.getDistricts();
-        List<PopulationCopy> copy = new ArrayList<>();
-        for (District dist : dists) {
-            copy.add(dist.getPopulation().get(0));
-        }
-        int a  = 1+1;
-        return copy;
-    }
-
     /**
      * Get the summary information for a state's enacted districting.
      * @param stateName State abbreviation
@@ -140,8 +126,8 @@ public class Handler {
         State state = (State)session.getAttribute("state");
         Algorithm alg = jobs.get(session.getId());
         Districting plan = state.getDistricting(districtingNum);
+        alg.setInProgressPlanId(districtingNum);
         alg.setPopulationMeasure((PopulationMeasure) session.getAttribute("PopType"));
-        alg.setInProgressPlan(plan);
         AlgorithmDTO dto = new AlgorithmDTO(plan.getMeasures().getPopulationEquality(),0,true,null,null, -1);
         alg.run();
         return dto;

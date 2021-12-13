@@ -5,6 +5,7 @@ import com.mavericks.server.entity.*;
 import com.mavericks.server.enumeration.Demographic;
 import com.mavericks.server.enumeration.PopulationMeasure;
 import com.mavericks.server.repository.CensusBlockRepository;
+import com.mavericks.server.repository.DistrictingRepository;
 import org.locationtech.jts.geom.Geometry;
 import org.locationtech.jts.geom.GeometryFactory;
 import org.locationtech.jts.geom.Polygon;
@@ -37,6 +38,9 @@ import java.util.Map;
 
 public class Algorithm{
 
+    @Autowired
+    public DistrictingRepository districtingRepo;
+
     //user set flag to continue running the algorithm
     private boolean running;
     private boolean flag;
@@ -54,6 +58,7 @@ public class Algorithm{
     private final int REDRAW_CONST=5;
     private Districting bestDistricting;
     private int movesMade;
+    private String inProgressPlanId;
 
 
     public Algorithm() {
@@ -66,6 +71,11 @@ public class Algorithm{
 
     @Async
     public void run() {
+        inProgressPlan = districtingRepo.getById(inProgressPlanId);
+        if (inProgressPlan == null) return;
+
+        setInProgressPlan(inProgressPlan);
+
         while(iterations!=max_iterations && failedCbMoves!=maxFaildCbMoves && flag
                 && (populationEquality>minPopulationEquality)){
             District d1=inProgressPlan.getRandDistrict();
@@ -206,5 +216,13 @@ public class Algorithm{
 
     public void setPopulationMeasure(PopulationMeasure populationMeasure) {
         this.populationMeasure = populationMeasure;
+    }
+
+    public String getInProgressPlanId() {
+        return inProgressPlanId;
+    }
+
+    public void setInProgressPlanId(String inProgressPlanId) {
+        this.inProgressPlanId = inProgressPlanId;
     }
 }
