@@ -15,7 +15,7 @@ function TableButtons(props) {
     
     function saveGeoJSON() {
         const element = document.createElement('a');
-        const dataStr = 'data:text/json;charset=utf-8,' + encodeURIComponent((districtingData.featureCollection));
+        const dataStr = 'data:text/json;charset=utf-8,' + encodeURIComponent((JSON.stringify(districtingData.featureCollection)));
         element.setAttribute('href', dataStr);
         element.setAttribute('download', 'districting.geojson');
         document.body.appendChild(element);
