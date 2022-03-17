@@ -18,8 +18,6 @@ _our states are **Washington**, **Nevada**, and **Arkansas**_
 ## useful links
 
 * [class website](https://www3.cs.stonybrook.edu/~cse416/Section01/)
-* [class piazza](https://piazza.com/class/ksoyvdu5t8n5xp)
-* [discord invite link](https://discord.gg/Y6EK8Ku6u9)
 
 
 ## how do I run the server
